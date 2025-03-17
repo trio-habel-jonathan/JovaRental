@@ -1,17 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\{GoogleController, AuthController, PageController};
+use App\Http\Controllers\Auth\{GoogleController, AuthController};
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [PageController::class, 'loginView'])->name('loginView');
     Route::get('/register', [PageController::class, 'registerView'])->name('registerView');
-
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
-    Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-    
 });
 
 Route::middleware(['auth'])->group(function () {

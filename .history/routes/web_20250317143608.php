@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\{GoogleController, AuthController, PageController};
+use App\Http\Controllers\Auth\{GoogleController, AuthController};
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [PageController::class, 'loginView'])->name('loginView');

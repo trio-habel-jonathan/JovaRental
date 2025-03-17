@@ -66,7 +66,7 @@
                     <p class=" bg-white w-fit px-2 text-gray-500 ">or</p>
                 </div>
             </div>
-            <form action="{{route ('login.google')}}" method="GET">
+            <form action="{{route (login.google)}}" method="GET">
                 <button
                     type="submit"
                     class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
