@@ -20,4 +20,8 @@ class PageController extends Controller
     {
         return view('auth.confirmPassword');
     }
+    public function registerMitra()
+    {
+        return view('auth.daftarMitra');
+    }
 }
