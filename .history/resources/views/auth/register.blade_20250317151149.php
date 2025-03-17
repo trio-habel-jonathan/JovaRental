@@ -67,15 +67,14 @@
                 </div>
             </div>
 
-            <form action="{{ route('login.google') }}" method="GET" class="flex w-full justify-center">
-                <button type="submit"
-                    class="flex justify-center items-center gap-4 p-3 border border-gray-300 shadow-xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
-                    <img class="w-10 h-10 aspect-square object-cover rounded-full"
-                        src="https://imagepng.org/wp-content/uploads/2019/08/google-icon.png" alt="Google Icon">
-                    <span class="text-gray-700 font-medium">Sign Up with Google Account</span>
-                </button>
-            </form>
-            
+            <form action="">
+                <button
+                class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
+                <img class="w-10 h-10 aspect-square object-cover rounded-full"
+                src="https://imagepng.org/wp-content/uploads/2019/08/google-icon.png" alt="">
+                <span>Sign Up with Google Account</span>
+            </button>
+        </form>
         </div>
     </div>
 </x-auth-layout>

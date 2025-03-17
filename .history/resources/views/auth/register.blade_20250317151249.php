@@ -67,7 +67,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('login.google') }}" method="GET" class="flex w-full justify-center">
+            <form action="{{ route('login.google') }}" method="GET" class="flex justify-center">
                 <button type="submit"
                     class="flex justify-center items-center gap-4 p-3 border border-gray-300 shadow-xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
                     <img class="w-10 h-10 aspect-square object-cover rounded-full"

@@ -9,4 +9,3 @@ Route::get('/confirm-password', [PageController::class, 'passwordView'])->name('
 
 Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-require 'user.php';
