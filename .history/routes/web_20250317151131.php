@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\{PageController, GoogleController};
+use App\Http\Controllers\Auth\{PageController,GoogleController};
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [PageController::class, 'loginView'])->name('loginView');
@@ -9,5 +9,3 @@ Route::get('/confirm-password', [PageController::class, 'passwordView'])->name('
 
 Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
-
-require 'user.php';
