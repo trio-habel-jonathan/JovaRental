@@ -1,12 +1,12 @@
 <x-auth-layout title="Register">
-    <div class="w-full h-full grid grid-cols-2">
-        <div class="w-full h-full bg-black">
+    <div class="w-full h-full grid grid-cols-1 lg:grid-cols-2">
+        <div class="w-full h-full bg-black hidden lg:block">
             <img src="https://i.pinimg.com/736x/81/bb/9b/81bb9b0c6be3bc436339d58c5d658df1.jpg"
                 class="h-screen w-full object-cover" alt="">
         </div>
         <div class='h-full flex flex-col justify-center gap-4 items-center'>
             <h1 class="font-bold text-5xl uppercase">Register</h1>
-            <form action="" class="w-1/2 space-y-8">
+            <form action="" class="w-3/4 xl:w-1/2 space-y-8">
                 <div>
                     <label for="">Username</label>
                     <div
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <button
-                class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
+                class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
                 <img class="w-10 h-10 aspect-square object-cover rounded-full"
                     src="https://imagepng.org/wp-content/uploads/2019/08/google-icon.png" alt="">
                 <span>Sign Up with Google Account</span>

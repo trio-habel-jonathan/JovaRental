@@ -7,11 +7,17 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    public function loginView(){
+    public function loginView()
+    {
         return view('auth.login');
     }
 
-    public function registerView(){
+    public function registerView()
+    {
         return view('auth.register');
+    }
+    public function passwordView()
+    {
+        return view('auth.confirmPassword');
     }
 }
