@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\{PageController,GoogleController,AuthController};
+use App\Http\Controllers\Auth\{PageController, GoogleController, AuthController};
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,3 +19,5 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerMitra', [AuthController::class, 'registerMitra'])->name('register.mitra');
 
 require 'user.php';
+require 'admin.php';
+require 'mitra.php';

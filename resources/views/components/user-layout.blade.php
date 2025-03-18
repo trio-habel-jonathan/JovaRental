@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>JovaRental | {{ $title }}</title>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,25 +18,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet">
-    <style>
-        .montserrat-font {
-            font-family: "Montserrat", sans-serif;
-            font-optical-sizing: auto;
-            font-style: normal;
-        }
 
-        .plus-jakarta-sans-font {
-            font-family: "Plus Jakarta Sans", sans-serif;
-            font-optical-sizing: auto;
-            font-style: normal;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
-<body class="max-w-[1500px] mx-auto">
+<body class=" mx-auto">
     @include('content.navbar')
+
     {{-- @yield('content') --}}
-    {{$slot}}
+    {{ $slot }}
+
+    @include('content.footer')
 </body>
+
+</body>
+<script src="{{ asset('static/js/tailwind.js') }}"></script>
 
 </html>
