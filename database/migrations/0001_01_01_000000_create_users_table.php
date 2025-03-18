@@ -13,18 +13,16 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id('id_user');
-            $table->string('username', 50)->unique();
+            $table->string('nama_lengkap', 100);
             $table->string('email', 100)->unique();
             $table->string('password', 255);
             $table->string('no_hp', 15);
             $table->enum('role', ['admin', 'user', 'mitra']);
             $table->string('foto_profil', 255)->nullable();
-            $table->text('alamat')->nullable();
             $table->timestamps();
             $table->boolean('is_active')->default(true);
         });
     
-
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
@@ -41,7 +39,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('users');
-
         Schema::dropIfExists('sessions');
     }
 };
