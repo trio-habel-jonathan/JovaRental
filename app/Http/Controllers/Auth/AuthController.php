@@ -20,7 +20,6 @@ class AuthController extends Controller
             'email' => 'required|email|max:100|unique:users,email',
             'password' => 'required|string|min:6|confirmed',
             'no_hp' => 'required|string|max:15',
-            'foto_profil' => 'nullable|image|mimes:jpg,png,jpeg|max:2048' // Maksimal 2MB
         ]);
 
         // Jika validasi gagal, kembali ke halaman register dengan error
@@ -42,7 +41,6 @@ class AuthController extends Controller
             'no_hp' => $request->no_hp,
             'role' => 'user', // Default role = user
             'alamat' => $request->alamat,
-            'foto_profil' => $fotoProfilPath,
             'is_active' => true
         ]);
 
