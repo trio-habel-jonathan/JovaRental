@@ -27,11 +27,6 @@ class AuthController extends Controller
             return back()->withErrors($validator)->withInput();
         }
 
-        // Upload foto profil jika ada
-        $fotoProfilPath = null;
-        if ($request->hasFile('foto_profil')) {
-            $fotoProfilPath = $request->file('foto_profil')->store('profile_pictures', 'public');
-        }
 
         // Simpan user ke database dengan role default 'user'
         User::create([
