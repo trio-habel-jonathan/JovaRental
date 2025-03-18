@@ -34,7 +34,8 @@
 
 <body class="max-w-[1500px] mx-auto">
     @include('content.navbar')
-    @yield('content')
+    {{-- @yield('content') --}}
+    {{$slot}}
 </body>
 
 </html>
