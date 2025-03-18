@@ -26,7 +26,7 @@
 </head>
 
 <body class=" mx-auto">
-    @include('content.sidebarAdmin')
+    @include('content.sidebarMitra')
 
     {{ $slot }}
 
