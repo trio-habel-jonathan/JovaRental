@@ -6,7 +6,9 @@
         </div>
         <div class='h-full flex flex-col justify-center gap-4 items-center'>
             <h1 class="font-bold text-5xl uppercase">Register Mitra</h1>
-            <form action="" class="w-3/4 xl:w-1/2 space-y-8">
+            <form action="" class="w-3/4 xl:w-1/2 space-y-8" method="POST">
+                @csrf
+                @method('POST')
                 <div>
                     <label for="">Nama Rental</label>
                     <div
@@ -69,10 +71,11 @@
                 </div>
                 <div class="flex gap-4 items-center justify-end">
                     <button
-                        class="w-full py-3 rounded-full shadow-2xl text-white uppercase font-bold bg-gradient-to-r from-sky-600 to-indigo-800 transition-all duration-300 ease-in-out hover:scale-105">
+                        class="w-full py-3 rounded-full shadow-2xl text-white uppercase font-bold bg-gradient-to-r from-primary to-indigo-800 transition-all duration-300 ease-in-out hover:scale-105">
                         Register
                     </button>
-                    <button
+                    {{-- Kembalikan kehalaman sebelumnya --}}
+                    <button type="button"
                         class="w-full py-3 rounded-full shadow-2xl uppercase font-bold bg-gray-300 text-black transition-all duration-300 ease-in-out hover:scale-105">
                         Back
                     </button>

@@ -12,3 +12,5 @@ Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name(
 Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
 require 'user.php';
+require 'admin.php';
+require 'mitra.php';

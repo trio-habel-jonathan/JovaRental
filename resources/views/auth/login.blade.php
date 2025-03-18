@@ -1,11 +1,14 @@
 <x-auth-layout title="Login">
     <div class="w-full h-full grid grid-cols-1 lg:grid-cols-2">
         <div class="w-full h-full bg-black hidden lg:block">
-            <img src="https://i.pinimg.com/736x/81/bb/9b/81bb9b0c6be3bc436339d58c5d658df1.jpg" class="h-screen w-full object-cover" alt="">
+            <img src="https://i.pinimg.com/736x/81/bb/9b/81bb9b0c6be3bc436339d58c5d658df1.jpg"
+                class="h-screen w-full object-cover" alt="">
         </div>
         <div class='h-full flex flex-col justify-center gap-4 items-center'>
             <h1 class="font-bold text-5xl uppercase">Login</h1>
-            <form action="" class="w-3/4 xl:w-1/2 space-y-8">
+            <form action="" class="w-3/4 xl:w-1/2 space-y-8" method="POST">
+                @csrf
+                @method('POST')
                 <div>
                     <label for="">Email</label>
                     <div
@@ -41,25 +44,26 @@
                 </div>
                 <div class="flex flex-col gap-4 items-center justify-end">
                     <button
-                        class="w-full py-3 rounded-full shadow-2xl text-white uppercase font-bold bg-gradient-to-r from-sky-600 to-indigo-800 transition-all duration-300 ease-in-out hover:scale-105">
+                        class="w-full py-3 rounded-full shadow-2xl text-white uppercase font-bold bg-gradient-to-r from-primary to-indigo-800 transition-all duration-300 ease-in-out hover:scale-105">
                         Login
                     </button>
                     <p>Doesn't Have Account? <a href="{{ route('registerView') }}">Register</a></p>
                 </div>
             </form>
-            <div class="w-3/4 h-[1px] relative my-4" data-aos="fade-up" data-aos-delay="600">
+            <div class="w-3/4 h-[1px] relative my-4">
                 <div class="w-full h-full bg-gray-300"></div>
                 <div class="absolute inset-0 flex justify-center items-center">
                     <p class=" bg-white w-fit px-2 text-gray-500 ">or</p>
                 </div>
             </div>
-            <form action="{{route('login.google')}}" class="flex w-full justify-center">
-                <button class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
+            <form action="{{ route('login.google') }}" class="flex w-full justify-center">
+                <button
+                    class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
                     <img class="w-10 h-10 aspect-square object-cover rounded-full"
-                    src="https://imagepng.org/wp-content/uploads/2019/08/google-icon.png" alt="">
+                        src="https://imagepng.org/wp-content/uploads/2019/08/google-icon.png" alt="">
                     <span>Sign In with Google Account</span>
                 </button>
             </form>
-            </div>
+        </div>
     </div>
 </x-auth-layout>
