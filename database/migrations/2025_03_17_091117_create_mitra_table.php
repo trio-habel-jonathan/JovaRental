@@ -8,15 +8,19 @@ return new class extends Migration {
     {
         Schema::create('mitra', function (Blueprint $table) {
             $table->id('id_mitra');
-            $table->foreignId('id_user')->constrained('users')->onUpdate('cascade')->onDelete('cascade');
+            $table->unsignedBigInteger('id_user');
             $table->string('nama_company', 100);
             $table->string('no_company', 15);
-            $table->string('location', 255);
+            $table->string('kota', 50);
+            $table->text('location');
             $table->text('deskripsi')->nullable();
             $table->enum('status_verifikasi', ['pending', 'verified', 'rejected'])->default('pending');
             $table->string('foto_company', 255)->nullable();
             $table->timestamps();
             $table->boolean('is_active')->default(true);
+
+            // Foreign key harus menggunakan unsignedBigInteger dan referensi ke users.id
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

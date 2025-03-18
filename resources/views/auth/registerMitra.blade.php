@@ -5,8 +5,8 @@
                 class="h-screen w-full object-cover" alt="">
         </div>
         <div class='h-full flex flex-col justify-center gap-4 items-center'>
-            <h1 class="font-bold text-5xl uppercase">Register</h1>
-            <form action="{{ route('register') }}" method="POST" class="w-3/4 xl:w-1/2 space-y-8">
+            <h1 class="font-bold text-5xl uppercase">Daftar Sebagai Mitra</h1>
+            <form action="{{ route('register.mitra') }}" method="POST" class="w-3/4 xl:w-1/2 space-y-8">
                 @csrf            
                 <div>
                     <label for="">Nama Lengkap</label>
@@ -24,7 +24,7 @@
                     </div>
                 </div>
                 <div>
-                    <label for="">Email</label>
+                    <label for="">Email Perusahaan</label>
                     <div
                         class="flex gap-4 items-center text-gray-400 border-b-2 border-gray-400 bg-transparent p-3 transition-all duration-300 ease-in-out">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none"

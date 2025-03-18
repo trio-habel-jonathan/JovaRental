@@ -16,8 +16,23 @@ class PageController extends Controller
     {
         return view('auth.register');
     }
+
+    public function registerMitraView()
+    {
+        return view('auth.registerMitra');
+    }
+
+    
     public function passwordView()
     {
         return view('auth.confirmPassword');
     }
+
+    public function forgotPasswordView()
+    {
+        return view('auth.forgotPassword');
+    }
+
+
+
 }
