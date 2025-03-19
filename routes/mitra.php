@@ -4,6 +4,13 @@ use App\Http\Controllers\Mitra\MitraPageController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('kendaraan/index', [PageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
-Route::get('kendaraan/create', [PageController::class, 'tambahkendaraan'])->name('tambahkendaraan');
-Route::get('kendaraan/edit', [PageController::class, 'editkendaraan'])->name('editkendaraan');
+
+Route::prefix('mitra')->name('mitra.')->group(function () {
+
+    Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
+        Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
+        Route::get('/create', [MitraPageController::class, 'tambahkendaraan'])->name('tambahkendaraanView');
+        Route::get('/edit', [MitraPageController::class, 'editkendaraan'])->name('editkendaraanView');
+    });
+
+});

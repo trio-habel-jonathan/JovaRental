@@ -85,9 +85,9 @@
 
                 <div id="kendaraan-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar
+                    <a href="{{ route('mitra.kendaraan.kendaraanmitraView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar
                         Kendaraan</a>
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah
+                    <a href="{{ route('mitra.kendaraan.tambahkendaraanView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah
                         Kendaraan</a>
                 </div>
             </div>
@@ -155,7 +155,7 @@
                 </div>
             </div>
 
-            <!-- Pengaturan -->
+            {{-- <!-- Pengaturan -->
             <div class="group">
                 <div id="pengaturan-menu"
                     class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
@@ -185,7 +185,7 @@
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Sistem</a>
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Notifikasi</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <div class="mt-auto">
