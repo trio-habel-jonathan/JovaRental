@@ -1,4 +1,4 @@
-<nav class="fixed top-0 inset-x-0 flex justify-center items-center w-full z-50">
+<nav class="sticky top-0 inset-x-0 flex justify-center items-center w-full z-50 max-w-[1600px] mx-auto ">
     <div class=" w-full bg-white flex justify-between items-center shadow-lg p-4 px-12">
 
         <!-- ========== Logo ========== -->
@@ -178,64 +178,64 @@
 });
 </script>
 <style>
-  /* Burger Icon Styles */
-.burger-icon {
-    width: 24px;
-    height: 18px;
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-}
+    /* Burger Icon Styles */
+    .burger-icon {
+        width: 24px;
+        height: 18px;
+        position: relative;
+        cursor: pointer;
+        display: inline-block;
+    }
 
-.burger-line {
-    display: block;
-    position: absolute;
-    height: 2px;
-    width: 100%;
-    background: currentColor;
-    border-radius: 2px;
-    opacity: 1;
-    left: 0;
-    transform: rotate(0deg);
-    transition: .25s ease-in-out;
-}
+    .burger-line {
+        display: block;
+        position: absolute;
+        height: 2px;
+        width: 100%;
+        background: currentColor;
+        border-radius: 2px;
+        opacity: 1;
+        left: 0;
+        transform: rotate(0deg);
+        transition: .25s ease-in-out;
+    }
 
-/* Position the lines */
-.burger-line:nth-child(1) {
-    top: 0px;
-}
+    /* Position the lines */
+    .burger-line:nth-child(1) {
+        top: 0px;
+    }
 
-.burger-line:nth-child(2) {
-    top: 8px;
-}
+    .burger-line:nth-child(2) {
+        top: 8px;
+    }
 
-.burger-line:nth-child(3) {
-    top: 16px;
-}
+    .burger-line:nth-child(3) {
+        top: 16px;
+    }
 
-/* Animation for the X transformation */
-#mobile-menu-button.active .burger-line:nth-child(1) {
-    top: 8px;
-    transform: rotate(45deg);
-}
+    /* Animation for the X transformation */
+    #mobile-menu-button.active .burger-line:nth-child(1) {
+        top: 8px;
+        transform: rotate(45deg);
+    }
 
-#mobile-menu-button.active .burger-line:nth-child(2) {
-    opacity: 0;
-    transform: translateX(20px);
-}
+    #mobile-menu-button.active .burger-line:nth-child(2) {
+        opacity: 0;
+        transform: translateX(20px);
+    }
 
-#mobile-menu-button.active .burger-line:nth-child(3) {
-    top: 8px;
-    transform: rotate(-45deg);
-}
+    #mobile-menu-button.active .burger-line:nth-child(3) {
+        top: 8px;
+        transform: rotate(-45deg);
+    }
 
-/* Base styles for the mobile menu */
-#mobile-menu {
-    transition: max-height 0.5s ease, opacity 0.4s ease;
-    overflow: hidden;
-}
+    /* Base styles for the mobile menu */
+    #mobile-menu {
+        transition: max-height 0.5s ease, opacity 0.4s ease;
+        overflow: hidden;
+    }
 
-#mobile-menu.hidden {
-    display: none;
-}
+    #mobile-menu.hidden {
+        display: none;
+    }
 </style>
