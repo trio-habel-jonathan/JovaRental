@@ -1,8 +1,8 @@
-<x-user-layout>
+<x-user-layout title="profile">
     <!-- Main container with responsive flex direction -->
     <div class="flex flex-col lg:flex-row items-start justify-between">
         <!-- Left sidebar - full width on mobile, fixed width on desktop -->
-        <div class="w-full lg:w-[300px] flex flex-col items-center bg-white px-2 mb-4 lg:mb-0 lg:h-screen">
+        <div class="w-full lg:w-[300px] flex flex-col items-center bg-white px-2 mb-4 lg:mb-0 lg:h-screen mt-[80px]">
             <div class="flex flex-col items-center">
                 <!-- Container untuk gambar dan tombol kamera -->
                 <div class="relative">
@@ -98,7 +98,7 @@
         </div>
 
         <!-- Right content area - full width on all screens -->
-        <div class="flex-1 w-full flex flex-col">
+        <div class="flex-1 w-full flex flex-col lg:mt-[80px] mt-[20px]">
             <!-- Top navigation bar -->
             <div class="bg-white py-5 flex justify-between items-center px-3 lg:px-5 border-gray-200">
                 <button

@@ -107,11 +107,135 @@
 <script>
     // JavaScript for mobile menu toggle
     document.addEventListener('DOMContentLoaded', function() {
-        const mobileMenuButton = document.getElementById('mobile-menu-button');
-        const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    let isAnimating = false; // Flag untuk mencegah klik multiple
+    
+    // Tambahkan burger lines jika belum ada
+    if (!document.querySelector('.burger-line')) {
+        const buttonSvg = mobileMenuButton.querySelector('svg');
+        if (buttonSvg) {
+            buttonSvg.remove();
+            
+            // Buat burger icon
+            const burgerIcon = document.createElement('div');
+            burgerIcon.className = 'burger-icon';
+            
+            // Buat tiga garis
+            for (let i = 0; i < 3; i++) {
+                const line = document.createElement('span');
+                line.className = 'burger-line';
+                burgerIcon.appendChild(line);
+            }
+            
+            mobileMenuButton.appendChild(burgerIcon);
+        }
+    }
 
-        mobileMenuButton.addEventListener('click', function() {
-            mobileMenu.classList.toggle('hidden');
-        });
+    mobileMenuButton.addEventListener('click', function() {
+        // Mencegah klik berulang saat animasi sedang berjalan
+        if (isAnimating) return;
+        isAnimating = true;
+        
+        // Toggle active class untuk animasi burger ke X
+        mobileMenuButton.classList.toggle('active');
+        
+        const isMenuOpen = !mobileMenu.classList.contains('hidden');
+        
+        if (!isMenuOpen) { // Membuka menu
+            mobileMenu.classList.remove('hidden');
+            mobileMenu.style.maxHeight = '0';
+            mobileMenu.style.opacity = '0';
+            mobileMenu.style.overflow = 'hidden';
+            
+            // Berikan sedikit waktu untuk browser menyesuaikan
+            requestAnimationFrame(() => {
+                mobileMenu.style.transition = 'max-height 0.5s ease, opacity 0.4s ease';
+                mobileMenu.style.maxHeight = mobileMenu.scrollHeight + 'px';
+                mobileMenu.style.opacity = '1';
+                
+                // Reset flag setelah animasi selesai
+                setTimeout(() => {
+                    isAnimating = false;
+                }, 500);
+            });
+        } else { // Menutup menu
+            mobileMenu.style.transition = 'max-height 0.5s ease, opacity 0.4s ease';
+            mobileMenu.style.maxHeight = '0';
+            mobileMenu.style.opacity = '0';
+            
+            setTimeout(() => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.style.maxHeight = '';
+                mobileMenu.style.opacity = '';
+                mobileMenu.style.overflow = '';
+                
+                // Reset flag setelah animasi selesai
+                isAnimating = false;
+            }, 500);
+        }
     });
+});
 </script>
+<style>
+  /* Burger Icon Styles */
+.burger-icon {
+    width: 24px;
+    height: 18px;
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.burger-line {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+/* Position the lines */
+.burger-line:nth-child(1) {
+    top: 0px;
+}
+
+.burger-line:nth-child(2) {
+    top: 8px;
+}
+
+.burger-line:nth-child(3) {
+    top: 16px;
+}
+
+/* Animation for the X transformation */
+#mobile-menu-button.active .burger-line:nth-child(1) {
+    top: 8px;
+    transform: rotate(45deg);
+}
+
+#mobile-menu-button.active .burger-line:nth-child(2) {
+    opacity: 0;
+    transform: translateX(20px);
+}
+
+#mobile-menu-button.active .burger-line:nth-child(3) {
+    top: 8px;
+    transform: rotate(-45deg);
+}
+
+/* Base styles for the mobile menu */
+#mobile-menu {
+    transition: max-height 0.5s ease, opacity 0.4s ease;
+    overflow: hidden;
+}
+
+#mobile-menu.hidden {
+    display: none;
+}
+</style>
