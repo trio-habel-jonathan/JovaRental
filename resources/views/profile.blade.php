@@ -2,7 +2,7 @@
     <!-- Main container with responsive flex direction -->
     <div class="flex flex-col lg:flex-row items-start justify-between mx-auto max-w-[1600px]">
         <!-- Left sidebar - full width on mobile, fixed width on desktop -->
-        <div class="w-full lg:w-[300px] flex flex-col items-center bg-white px-2 mb-4 lg:mb-0 lg:h-screen mt-[80px]">
+        <div class="w-full lg:w-[300px] flex flex-col items-center bg-white px-2 mb-4 lg:mb-0 lg:h-[150vh] overflow-y-auto">
             <div class="flex flex-col items-center">
                 <!-- Container untuk gambar dan tombol kamera -->
                 <div class="relative">
@@ -61,9 +61,6 @@
                             <label for=""><strong
                                     class="inline-block w-32 font-semibold text-gray-700">Password:</strong></label>
                             <p class="mb-3 text-md">********</p>
-                            <a href="#"
-                                class="text-md font-normal  text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out">Edit
-                                Data</a>
                         </div>
                     </div>
                 </div>
@@ -88,9 +85,6 @@
                             <label for=""><strong
                                     class="inline-block w-32 font-semibold text-gray-700">Alamat:</strong></label>
                             <p class="mb-3 text-md">Bengkong, Batam</p>
-                            <a href="#"
-                                class="text-md font-normal  text-blue-500 hover:text-blue-700 transition duration-300 ease-in-out">Edit
-                                Alamat</a>
                         </div>
                     </div>
                 </div>
@@ -98,7 +92,7 @@
         </div>
 
         <!-- Right content area - full width on all screens -->
-        <div class="flex-1 w-full flex flex-col lg:mt-[80px] mt-[20px]">
+        <div class="flex-1 w-full flex flex-col mt-3">
             <!-- Top navigation bar -->
             <div class="bg-white py-5 flex justify-between items-center px-3 lg:px-5 border-gray-200">
                 <button id="back-button"
