@@ -1,6 +1,6 @@
-<div class="flex h-screen">
+<div class="flex h-screen sticky top-0">
     <!-- Sidebar -->
-    <div class="w-64 bg-white p-5 border-r border-gray-200 flex flex-col overflow-y-auto">
+    <div class="w-64 h-screen bg-white p-5 border-r border-gray-200 flex flex-col overflow-y-auto">
         <!-- Logo -->
         <div class="flex items-center px-2 mb-6">
             <div class="text-indigo-600 mr-3">
@@ -203,10 +203,5 @@
                 <div class="text-sm">Logout</div>
             </div>
         </div>
-    </div>
-
-    <!-- Content area -->
-    <div class="flex-1">
-        <!-- Your main content goes here -->
     </div>
 </div>

@@ -22,16 +22,20 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <link rel="stylesheet" href="{{ asset('static/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
-<body class=" mx-auto">
-    @include('content.sidebarMitra')
+<body class="flex min-h-screen">
+    <div class="w-64">
+        @include('content.sidebarMitra')
+    </div>
 
-    {{ $slot }}
-
+    <main class="flex-1 p-4">
+        {{ $slot }}
+    </main>
 </body>
-<script src="{{ asset('static/tailwind.js') }}"></script>
-<script src="{{ asset('static/sidebarMitra.js') }}"></script>
+
+<script src="{{ asset('static/js/tailwind.js') }}"></script>
+<script src="{{ asset('static/js/sidebarMitra.js') }}"></script>
 
 </html>

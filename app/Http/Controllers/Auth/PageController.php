@@ -33,6 +33,20 @@ class PageController extends Controller
         return view('auth.forgotPassword');
     }
 
+    public function kendaraanmitraView()
+    {
+        return view('mitra.kendaraan.index');
+    }
+
+    public function tambahkendaraan()
+    {
+        return view('mitra.kendaraan.create');
+    }
+
+    public function editkendaraan()
+    {
+        return view('mitra.kendaraan.edit');
+    }
 
 
 }
