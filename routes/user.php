@@ -5,6 +5,7 @@ use App\Http\Controllers\UserPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/", [UserPageController::class, "home"])->name("home");
+Route::get("/about", [UserPageController::class, "about"])->name("about");
 Route::get('/profile', function () {
     return view('profile');
 });
