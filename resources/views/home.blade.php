@@ -1,8 +1,9 @@
 <x-user-layout title="Home">
     <!-- Hero Section -->
-    <section id="home" class="relative w-full h-screen grid grid-cols-2 bg-slate-100 z-10">
-        <div class="w-full h-full flex items-center justify-center z-10 text-gray-700 montserrat-font">
-            <div class="max-w-xl">
+    <section id="home"
+        class=" w-full  bg-slate-100 z-10 bg-[url('/hero-background.png')] bg-full bg-cover  py-[4rem] px-10 ">
+        <div class="max-w-[1600px] flex items-center justify-between flex-wrap-reverse lg:flex-nowrap mx-auto">
+            <div class="max-w-xl ">
                 <h1 class="text-7xl font-bold mb-4 uppercase">Welcome to JovaRental</h1>
                 <p class="text-xl mb-8 font-medium">our trusted vehicle rental service, offering a seamless and
                     affordable way to
@@ -12,62 +13,66 @@
                         More</a>
                 </div>
             </div>
+
+            {{-- <p>Hello World</p> --}}
+            <div class="w-full max-w-4xl p-4 ">
+
+                <div class="border-2 border-black h-64 mb-4"></div>
+                <div class="flex -mx-2">
+                    <div class="w-full flex-[200px] p-2">
+                        <div class="border-2 border-black h-32"></div>
+                    </div>
+                    <div class="w-full flex-[200px] p-2">
+                        <div class="border-2 border-black h-32"></div>
+                    </div>
+
+                </div>
+            </div>
         </div>
-        <div class="absolute bottom-0 right-0 h-screen">
-            <img src="https://i.pinimg.com/736x/17/2d/29/172d295c056b00f1f0172eba8dc22ab5.jpg" class="h-full"
-                alt="">
-        </div>
-        <div class="absolute bottom-0 left-0 rotate-180 h-screen">
-            <img src="https://i.pinimg.com/736x/17/2d/29/172d295c056b00f1f0172eba8dc22ab5.jpg" class="h-full"
-                alt="">
-        </div>
-        {{-- <div class="absolute left-0 flex flex-wrap h-full relative">
-            <div class="absolute inset-0 flex justify-center items-center z-50">
-                <img src="https://i.pinimg.com/736x/ef/38/49/ef38494e504f7f985c17e47e79592204.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 mr-24 top-24 flex justify-center items-center">
-                <img src="https://i.pinimg.com/736x/7d/f4/c1/7df4c155811e616d43f978360007bc06.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 ml-56 top-28 flex justify-center items-center z-30">
-                <img src="https://i.pinimg.com/736x/91/05/02/9105025f7853b39fef534c857c495e5f.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 ml-48 bottom-16 flex justify-center items-center z-30">
-                <img src="https://i.pinimg.com/736x/64/5e/7c/645e7c02f62f720ae11d787c99a2cd72.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 mr-80 bottom-32 flex justify-center items-center z-30">
-                <img src="https://i.pinimg.com/736x/5c/3d/55/5c3d554d72a2fc9e764ab5aba736389e.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 mr-72 bottom-64 flex justify-center items-center z-20">
-                <img src="https://i.pinimg.com/736x/49/13/b9/4913b948bd73e64a41a328b331eae86a.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 ml-80 bottom-48 flex justify-center items-center z-40">
-                <img src="https://i.pinimg.com/736x/e0/42/05/e04205caadba6b057c12ea4bfe9ddaeb.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
-            <div class="absolute inset-x-0 mr-16 bottom-12 flex justify-center items-center z-20">
-                <img src="https://i.pinimg.com/736x/59/f3/60/59f3609697e69dc3be1c0acb4667cb3e.jpg"
-                    class="w-48 h-48 object-cover rounded-md shadow-xl" alt="">
-            </div>
+
+        {{-- <div class=" max-w-[1600px] inset-0 mx-auto w-full h-full  px-10 z-10 text-gray-700 montserrat-font ">
+
         </div> --}}
     </section>
     <section id="search" class="w-full">
         <div class="w-full p-12 flex items-center justify-center bg-primary">
             <form action="" class="flex gap-4 bg-white items-center rounded-lg p-4 shadow-lg">
-                <div class="flex flex-col items-start justify-center h-full">
-                    <div class="flex gap-2">
-                        <input id="cars" type="checkbox">
-                        <label>Cars</label>
+                <div class="flex flex-col items-start justify-center h-full gap-3">
+                    <div class="w-full space-y-3">
+                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-orange-500 text-black option transition-all duration-300"
+                            data-radio="cars">
+                            <input id="cars" type="radio" class="hidden" name="radio-type-kendaraan">
+                            <label class="w-full h-full cursor-pointer montserrat-font font-semibold"
+                                for="cars">Cars</label>
+                        </div>
+                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-orange-500 text-black option transition-all duration-300"
+                            data-radio="motorcycle">
+                            <input id="motorcycle" type="radio" class="hidden" name="radio-type-kendaraan">
+                            <label class="w-full h-full cursor-pointer montserrat-font font-semibold"
+                                for="motorcycle">Motorcycle</label>
+                        </div>
                     </div>
-                    <div class="flex gap-2">
-                        <input id="motorcycle" type="checkbox"> 
-                        <label>Motorcycle</label>
-                    </div>
+
+                    <script>
+                        document.querySelectorAll(".option").forEach(option => {
+                            option.addEventListener("click", function() {
+                                // Reset semua ke border orange
+                                document.querySelectorAll(".option").forEach(el => {
+                                    el.classList.remove("bg-orange-500", "text-white");
+                                    el.classList.add("border",  "text-black");
+                                });
+                    
+                                // Tambah background orange ke yang dipilih dengan animasi
+                                this.classList.remove( "text-black");
+                                this.classList.add("bg-orange-500", "text-white");
+                    
+                                // Pilih radio button sesuai yang diklik
+                                const radioId = this.getAttribute("data-radio");
+                                document.getElementById(radioId).checked = true;
+                            });
+                        });
+                    </script>
+
                 </div>
                 <div>
                     <div class="flex w-full justify-start gap-4">
