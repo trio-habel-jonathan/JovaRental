@@ -18,10 +18,6 @@ Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallb
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerMitra', [AuthController::class, 'registerMitra'])->name('register.mitra');
 
-Route::get('kendaraan/index', [PageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
-Route::get('kendaraan/create', [PageController::class, 'tambahkendaraan'])->name('tambahkendaraan');
-Route::get('kendaraan/edit', [PageController::class, 'editkendaraan'])->name('editkendaraan');
-
 require 'user.php';
 require 'admin.php';
 require 'mitra.php';
