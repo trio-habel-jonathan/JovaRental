@@ -1,7 +1,3 @@
-<div class="flex justify-between border-b pb-4 mb-4">
-    <h1 class="text-lg lg:text-xl font-bold text-gray-800">Riwayat Transaksi</h1>
-    <a href="{{ route('history') }}" class="text-normal font-normal text-blue-500 hover:text-blue-700">Lihat Semua</a>
-</div>
 <div class="space-y-4">
     <!-- Card 1 -->
     <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
