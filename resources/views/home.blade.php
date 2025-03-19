@@ -4,26 +4,44 @@
         class=" w-full  bg-slate-100 z-10 bg-[url('/hero-background.png')] bg-full bg-cover  py-[4rem] px-10 ">
         <div class="max-w-[1600px] flex items-center justify-between flex-wrap-reverse lg:flex-nowrap mx-auto">
             <div class="max-w-xl ">
-                <h1 class="text-7xl font-bold mb-4 uppercase">Welcome to JovaRental</h1>
-                <p class="text-xl mb-8 font-medium">our trusted vehicle rental service, offering a seamless and
+                <h1 class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
+                    Welcome to Jova Rental</h1>
+                <p class=" text-xl mb-8 font-medium">our trusted vehicle rental service, offering a seamless and
                     affordable way to
                     rent cars and bikes for any journey. Drive with ease, anytime, anywhere! </p>
-                <div class="flex space-x-4">
-                    <a href="#menu" class="bg-primary text-white px-6 py-3 rounded-lg transition font-semibold">View
-                        More</a>
-                </div>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#menu"
+                            class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                            View More
+                        </a>
+                        <a href="#contact"
+                            class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                            Contact Us
+                        </a>
+                    </div>
             </div>
 
             {{-- <p>Hello World</p> --}}
             <div class="w-full max-w-4xl p-4 ">
 
-                <div class="border-2 border-black h-64 mb-4"></div>
-                <div class="flex -mx-2">
-                    <div class="w-full flex-[200px] p-2">
-                        <div class="border-2 border-black h-32"></div>
+                <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden">
+                    <img draggable="false" src="https://i.pinimg.com/736x/7d/aa/e3/7daae3529fecbacf405b7904b67e6b19.jpg"
+                        class="w-full h-full object-cover" alt="rental-mobil">
+                </div>
+                <div class="flex space-x-4 ">
+                    <div class="w-full flex-[200px] ">
+                        <div class="border-2 h-32 rounded-xl overflow-hidden">
+                            <img draggable="false"
+                                src="https://i.pinimg.com/736x/60/0c/48/600c4837a751426222a95ee5f5395926.jpg"
+                                alt="rental-mobil-ban" class="w-full h-full object-cover">
+                        </div>
                     </div>
-                    <div class="w-full flex-[200px] p-2">
-                        <div class="border-2 border-black h-32"></div>
+                    <div class="w-full flex-[200px] ">
+                        <div class="border-2 h-32 rounded-xl overflow-hidden">
+                            <img draggable="false"
+                                src="https://i.pinimg.com/736x/b2/c8/23/b2c823e919d859d7afbaf12b57dd0255.jpg"
+                                alt="rental-mobil-3" class="w-full h-full object-cover">
+                        </div>
                     </div>
 
                 </div>
@@ -39,13 +57,13 @@
             <form action="" class="flex gap-4 bg-white items-center rounded-lg p-4 shadow-lg">
                 <div class="flex flex-col items-start justify-center h-full gap-3">
                     <div class="w-full space-y-3">
-                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-orange-500 text-black option transition-all duration-300"
+                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-purple-500 text-black option transition-all duration-300"
                             data-radio="cars">
                             <input id="cars" type="radio" class="hidden" name="radio-type-kendaraan">
                             <label class="w-full h-full cursor-pointer montserrat-font font-semibold"
                                 for="cars">Cars</label>
                         </div>
-                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-orange-500 text-black option transition-all duration-300"
+                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-purple-500 text-black option transition-all duration-300"
                             data-radio="motorcycle">
                             <input id="motorcycle" type="radio" class="hidden" name="radio-type-kendaraan">
                             <label class="w-full h-full cursor-pointer montserrat-font font-semibold"
@@ -56,15 +74,15 @@
                     <script>
                         document.querySelectorAll(".option").forEach(option => {
                             option.addEventListener("click", function() {
-                                // Reset semua ke border orange
+                                // Reset semua ke border purple
                                 document.querySelectorAll(".option").forEach(el => {
-                                    el.classList.remove("bg-orange-500", "text-white");
+                                    el.classList.remove("bg-purple-500", "text-white");
                                     el.classList.add("border",  "text-black");
                                 });
                     
-                                // Tambah background orange ke yang dipilih dengan animasi
+                                // Tambah background purple ke yang dipilih dengan animasi
                                 this.classList.remove( "text-black");
-                                this.classList.add("bg-orange-500", "text-white");
+                                this.classList.add("bg-purple-500", "text-white");
                     
                                 // Pilih radio button sesuai yang diklik
                                 const radioId = this.getAttribute("data-radio");
@@ -112,6 +130,106 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </section>
+
+    <section class="">
+        <div class="py-12 bg-white">
+            <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
+
+                <div class="lg:text-center">
+                    <h2
+                        class="font-heading mb-4 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg md:w-64 md:mx-auto text-xs font-semibold tracking-widest text-black  uppercase title-font">
+                        Kenapa Memilih Kami?
+                    </h2>
+                    <p
+                        class="font-heading montserrat-font mt-2 text-3xl leading-8 font-semibold tracking-tight text-gray-900 sm:text-4xl">
+                        Kami tahu perjalanan, kami tahu kenyamanan. Kami adalah ahli rental kendaraan.
+                    </p>
+                    <p class="mt-4 max-w-4xl plus-jakarta-sans-font text-lg text-gray-500 lg:mx-auto">
+                        Kami tahu cara memberikan layanan rental terbaik di setiap perjalanan Anda. Kami peduli dengan
+                        kenyamanan pelanggan dan memastikan pengalaman sewa yang mudah dan aman.
+                    </p>
+                </div>
+
+                <div class="mt-10">
+                    <dl class="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-10">
+                        <div class="relative">
+                            <dt>
+                                <div
+                                    class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
+                                    <img src="https://www.svgrepo.com/show/503163/api-settings.svg">
+                                </div>
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                    Sewa Kendaraan
+                                    Mudah & Cepat, Perjalanan Tanpa Ribet!</p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font">
+                                Jova Rental menawarkan proses penyewaan yang praktis dan cepat, baik untuk perjalanan
+                                bisnis, liburan, atau keperluan sehari-hari. Dengan pemesanan online yang simpel dan
+                                dukungan pelanggan 24/7, kami memastikan pengalaman sewa yang tanpa hambatan.
+                            </dd>
+                        </div>
+                        <div class="relative">
+                            <dt>
+                                <div
+                                    class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
+                                    <img src="https://www.svgrepo.com/show/503138/webpack.svg">
+                                </div>
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                    Easy to
+                                    Fleet Berkualitas, Nyaman & Terawat untuk Setiap Perjalanan
+                                </p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font"> Kendaraan kami selalu
+                                dalam kondisi prima,
+                                dengan perawatan rutin dan fitur keamanan lengkap. Dari mobil keluarga, motor praktis,
+                                hingga kendaraan premium, kami menyediakan berbagai pilihan yang sesuai dengan kebutuhan
+                                perjalanan Anda.
+                            </dd>
+                        </div>
+                        <div class="relative">
+                            <dt>
+                                <div
+                                    class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
+                                    <img src="https://www.svgrepo.com/show/511771/dashboard-671.svg">
+
+                                </div>
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                    Low Transaction
+                                    Harga Transparan, Tanpa Biaya Tersembunyi!
+                                </p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font">Tidak perlu khawatir
+                                dengan biaya tambahan
+                                yang tidak jelas! Jova Rental menerapkan sistem harga transparan & kompetitif, sehingga
+                                Anda bisa menikmati perjalanan tanpa beban. Hemat lebih banyak, berkendara lebih nyaman!
+                            </dd>
+                        </div>
+                        <div class="relative">
+                            <dt>
+                                <div
+                                    class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
+                                    <img src="https://www.svgrepo.com/show/76267/free-commercial-label.svg">
+
+                                </div>
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                    Layanan 24/7 &
+                                    Asuransi, Keamanan Perjalanan Terjamin!
+                                </p>
+                            </dt>
+                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font"> Kami mengutamakan
+                                keamanan dan kenyamanan
+                                pelanggan dengan asuransi kendaraan & bantuan darurat 24/7. Dengan Jova Rental, Anda
+                                bisa bepergian dengan tenang, kapan saja dan di mana saja.
+
+
+                            </dd>
+                        </div>
+                    </dl>
+                </div>
+
+            </div>
         </div>
     </section>
     <!-- Flatpickr CSS -->
