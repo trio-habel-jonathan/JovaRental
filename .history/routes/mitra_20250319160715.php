@@ -15,7 +15,7 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
 
     Route::get('/notifications', function () {
         return view('mitra.notifications');
-    })->name('notifications'); // Pastikan rute memiliki nama ini
+    })->name('mitra.notifications'); // Pastikan rute memiliki nama ini
     
 
 });

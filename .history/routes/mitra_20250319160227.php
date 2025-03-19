@@ -13,9 +13,8 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
         Route::get('/edit', [MitraPageController::class, 'editkendaraan'])->name('editkendaraanView');
     });
 
-    Route::get('/notifications', function () {
-        return view('mitra.notifications');
-    })->name('notifications'); // Pastikan rute memiliki nama ini
-    
+    Route::get('/notifications')->function(
+        
+    )
 
 });

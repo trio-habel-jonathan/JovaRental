@@ -35,24 +35,10 @@
         <div class="w-full bg-white sticky top-0 flex items-center justify-between p-2 px-6 border-b z-50">
             <h1 class="font-semibold text-xl">{{ $title }}</h1>
             <ul class="flex items-center gap-2">
-                <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full relative group">
-                    <div class="flex items-center gap-1 cursor-pointer">
+                <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full">
+                    <div class="flex items-center gap-1">
                         <span class="text-sm font-medium">IDR 15.000.000</span>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
-                    </div>
-                    
-                    <!-- Dropdown menu -->
-                    <div class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md invisible group-hover:visible transition-all duration-200 z-50">
-                        <div class="py-1">
-                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
-                                    <path d="M21 12V7H5a2 2 0 0 1 0-4h15v4"></path>
-                                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
-                                    <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
-                                </svg>
-                                Withdraw Funds
-                            </a>
-                        </div>
                     </div>
                 </li>
                 <li class="relative hover:bg-primary/20 hover:text-primary p-2 rounded-full">
