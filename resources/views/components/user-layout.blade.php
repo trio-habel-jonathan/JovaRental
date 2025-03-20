@@ -26,11 +26,15 @@
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
-<body class="bg-gray-100">
+
+<body class=" mx-auto">
+    @include('content.loading-overlay')
+
     @include('content.navbar')
 
     {{-- @yield('content') --}}
     {{ $slot }}
+
 
     @include('content.footer')
 </body>

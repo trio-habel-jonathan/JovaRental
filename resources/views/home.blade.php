@@ -133,8 +133,8 @@
         </div>
     </section>
 
-    <section class="">
-        <div class="py-12 bg-white">
+    <section class="my-12">
+        <div>
             <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
 
                 <div class="lg:text-center">
@@ -158,7 +158,7 @@
                             <dt>
                                 <div
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                    <img src="https://www.svgrepo.com/show/503163/api-settings.svg">
+                                    <img src="https://www.svgrepo.com/show/366704/car-rental.svg" alt="Car Rental">
                                 </div>
                                 <p
                                     class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
@@ -175,11 +175,11 @@
                             <dt>
                                 <div
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                    <img src="https://www.svgrepo.com/show/503138/webpack.svg">
+                                    <img src="https://www.svgrepo.com/show/142557/vehicle-garage.svg"
+                                        alt="Vehicle Fleet">
                                 </div>
-                                <p
-                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
-                                    Easy to
+
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Fleet Berkualitas, Nyaman & Terawat untuk Setiap Perjalanan
                                 </p>
                             </dt>
@@ -195,12 +195,11 @@
                             <dt>
                                 <div
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                    <img src="https://www.svgrepo.com/show/511771/dashboard-671.svg">
-
+                                    <img src="https://www.svgrepo.com/show/438787/price-tag.svg"
+                                        alt="Transparent Pricing">
                                 </div>
-                                <p
-                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
-                                    Low Transaction
+
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Harga Transparan, Tanpa Biaya Tersembunyi!
                                 </p>
                             </dt>
@@ -214,8 +213,8 @@
                             <dt>
                                 <div
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
-                                    <img src="https://www.svgrepo.com/show/76267/free-commercial-label.svg">
-
+                                    <img src="https://www.svgrepo.com/show/478193/security-material-4.svg"
+                                        alt="24/7 Service">
                                 </div>
                                 <p
                                     class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
@@ -227,8 +226,6 @@
                                 keamanan dan kenyamanan
                                 pelanggan dengan asuransi kendaraan & bantuan darurat 24/7. Dengan Jova Rental, Anda
                                 bisa bepergian dengan tenang, kapan saja dan di mana saja.
-
-
                             </dd>
                         </div>
                     </dl>
@@ -237,6 +234,69 @@
             </div>
         </div>
     </section>
+
+
+
+    <section class="bg-gray-100 my-10">
+        <div class="p-8 max-w-[1600px] mx-auto">
+            <div class="flex justify-between items-center">
+                <h2 class="montserrat-font font-bold text-2xl mb-2">Kendaraan Rental Baru</h2>
+
+                <a href="#" class="sans-jakarta-plus-font text-lg text-purple-600 font-semibold">Lihat Semua</a>
+            </div>
+
+
+            <div class="space-y-4">
+                {{-- TARUH KARTU DISINI --}}
+
+                <p class="  montserrat-font ">Belum Tersedia</p>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="max-w-screen-[1600px] mx-auto  flex flex-col justify-between px-8 my-12">
+        <div class="text-center">
+
+            <h3 class="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
+                <span class="text-indigo-600">Pertanyaan</span> Yang Sering Ditanyakan
+            </h3>
+
+        </div>
+
+        <div class="mt-10 max-w-[1600px] mx-auto">
+            <ul class="">
+                @php
+                $chat = [
+                [
+                'question' => 'Apakah aman menyewakan kendaraan saya di platform ini?',
+                'answer' => 'Tentu! Kami memiliki sistem verifikasi ketat untuk penyewa, serta opsi asuransi untuk
+                perlindungan kendaraan Anda.'
+                ],
+                [
+                'question' => 'Bagaimana jika penyewa melanggar aturan atau merusak kendaraan saya?',
+                'answer' => 'Kami memiliki kebijakan ketat terkait tanggung jawab penyewa dan menyediakan mekanisme
+                klaim jika terjadi kerusakan atau pelanggaran selama masa sewa.'
+                ],
+                [
+                'question' => 'Apakah saya bisa menentukan harga sewa sendiri?',
+                'answer' => 'Ya, Anda bebas menentukan harga sewa kendaraan, atau menggunakan rekomendasi harga dari
+                kami agar lebih kompetitif.'
+                ],
+                ];
+
+                @endphp
+
+                @foreach ($chat as $item)
+                @include('partials.faq_chat')
+                @endforeach
+
+            </ul>
+        </div>
+    </div>
+
+
+
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- Flatpickr JS -->
