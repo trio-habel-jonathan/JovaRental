@@ -39,4 +39,9 @@ class UserPageController extends Controller
     {
         return view("listMitra");
     }
+
+    public function pemesanan()
+    {
+        return view("pemesanan");
+    }
 }

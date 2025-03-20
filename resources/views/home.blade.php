@@ -4,22 +4,21 @@
         class=" w-full  bg-slate-100 z-10 bg-[url('/hero-background.png')] bg-full bg-cover  py-[4rem] px-10 ">
         <div class="max-w-[1600px] flex items-center justify-between flex-wrap-reverse lg:flex-nowrap mx-auto">
             <div class="max-w-xl ">
-                <h1
-                    class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
+                <h1 class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
                     Welcome to Jova Rental</h1>
-                <p class=" text-xl mb-8 font-medium">our trusted vehicle rental service, offering a seamless and
-                    affordable way to
-                    rent cars and bikes for any journey. Drive with ease, anytime, anywhere! </p>
-                <div class="flex flex-wrap gap-4">
-                    <a href="#menu"
-                        class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                        View More
-                    </a>
-                    <a href="#contact"
-                        class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                        Contact Us
-                    </a>
-                </div>
+                <p class=" text-xl mb-8 font-medium">our trusted vehicle rental service, offering a Layanan Rental
+                    Kendaraan Terpercaya – Sewa Mobil & Motor dengan Mudah dan Terjangkau untuk Perjalanan Apa Pun.
+                    Bebas Berkendara Kapan Saja, di Mana Saja!</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#menu"
+                            class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                            View More
+                        </a>
+                        <a href="#contact"
+                            class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                            Contact Us
+                        </a>
+                    </div>
             </div>
 
             {{-- <p>Hello World</p> --}}
@@ -40,8 +39,8 @@
                     <div class="w-full flex-[200px] ">
                         <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
                             <img draggable="false"
-                                src="https://i.pinimg.com/736x/b2/c8/23/b2c823e919d859d7afbaf12b57dd0255.jpg"
-                                alt="rental-mobil-3" class="w-full h-full object-cover">
+                                src="https://i.pinimg.com/736x/c6/79/f1/c679f17d8ea683b155a5826034f64894.jpg"
+                                alt="rental-motor-1" class="w-full h-full object-cover  ">
                         </div>
                     </div>
 
@@ -160,8 +159,7 @@
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                                     <img src="https://www.svgrepo.com/show/366704/car-rental.svg" alt="Car Rental">
                                 </div>
-                                <p
-                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Sewa Kendaraan
                                     Mudah & Cepat, Perjalanan Tanpa Ribet!</p>
                             </dt>
@@ -216,8 +214,7 @@
                                     <img src="https://www.svgrepo.com/show/478193/security-material-4.svg"
                                         alt="24/7 Service">
                                 </div>
-                                <p
-                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Layanan 24/7 &
                                     Asuransi, Keamanan Perjalanan Terjamin!
                                 </p>

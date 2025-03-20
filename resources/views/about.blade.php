@@ -110,42 +110,59 @@
         </h1>
         <div id="team-slider" class="relative overflow-hidden">
             <div id="slider-container" class="flex transition-transform duration-300 ease-in-out">
+                <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
+                    <div class="flex flex-col items-center">
+                        <img alt="Portrait of Leader of this project PUNDIMAS aka Ms, Founder"
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
+                            src="https://w0.peakpx.com/wallpaper/628/908/HD-wallpaper-ayanokoji-kiyotaka-ayanokouji-classroom-of-elite.jpg" />
+                        <h2 class="text-lg font-semibold">
+                            Ayanokoji
+                        </h2>
+                        <p class="text-gray-500">
+                            Project Manager
+                        </p>
+                    </div>
+                </div>
+
                 <!-- Item 1 -->
                 <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
                     <div class="flex flex-col items-center">
-                        <img alt="Portrait of Michael Cannon, Founder" class="rounded-lg mb-4 w-full max-w-[300px]"
+                        <img alt="Portrait of Michael Cannon, Founder"
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
                             src="https://placehold.co/300x300" />
                         <h2 class="text-lg font-semibold">
-                            Michael Cannon
+                            Amirul Wira Mushthofa
                         </h2>
                         <p class="text-gray-500">
-                            Founder
+                            Front-End Developer
                         </p>
                     </div>
                 </div>
                 <!-- Item 2 -->
                 <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
                     <div class="flex flex-col items-center">
-                        <img alt="Portrait of Dianne Russell, Sales Lead" class="rounded-lg mb-4 w-full max-w-[300px]"
+                        <img alt="Portrait of Dianne Russell, Sales Lead"
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
                             src="https://placehold.co/300x300" />
                         <h2 class="text-lg font-semibold">
-                            Dianne Russell
+                            Dafa Alifiandy
                         </h2>
                         <p class="text-gray-500">
-                            Sales Lead
+                            Developer
                         </p>
                     </div>
                 </div>
                 <!-- Item 3 -->
                 <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
                     <div class="flex flex-col items-center">
-                        <img alt="Portrait of Devona Lane, UI Designer" class="rounded-lg mb-4 w-full max-w-[300px]"
+                        <img alt="Portrait of Devona Lane, UI Designer"
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
                             src="https://placehold.co/300x300" />
                         <h2 class="text-lg font-semibold">
-                            Devona Lane
+                            Fahrizal Hariwira Winata
                         </h2>
                         <p class="text-gray-500">
-                            UI Designer
+                            UI/UX Designer
                         </p>
                     </div>
                 </div>
@@ -153,12 +170,41 @@
                 <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
                     <div class="flex flex-col items-center">
                         <img alt="Portrait of Ronald Richards, Product Designer"
-                            class="rounded-lg mb-4 w-full max-w-[300px]" src="https://placehold.co/300x300" />
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
+                            src="https://placehold.co/300x300" />
                         <h2 class="text-lg font-semibold">
-                            Ronald Richards
+                            Franklin Sebastian Felix
                         </h2>
                         <p class="text-gray-500">
-                            Product Designer
+                            Front-End Developer
+                        </p>
+                    </div>
+                </div>
+
+                <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
+                    <div class="flex flex-col items-center">
+                        <img alt="Portrait of Ronald Richards, Product Designer"
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
+                            src="https://placehold.co/300x300" />
+                        <h2 class="text-lg font-semibold">
+                            Muhammad Habib Abdillah
+                        </h2>
+                        <p class="text-gray-500">
+                            Backend Developer
+                        </p>
+                    </div>
+                </div>
+
+                <div class="team-item flex-shrink-0 w-full sm:w-1/2 lg:w-1/4 px-4">
+                    <div class="flex flex-col items-center">
+                        <img alt="Portrait of Ronald Richards, Product Designer"
+                            class="rounded-lg mb-4 w-full max-w-[300px] h-[300px] object-cover"
+                            src="https://placehold.co/300x300" />
+                        <h2 class="text-lg font-semibold">
+                            Trio Habel Jonathan
+                        </h2>
+                        <p class="text-gray-500">
+                            Backend Developer
                         </p>
                     </div>
                 </div>
@@ -176,121 +222,128 @@
         </div>
     </div>
 
-    <!-- Script untuk slider -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const sliderContainer = document.getElementById('slider-container');
-            const prevButton = document.getElementById('prev-button');
-            const nextButton = document.getElementById('next-button');
-            const teamItems = document.querySelectorAll('.team-item');
-
-            let currentPosition = 0;
-            let itemsPerView = 1;
-
-            // Fungsi untuk menghitung jumlah item yang terlihat
-            function calculateItemsPerView() {
-                if (window.innerWidth >= 1024) {
-                    return 4; // lg: 4 items
-                } else if (window.innerWidth >= 640) {
-                    return 2; // sm: 2 items
-                } else {
-                    return 1; // mobile: 1 item
-                }
-            }
-
-            // Fungsi untuk mengupdate posisi slider
-            function updateSliderPosition() {
-                // Menghitung lebar viewport slider
-                const sliderWidth = document.getElementById('team-slider').offsetWidth;
-
-                // Menghitung lebar per item berdasarkan jumlah item per view
-                const itemWidth = sliderWidth / itemsPerView;
-
-                // Memberikan lebar eksplisit pada setiap item
-                teamItems.forEach(item => {
-                    item.style.width = `${itemWidth}px`;
-                });
-
-                // Mengupdate posisi slider
-                sliderContainer.style.transform = `translateX(${-currentPosition * itemWidth}px)`;
-            }
-
-            // Event listener untuk tombol next
-            nextButton.addEventListener('click', function () {
-                itemsPerView = calculateItemsPerView();
-
-                // Batasi pergantian slide
-                if (currentPosition < teamItems.length - itemsPerView) {
-                    currentPosition++;
-                    updateSliderPosition();
-                }
-            });
-
-            // Event listener untuk tombol prev
-            prevButton.addEventListener('click', function () {
-                if (currentPosition > 0) {
-                    currentPosition--;
-                    updateSliderPosition();
-                }
-            });
-
-            // Inisialisasi slider
-            function initSlider() {
-                itemsPerView = calculateItemsPerView();
-                currentPosition = 0; // Reset posisi saat resize
-                updateSliderPosition();
-            }
-
-            // Responsive handling
-            window.addEventListener('resize', initSlider);
-
-            // Inisialisasi slider saat halaman dimuat
-            initSlider();
-        });
-
-        // ========== Count ==========
-        document.addEventListener('DOMContentLoaded', function () {
-        function animateCountUp(element, target, duration) {
-            let start = 0;
-            const increment = target / (duration / 20); // Angka akan bertambah setiap 20ms
-            const timer = setInterval(() => {
-                start += increment;
-                if (start >= target) {
-                    start = target;
-                    clearInterval(timer);
-                }
-                element.innerText = Math.floor(start).toLocaleString();
-            }, 20);
+    <!-- Custom Style -->
+    <style>
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: rgba(0, 0, 0, 0.8);
         }
 
-        const targets = [
-            { id: 'happyClients', value: 92 },
-            { id: 'experienceYears', value: 24 },
-            { id: 'completedProjects', value: 14200 },
-            { id: 'awardsWon', value: 12 }
-        ];
+        .lightbox-image {
+            display: block;
+            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
 
-        // ========== IntersectionObserver ==========
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const element = entry.target;
-                    const targetData = targets.find(t => t.id === element.id);
+        .close {
+            color: #fff;
+            font-size: 3em;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            cursor: pointer;
+        }
 
-                    if (targetData && !element.dataset.animated) {
-                        animateCountUp(element, targetData.value, 2000);
-                        element.dataset.animated = true; // Mencegah animasi terulang setiap kali muncul di viewport
-                    }
-                }
-            });
-        }, { threshold: 0.5 }); // 0.5 artinya animasi mulai ketika 50% elemen terlihat
+        .gallery {
 
-        targets.forEach(target => {
-            const element = document.getElementById(target.id);
-            if (element) {
-                observer.observe(element);
-            }
-        });
-    });
+            margin: 0 auto;
+            grid-template-rows: 1fr;
+            grid-column-gap: 30px;
+            grid-row-gap: 30px;
+
+        }
+
+        .gallery img {
+            max-width: 100%;
+            cursor: pointer;
+        }
+
+        .gallery img:hover {
+            max-width: 100%;
+            cursor: pointer;
+        }
+    </style>
+    <section class="py-12 px-8 ">
+        <div class="mx-auto max-w-[1600px]  ">
+            <div class="grid gap-1  pb-5">
+                <h2 class="w-full text-center text-gray-900 text-4xl font-bold font-manrope leading-normal">Galeri Kami
+                </h2>
+                <div class="w-full text-center text-gray-600 text-lg font-normal leading-8">Bersama, kami wujudkan visi
+                    menjadi nyata.</div>
+            </div>
+            <div class="gallery">
+                <div class="flex flex-col mb-10">
+                    <div class="grid md:grid-cols-12 gap-8 lg:mb-11 mb-7">
+                        <div class="md:col-span-4 md:h-[404px] h-[277px] w-full rounded-3xl">
+                            <img src="https://pagedone.io/asset/uploads/1713942989.png" alt="Gallery image"
+                                class="gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto lg:col-span-4 md:col-span-6 w-full h-full">
+                        </div>
+                        <div class="md:col-span-8 md:h-[404px] h-[277px] w-full rounded-3xl">
+                            <img src="https://pagedone.io/asset/uploads/1713943004.png" alt="Gallery image"
+                                class="gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto lg:col-span-8 md:col-span-6 w-full h-full">
+                        </div>
+                    </div>
+                    <div class="grid md:grid-cols-3 grid-cols-1 gap-8">
+                        <div class="h-[277px] w-full rounded-3xl">
+                            <img src="https://pagedone.io/asset/uploads/1713943024.png" alt="Gallery image"
+                                class="gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto w-full h-full">
+                        </div>
+                        <div class="h-[277px] w-full rounded-3xl">
+                            <img src="https://pagedone.io/asset/uploads/1713943039.png" alt="Gallery image"
+                                class="gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto w-full h-full">
+                        </div>
+                        <div class="h-[277px] w-full rounded-3xl">
+                            <img src="https://pagedone.io/asset/uploads/1713943054.png" alt="Gallery image"
+                                class="gallery-image object-cover rounded-3xl hover:grayscale transition-all duration-700 ease-in-out mx-auto w-full h-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lightbox" id="lightbox">
+            <span class="close" id="close">&times;</span>
+            <img src="" alt="" class="lightbox-image" id="lightbox-image">
+        </div>
+        </div>
+    </section>
+    <!-- Initialize Swiper -->
+    <script>
+        // Get references to elements
+      const gallery = document.querySelector('.gallery');
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImage = document.getElementById('lightbox-image');
+      const closeButton = document.getElementById('close');
+    
+      // Add event listener to each image
+      gallery.addEventListener('click', e => {
+        if (e.target.classList.contains('gallery-image')) {
+          const imageSrc = e.target.src;
+          lightboxImage.src = imageSrc;
+          lightbox.style.display = 'flex';
+        }
+      });
+    
+      // Close lightbox when close button is clicked
+      closeButton.addEventListener('click', () => {
+        lightbox.style.display = 'none';
+      });
+    
+      // Close lightbox when clicking outside the image
+      lightbox.addEventListener('click', e => {
+        if (e.target === lightbox) {
+          lightbox.style.display = 'none';
+        }
+      });
     </script>
+
+
+    <script src="{{asset('static/js/team-slider.js')}}"></script>
 </x-user-layout>

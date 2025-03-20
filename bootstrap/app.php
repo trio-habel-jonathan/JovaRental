@@ -28,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
             $exceptions->render(function (Throwable $e, $request) {
                 if (app()->isDownForMaintenance()) {
-                    return response()->view('errors.500', [], 503);
+                    return response()->view('errors.500', [], 500);
                 }
             });
         }
