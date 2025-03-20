@@ -1,21 +1,25 @@
 <?php
 
+use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
+use App\Http\Controllers\Mitra\PesananController;
 use Illuminate\Support\Facades\Route;
 
 
 
 Route::prefix('mitra')->name('mitra.')->group(function () {
+    Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
 
     Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
-        Route::get('/create', [MitraPageController::class, 'tambahkendaraan'])->name('tambahkendaraanView');
-        Route::get('/edit', [MitraPageController::class, 'editkendaraan'])->name('editkendaraanView');
+        Route::get('/create', [KendaraanController::class, 'tambahkendaraan'])->name('tambahkendaraanView');
+        Route::get('/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraanView');
     });
 
-    Route::get('/notifications', function () {
-        return view('mitra.notifications');
-    })->name('notifications'); // Pastikan rute memiliki nama ini
-    
-
+    Route::prefix('pesanan')->name('pesanan.')->group(function () {
+        Route::get('/', [MitraPageController::class, 'pesananmitraView'])->name('pesananmitraView');
+        Route::get('/details', [MitraPageController::class, 'pesanandetailView'])->name('pesanandetailView');
+        Route::get('/create', [PesananController::class, 'tambahpesanan'])->name('tambahpesananView');
+        Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
+    });
 });

@@ -4,40 +4,41 @@
         class=" w-full  bg-slate-100 z-10 bg-[url('/hero-background.png')] bg-full bg-cover  py-[4rem] px-10 ">
         <div class="max-w-[1600px] flex items-center justify-between flex-wrap-reverse lg:flex-nowrap mx-auto">
             <div class="max-w-xl ">
-                <h1 class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
+                <h1
+                    class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
                     Welcome to Jova Rental</h1>
                 <p class=" text-xl mb-8 font-medium">our trusted vehicle rental service, offering a seamless and
                     affordable way to
                     rent cars and bikes for any journey. Drive with ease, anytime, anywhere! </p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#menu"
-                            class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                            View More
-                        </a>
-                        <a href="#contact"
-                            class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                            Contact Us
-                        </a>
-                    </div>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#menu"
+                        class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                        View More
+                    </a>
+                    <a href="#contact"
+                        class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                        Contact Us
+                    </a>
+                </div>
             </div>
 
             {{-- <p>Hello World</p> --}}
             <div class="w-full max-w-4xl p-4 ">
 
-                <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden">
+                <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden shadow-lg">
                     <img draggable="false" src="https://i.pinimg.com/736x/7d/aa/e3/7daae3529fecbacf405b7904b67e6b19.jpg"
                         class="w-full h-full object-cover" alt="rental-mobil">
                 </div>
                 <div class="flex space-x-4 ">
                     <div class="w-full flex-[200px] ">
-                        <div class="border-2 h-32 rounded-xl overflow-hidden">
+                        <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
                             <img draggable="false"
                                 src="https://i.pinimg.com/736x/60/0c/48/600c4837a751426222a95ee5f5395926.jpg"
                                 alt="rental-mobil-ban" class="w-full h-full object-cover">
                         </div>
                     </div>
                     <div class="w-full flex-[200px] ">
-                        <div class="border-2 h-32 rounded-xl overflow-hidden">
+                        <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
                             <img draggable="false"
                                 src="https://i.pinimg.com/736x/b2/c8/23/b2c823e919d859d7afbaf12b57dd0255.jpg"
                                 alt="rental-mobil-3" class="w-full h-full object-cover">
@@ -77,20 +78,19 @@
                                 // Reset semua ke border purple
                                 document.querySelectorAll(".option").forEach(el => {
                                     el.classList.remove("bg-purple-500", "text-white");
-                                    el.classList.add("border",  "text-black");
+                                    el.classList.add("border", "text-black");
                                 });
-                    
+
                                 // Tambah background purple ke yang dipilih dengan animasi
-                                this.classList.remove( "text-black");
+                                this.classList.remove("text-black");
                                 this.classList.add("bg-purple-500", "text-white");
-                    
+
                                 // Pilih radio button sesuai yang diklik
                                 const radioId = this.getAttribute("data-radio");
                                 document.getElementById(radioId).checked = true;
                             });
                         });
                     </script>
-
                 </div>
                 <div>
                     <div class="flex w-full justify-start gap-4">
@@ -139,7 +139,7 @@
 
                 <div class="lg:text-center">
                     <h2
-                        class="font-heading mb-4 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg md:w-64 md:mx-auto text-xs font-semibold tracking-widest text-black  uppercase title-font">
+                        class="font-heading mb-4 bg-orange-100 text-orange-800 px-4 py-2 rounded-lg md:w-64 md:mx-auto text-xs font-semibold tracking-widest  uppercase title-font">
                         Kenapa Memilih Kami?
                     </h2>
                     <p
@@ -160,7 +160,8 @@
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                                     <img src="https://www.svgrepo.com/show/503163/api-settings.svg">
                                 </div>
-                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p
+                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Sewa Kendaraan
                                     Mudah & Cepat, Perjalanan Tanpa Ribet!</p>
                             </dt>
@@ -176,12 +177,14 @@
                                     class="absolute flex items-center justify-center h-12 w-12 rounded-md bg-primary-500 text-white">
                                     <img src="https://www.svgrepo.com/show/503138/webpack.svg">
                                 </div>
-                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p
+                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Easy to
                                     Fleet Berkualitas, Nyaman & Terawat untuk Setiap Perjalanan
                                 </p>
                             </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font"> Kendaraan kami selalu
+                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font"> Kendaraan kami
+                                selalu
                                 dalam kondisi prima,
                                 dengan perawatan rutin dan fitur keamanan lengkap. Dari mobil keluarga, motor praktis,
                                 hingga kendaraan premium, kami menyediakan berbagai pilihan yang sesuai dengan kebutuhan
@@ -195,7 +198,8 @@
                                     <img src="https://www.svgrepo.com/show/511771/dashboard-671.svg">
 
                                 </div>
-                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p
+                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Low Transaction
                                     Harga Transparan, Tanpa Biaya Tersembunyi!
                                 </p>
@@ -213,7 +217,8 @@
                                     <img src="https://www.svgrepo.com/show/76267/free-commercial-label.svg">
 
                                 </div>
-                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p
+                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Layanan 24/7 &
                                     Asuransi, Keamanan Perjalanan Terjamin!
                                 </p>

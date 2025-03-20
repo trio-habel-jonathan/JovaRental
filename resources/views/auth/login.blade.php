@@ -1,7 +1,7 @@
 <x-auth-layout title="Login">
     <div class="w-full h-full grid grid-cols-1 lg:grid-cols-2">
         <div class="w-full h-full bg-black hidden lg:block">
-            <img src="https://i.pinimg.com/736x/81/bb/9b/81bb9b0c6be3bc436339d58c5d658df1.jpg"
+            <img draggable="false" src="https://i.pinimg.com/736x/81/bb/9b/81bb9b0c6be3bc436339d58c5d658df1.jpg"
                 class="h-screen w-full object-cover" alt="">
         </div>
         <div class='h-full flex flex-col justify-center gap-4 items-center'>

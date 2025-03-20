@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
-<body class=" mx-auto">
+<body class="bg-gray-100">
     @include('content.navbar')
 
     {{-- @yield('content') --}}
@@ -37,5 +37,6 @@
 
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
 </html>

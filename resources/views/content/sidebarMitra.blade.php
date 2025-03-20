@@ -53,7 +53,7 @@
 
                 <div id="pesanan-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Pesanan</a>
+                    <a href="{{ route('mitra.pesanan.pesananmitraView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Pesanan</a>
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Buat Pesanan</a>
                 </div>
             </div>
@@ -154,38 +154,6 @@
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah Supir</a>
                 </div>
             </div>
-
-            {{-- <!-- Pengaturan -->
-            <div class="group">
-                <div id="pengaturan-menu"
-                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
-                    <div class="mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3"></circle>
-                            <path
-                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
-                            </path>
-                        </svg>
-                    </div>
-                    <div class="text-sm flex-1">Pengaturan</div>
-                    <div id="pengaturan-chevron" class="transform transition-transform duration-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round">
-                            <polyline points="6 9 12 15 18 9"></polyline>
-                        </svg>
-                    </div>
-                </div>
-
-                <div id="pengaturan-submenu"
-                    class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Profil</a>
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Sistem</a>
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Notifikasi</a>
-                </div>
-            </div> --}}
         </div>
 
         <div class="mt-auto">

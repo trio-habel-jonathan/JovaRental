@@ -13,23 +13,23 @@
                             <h1 class="uppercase font-bold">User Account</h1>
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Full Name</label>
-                            <input type="text" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                            <label for="full_name" class="text-sm font-semibold text-gray-500">Full Name</label>
+                            <input type="text" id="full_name" class="border rounded-md border-gray-300 p-2 focus:outline-none"
                                 placeholder="Type your full name...">
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Email</label>
-                            <input type="text" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                            <label for="email" class="text-sm font-semibold text-gray-500">Email</label>
+                            <input type="text" id="email" name="email" class="border rounded-md border-gray-300 p-2 focus:outline-none"
                                 placeholder="Type your email...">
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Phone Number</label>
-                            <input type="text" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                            <label for="no_hp" class="text-sm font-semibold text-gray-500">Phone Number</label>
+                            <input type="text" id="no_hp" name="no_hp" class="border rounded-md border-gray-300 p-2 focus:outline-none"
                                 placeholder="Type your phone number...">
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Role</label>
-                            <select name="" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                            <label for="role" class="text-sm font-semibold text-gray-500">Role</label>
+                            <select name="role" id="role" class="border rounded-md border-gray-300 p-2 focus:outline-none"
                                 id="">
                                 <option>User</option>
                                 <option>Admin</option>
@@ -37,10 +37,10 @@
                             </select>
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Verified Account</label>
+                            <label for="verified" class="text-sm font-semibold text-gray-500">Verified Account</label>
                             <div class="flex gap-4 p-2">
                                 <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="option" class="hidden peer" checked>
+                                    <input type="radio" name="verified" class="hidden peer" checked>
                                     <div
                                         class="w-4 h-4 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
                                         <div class="w-2.5 h-2.5 bg-white rounded-full"></div>
@@ -49,7 +49,7 @@
                                 </label>
 
                                 <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="option" class="hidden peer">
+                                    <input type="radio" name="verified" class="hidden peer">
                                     <div
                                         class="w-4 h-4 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
                                         <div class="w-2.5 h-2.5 bg-white rounded-full"></div>
@@ -66,14 +66,14 @@
                             <h1 class="uppercase font-bold">Password Account</h1>
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Full Name</label>
-                            <input type="text" class="border rounded-md border-gray-300 p-2 focus:outline-none"
-                                placeholder="Type your full name...">
+                            <label for="password" class="text-sm font-semibold text-gray-500">Password</label>
+                            <input type="password" id="password" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                                placeholder="Type your password...">
                         </div>
                         <div class="flex flex-col">
-                            <label for="" class="text-sm font-semibold text-gray-500">Email</label>
-                            <input type="text" class="border rounded-md border-gray-300 p-2 focus:outline-none"
-                                placeholder="Type your email...">
+                            <label for="confirm_password" class="text-sm font-semibold text-gray-500">Confirm Password</label>
+                            <input type="confirm_password" id="confirm_password" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                                placeholder="Type your confirm password...">
                         </div>
                     </div>
                     <div class="bg-white  rounded-lg  flex flex-col gap-4 p-4 shadow-lg">

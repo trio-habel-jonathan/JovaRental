@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
-<body class="flex mx-auto bg-gray-100">
+<body class="flex max-w-[1800px] mx-auto bg-gray-100">
     @include('content.sidebarAdmin')
     <div class="flex-1">
         <div class="w-full bg-white sticky top-0 flex items-center justify-between p-2 px-6 border-b z-50">
