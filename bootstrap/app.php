@@ -20,6 +20,8 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (Throwable $e, $request) {
-            return response()->view('errors.503', ['error' => $e->getMessage()], 503);
+            if (app()->isDownForMaintenance()) {
+                return response()->view('errors.503', [], 503);
+            }
         });
     })->create();
