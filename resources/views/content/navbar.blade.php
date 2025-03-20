@@ -1,9 +1,10 @@
-<nav class="sticky top-0 inset-x-0 flex justify-center items-center w-full z-50 max-w-[1600px] mx-auto ">
+<nav class="sticky top-0 inset-x-0 flex justify-center items-center w-full z-20 max-w-[1600px] mx-auto ">
     <div class=" w-full bg-white flex justify-between items-center shadow-lg p-4 px-12">
 
         <!-- ========== Logo ========== -->
         <div class="text-xl md:text-2xl text-gray-700 font-bold relative overflow-hidden">
-            <a href="{{ route('home') }}"><span class="inline-block transition-transform duration-300 montserrat-font">JovaRental</span></a>
+            <a href="{{ route('home') }}"><span
+                    class="inline-block transition-transform duration-300 montserrat-font">JovaRental</span></a>
         </div>
 
 

@@ -11,6 +11,7 @@
 </head>
 
 <body class="w-full h-screen">
+    @include('content.loading-overlay')
     {{ $slot }}
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
