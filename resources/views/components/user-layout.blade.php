@@ -37,5 +37,4 @@
 
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
-
 </html>

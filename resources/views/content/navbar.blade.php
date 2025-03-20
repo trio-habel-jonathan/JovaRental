@@ -3,7 +3,7 @@
 
         <!-- ========== Logo ========== -->
         <div class="text-xl md:text-2xl text-gray-700 font-bold relative overflow-hidden">
-            <span class="inline-block transition-transform duration-300 montserrat-font">JovaRental</span>
+            <a href="{{ route('home') }}"><span class="inline-block transition-transform duration-300 montserrat-font">JovaRental</span></a>
         </div>
 
 
