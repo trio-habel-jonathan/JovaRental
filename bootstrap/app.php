@@ -15,13 +15,21 @@ return Application::configure(basePath: dirname(__DIR__))
         //
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        $exceptions->render(function (NotFoundHttpException $e, $request) {
-            return response()->view('errors.404', [], 404);
-        });
+        if (!config('app.debug')) {
+            $exceptions->render(function (NotFoundHttpException $e, $request) {
+                return response()->view('errors.404', [], 404);
+            });
 
-        $exceptions->render(function (Throwable $e, $request) {
-            if (app()->isDownForMaintenance()) {
-                return response()->view('errors.503', [], 503);
-            }
-        });
+            $exceptions->render(function (Throwable $e, $request) {
+                if (app()->isDownForMaintenance()) {
+                    return response()->view('errors.503', [], 503);
+                }
+            });
+
+            $exceptions->render(function (Throwable $e, $request) {
+                if (app()->isDownForMaintenance()) {
+                    return response()->view('errors.500', [], 503);
+                }
+            });
+        }
     })->create();
