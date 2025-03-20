@@ -11,4 +11,4 @@ Route::get("/profile/history", [UserPageController::class, "history"])->name("hi
 Route::get("/contact-us", [UserPageController::class, "contactus"])->name("contactus");
 Route::get("/daftar-kendaraan", [UserPageController::class, "daftarKendaraan"])->name("daftarKendaraan");
 Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("daftarMitra");
-
+Route::get("/pemesanan", [UserPageController::class, "pemesanan"])->name("pemesanan");

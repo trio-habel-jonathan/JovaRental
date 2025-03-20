@@ -33,8 +33,9 @@
     @include('content.navbar')
 
     {{-- @yield('content') --}}
-    {{ $slot }}
-
+    <main class="min-h-screen">
+        {{ $slot }}
+    </main>
 
     @include('content.footer')
 </body>
