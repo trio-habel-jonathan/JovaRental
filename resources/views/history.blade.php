@@ -3,7 +3,7 @@
     <div class="flex flex-col lg:flex-row items-start justify-between mx-auto max-w-[1600px] gap-6 p-4">
         <!-- Left sidebar - full width on mobile, fixed width on desktop -->
         <div
-            class="w-full lg:w-[350px] flex flex-col bg-white rounded-2xl shadow-xl px-4 py-6 mb-4 lg:mb-0 lg:top-6 mt-4">
+            class="w-full sticky top-[5rem] lg:w-[350px] flex flex-col bg-white rounded-2xl shadow-xl px-4 py-6 mb-4 lg:mb-0  mt-4">
             <h1 class="text-2xl font-bold text-gray-800 text-center mb-6">Cari History</h1>
 
             <!-- Search Bar with button -->
