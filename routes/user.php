@@ -13,3 +13,7 @@ Route::get('/profile', function () {
 Route::get('/profile/history', function () {
     return view('history');
 })->name('history');
+
+Route::get('/pemesanan', function () {
+    return view('pemesanan');
+})->name('pemesanan');
