@@ -27,14 +27,18 @@
 </head>
 
 <body class=" mx-auto">
+    @include('content.loading-overlay')
+
     @include('content.navbar')
 
     {{-- @yield('content') --}}
     {{ $slot }}
+
 
     @include('content.footer')
 </body>
 
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
+
 </html>
