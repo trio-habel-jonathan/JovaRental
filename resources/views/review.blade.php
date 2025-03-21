@@ -1,18 +1,19 @@
-<x-user-layout title="pemesanan">
+<x-user-layout title="review">
     <div class="w-full lg:max-w-4xl md:max-w-2xl mx-auto mt-8 px-5">
         <!-- Progress Bar -->
         <div class="relative">
             <!-- Background Line -->
             <div class="absolute top-5 w-full h-1.5 bg-gray-100 rounded-full"></div>
 
-            <!-- Progress Line (Adjust width percentage for current step) -->
-            <div class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full w-0">
+            <!-- Progress Line (Set to 33% for Review step) -->
+            <div class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full"
+                style="width: 33%">
             </div>
 
             <!-- Steps -->
             <div class="flex justify-between relative">
-                <!-- Step 1: Pesan (Active by default) -->
-                <div class="step active-step flex flex-col items-center">
+                <!-- Step 1: Pesan (Completed) -->
+                <div class="step flex flex-col items-center">
                     <div
                         class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-purple-600 text-white font-bold shadow-lg border-4 border-white text-sm transition-all duration-300">
                         1
@@ -20,16 +21,16 @@
                     <div class="mt-3 text-sm font-semibold text-purple-600">Pesan</div>
                 </div>
 
-                <!-- Step 2: Review -->
+                <!-- Step 2: Review (Active) -->
                 <div class="step flex flex-col items-center">
                     <div
-                        class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 font-bold shadow-md border-4 border-white text-sm transition-all duration-300">
+                        class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-purple-600 text-white font-bold shadow-md border-4 border-white text-sm transition-all duration-300">
                         2
                     </div>
-                    <div class="mt-3 text-sm font-medium text-gray-500">Review</div>
+                    <div class="mt-3 text-sm font-semibold text-purple-600">Review</div>
                 </div>
 
-                <!-- Step 3: Bayar -->
+                <!-- Step 3: Bayar (Inactive) -->
                 <div class="step flex flex-col items-center">
                     <div
                         class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 font-bold shadow-md border-4 border-white text-sm transition-all duration-300">
@@ -38,7 +39,7 @@
                     <div class="mt-3 text-sm font-medium text-gray-500">Bayar</div>
                 </div>
 
-                <!-- Step 4: Selesai -->
+                <!-- Step 4: Selesai (Inactive) -->
                 <div class="step flex flex-col items-center">
                     <div
                         class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 font-bold shadow-md border-4 border-white text-sm transition-all duration-300">
@@ -54,84 +55,117 @@
         <div class="order-1 sm:order-1 sm:w-[65%] w-full bg-white p-6 md:p-8 rounded-tl-2xl rounded-bl-2xl shadow-lg">
             <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
                 <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    <!-- Updated user icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0zm-4.5 7a7 7 0 0 0-7 7h14a7 7 0 0 0-7-7z" />
+                    </svg>
+                </span>
+                Pemesanan Anda
+            </h1>
+            <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                    <!-- Form/Data icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                 </span>
                 Data Pemesanan
             </h1>
-            <div
-                class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+            <div class="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
                 <div class="mb-5">
-                    <label for="nama_lengkap" class="block mb-2 text-base font-medium text-gray-700">Nama Lengkap</label>
-                    <input type="text" name="nama_lengkap" id="nama_lengkap"
-                        class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                        placeholder="Masukkan nama lengkap anda">
+                    <h1 class="block mb-2 text-base font-medium text-gray-700">M Habib Abdillah</h1>
                 </div>
                 <div class="flex flex-col md:flex-row gap-5 w-full">
                     <div class="flex-1">
                         <label for="nomor_telepon" class="block mb-2 text-base font-medium text-gray-700">Nomor
                             Telepon</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
-                            <input type="tel" name="nomor_telepon" id="nomor_telepon"
-                                class="w-full p-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                                placeholder="8123456789">
-                        </div>
+                        <p>+62 812-7483-3877</p>
                     </div>
                     <div class="flex-1">
                         <label for="email" class="block mb-2 text-base font-medium text-gray-700">Email</label>
-                        <input type="email" name="email" id="email"
-                            class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="Masukkan email anda">
+                        <p>habibabdillah@gmail.com</p>
                     </div>
                 </div>
             </div>
 
             <h1 class="text-2xl font-bold mt-8 mb-6 text-gray-800 flex items-center">
                 <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    <!-- Driver icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
                 </span>
                 Data Pengemudi
             </h1>
-            <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+            <div class="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
                 <div class="mb-5">
-                    <label for="titel" class="block mb-2 text-base font-medium text-gray-700">Titel</label>
-                    <div class="relative">
-                        <select name="titel" id="titel"
-                            class="appearance-none w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all bg-white pr-10">
-                            <option value="">Pilih Titel</option>
-                            <option value="Tn">Tuan</option>
-                            <option value="Ny">Nyonya</option>
-                            <option value="Nn">Nona</option>
-                        </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-gray-700">
-                            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                    </div>
+                    <h1 class="block mb-2 text-base font-medium text-gray-700">Tuan Habib Abdillah</h1>
                 </div>
-                <div class="flex flex-col md:flex-row gap-5 w-full">
-                    <div class="flex-1">
-                        <label for="driver_nama" class="block mb-2 text-base font-medium text-gray-700">Nama
-                            Lengkap</label>
-                        <input type="text" name="driver_nama" id="driver_nama"
-                            class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                            placeholder="Masukkan nama lengkap pengemudi">
-                    </div>
-                    <div class="flex-1">
-                        <label for="driver_telepon" class="block mb-2 text-base font-medium text-gray-700">Nomor
-                            Telepon</label>
-                        <div class="relative">
-                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
-                            <input type="tel" name="driver_telepon" id="driver_telepon"
-                                class="w-full p-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
-                                placeholder="8123456789">
-                        </div>
-                    </div>
+                <div class="flex-1">
+                    <label for="nomor_telepon" class="block mb-2 text-base font-medium text-gray-700">Nomor
+                        Telepon</label>
+                    <p>+62 812-7483-3877</p>
+                </div>
+            </div>
+
+            <h1 class="text-2xl font-bold mt-8 mb-6 text-gray-800 flex items-center">
+                <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                    <!-- Pickup location icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </span>
+                Lokasi Jemput
+            </h1>
+            <div class="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <div class="mb-5">
+                    <h1 class="block mb-2 text-base font-medium text-gray-700">Wijaya Rent Car Surabaya</h1>
+                </div>
+            </div>
+            <h1 class="text-2xl font-bold mt-8 mb-6 text-gray-800 flex items-center">
+                <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                    <!-- Return location icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </span>
+                Lokasi Kembali
+            </h1>
+            <div class="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <div class="mb-5">
+                    <h1 class="block mb-2 text-base font-medium text-gray-700">Juanda International Airport (SUB)</h1>
+                </div>
+            </div>
+            <h1 class="text-2xl font-bold mt-8 mb-6 text-gray-800 flex items-center">
+                <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                    <!-- Special request icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                    </svg>
+                </span>
+                Permintaan Khusus Rental Mobil ( Opsional )
+            </h1>
+            <div class="p-6 bg-gray-50 rounded-xl shadow-sm hover:shadow-md transition-all border border-gray-100">
+                <div class="mb-5">
+                    <textarea
+                        class="w-full p-3 mb-4 border border-purple-400 rounded-lg shadow-sm focus:border-purple-500 focus:ring focus:ring-purple-200 focus:ring-opacity-50 resize-y min-h-[100px] text-gray-700 placeholder-gray-400 transition duration-150 ease-in-out"
+                        placeholder="Tulis permintaan khusus anda di sini"></textarea>
                 </div>
             </div>
         </div>
@@ -143,14 +177,22 @@
                 <span class="text-purple-600 text-sm font-medium">ID: RNT-20224853</span>
             </div>
 
-            <div class="bg-primary bg-opacity-20 shadow-md rounded-xl p-6 space-y-4 text-gray-800 border border-gray-100 mt-4 hover:shadow-lg transition-all">
+            <div
+                class="bg-primary bg-opacity-20 shadow-md rounded-xl p-6 space-y-4 text-gray-800 border border-gray-100 mt-4 hover:shadow-lg transition-all">
                 <div class="flex items-center justify-between border-b border-gray-100 pb-4">
                     <div class="flex items-center gap-3">
                         <div class="bg-purple-100 p-2 rounded-lg">
-                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-purple-600">
+                            <!-- Car icon for rental -->
+                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="text-purple-600">
                                 <path
-                                    d="M5 13H8M2 9L4 10L5.27064 6.18807C5.53292 5.40125 5.66405 5.00784 5.90729 4.71698C6.12208 4.46013 6.39792 4.26132 6.70951 4.13878C7.06236 4 7.47705 4 8.30643 4H15.6936C16.523 4 16.9376 4 17.2905 4.13878C17.6021 4.26132 17.8779 4.46013 18.0927 4.71698C18.3359 5.00784 18.4671 5.40125 18.7294 6.18807L20 10L22 9M16 13H19M6.8 10H17.2C18.8802 10 19.7202 10 20.362 10.327C20.9265 10.6146 21.3854 11.0735 21.673 11.638C22 12.2798 22 13.1198 22 14.8V17.5C22 17.9647 22 18.197 21.9616 18.3902C21.8038 19.1836 21.1836 19.8038 20.3902 19.9616C20.197 20 19.9647 20 19.5 20H19C17.8954 20 17 19.1046 17 18C17 17.7239 16.7761 17.5 16.5 17.5H7.5C7.22386 17.5 7 17.7239 7 18C7 19.1046 6.10457 20 5 20H4.5C4.03534 20 3.80302 20 3.60982 19.9616C2.81644 19.8038 2.19624 19.1836 2.03843 18.3902C2 18.197 2 17.9647 2 17.5V14.8C2 13.1198 2 12.2798 2.32698 11.638C2.6146 11.0735 3.07354 10.6146 3.63803 10.327C4.27976 10 5.11984 10 6.8 10Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    d="M3 8L5.5 4H18.5L21 8M3 8V17C3 18.1046 3.89543 19 5 19H6M3 8H21M21 8V17C21 18.1046 20.1046 19 19 19H18M6 19V21M6 19H18M18 19V21"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path d="M7 11.01L7.01 10.9989" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                                <path d="M17 11.01L17.01 10.9989" stroke="currentColor" stroke-width="2"
+                                    stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                         </div>
                         <div>
@@ -158,10 +200,12 @@
                             <p class="text-sm text-gray-500">Toyota Avanza 2020</p>
                         </div>
                     </div>
-                    <span class="bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full">Automatic</span>
+                    <span
+                        class="bg-green-100 text-green-700 text-sm font-medium px-3 py-1 rounded-full">Automatic</span>
                 </div>
 
                 <p class="text-gray-600 flex items-center">
+                    <!-- Building/office icon -->
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-purple-500" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -173,12 +217,11 @@
                 <div class="bg-primary bg-opacity-10 p-4 rounded-lg space-y-4 mt-2">
                     <div class="flex items-start gap-3">
                         <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
+                            <!-- City icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
                             </svg>
                         </div>
                         <div>
@@ -189,6 +232,7 @@
 
                     <div class="flex items-start gap-3">
                         <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
+                            <!-- Calendar/start date icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -204,6 +248,7 @@
 
                     <div class="flex items-start gap-3">
                         <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
+                            <!-- Pickup location icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -220,6 +265,7 @@
 
                     <div class="flex items-start gap-3">
                         <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
+                            <!-- Calendar/end date icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -235,6 +281,7 @@
 
                     <div class="flex items-start gap-3">
                         <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
+                            <!-- Return location icon -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -249,13 +296,33 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="border-t border-gray-100 pt-4 mt-2">
+                   
+                    <div class="flex justify-between font-bold text-lg mt-4">
+                        <span>Harga</span>
+                        <span class="text-purple-600">Rp 1.210.000</span>
+                    </div>
+                </div>
             </div>
             <div class="flex justify-end mt-6">
-                <a href="{{ route('review') }}"
+                <!-- <a href="{{ route('pemesanan') }}"
+                    class="bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                    Kembali
+
+                </a> -->
+                <a href="{{ route('pembayaran') }}"
                     class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                     Lanjutkan
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        <path fill-rule="evenodd"
+                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
                     </svg>
                 </a>
             </div>
