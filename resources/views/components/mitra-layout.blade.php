@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="{{ asset('static/style/formKendaraan.css') }}">
 </head>
 
-<body class="flex bg-gray-100 min-h-screen">
+
+<body class="flex  bg-gray-100 min-h-screen">
     @include('content.loading-overlay')
 
     <div class="w-64">

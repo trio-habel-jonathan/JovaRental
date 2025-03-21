@@ -27,4 +27,3 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
         Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
     });
 });
-
