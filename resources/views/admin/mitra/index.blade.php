@@ -37,7 +37,7 @@
                             </svg>
                         </a>
                         <div class="flex gap-4">
-                            <img class="w-56 h-56 object-cover rounded-md"
+                            <img class="w-56 h-56 object-cover rounded-md" draggable="false"
                                 src="https://i.pinimg.com/736x/39/ea/d6/39ead63b3820b30f3b183175f70e1d75.jpg"
                                 alt="">
                             <div>
@@ -67,7 +67,7 @@
                                 </div>
                                 <div class="mt-4">
                                     <div class="border bg-primary/20 border-primary/30 p-2 rounded-md w-fit flex gap-2">
-                                        <img src="https://i.pinimg.com/736x/ef/38/49/ef38494e504f7f985c17e47e79592204.jpg"
+                                        <img draggable="false" src="https://i.pinimg.com/736x/ef/38/49/ef38494e504f7f985c17e47e79592204.jpg"
                                             class="w-16 h-16 object-cover rounded-sm" alt="">
                                         <div>
                                             <h6 class="plus-jakarta-sans-font font-bold">Mitsubisi Pajero</h6>

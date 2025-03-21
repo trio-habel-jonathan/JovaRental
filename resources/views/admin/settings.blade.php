@@ -109,7 +109,7 @@
 
             </div>
         </form>
-        <a href="{{ route('admin.user.userView') }}"
+        <a href="{{ route('admin.indexView') }}"
             class="fixed bottom-0 right-0 m-5 p-2 rounded-full bg-primary text-white transition-all duration-300 ease-in-out hover:scale-125">
             <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
