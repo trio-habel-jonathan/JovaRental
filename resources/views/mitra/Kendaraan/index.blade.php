@@ -44,6 +44,7 @@
         <!-- Main content - car listings (75% width) -->
         <div class="w-3/4">
             <div class="grid grid-cols-1 gap-8">
+                @for($i = 0; $i < 5; $i++)
                 <!-- Toyota Calya Card -->
                 @for ($i = 0; $i < 6; $i++)
                     <div class="car-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
