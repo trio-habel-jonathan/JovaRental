@@ -15,8 +15,7 @@
         <!-- Navigation -->
         <div class="flex flex-col space-y-1">
             <!-- Dashboard -->
-            <a href="{{ route('mitra.indexView') }}"
-                class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
+            <div class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
                 <div class="mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -26,8 +25,8 @@
                         <line x1="12" x2="12" y1="17" y2="21" />
                     </svg>
                 </div>
-                <p class="text-gray-600 text-sm flex-1">Dashboard</p>
-            </a>
+                <a href="#" class="text-gray-600 text-sm flex-1">Dashboard</a>
+            </div>
 
             <!-- Pesanan -->
             <div class="group">
@@ -54,8 +53,7 @@
 
                 <div id="pesanan-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="{{ route('mitra.pesanan.pesananmitraView') }}"
-                        class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Pesanan</a>
+                    <a href="{{ route('mitra.pesanan.pesananmitraView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Pesanan</a>
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Buat Pesanan</a>
                 </div>
             </div>
@@ -87,11 +85,9 @@
 
                 <div id="kendaraan-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="{{ route('mitra.kendaraan.kendaraanmitraView') }}"
-                        class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar
+                    <a href="{{ route('mitra.kendaraan.kendaraanmitraView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar
                         Kendaraan</a>
-                    <a href="{{ route('mitra.kendaraan.tambahkendaraanView') }}"
-                        class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah
+                    <a href="{{ route('mitra.kendaraan.tambahkendaraanView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah
                         Kendaraan</a>
                 </div>
             </div>
@@ -121,7 +117,7 @@
 
                 <div id="keuangan-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="{{route ('mitra.keuangan.index')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Laporan
+                    <a href="{{route ('keuangan.index')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Laporan
                         Keuangan</a>
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pengeluaran</a>
                     <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pendapatan</a>
@@ -154,9 +150,8 @@
 
                 <div id="supir-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="{{ route('mitra.supir.supirmitraView') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Supir</a>
-                    <a href="{{ route('mitra.supir.tambahsupir') }}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah Supir</a>
-
+                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Supir</a>
+                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah Supir</a>
                 </div>
             </div>
         </div>

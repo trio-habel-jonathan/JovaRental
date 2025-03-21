@@ -11,14 +11,6 @@ class MitraPageController extends Controller
     {
         return view('mitra.notifications');
     }
-    public function indexMitraView()
-    {
-        return view('mitra.index');
-    }
-    public function settingsMitraView()
-    {
-        return view('mitra.settings');
-    }
     public function kendaraanmitraView()
     {
         return view('mitra.kendaraan.index');
@@ -30,9 +22,5 @@ class MitraPageController extends Controller
     public function pesanandetailView()
     {
         return view('mitra.pesanan.details');
-    }
-    public function keuanganMitraView()
-    {
-        return view('mitra.keuangan.index');
     }
 }

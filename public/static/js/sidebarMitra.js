@@ -15,23 +15,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const chevronElement = document.getElementById(item.chevron);
 
         // Add click event to toggle submenu
-        menuElement.addEventListener('click', function () {
-            // Toggle expanded state
-            const isExpanded = submenuElement.classList.contains('max-h-40');
+            menuElement.addEventListener('click', function () {
+                // Toggle expanded state
+                const isExpanded = submenuElement.classList.contains('max-h-40');
 
-            // Update classes
-            if (isExpanded) {
-                submenuElement.classList.remove('max-h-40');
-                submenuElement.classList.add('max-h-0');
-                chevronElement.classList.remove('rotate-180');
-            } else {
-                submenuElement.classList.remove('max-h-0');
-                submenuElement.classList.add('max-h-40');
-                chevronElement.classList.add('rotate-180');
-            }
+                // Update classes
+                if (isExpanded) {
+                    submenuElement.classList.remove('max-h-40');
+                    submenuElement.classList.add('max-h-0');
+                    chevronElement.classList.remove('rotate-180');
+                } else {
+                    submenuElement.classList.remove('max-h-0');
+                    submenuElement.classList.add('max-h-40');
+                    chevronElement.classList.add('rotate-180');
+                }
 
-            menuElement.classList.toggle('rounded-b-none');
-        });
+                menuElement.classList.toggle('rounded-b-none');
+            });
     });
 
     // Add click events for all nav items to set active state
