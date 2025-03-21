@@ -12,3 +12,8 @@ Route::get("/contact-us", [UserPageController::class, "contactus"])->name("conta
 Route::get("/daftar-kendaraan", [UserPageController::class, "daftarKendaraan"])->name("daftarKendaraan");
 Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("daftarMitra");
 Route::get("/pemesanan", [UserPageController::class, "pemesanan"])->name("pemesanan");
+Route::get("/pemesanan/review", [UserPageController::class, "review"])->name("review");
+Route::get("/pemesanan/review/pembayaran", [UserPageController::class, "pembayaran"])->name("pembayaran");
+Route::get("/pemesanan/review/pembayaran/petunjuk-pembayaran-transfer", [UserPageController::class, "petunjukPembayaranTransfer"])->name("petunjukPembayaranTransfer");
+Route::get("/pemesanan/review/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");
+Route::get("/pemesanan/review/pembayaran/bukti-penyewaan-kendaraan", [UserPageController::class, "buktiPenyewaanKendaraan"])->name("buktiPenyewaanKendaraan");
