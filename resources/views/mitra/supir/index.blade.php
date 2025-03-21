@@ -18,7 +18,7 @@
     </div>
 
     <!-- Daftar Supir - Redesain Style ID Card -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         @for ($i = 0; $i < 8; $i++)
             <!-- Supir 1 - Available -->
 

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
+use App\Http\Controllers\Mitra\SupirPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('mitra')->name('mitra.')->group(function () {
