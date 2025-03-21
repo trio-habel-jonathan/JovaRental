@@ -382,19 +382,31 @@
                     </div>
 
                     <!-- Tombol Submit -->
-                    <div class="mt-8">
+                    <div class="mt-8 flex justify-between items-center space-x-4">
+                        <!-- Tombol Back -->
+                        <a href="{{ url()->previous() }}" 
+                           class="w-1/2 text-center bg-gray-100 text-gray-700 py-3.5 px-4 rounded-xl hover:bg-gray-200 transition-all font-medium flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                            </svg>
+                            Kembali
+                        </a>
+                    
+                        <!-- Tombol Save -->
                         <button type="submit"
-                            class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 px-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all font-medium flex items-center justify-center button-effect">
+                            class="w-1/2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white py-3.5 px-4 rounded-xl hover:from-blue-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all font-medium flex items-center justify-center button-effect">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                             </svg>
-                            Perbarui Data Kendaraan
+                            Perbarui
                         </button>
-                        <div class="mt-2 text-xs text-center text-gray-500">Dengan menekan tombol ini, Anda menyetujui
-                            Syarat dan Ketentuan yang berlaku</div>
+                    </div>  
+                    <div class="mt-2 text-xs text-center text-gray-500">
+                        Dengan menekan tombol ini, Anda menyetujui Syarat dan Ketentuan yang berlaku
                     </div>
+                    
                 </div>
             </div>
         </div>
