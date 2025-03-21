@@ -172,4 +172,110 @@
             </div>
         </div>
     </div>
+    <script>
+        import React, { useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
+const SaldoProgressiveChart = () => {
+  // Sample data - replace with your actual data
+  const allData = [
+    { month: 'Jan', saldo: 5000000, index: 1 },
+    { month: 'Feb', saldo: 7500000, index: 2 },
+    { month: 'Mar', saldo: 6800000, index: 3 },
+    { month: 'Apr', saldo: 9200000, index: 4 },
+    { month: 'May', saldo: 8500000, index: 5 },
+    { month: 'Jun', saldo: 12000000, index: 6 },
+    { month: 'Jul', saldo: 11000000, index: 7 },
+    { month: 'Aug', saldo: 15000000, index: 8 },
+    { month: 'Sep', saldo: 13000000, index: 9 },
+    { month: 'Oct', saldo: 18000000, index: 10 },
+    { month: 'Nov', saldo: 16000000, index: 11 },
+    { month: 'Dec', saldo: 20000000, index: 12 }
+  ];
+
+  const years = [2023, 2024, 2025];
+  const [selectedYear, setSelectedYear] = useState(2024);
+
+  // Format IDR currency
+  const formatRupiah = (value) => {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0
+    }).format(value);
+  };
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md w-full">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-xl font-semibold text-gray-800">Saldo Progresif</h2>
+        <div className="flex items-center">
+          <label htmlFor="yearFilter" className="mr-2 text-sm font-medium text-gray-600">
+            Filter Tahun:
+          </label>
+          <select
+            id="yearFilter"
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(Number(e.target.value))}
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-500 focus:border-indigo-500 p-2"
+          >
+            {years.map((year) => (
+              <option key={year} value={year}>{year}</option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <ResponsiveContainer width="100%" height={350}>
+        <LineChart
+          data={allData}
+          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+        >
+          <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+          <XAxis 
+            dataKey="month" 
+            label={{ value: 'Bulan', position: 'insideBottomRight', offset: -10 }} 
+          />
+          <YAxis 
+            tickFormatter={formatRupiah}
+            label={{ value: 'Saldo (IDR)', angle: -90, position: 'insideLeft' }}
+          />
+          <Tooltip 
+            formatter={(value) => [formatRupiah(value), 'Saldo']}
+            labelFormatter={(label) => `Bulan: ${label}`}
+          />
+          <Legend />
+          <Line 
+            type="monotone" 
+            dataKey="saldo" 
+            stroke="#4f46e5" 
+            activeDot={{ r: 8 }}
+            strokeWidth={2}
+            name="Saldo"
+          />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <div className="mt-4 grid grid-cols-3 gap-4">
+        <div className="bg-indigo-50 p-3 rounded-lg">
+          <p className="text-xs text-gray-600">Saldo Awal</p>
+          <p className="text-lg font-semibold text-indigo-700">{formatRupiah(allData[0].saldo)}</p>
+        </div>
+        <div className="bg-indigo-50 p-3 rounded-lg">
+          <p className="text-xs text-gray-600">Saldo Akhir</p>
+          <p className="text-lg font-semibold text-indigo-700">{formatRupiah(allData[allData.length - 1].saldo)}</p>
+        </div>
+        <div className="bg-indigo-50 p-3 rounded-lg">
+          <p className="text-xs text-gray-600">Pertumbuhan</p>
+          <p className="text-lg font-semibold text-green-600">
+            {(((allData[allData.length - 1].saldo - allData[0].saldo) / allData[0].saldo) * 100).toFixed(1)}%
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SaldoProgressiveChart;
+    </script>
 </div>

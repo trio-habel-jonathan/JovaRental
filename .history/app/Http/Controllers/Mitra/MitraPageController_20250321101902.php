@@ -23,8 +23,8 @@ class MitraPageController extends Controller
     {
         return view('mitra.pesanan.details');
     }
-    public function keuanganMitraView()
+    public function pesanandetailView()
     {
-        return view('mitra.keuangan.index');
+        return view('mitra.pesanan.details');
     }
 }

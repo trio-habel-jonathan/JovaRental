@@ -25,6 +25,6 @@ class MitraPageController extends Controller
     }
     public function keuanganMitraView()
     {
-        return view('mitra.keuangan.index');
+        return view('mitra.keuangan.details');
     }
 }

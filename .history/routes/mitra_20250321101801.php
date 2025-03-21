@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('mitra')->name('mitra.')->group(function () {
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
 
-    Route::get('/keuangan', [MitraPageController::class, 'keuanganMitraView'])->name('keuangan.index'); // Pastikan rute memiliki nama ini
+    Route::get('/keuangan', [MitraPageController::class, 'keuanganMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
 
     Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
@@ -16,11 +16,11 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
         Route::get('/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraanView');
     });
 
-    // Route::prefix('supir')->name('supir.')->group(function () {
-    //     Route::get('/', [SupirPageController::class, 'supirmitraView'])->name('supirmitraView');
-    //     Route::get('/create', [SupirPageController::class, 'tambahsupir'])->name('tambahsupir');
-    //     Route::get('/edit', [SupirPageController::class, 'editsupir'])->name('editsupir');
-    // });
+    Route::prefix('supir')->name('supir.')->group(function () {
+        Route::get('/', [SupirPageController::class, 'supirmitraView'])->name('supirmitraView');
+        Route::get('/create', [SupirPageController::class, 'tambahsupir'])->name('tambahsupir');
+        Route::get('/edit', [SupirPageController::class, 'editsupir'])->name('editsupir');
+    });
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'pesananmitraView'])->name('pesananmitraView');
