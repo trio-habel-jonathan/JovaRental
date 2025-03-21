@@ -1,6 +1,6 @@
 <x-user-layout title="Home">
     <section id="contactfrom">
-        <div class="w-full p-6 lg:p-12 flex flex-col justify-center items-center">
+        <div class="max-w-[1600px] mx-auto w-full p-6 lg:p-12 flex flex-col justify-center items-center">
             <div class="w-full lg:w-1/2 flex flex-col justify-center items-center space-y-4">
                 <h1 class="text-primary uppercase font-bold text-center text-4xl">Contact Us</h1>
                 <div class="h-[2px] rounded-full w-32 bg-primary"></div>

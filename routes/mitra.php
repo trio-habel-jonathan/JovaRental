@@ -7,6 +7,7 @@ use App\Http\Controllers\Mitra\SupirPageController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('mitra')->name('mitra.')->group(function () {
+    Route::get('/', [MitraPageController::class, 'indexMitraView'])->name('indexView'); // Pastikan rute memiliki nama ini
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
 
     Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
