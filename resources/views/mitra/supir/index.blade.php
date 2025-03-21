@@ -1,6 +1,4 @@
-<x-mitra-layout title="Dashboard">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Informasi Supir</h1>
-
+<x-mitra-layout title="Infromasi Supir">
     <!-- Filter dan Pencarian -->
     <div class="bg-white p-4 rounded-lg shadow mb-6">
         <div class="flex flex-col md:flex-row justify-between gap-4">
@@ -29,7 +27,7 @@
                     class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-primary rounded-full w-12 h-12 flex items-center justify-center shadow-md">
                     <span class="text-xs font-bold text-white">ID</span>
                 </div>
-                
+
                 <!-- Content -->
                 <div class="pt-10 pb-4 px-4 flex flex-col bg-white items-center mt-6 rounded-xl">
                     <!-- Profile Photo -->

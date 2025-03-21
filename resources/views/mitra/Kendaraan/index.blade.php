@@ -44,14 +44,14 @@
         <!-- Main content - car listings (75% width) -->
         <div class="w-3/4">
             <div class="grid grid-cols-1 gap-8">
-                @for($i = 0; $i < 5; $i++)
                 <!-- Toyota Calya Card -->
                 @for ($i = 0; $i < 6; $i++)
                     <div class="car-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100">
                         <div class="flex flex-col md:flex-row">
                             <!-- Left side with image -->
                             <div class="w-full md:w-2/5 p-4 bg-gray-50">
-                                <img draggable="false" src="https://i.pinimg.com/736x/60/bb/2e/60bb2e33755e68d75546909abf92b7ed.jpg"
+                                <img draggable="false"
+                                    src="https://i.pinimg.com/736x/60/bb/2e/60bb2e33755e68d75546909abf92b7ed.jpg"
                                     alt="Toyota Calya" class="car-image w-full rounded-lg">
 
                                 <!-- Car Name and Badge -->
@@ -298,6 +298,6 @@
                 </div>
             </div>
         </div>
-   
+
     </div>
 </x-mitra-layout>
