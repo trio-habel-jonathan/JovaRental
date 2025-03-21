@@ -1,5 +1,5 @@
 <x-mitra-layout title="Notifikasi">
-    <div class="container mx-auto px-4 py-6">
+    <div class="container mx-auto p-4">
         <div class="bg-white rounded-lg shadow">
             <div class="border-b p-4 flex justify-between items-center">
                 <h1 class="text-xl font-semibold">NOTIFIKASI</h1>

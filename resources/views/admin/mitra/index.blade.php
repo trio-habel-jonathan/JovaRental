@@ -23,75 +23,52 @@
             </div>
         </div>
         <div class="container mx-auto mt-4">
-            <div class="grid grid-cols-1 gap-4">
+            <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
                 @for ($i = 0; $i < 5; $i++)
-                    <div class="bg-white rounded-xl p-4 flex flex-col gap-4 relative">
-                        <a href="{{ route('admin.mitra.detailmitraView') }}"
-                            class="absolute top-0 right-0 m-2 p-2 bg-primary/20 rounded-full text-primary transition-all duration-300 ease-in-out hover:bg-primary hover:text-white">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </a>
-                        <div class="flex gap-4">
-                            <img class="w-56 h-56 object-cover rounded-md" draggable="false"
-                                src="https://i.pinimg.com/736x/39/ea/d6/39ead63b3820b30f3b183175f70e1d75.jpg"
-                                alt="">
-                            <div>
-                                <h1 class="font-bold uppercase text-xl plus-jakarta-sans-font">Pengusaha Suskses</h1>
-                                <p class="text-sm">25 Jan 2024</p>
-                                <div class="mt-4">
-                                    <ul class="flex gap-6">
-                                        <li>
-                                            <p class="font-bold">Rating</p>
-                                            <p>4.5</p>
-                                        </li>
-                                        <li>
-                                            <p class="font-bold">Total Order</p>
-                                            <p>40k</p>
-                                        </li>
-                                        <li>
-                                            <p class="font-bold">Status Company</p>
-                                            <div class="p-1 bg-green-600/20 text-green-600 px-4 rounded-full w-fit">
-                                                Active
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <p class="font-bold">Location</p>
-                                            <p>Kepulauan Riau, Batam Kota</p>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="mt-4">
-                                    <div class="border bg-primary/20 border-primary/30 p-2 rounded-md w-fit flex gap-2">
-                                        <img draggable="false" src="https://i.pinimg.com/736x/ef/38/49/ef38494e504f7f985c17e47e79592204.jpg"
-                                            class="w-16 h-16 object-cover rounded-sm" alt="">
-                                        <div>
-                                            <h6 class="plus-jakarta-sans-font font-bold">Mitsubisi Pajero</h6>
-                                            <p class="text-sm">400 Order</p>
-                                        </div>
-                                    </div>
+                    <a href="{{ route('admin.mitra.detailmitraView') }}"
+                        class="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-in-out h-96 hover:shadow-2xl transform hover:-translate-y-1">
+                        <!-- Fixed gradient overlay that doesn't change on hover -->
+                        <div
+                            class="absolute z-10 inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-100 pointer-events-none">
+                        </div>
+
+                        <img class="h-full z-0 w-full object-cover rounded-xl transition-transform duration-700 ease-in-out group-hover:scale-105"
+                            src="https://i.pinimg.com/736x/27/e0/74/27e074008b1d54fb474224de9102651b.jpg"
+                            alt="Partner profile image">
+
+                        <!-- Content container -->
+                        <div
+                            class="absolute z-20 bottom-0 left-0 right-0 p-5 transform transition-transform duration-500 ease-out">
+                            <!-- Tag/label that slides in -->
+                            <span
+                                class="inline-block bg-primary text-white text-xs font-semibold px-3 py-1 rounded-full mb-3 tracking-wide opacity-0 transform -translate-x-4 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">PARTNER</span>
+
+                            <!-- Name - starts visible but animates -->
+                            <h1 class="text-2xl font-bold text-white uppercase transition-all duration-300">
+                                Pengusaha Sukses</h1>
+
+                            <!-- Details that fade in -->
+                            <p
+                                class="text-white/80 text-sm font-medium mt-1 transition-all duration-500 opacity-70 group-hover:opacity-100">
+                                Muhammad Habib</p>
+
+                            <!-- Extra details that appear on hover -->
+                            <div
+                                class="mt-3 max-h-0 overflow-hidden transition-all duration-500 ease-in-out group-hover:max-h-40">
+                                <p class="text-white/70 text-sm leading-relaxed">Business mentor with 10+ years of
+                                    experience in retail and e-commerce sectors.</p>
+                                <div class="flex items-center mt-3 text-white/80">
+                                    <span class="text-sm font-medium">View profile</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="h-4 w-4 ml-1 transform transition-transform duration-300 group-hover:translate-x-1"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
                                 </div>
                             </div>
                         </div>
-                        <div class="plus-jakarta-sans-font">
-                            <p>Pengusaha Sukses Rental adalah penyedia layanan rental mobil dan motor terpercaya yang
-                                menawarkan
-                                kendaraan berkualitas, harga terjangkau, dan pelayanan profesional. Kami hadir untuk
-                                memenuhi
-                                kebutuhan transportasi Anda, baik untuk perjalanan bisnis, wisata, maupun keperluan
-                                sehari-hari,
-                                dengan armada yang selalu terawat dan siap digunakan. Dengan komitmen terhadap
-                                kenyamanan
-                                dan
-                                kepuasan pelanggan, Pengusaha Sukses Rental memastikan setiap perjalanan Anda lebih
-                                aman,
-                                praktis, dan menyenangkan.</p>
-                        </div>
-                    </div>
+                    </a>
                 @endfor
             </div>
         </div>

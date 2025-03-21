@@ -17,16 +17,27 @@
                 </div>
             </div>
         </div>
-    
-        <!-- Daftar Supir - Redesain Style ID Card -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-            @for ($i = 0; $i < 8; $i++)
-                <!-- Supir 1 - Available -->
-    
-                <div class="bg-transparent rounded-xl overflow-hidden h-full relative">
-                    <div
-                        class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-primary rounded-full w-12 h-12 flex items-center justify-center shadow-md">
-                        <span class="text-xs font-bold text-white">ID</span>
+
+    </div>
+
+    <!-- Daftar Supir - Redesain Style ID Card -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        @for ($i = 0; $i < 8; $i++)
+            <!-- Supir 1 - Available -->
+
+            <div class="bg-transparent rounded-xl overflow-hidden h-full relative">
+                <div
+                    class="absolute top-0 left-1/2 transform -translate-x-1/2 bg-primary rounded-full w-12 h-12 flex items-center justify-center shadow-md">
+                    <span class="text-xs font-bold text-white">ID</span>
+                </div>
+
+                <!-- Content -->
+                <div class="pt-10 pb-4 px-4 flex flex-col bg-white items-center mt-6 rounded-xl">
+                    <!-- Profile Photo -->
+                    <div class="w-24 h-24 rounded-full border-4 border-teal-100 overflow-hidden bg-teal-50 mb-3">
+                        <img src="https://i.pinimg.com/736x/87/e5/d1/87e5d177fcfb42604f95025dce39bff7.jpg"
+                            alt="Foto Supir" class="w-full h-full object-cover">
+
                     </div>
     
                     <!-- Content -->
