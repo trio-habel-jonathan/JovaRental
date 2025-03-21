@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('mitra')->name('mitra.')->group(function () {
     Route::get('/', [MitraPageController::class, 'indexMitraView'])->name('indexView'); // Pastikan rute memiliki nama ini
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
+    Route::get('/settingss', [MitraPageController::class, 'settingsMitraView'])->name('settings'); // Pastikan rute memiliki nama ini
 
     Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');

@@ -50,7 +50,7 @@
                     </a>
                 </li>
                 <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full">
-                    <a href="{{ route('admin.settingsView') }}" class="bg-primary">
+                    <a href="{{ route('mitra.settings') }}" class="bg-primary">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
                             <path

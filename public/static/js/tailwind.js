@@ -2,6 +2,7 @@ tailwind.config = {
     theme: {
         extend: {
             colors: {
+                darkprimary: '#3A2C75',
                 primary: '#705fb1',
                 secondary: '#a599d2',
                 accent: '#8371c7',
