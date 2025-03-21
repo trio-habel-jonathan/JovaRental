@@ -50,7 +50,8 @@
                         <div class="flex flex-col md:flex-row">
                             <!-- Left side with image -->
                             <div class="w-full md:w-2/5 p-4 bg-gray-50">
-                                <img draggable="false" src="https://i.pinimg.com/736x/60/bb/2e/60bb2e33755e68d75546909abf92b7ed.jpg"
+                                <img draggable="false"
+                                    src="https://i.pinimg.com/736x/60/bb/2e/60bb2e33755e68d75546909abf92b7ed.jpg"
                                     alt="Toyota Calya" class="car-image w-full rounded-lg">
 
                                 <!-- Car Name and Badge -->
@@ -297,6 +298,6 @@
                 </div>
             </div>
         </div>
-   
+
     </div>
 </x-mitra-layout>
