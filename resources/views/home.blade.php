@@ -4,24 +4,24 @@
         class=" w-full  bg-slate-100 z-10 bg-[url('/hero-background.png')] bg-full bg-cover  py-[4rem] px-10 ">
         <div class="max-w-[1600px] flex items-center justify-between flex-wrap-reverse lg:flex-nowrap mx-auto">
             <div class="max-w-xl ">
-                <h1 class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
+                <h1
+                    class="text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
                     Welcome to Jova Rental</h1>
                 <p class=" text-xl mb-8 font-medium">our trusted vehicle rental service, offering a Layanan Rental
                     Kendaraan Terpercaya – Sewa Mobil & Motor dengan Mudah dan Terjangkau untuk Perjalanan Apa Pun.
                     Bebas Berkendara Kapan Saja, di Mana Saja!</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#menu"
-                            class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                            View More
-                        </a>
-                        <a href="#contact"
-                            class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                            Contact Us
-                        </a>
-                    </div>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#menu"
+                        class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                        View More
+                    </a>
+                    <a href="#contact"
+                        class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                        Contact Us
+                    </a>
+                </div>
             </div>
 
-            {{-- <p>Hello World</p> --}}
             <div class="w-full max-w-4xl p-4 ">
 
                 <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden shadow-lg">
@@ -47,89 +47,51 @@
                 </div>
             </div>
         </div>
-
-        {{-- <div class=" max-w-[1600px] inset-0 mx-auto w-full h-full  px-10 z-10 text-gray-700 montserrat-font ">
-
-        </div> --}}
     </section>
-    <section id="search" class="w-full">
-        <div class="w-full p-12 flex items-center justify-center bg-primary">
-            <form action="" class="flex gap-4 bg-white items-center rounded-lg p-4 shadow-lg">
-                <div class="flex flex-col items-start justify-center h-full gap-3">
-                    <div class="w-full space-y-3">
-                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-purple-500 text-black option transition-all duration-300"
-                            data-radio="cars">
-                            <input id="cars" type="radio" class="hidden" name="radio-type-kendaraan">
-                            <label class="w-full h-full cursor-pointer montserrat-font font-semibold"
-                                for="cars">Cars</label>
-                        </div>
-                        <div class="flex gap-2 rounded-xl cursor-pointer w-full p-3 border border-purple-500 text-black option transition-all duration-300"
-                            data-radio="motorcycle">
-                            <input id="motorcycle" type="radio" class="hidden" name="radio-type-kendaraan">
-                            <label class="w-full h-full cursor-pointer montserrat-font font-semibold"
-                                for="motorcycle">Motorcycle</label>
-                        </div>
+    <section id="search" class="max-w-[1600px] mx-auto w-full flex items-center justify-center p-12">
+        <form action="" class="bg-white rounded-md w-5/6 shadow-lg border-2 p-4 grid grid-cols-1 gap-8">
+            <div class="flex gap-4">
+                <label class="cursor-pointer">
+                    <input type="radio" value="Mobil" name="tipe_kendaraan" class="hidden peer" />
+                    <div
+                        class="px-4 py-2 text-primary bg-primary/20 font-bold rounded-lg peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition">
+                        Mobil
                     </div>
-
-                    <script>
-                        document.querySelectorAll(".option").forEach(option => {
-                            option.addEventListener("click", function() {
-                                // Reset semua ke border purple
-                                document.querySelectorAll(".option").forEach(el => {
-                                    el.classList.remove("bg-purple-500", "text-white");
-                                    el.classList.add("border", "text-black");
-                                });
-
-                                // Tambah background purple ke yang dipilih dengan animasi
-                                this.classList.remove("text-black");
-                                this.classList.add("bg-purple-500", "text-white");
-
-                                // Pilih radio button sesuai yang diklik
-                                const radioId = this.getAttribute("data-radio");
-                                document.getElementById(radioId).checked = true;
-                            });
-                        });
-                    </script>
+                </label>
+                <label class="cursor-pointer">
+                    <input type="radio" value="Motor" name="tipe_kendaraan" class="hidden peer" />
+                    <div
+                        class="px-4 py-2 text-primary bg-primary/20 font-bold rounded-lg peer-checked:bg-primary peer-checked:text-white peer-checked:border-primary transition">
+                        Motor
+                    </div>
+                </label>
+            </div>
+            <div class="col-span-2 grid grid-cols-4 gap-6">
+                <div class="flex flex-col">
+                    <label for="lokasi_rental" class="text-sm font-bold text-primary">Lokasi Rental</label>
+                    <input type="text" class="p-2 border-b border-gray-400 focus:outline-none" id="lokasi_rental"
+                        placeholder="Cari lokasi rental anda...">
                 </div>
-                <div>
-                    <div class="flex w-full justify-start gap-4">
-                        <div class="flex flex-col">
-                            <label for="" class="mb-2 text-sm font-medium text-gray-700">Rent Location</label>
-                            <input type="text" class="bg-gray-200 p-2 rounded-md focus:outline-none"
-                                placeholder="Your City Location...">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="" class="mb-2 text-sm font-medium text-gray-700">Type Vehicle</label>
-                            <input type="text" class="bg-gray-200 p-2 rounded-md focus:outline-none"
-                                placeholder="Choosen Type Vihicle...">
-                        </div>
-                    </div>
-                    <div class="flex w-full gap-4 items-end">
-                        <div class="flex flex-col">
-                            <label for="" class="mb-2 w-80 text-sm font-medium text-gray-700">Start Date
-                                Rent</label>
-                            <input type="text" class="bg-gray-200 p-2 rounded-md focus:outline-none" id="datepicker"
-                                placeholder="Select a date">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="" class="mb-2 text-sm font-medium text-gray-700">Duration Rent</label>
-                            <input type="time" class="bg-gray-200 p-2 rounded-md focus:outline-none"
-                                placeholder="Select a date">
-                        </div>
-                        <div class="flex flex-col">
-                            <label for="" class="mb-2 text-sm font-medium text-gray-700">Pick Up Time</label>
-                            <input type="time" class="bg-gray-200 p-2 rounded-md focus:outline-none"
-                                placeholder="Select a date">
-                        </div>
-                        <div>
-                            <button class="bg-primary px-6 py-2 rounded-md text-white font-bold">
-                                Search
-                            </button>
-                        </div>
-                    </div>
+                <div class="flex flex-col">
+                    <label for="tanggal_mulai_rental" class="text-sm font-bold text-primary">Tanggal Mulai
+                        Rental</label>
+                    <input type="date" class="p-2 border-b border-gray-400 focus:outline-none"
+                        id="tanggal_mulai_rental" placeholder="Cari lokasi rental anda...">
                 </div>
-            </form>
-        </div>
+                <div class="flex flex-col">
+                    <label for="tanggal_mulai_rental" class="text-sm font-bold text-primary">Tanggal Mulai
+                        Rental</label>
+                    <input type="date" class="p-2 border-b border-gray-400 focus:outline-none"
+                        id="tanggal_mulai_rental" placeholder="Cari lokasi rental anda...">
+                </div>
+                <div class="flex items-end justify-start">
+                    <button type="submit"
+                        class="bg-primary text-white font-semibold border border-primary w-full py-2 rounded-md uppercase ">
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
     </section>
 
     <section class="my-12">
@@ -214,7 +176,8 @@
                                     <img src="https://www.svgrepo.com/show/478193/security-material-4.svg"
                                         alt="24/7 Service">
                                 </div>
-                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p
+                                    class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Layanan 24/7 &
                                     Asuransi, Keamanan Perjalanan Terjamin!
                                 </p>
@@ -232,25 +195,144 @@
         </div>
     </section>
 
-
-
     <section class="bg-gray-100 my-10">
         <div class="p-8 max-w-[1600px] mx-auto">
             <div class="flex justify-between items-center">
                 <h2 class="montserrat-font font-bold text-2xl mb-2">Kendaraan Rental Baru</h2>
-
                 <a href="#" class="sans-jakarta-plus-font text-lg text-purple-600 font-semibold">Lihat Semua</a>
             </div>
 
+            <div class="max-h-[720px] h-screen overflow-auto custom-scrollbar">
+                <div class="grid grid-cols-1 gap-8">
+                    @for ($i = 0; $i < 4; $i++)
+                        <div
+                            class="car-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 transform transition-all duration-300 ease-in-out ">
+                            <div class="flex flex-col md:flex-row">
+                                <!-- Left side with image -->
+                                <div class="w-full md:w-2/5 p-4 bg-gray-50">
+                                    <div class="w-full h-[220px] p-4 bg-gray-50">
+                                        <swiper-container class="mySwiper w-full h-full" pagination="true"
+                                            pagination-clickable="true" navigation="true" space-between="30"
+                                            centered-slides="true" autoplay-delay="2500"
+                                            autoplay-disable-on-interaction="false">
+                                            <swiper-slide class="w-full h-full">
+                                                <img src="https://i.pinimg.com/736x/57/ba/e6/57bae6c4d573cc6d749f6035702691b5.jpg"
+                                                    class="h-full w-full object-contain" alt="">
+                                            </swiper-slide>
+                                            <swiper-slide class="w-full h-full">
+                                                <img src="https://i.pinimg.com/736x/7a/be/a3/7abea31dc03f1c1c56a13860e8ca6632.jpg"
+                                                    class="h-full w-full object-contain" alt="">
+                                            </swiper-slide>
+                                        </swiper-container>
+                                    </div>
 
-            <div class="space-y-4">
-                {{-- TARUH KARTU DISINI --}}
+                                    <!-- Car Name and Badge -->
+                                    <div class="mt-4 flex items-center justify-between">
+                                        <h3 class="text-2xl font-bold text-gray-800">Toyota Calya</h3>
+                                        <span
+                                            class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">Mobil</span>
+                                    </div>
 
-                <p class="  montserrat-font ">Belum Tersedia</p>
+                                    <!-- Color -->
+                                    <div class="mt-3 flex items-center space-x-3">
+                                        <div class="w-8 h-8 rounded-full bg-red-500 border-2 border-white shadow">
+                                        </div>
+                                        <p class="text-base font-medium text-gray-700">Merah</p>
+                                    </div>
+                                </div>
+
+                                <!-- Right side with details -->
+                                <div class="w-full md:w-3/5 p-6 bg-white">
+                                    <h4 class="text-lg font-semibold text-gray-700 mb-4">Spesifikasi Kendaraan</h4>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="text-blue-500">
+                                                <rect x="3" y="4" width="18" height="18" rx="2"
+                                                    ry="2">
+                                                </rect>
+                                                <line x1="16" y1="2" x2="16" y2="6">
+                                                </line>
+                                                <line x1="8" y1="2" x2="8" y2="6">
+                                                </line>
+                                                <line x1="3" y1="10" x2="21" y2="10">
+                                                </line>
+                                            </svg>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Tahun Pembuatan</p>
+                                                <p class="text-base font-medium text-gray-800">2020</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="text-blue-500">
+                                                <path d="M5 9l2 -2v10l-2 -2z"></path>
+                                                <path d="M15 5l0 14"></path>
+                                                <path d="M19 5l0 14"></path>
+                                                <path d="M15 9l-2 2l2 2"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Tipe Transmisi</p>
+                                                <p class="text-base font-medium text-gray-800">Manual</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="text-blue-500">
+                                                <path
+                                                    d="M14 6a2 2 0 1 0 -4 0c0 .932 .14 1.807 .4 2.602l-.89 .9l.808 .8l.89 -.9a7.499 7.499 0 0 0 2.392 .498v2.1h1v-2.1a7.5 7.5 0 0 0 2.392 -.498l.89 .9l.808 -.8l-.89 -.9c.26 -.795 .4 -1.67 .4 -2.602a2 2 0 1 0 -4 0">
+                                                </path>
+                                                <path d="M12 13v8"></path>
+                                                <path d="M9 17l3 3l3 -3"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Tenaga Mesin</p>
+                                                <p class="text-base font-medium text-gray-800">1197 cc</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22"
+                                                viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="text-blue-500">
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                                                <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                                <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855">
+                                                </path>
+                                            </svg>
+                                            <div>
+                                                <p class="text-xs text-gray-500">Kapasitas Tempat Duduk</p>
+                                                <p class="text-base font-medium text-gray-800">6 seat</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
+                                        <div class="flex items-center space-x-2">
+                                            <span class="text-sm font-medium text-gray-700">ID Kendaraan:</span>
+                                            <span
+                                                class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endfor
+                </div>
             </div>
-
         </div>
     </section>
+
 
     <div class="max-w-screen-[1600px] mx-auto  flex flex-col justify-between px-8 my-12">
         <div class="text-center">
@@ -264,28 +346,28 @@
         <div class="mt-10 max-w-[1600px] mx-auto">
             <ul class="">
                 @php
-                $chat = [
-                [
-                'question' => 'Apakah aman menyewakan kendaraan saya di platform ini?',
-                'answer' => 'Tentu! Kami memiliki sistem verifikasi ketat untuk penyewa, serta opsi asuransi untuk
-                perlindungan kendaraan Anda.'
-                ],
-                [
-                'question' => 'Bagaimana jika penyewa melanggar aturan atau merusak kendaraan saya?',
-                'answer' => 'Kami memiliki kebijakan ketat terkait tanggung jawab penyewa dan menyediakan mekanisme
-                klaim jika terjadi kerusakan atau pelanggaran selama masa sewa.'
-                ],
-                [
-                'question' => 'Apakah saya bisa menentukan harga sewa sendiri?',
-                'answer' => 'Ya, Anda bebas menentukan harga sewa kendaraan, atau menggunakan rekomendasi harga dari
-                kami agar lebih kompetitif.'
-                ],
-                ];
+                    $chat = [
+                        [
+                            'question' => 'Apakah aman menyewakan kendaraan saya di platform ini?',
+                            'answer' => 'Tentu! Kami memiliki sistem verifikasi ketat untuk penyewa, serta opsi asuransi untuk
+                perlindungan kendaraan Anda.',
+                        ],
+                        [
+                            'question' => 'Bagaimana jika penyewa melanggar aturan atau merusak kendaraan saya?',
+                            'answer' => 'Kami memiliki kebijakan ketat terkait tanggung jawab penyewa dan menyediakan mekanisme
+                klaim jika terjadi kerusakan atau pelanggaran selama masa sewa.',
+                        ],
+                        [
+                            'question' => 'Apakah saya bisa menentukan harga sewa sendiri?',
+                            'answer' => 'Ya, Anda bebas menentukan harga sewa kendaraan, atau menggunakan rekomendasi harga dari
+                kami agar lebih kompetitif.',
+                        ],
+                    ];
 
                 @endphp
 
                 @foreach ($chat as $item)
-                @include('partials.faq_chat')
+                    @include('partials.faq_chat')
                 @endforeach
 
             </ul>

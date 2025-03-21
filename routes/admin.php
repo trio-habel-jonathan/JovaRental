@@ -19,3 +19,4 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/detail', [AdminPageController::class, 'detailmitraView'])->name('detailmitraView');
     });
 });
+
