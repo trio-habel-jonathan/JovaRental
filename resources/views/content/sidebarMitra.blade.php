@@ -150,8 +150,8 @@
 
                 <div id="supir-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Supir</a>
-                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah Supir</a>
+                    <a href="{{route ('mitra.supir.supirmitraView')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar Supir</a>
+                    <a href="{{route ('mitra.supir.tambahsupir')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah Supir</a>
                 </div>
             </div>
         </div>

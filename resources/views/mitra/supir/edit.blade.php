@@ -90,9 +90,9 @@
                     
                     <!-- Buttons -->
                     <div class="flex justify-end space-x-4">
-                        <a href="#" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
+                        <a href="{{ url()->previous() }}" class="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
                             Batal
-                        </a>
+                        </a>                        
                         <button type="button" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                             Simpan
                         </button>
