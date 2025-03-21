@@ -16,11 +16,11 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
         Route::get('/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraanView');
     });
 
-    Route::prefix('supir')->name('supir.')->group(function () {
-        Route::get('/', [SupirPageController::class, 'supirmitraView'])->name('supirmitraView');
-        Route::get('/create', [SupirPageController::class, 'tambahsupir'])->name('tambahsupir');
-        Route::get('/edit', [SupirPageController::class, 'editsupir'])->name('editsupir');
-    });
+    // Route::prefix('supir')->name('supir.')->group(function () {
+    //     Route::get('/', [SupirPageController::class, 'supirmitraView'])->name('supirmitraView');
+    //     Route::get('/create', [SupirPageController::class, 'tambahsupir'])->name('tambahsupir');
+    //     Route::get('/edit', [SupirPageController::class, 'editsupir'])->name('editsupir');
+    // });
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'pesananmitraView'])->name('pesananmitraView');

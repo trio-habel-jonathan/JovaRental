@@ -11,6 +11,10 @@ class MitraPageController extends Controller
     {
         return view('mitra.notifications');
     }
+    public function indexMitraView()
+    {
+        return view('mitra.index');
+    }
     public function kendaraanmitraView()
     {
         return view('mitra.kendaraan.index');
