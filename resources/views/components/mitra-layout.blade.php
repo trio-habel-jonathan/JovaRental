@@ -38,43 +38,11 @@
         <div class="w-full bg-white sticky top-0 flex items-center justify-between p-2 px-6 border-b z-20">
             <h1 class="font-semibold text-xl">{{ $title }}</h1>
             <ul class="flex items-center gap-2">
-                <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full relative group">
-                    <div class="flex items-center gap-1 cursor-pointer">
-
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="lucide lucide-wallet">
-                            <path
-                                d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
-                            <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
-                        </svg>
-
-                    </div>
-
-                    <!-- Dropdown menu -->
-                    <div
-
-                        class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md invisible group-hover:visible transition-all duration-200 z-20">
-                        <div class="py-1">
-                            <a href="#" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="mr-2">
-                                    <path d="M21 12V7H5a2 2 0 0 1 0-4h15v4"></path>
-                                    <path d="M3 5v14a2 2 0 0 0 2 2h16v-5"></path>
-                                    <path d="M18 12a2 2 0 0 0 0 4h4v-4Z"></path>
-                                </svg>
-                                Withdraw Funds
-                            </a>
-                        </div>
-                    </div>
-                </li>
-                <a href="{{ route('mitra.notifications') }}"
-                    class="relative hover:bg-primary/20 hover:text-primary p-2 rounded-full">
+                <li class="relative hover:bg-primary/20 hover:text-primary p-2 rounded-full">
                     <span class="absolute top-1 right-2 rounded-full bg-red-600 p-1"></span>
-
                     <a href="{{ route('mitra.notifications') }}" class="bg-primary">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M14 21H10M18 8C18 6.4087 17.3679 4.88258 16.2427 3.75736C15.1174 2.63214 13.5913 2 12 2C10.4087 2 8.8826 2.63214 7.75738 3.75736C6.63216 4.88258 6.00002 6.4087 6.00002 8C6.00002 11.0902 5.22049 13.206 4.34968 14.6054C3.61515 15.7859 3.24788 16.3761 3.26134 16.5408C3.27626 16.7231 3.31488 16.7926 3.46179 16.9016C3.59448 17 4.19261 17 5.38887 17H18.6112C19.8074 17 20.4056 17 20.5382 16.9016C20.6852 16.7926 20.7238 16.7231 20.7387 16.5408C20.7522 16.3761 20.3849 15.7859 19.6504 14.6054C18.7795 13.206 18 11.0902 18 8Z"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -83,7 +51,8 @@
                 </li>
                 <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full">
                     <a href="{{ route('admin.settingsView') }}" class="bg-primary">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M12.0005 15C13.6573 15 15.0005 13.6569 15.0005 12C15.0005 10.3431 13.6573 9 12.0005 9C10.3436 9 9.00049 10.3431 9.00049 12C9.00049 13.6569 10.3436 15 12.0005 15Z"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -93,7 +62,6 @@
                         </svg>
                     </a>
                 </li>
-
             </ul>
         </div>
         {{ $slot }}
@@ -102,5 +70,7 @@
 
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
 <script src="{{ asset('static/js/sidebarMitra.js') }}"></script>
+<script src="{{ asset('static/js/balanceMitra.js') }}"></script>
+
 
 </html>
