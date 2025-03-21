@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
-<body class="flex min-h-screen">
+<body class="flex bg-gray-100 min-h-screen">
     <div class="w-64">
         @include('content.sidebarMitra')
     </div>
