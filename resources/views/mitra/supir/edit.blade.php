@@ -1,6 +1,4 @@
-<x-mitra-layout title="Dashboard">
-    <h1 class="text-3xl font-bold text-gray-800 mb-6">Edit Informasi Supir</h1>
-
+<x-mitra-layout title="Edit Informasi Supir">
     <!-- Card Form -->
     <div class="max-w-4xl mx-auto">
         <div class="bg-transparent rounded-xl overflow-hidden relative mb-8">
