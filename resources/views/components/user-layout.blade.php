@@ -26,16 +26,22 @@
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
 </head>
 
+
 <body class=" mx-auto">
+    @include('content.loading-overlay')
+
     @include('content.navbar')
 
     {{-- @yield('content') --}}
-    {{ $slot }}
+    <main class="min-h-screen">
+        {{ $slot }}
+    </main>
 
     @include('content.footer')
 </body>
 
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
 </html>
