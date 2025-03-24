@@ -33,6 +33,4 @@ class PageController extends Controller
         return view('auth.forgotPassword');
     }
 
-
-
 }

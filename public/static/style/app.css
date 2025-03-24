@@ -1,0 +1,61 @@
+.montserrat-font {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+.plus-jakarta-sans-font {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+/* width */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+/* Track */
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Light background */
+    border-radius: 10px;
+}
+
+/* Handle */
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #705fb1;
+    /* Your chosen color */
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #5a4a91;
+}
+
+/* Animation classes */
+.balance-container {
+    position: relative;
+    height: 48px;
+    /* Adjust based on your text size */
+    overflow: hidden;
+}
+
+.slide-content {
+    position: absolute;
+    transition: transform 0.3s ease-out;
+    width: 100%;
+}
+
+.slide-up {
+    transform: translateY(-100%);
+}
+
+.slide-down {
+    transform: translateY(0);
+}
+
+.slide-hidden {
+    transform: translateY(100%);
+}
