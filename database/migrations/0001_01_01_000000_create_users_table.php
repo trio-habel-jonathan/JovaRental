@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
 
 return new class extends Migration
 {
@@ -11,25 +12,29 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // Tabel users dengan UUID sebagai primary key
         Schema::create('users', function (Blueprint $table) {
-            $table->id('id_user');
-            $table->string('nama_lengkap', 100);
+            $table->uuid('id_user')->primary(); // UUID sebagai primary key
             $table->string('email', 100)->unique();
             $table->string('password', 255);
             $table->string('no_hp', 15);
-            $table->enum('role', ['admin', 'user', 'mitra']);
+            $table->enum('role', ['admin', 'penyewa', 'mitra']);
             $table->string('foto_profil', 255)->nullable();
             $table->timestamps();
             $table->boolean('is_active')->default(true);
         });
-    
+
+        // Tabel sessions dengan user_id berbasis UUID
         Schema::create('sessions', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
+            $table->uuid('user_id')->nullable()->index(); // Menggunakan UUID
             $table->string('ip_address', 45)->nullable();
             $table->text('user_agent')->nullable();
             $table->longText('payload');
             $table->integer('last_activity')->index();
+
+            // Foreign key ke users
+            $table->foreign('user_id')->references('id_user')->on('users')->onDelete('cascade');
         });
     }
 
@@ -38,7 +43,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
         Schema::dropIfExists('sessions');
+        Schema::dropIfExists('users');
     }
 };
