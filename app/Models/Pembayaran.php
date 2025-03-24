@@ -38,4 +38,28 @@ class Pembayaran extends Model
             }
         });
     }
+
+    // Relasi ke Pemesanan (Setiap pembayaran dimiliki oleh 1 pemesanan)
+    public function pemesanan()
+    {
+        return $this->belongsTo(Pemesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    // Relasi ke MetodePembayaranPlatform (Setiap pembayaran menggunakan 1 metode pembayaran platform)
+    public function metodePembayaranPlatform()
+    {
+        return $this->belongsTo(MetodePembayaranPlatform::class, 'id_metode_pembayaran_platform', 'id_metode_pembayaran_platform');
+    }
+
+    // Relasi ke DetailFeePembayaran (Setiap pembayaran bisa memiliki banyak detail fee)
+    public function detailFeePembayarans()
+    {
+        return $this->hasMany(DetailFeePembayaran::class, 'id_pembayaran', 'id_pembayaran');
+    }
+
+    // Relasi ke Refund (Setiap pembayaran bisa memiliki banyak refund)
+    public function refunds()
+    {
+        return $this->hasMany(Refund::class, 'id_pembayaran', 'id_pembayaran');
+    }
 }

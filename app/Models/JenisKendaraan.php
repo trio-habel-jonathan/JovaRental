@@ -34,4 +34,10 @@ class JenisKendaraan extends Model
             }
         });
     }
+
+    // Relasi ke KategoriKendaraan (Setiap jenis kendaraan bisa memiliki banyak kategori)
+    public function kategoriKendaraans()
+    {
+        return $this->hasMany(KategoriKendaraan::class, 'id_jenis', 'id_jenis');
+    }
 }

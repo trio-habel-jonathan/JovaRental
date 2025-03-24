@@ -38,4 +38,22 @@ class RekeningMitra extends Model
             }
         });
     }
+
+    // Relasi ke Mitra (Setiap rekening mitra dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke MetodePembayaranMitra (Setiap rekening mitra dimiliki oleh 1 metode pembayaran mitra)
+    public function metodePembayaranMitra()
+    {
+        return $this->belongsTo(MetodePembayaranMitra::class, 'id_metode_pembayaran_mitra', 'id_metode_pembayaran_mitra');
+    }
+
+    // Relasi ke WithdrawalMitra (Setiap rekening mitra bisa memiliki banyak withdrawal)
+    public function withdrawalMitras()
+    {
+        return $this->hasMany(WithdrawalMitra::class, 'id_rekening_mitra', 'id_rekening_mitra');
+    }
 }

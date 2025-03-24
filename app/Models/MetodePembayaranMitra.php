@@ -35,4 +35,9 @@ class MetodePembayaranMitra extends Model
             }
         });
     }
+
+    public function rekeningMitras()
+    {
+        return $this->hasMany(RekeningMitra::class, 'id_metode_pembayaran_mitra', 'id_metode_pembayaran_mitra');
+    }
 }

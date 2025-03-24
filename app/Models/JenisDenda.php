@@ -36,4 +36,9 @@ class JenisDenda extends Model
             }
         });
     }
+
+    public function dendas()
+    {
+        return $this->hasMany(Denda::class, 'id_jenis_denda', 'id_jenis_denda');
+    }
 }

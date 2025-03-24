@@ -36,4 +36,9 @@ class PengemudiPemesanan extends Model
             }
         });
     }
+
+    public function detailPemesanan()
+    {
+        return $this->belongsTo(DetailPemesanan::class, 'id_detail_pemesanan', 'id_detail');
+    }
 }

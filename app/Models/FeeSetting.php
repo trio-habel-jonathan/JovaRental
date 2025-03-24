@@ -36,4 +36,9 @@ class FeeSetting extends Model
             }
         });
     }
+
+    public function detailFeePembayarans()
+    {
+        return $this->hasMany(DetailFeePembayaran::class, 'id_fee', 'id_fee');
+    }
 }
