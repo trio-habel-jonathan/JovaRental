@@ -90,12 +90,18 @@
                                 Mempercepat Proses Verifikasi Anda</h3>
                             <p class="text-sm text-gray-500 mb-4">Anda bisa mengunggah hingga 5 MB dengan format JPG,
                                 PNG atau JPEG</p>
+
                             <label for="file-upload"
                                 class="cursor-pointer bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-md transition-colors">
                                 Unggah Bukti Pembayaran
-                                <input id="file-upload" type="file" class="hidden" />
+                                <input id="file-upload" type="file" accept="image/png, image/jpeg, image/jpg"
+                                    class="hidden" onchange="previewImage(event)" />
                             </label>
+
+                            <!-- Tempat Menampilkan Preview Gambar -->
+                            <div id="preview-container" class="mt-4"></div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -262,4 +268,23 @@
             </div>
         </div>
     </div>
+    <!-- JavaScript untuk Menampilkan Preview -->
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            const previewContainer = document.getElementById('preview-container');
+
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    previewContainer.innerHTML = `<img src="${e.target.result}" alt="Preview Gambar" class="mt-4 max-w-xs rounded-lg border" />`;
+                }
+
+                reader.readAsDataURL(file);
+            } else {
+                previewContainer.innerHTML = "<p class='text-sm text-red-500 mt-4'>File yang diunggah bukan gambar!</p>";
+            }
+        }
+    </script>
 </x-user-layout>
