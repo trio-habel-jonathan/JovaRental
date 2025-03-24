@@ -39,4 +39,17 @@ class EntitasPenyewa extends Model
             }
         });
     }
+
+
+    // Relasi ke User (Setiap entitas penyewa dimiliki oleh 1 user)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    // Relasi ke Pemesanan (Setiap entitas penyewa bisa memiliki banyak pemesanan)
+    public function pemesanans()
+    {
+        return $this->hasMany(Pemesanan::class, 'id_entitas_penyewa', 'id_entitas');
+    }
 }

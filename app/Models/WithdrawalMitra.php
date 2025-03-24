@@ -38,4 +38,16 @@ class WithdrawalMitra extends Model
             }
         });
     }
+
+    // Relasi ke Mitra (Setiap withdrawal dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke RekeningMitra (Setiap withdrawal dimiliki oleh 1 rekening mitra)
+    public function rekeningMitra()
+    {
+        return $this->belongsTo(RekeningMitra::class, 'id_rekening_mitra', 'id_rekening_mitra');
+    }
 }

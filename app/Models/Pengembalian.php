@@ -39,4 +39,9 @@ class Pengembalian extends Model
             }
         });
     }
+
+    public function detailPemesanan()
+    {
+        return $this->belongsTo(DetailPemesanan::class, 'id_detail', 'id_detail');
+    }
 }

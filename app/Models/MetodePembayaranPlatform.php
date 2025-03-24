@@ -38,4 +38,9 @@ class MetodePembayaranPlatform extends Model
             }
         });
     }
+
+    public function pembayarans()
+    {
+        return $this->hasMany(Pembayaran::class, 'id_metode_pembayaran_platform', 'id_metode_pembayaran_platform');
+    }
 }

@@ -39,4 +39,16 @@ class Sopir extends Model
             }
         });
     }
+
+    // Relasi ke Mitra (Setiap sopir dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke DetailPemesanan (Setiap sopir bisa memiliki banyak detail pemesanan)
+    public function detailPemesanans()
+    {
+        return $this->hasMany(DetailPemesanan::class, 'id_sopir', 'id_sopir');
+    }
 }

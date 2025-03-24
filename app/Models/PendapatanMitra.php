@@ -37,4 +37,16 @@ class PendapatanMitra extends Model
             }
         });
     }
+
+    // Relasi ke Mitra (Setiap pendapatan mitra dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke Pemesanan (Setiap pendapatan mitra dimiliki oleh 1 pemesanan)
+    public function pemesanan()
+    {
+        return $this->belongsTo(Pemesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
 }

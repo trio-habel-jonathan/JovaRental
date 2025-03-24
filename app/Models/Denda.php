@@ -37,4 +37,14 @@ class Denda extends Model
             }
         });
     }
+
+    public function pemesanan()
+    {
+        return $this->belongsTo(Pemesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    public function jenisDenda()
+    {
+        return $this->belongsTo(JenisDenda::class, 'id_jenis_denda', 'id_jenis_denda');
+    }
 }

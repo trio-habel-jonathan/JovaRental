@@ -35,4 +35,16 @@ class DetailFeePembayaran extends Model
             }
         });
     }
+
+    // Relasi ke Pembayaran (Setiap detail fee pembayaran dimiliki oleh 1 pembayaran)
+    public function pembayaran()
+    {
+        return $this->belongsTo(Pembayaran::class, 'id_pembayaran', 'id_pembayaran');
+    }
+
+    // Relasi ke FeeSetting (Setiap detail fee pembayaran dimiliki oleh 1 fee setting)
+    public function feeSetting()
+    {
+        return $this->belongsTo(FeeSetting::class, 'id_fee', 'id_fee');
+    }
 }

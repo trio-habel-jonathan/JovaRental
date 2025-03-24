@@ -42,4 +42,40 @@ class Pemesanan extends Model
             }
         });
     }
+
+    // Relasi ke EntitasPenyewa (Setiap pemesanan dimiliki oleh 1 entitas penyewa)
+    public function entitasPenyewa()
+    {
+        return $this->belongsTo(EntitasPenyewa::class, 'id_entitas_penyewa', 'id_entitas');
+    }
+
+    // Relasi ke Mitra (Setiap pemesanan dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke DetailPemesanan (Setiap pemesanan bisa memiliki banyak detail pemesanan)
+    public function detailPemesanans()
+    {
+        return $this->qyhasMany(DetailPemesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    // Relasi ke Pembayaran (Setiap pemesanan bisa memiliki banyak pembayaran)
+    public function pembayarans()
+    {
+        return $this->hasMany(Pembayaran::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    // Relasi ke Denda (Setiap pemesanan bisa memiliki banyak denda)
+    public function dendas()
+    {
+        return $this->hasMany(Denda::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    // Relasi ke PendapatanMitra (Setiap pemesanan bisa memiliki banyak pendapatan mitra)
+    public function pendapatanMitras()
+    {
+        return $this->hasMany(PendapatanMitra::class, 'id_pemesanan', 'id_pemesanan');
+    }
 }

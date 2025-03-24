@@ -45,4 +45,34 @@ class Kendaraan extends Model
             }
         });
     }
+
+    // Relasi ke Mitra (Setiap kendaraan dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke KategoriKendaraan (Setiap kendaraan dimiliki oleh 1 kategori kendaraan)
+    public function kategoriKendaraan()
+    {
+        return $this->belongsTo(KategoriKendaraan::class, 'id_kategori', 'id_kategori');
+    }
+
+    // Relasi ke DetailPemesanan (Setiap kendaraan bisa memiliki banyak detail pemesanan)
+    public function detailPemesanans()
+    {
+        return $this->hasMany(DetailPemesanan::class, 'id_kendaraan', 'id_kendaraan');
+    }
+
+    // Relasi ke PenggantianKendaraan (Sebagai kendaraan lama)
+    public function penggantianKendaraanLama()
+    {
+        return $this->hasMany(PenggantianKendaraan::class, 'id_kendaraan_lama', 'id_kendaraan');
+    }
+
+    // Relasi ke PenggantianKendaraan (Sebagai kendaraan baru)
+    public function penggantianKendaraanBaru()
+    {
+        return $this->hasMany(PenggantianKendaraan::class, 'id_kendaraan_baru', 'id_kendaraan');
+    }
 }
