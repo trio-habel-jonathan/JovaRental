@@ -64,4 +64,8 @@ class UserPageController extends Controller
     {
         return view("buktiPenyewaanKendaraan");
     }
+    public function sewaSebagai()
+    {
+        return view("sewaSebagai");
+    }
 }
