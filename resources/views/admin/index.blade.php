@@ -27,8 +27,37 @@
                 @endfor
             </div>
 
-            <div class="bg-white rounded-xl p-3 ">
+            <div class="bg-white rounded-xl p-3 flex justify-between items-center ">
                 <h1 class=" montserrat-font font-semibold text-xl">Chart Transaksi</h1>
+
+                <div class="relative inline-block ">
+                    <!-- Custom select button -->
+                    <button id="custom-select-btn" type="button"
+                        class="flex items-center justify-between w-full px-4 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary">
+                        <span id="selected-year">2025</span>
+                        <svg class="w-5 h-5 ml-2 -mr-1 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                            <path fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </button>
+
+                    <!-- Dropdown menu, hidden by default -->
+                    <div id="custom-select-dropdown"
+                        class="absolute z-10 w-full mt-1 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm hidden">
+                        <!-- Year options will be populated here via JavaScript -->
+                    </div>
+
+                    <!-- Hidden actual select for form submission -->
+                    <select name="year" id="year-select" class="hidden">
+                        @for ($year = date('Y'); $year >= 2000; $year--)
+                        <option value="{{ $year }}">{{ $year }}</option>
+                        @endfor
+                    </select>
+                </div>
+
+
             </div>
             <div class="mt-2 bg-white p-3 rounded-xl">
                 <div class="chart-container mx-auto " style="position: relative; height: 300px; width: 100%;">
@@ -37,83 +66,7 @@
             </div>
 
             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const ctx = document.getElementById('lineChart').getContext('2d');
-                    
-                    // Buat chart dengan opsi responsif yang tepat
-                    const lineChart = new Chart(ctx, {
-                        type: 'line',
-                        data: {
-                            labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-                            datasets: [{
-                                label: 'Transactions',
-                                data: [120, 190, 300, 500, 200, 300],
-                                borderColor: 'rgba(75, 192, 192, 1)',
-                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                borderWidth: 2,
-                                tension: 0.4
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            plugins: {
-                                legend: {
-                                    display: true,
-                                    position: 'top'
-                                }
-                            },
-                            scales: {
-                                x: {
-                                    beginAtZero: true
-                                },
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                    
-                    // Fungsi untuk mengatasi resize
-                    function handleResize() {
-                        // Dapatkan ukuran chart-container
-                        const chartContainer = document.querySelector('.chart-container');
-                        // Dapatkan ukuran container parent
-                        const parentWidth = chartContainer.parentElement.clientWidth;
-                        
-                        // Terapkan lebar maksimum yang konsisten
-                        // Jika parent lebih kecil dari batas tertentu, gunakan ukuran parent
-                        // Jika tidak, gunakan ukuran maksimum yang tetap
-                        const maxWidth = 800; // Atur nilai ini sesuai kebutuhan desain Anda
-                        
-                        if (parentWidth < maxWidth) {
-                            chartContainer.style.width = '100%';
-                        } else {
-                            chartContainer.style.width = maxWidth + 'px';
-                        }
-                        
-                        // Update chart untuk merespons perubahan ukuran
-                        lineChart.resize();
-                    }
-                    
-                    // Panggil fungsi saat load dan resize
-                    handleResize();
-                    window.addEventListener('resize', handleResize);
-                    
-                    // Tambahkan handler untuk zoom browser juga
-                    window.addEventListener('zoom', handleResize);
-                    // Chrome dan browser berbasis Webkit tidak memiliki event zoom
-                    // Jadi kita gunakan polling untuk memeriksa perubahan ukuran
-                    let previousWidth = window.innerWidth;
-                    setInterval(function() {
-                        if (previousWidth !== window.innerWidth) {
-                            previousWidth = window.innerWidth;
-                            handleResize();
-                        }
-                    }, 300);
-                });
-            </script>
+
         </div>
 
         <div class="lg:w-[320px]">
@@ -189,7 +142,7 @@
                             <p class="block leading-[15px]"><span class="font-bold text-sm">Transaksi</span><br><span
                                     class="text-xs">10 Jan 2025</span></p>
                         </div>
-                        <p class="text-sm text-green-600 font-semibold">+Rp. 1.000.000</p>
+                        <p class="text-sm text-green-600 font-semibold">+Rp. 16.000.000</p>
                     </div>
 
                     <div class="flex items-center mt-2 mr-2 justify-start gap-4">
@@ -250,6 +203,8 @@
 
     </div>
 
-    <script src="{{asset('/static/js/open-close-balance-admin.js')}}"></script>
 
 </x-admin-layout>
+
+<script src="{{asset('/static/js/open-close-balance-admin.js')}}"></script>
+<script src="{{asset('/static/js/tanggal-chart-admin.js')}}"></script>
