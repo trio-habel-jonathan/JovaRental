@@ -21,7 +21,6 @@ return new class extends Migration
             $table->enum('role', ['admin', 'penyewa', 'mitra']);
             $table->string('foto_profil', 255)->nullable();
             $table->timestamps();
-            $table->boolean('is_active')->default(true);
         });
 
         // Tabel sessions dengan user_id berbasis UUID

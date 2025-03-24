@@ -23,6 +23,9 @@
                             class="bg-transparent w-full text-black focus:outline-none placeholder:font-semibold"
                             placeholder="Email...">
                     </div>
+                    @error('email')
+                        <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div>
                     <label for="">Nomor Handphone</label>
@@ -38,6 +41,9 @@
                             class="bg-transparent w-full text-black focus:outline-none placeholder:font-semibold"
                             placeholder="Nomor Handphone...">
                     </div>
+                    @error('email')
+                        <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div>
                     <label for="">Password</label>
