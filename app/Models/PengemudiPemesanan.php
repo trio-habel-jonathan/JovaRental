@@ -30,12 +30,10 @@ class PengemudiPemesanan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_pengemudi)) {
-                $model->id_pengemudi = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
 }
-e
