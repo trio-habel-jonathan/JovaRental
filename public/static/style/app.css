@@ -12,7 +12,7 @@
 
 /* width */
 .custom-scrollbar::-webkit-scrollbar {
-    width: 12px;
+    width: 4px;
 }
 
 /* Track */
@@ -32,7 +32,6 @@
 /* Handle on hover */
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #5a4a91;
-    /* Darker shade for hover */
 }
 
 /* Animation classes */
