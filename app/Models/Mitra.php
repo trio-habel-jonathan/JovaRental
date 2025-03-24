@@ -10,17 +10,23 @@ class mitra extends Model
 
     protected $table = 'mitra';
 
-    protected $primaryKey = 'id_mitra';
+    protected $primaryKey = 'id_mitra'; // Menentukan primary key
+    public $incrementing = false;
+    protected $keyType = 'string';
 
 
     protected $fillable = [
         'id_user',
-        'nama_company',
-        'no_company',
-        'location',
-        'deskripsi',
-        'foto_company',
+        'tipe_mitra',
+        'nama_mitra',
+        'nama_pemilik',
+        'no_identitas',
+        'npwp',
+        'no_telepon',
+        'alamat',
         'status_verifikasi',
+        'saldo',
+        'foto_mitra',
         'is_active',
     ];
 
@@ -29,6 +35,17 @@ class mitra extends Model
     protected $casts = [
         'is_active' => 'boolean',
     ];
+
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($mitra) {
+            if (empty($mitra->{$mitra->getKeyName()})) {
+                $mitra->{$mitra->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 
     // Relasi ke User (Setiap mitra punya 1 user)
     public function user()
