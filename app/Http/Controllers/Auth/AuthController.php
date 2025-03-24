@@ -18,7 +18,7 @@ public function register(Request $request)
     $validator = Validator::make($request->all(), [
         'email' => 'required|email|max:100|unique:users,email',
         'password' => 'required|string|min:6|confirmed',
-        'no_hp' => 'required|string|max:15',
+        'no_telepon' => 'required|string|max:15',
     ]);
 
     // Jika validasi gagal, kembalikan ke halaman register dengan error
@@ -32,8 +32,8 @@ public function register(Request $request)
     $user = User::create([
         'email' => $request->email,
         'password' => Hash::make($request->password), // Hash password
-        'no_hp' => $request->no_hp,
-        'role' => 'penyewa', // Default role = user
+        'no_telepon' => $request->no_telepon,
+        'role' => 'penyewa', // Default role = penyewa
         'is_active' => true
     ]);
 
