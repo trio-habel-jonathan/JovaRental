@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('nama_entitas', 100);
             $table->string('no_identitas', 255); // KTP (Individu) / NIB (Perusahaan)
             $table->string('npwp', 255)->nullable(); // NPWP (opsional, hanya untuk perusahaan)
+            $table->string('no_telepon', 20)->unique();
             $table->text('alamat');
             $table->boolean('is_active')->default(true);
             $table->timestamps();

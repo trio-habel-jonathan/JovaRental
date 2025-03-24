@@ -120,19 +120,19 @@
                     </a>
                 </li>
                 {{-- @guest
-                    <li>
-                        <a href="{{ route('registerView') }}"
-                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                            <span
-                                class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Register</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{{ route('loginView') }}"
-                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Login</span>
-                        </a>
-                    </li>
+                <li>
+                    <a href="{{ route('registerView') }}"
+                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span
+                            class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Register</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('loginView') }}"
+                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Login</span>
+                    </a>
+                </li>
                 @endguest --}}
             </ul>
         </div>
