@@ -11,8 +11,37 @@ use App\Models\Mitra;
 
 class AuthController extends Controller
 {
+  
+public function register(Request $request)
+{
+    // Validasi input
+    $validator = Validator::make($request->all(), [
+        'email' => 'required|email|max:100|unique:users,email',
+        'password' => 'required|string|min:6|confirmed',
+        'no_telepon' => 'required|string|max:15',
+    ]);
 
-    public function register(Request $request)
+    // Jika validasi gagal, kembalikan ke halaman register dengan error
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->withInput();
+    }
+
+    // Simpan user ke database dengan UUID otomatis
+    $user = User::create([
+        'email' => $request->email,
+        'password' => Hash::make($request->password), // Hash password
+        'no_telepon' => $request->no_telepon,
+        'role' => 'penyewa', // Default role = penyewa
+        'is_active' => true
+    ]);
+
+    // Jika berhasil, redirect ke halaman login dengan pesan sukses
+    return redirect()->route('loginView')->with('success', 'Registrasi berhasil! Silakan login.');
+}
+
+    public function registerMitra(Request $request)
     {
         // Validasi input
         $validator = Validator::make($request->all(), [

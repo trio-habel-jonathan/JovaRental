@@ -17,7 +17,7 @@ return new class extends Migration
             $table->uuid('id_user')->primary(); // UUID sebagai primary key
             $table->string('email', 100)->unique();
             $table->string('password', 255);
-            $table->string('no_hp', 15);
+            $table->string('no_telepon', 15);
             $table->enum('role', ['admin', 'penyewa', 'mitra']);
             $table->string('foto_profil', 255)->nullable();
             $table->timestamps();
