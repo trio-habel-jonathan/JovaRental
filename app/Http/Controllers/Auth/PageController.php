@@ -22,7 +22,7 @@ class PageController extends Controller
         return view('auth.registerMitra');
     }
 
-    
+
     public function passwordView()
     {
         return view('auth.confirmPassword');
@@ -33,4 +33,20 @@ class PageController extends Controller
         return view('auth.forgotPassword');
     }
 
+    public function sewaSebagai()
+    {
+        return view("auth.sewaSebagai");
+    }
+
+    public function entityForm(Request $request)
+    {
+        // $validation = $request->validate([
+        //     'nama_entitas' => 'required|string',
+        //     'no_indentitas' => 'required|numeric',
+        //     'no_telepon' => 'required|string|min:11|max:13',
+        //     'alamat' => 'reqiured|string'
+        // ]);
+
+        return view('auth.enitityForm');
+    }
 }

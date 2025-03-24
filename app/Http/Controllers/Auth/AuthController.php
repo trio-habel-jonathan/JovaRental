@@ -58,13 +58,9 @@ public function register(Request $request)
             'nama_lengkap' => $request->nama_lengkap,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'no_hp' => $request->no_hp,
-            'role' => 'mitra',
-            'is_active' => true
+            'role' => 'penyewa',
         ]);
     
-        return redirect()->route('loginView')->with('success', 'Akun mitra berhasil dibuat! Silakan login.');
+        return redirect()->route('sewaSebagai')->with('success', 'Akun mitra berhasil dibuat! Silakan login.');
     }
-    
-
 }

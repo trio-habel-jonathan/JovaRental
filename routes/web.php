@@ -15,6 +15,9 @@ Route::get('/register-mitra', [PageController::class, 'registerMitra'])->name('r
 Route::get('login/google', [GoogleController::class, 'redirectToGoogle'])->name('login.google');
 Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
 
+Route::get("/sewa-sebagai", [PageController::class, "sewaSebagai"])->name("sewaSebagai");
+Route::get("/detail-data", [PageController::class, "entityForm"])->name("entityForm");
+
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/registerMitra', [AuthController::class, 'registerMitra'])->name('register.mitra');
 
