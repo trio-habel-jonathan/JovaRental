@@ -17,3 +17,7 @@ Route::get("/pemesanan/review/pembayaran", [UserPageController::class, "pembayar
 Route::get("/pemesanan/review/pembayaran/petunjuk-pembayaran-transfer", [UserPageController::class, "petunjukPembayaranTransfer"])->name("petunjukPembayaranTransfer");
 Route::get("/pemesanan/review/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");
 Route::get("/pemesanan/review/pembayaran/bukti-penyewaan-kendaraan", [UserPageController::class, "buktiPenyewaanKendaraan"])->name("buktiPenyewaanKendaraan");
+
+
+
+Route::get("/sewa-sebagai", [UserPageController::class, "sewaSebagai"])->name("sewaSebagai");
