@@ -33,10 +33,9 @@ class EntitasPenyewa extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($model) {
-            if (empty($model->id_entitas_penyewa)) {
-                $model->id_entitas_penyewa = (string) Str::uuid();
+        static::creating(function ($user) {
+            if (empty($user->{$user->getKeyName()})) {
+                $user->{$user->getKeyName()} = (string) Str::uuid();
             }
         });
     }

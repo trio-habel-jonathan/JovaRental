@@ -36,10 +36,9 @@ class DetailPemesanan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_detail)) {
-                $model->id_detail = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }

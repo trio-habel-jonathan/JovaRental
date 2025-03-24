@@ -32,10 +32,9 @@ class PenggantianKendaraan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_penggantian)) {
-                $model->id_penggantian = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }

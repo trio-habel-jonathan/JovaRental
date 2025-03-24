@@ -29,10 +29,9 @@ class MetodePembayaranMitra extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_metode_pembayaran_mitra)) {
-                $model->id_metode_pembayaran_mitra = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }

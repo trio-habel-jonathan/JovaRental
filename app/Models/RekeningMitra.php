@@ -32,10 +32,9 @@ class RekeningMitra extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_rekening_mitra)) {
-                $model->id_rekening_mitra = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
     }
