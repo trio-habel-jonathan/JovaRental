@@ -7,23 +7,23 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Support\Str;
 
-class EntitasPenyewa extends Model
+class Sopir extends Model
 {
     use HasFactory, HasUuids;
 
-    protected $table = 'entitas_penyewa'; // Define table name
+    protected $table = 'sopir'; // Define table name
 
-    protected $primaryKey = 'id_entitas_penyewa'; // UUID as primary key
+    protected $primaryKey = 'id_sopir'; // UUID as primary key
     public $incrementing = false; // UUID is not auto-incrementing
     protected $keyType = 'string'; // UUID is stored as string
 
     protected $fillable = [
-        'id_user',
-        'tipe_entitas',
-        'nama_entitas',
+        'id_mitra',
+        'nama_sopir',
         'no_identitas',
-        'npwp',
+        'no_telepon',
         'alamat',
+        'status',
         'is_active',
     ];
 
@@ -35,8 +35,8 @@ class EntitasPenyewa extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            if (empty($model->id_entitas_penyewa)) {
-                $model->id_entitas_penyewa = (string) Str::uuid();
+            if (empty($model->id_sopir)) {
+                $model->id_sopir = (string) Str::uuid();
             }
         });
     }
