@@ -13,13 +13,13 @@
             <div>
                 <label class="block text-xs text-gray-500 mb-1">Email</label>
                 <input type="email" class="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none"
-                    value="habibabdillah@gmail.com">
+                    value="{{ auth()->user()->email }}">
             </div>
         </div>
         <div class="mb-3">
             <label for="no_hp" class="block text-xs text-gray-500 mb-1">No HP</label>
             <input type="text" class="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none"
-                value="08126367163">
+                value="{{ auth() ->user()->no_telepon}}">
         </div>
         <div class="mb-3">
             <label class="block text-xs text-gray-500 mb-1">Alamat</label>

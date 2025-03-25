@@ -50,15 +50,15 @@
                     <p>Doesn't Have Account? <a href="{{ route('registerView') }}">Register</a></p>
                 </div>
             </form>
-            <div class="w-3/4 h-[1px] relative my-4">
-                <div class="w-full h-full bg-gray-300"></div>
+            <div class="w-3/4 h-[2px] relative my-4" data-aos="fade-up" data-aos-delay="600">
+                <div class="w-full h-full bg-white"></div>
                 <div class="absolute inset-0 flex justify-center items-center">
-                    <p class=" bg-white w-fit px-2 text-gray-500 ">or</p>
+                    <p class=" bg-white rounded-full w-fit px-2 font-bold text-gray-700">Or</p>
                 </div>
             </div>
             <form action="{{ route('login.google') }}" class="flex w-full justify-center">
                 <button
-                    class="flex justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
+                    class="flex bg-white justify-center p-2 items-center gap-4 border border-gray-300 shadow-2xl rounded-2xl w-3/4 xl:w-1/2 transition-all duration-300 ease-in-out hover:scale-105">
                     <img class="w-10 h-10 aspect-square object-cover rounded-full"
                         src="https://imagepng.org/wp-content/uploads/2019/08/google-icon.png" alt="">
                     <span>Sign In with Google Account</span>

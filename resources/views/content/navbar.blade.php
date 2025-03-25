@@ -54,30 +54,46 @@
         </ul>
 
         <ul class="hidden md:flex items-center justify-center gap-1">
-            <li>
-                <a href="{{ route('profile') }}"
-                    class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Profile</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li>
-            {{-- <li>
-                <a href="{{ route('registerView') }}"
-                    class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Register</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('loginView') }}"
-                    class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Login</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li> --}}
+            @auth
+                <li>
+                    <a href="{{ route('profile') }}"
+                        class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Profile</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <button type="submit"
+                            class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Logout</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                        </button>
+                    </form>
+                </li>
+            @endauth
+            @guest
+                <li>
+                    <a href="{{ route('registerView') }}"
+                        class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Register</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('loginView') }}"
+                        class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Login</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+            @endguest
         </ul>
 
         <!-- Mobile Menu (Hidden by default) -->
@@ -111,29 +127,28 @@
                     </a>
                 </li>
                 @auth
-
+                    <li>
+                        <a href="{{ route('profile') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Profile</span>
+                        </a>
+                    </li>
                 @endauth
-                <li>
-                    <a href="{{ route('profile') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Profile</span>
-                    </a>
-                </li>
-                {{-- @guest
-                <li>
-                    <a href="{{ route('registerView') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span
-                            class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Register</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('loginView') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Login</span>
-                    </a>
-                </li>
-                @endguest --}}
+                @guest
+                    <li>
+                        <a href="{{ route('registerView') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span
+                                class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Register</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('loginView') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Login</span>
+                        </a>
+                    </li>
+                @endguest
             </ul>
         </div>
     </div>

@@ -24,12 +24,17 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
 
+            $entity = EntitasPenyewa::where('id_user', '=', $user->id_user)->first();
+
             if ($user->role == 'admin') {
                 return redirect()->route('admin.indexView')->with('success', "Welcome admin");
             } elseif ($user->role == 'mitra') {
                 return redirect()->route('mitra.indexView')->with('success', "Welcome mitra");
             } else {
-                return redirect()->route('sewaSebagai')->with('success', "Welcome penyewa");
+                if ($entity) {
+                    return redirect()->route('home')->with('success', "Welcome mitra");
+                }
+                return redirect()->route('sewaSebagai')->with('success', "Welcome mitra");
             }
         }
     }
@@ -92,7 +97,8 @@ class AuthController extends Controller
     {
         $validation = $request->validate([
             'nama_entitas' => 'required|string',
-            'no_identitas' => 'required|numeric',
+            'no_identitas' => 'required|string',
+            'npwp' => 'string',
             'alamat' => 'required|string',
         ]);
 
@@ -101,6 +107,7 @@ class AuthController extends Controller
             'tipe_entitas' => $request->tipe_entitas,
             'nama_entitas' => $request->nama_entitas,
             'no_identitas' => $request->no_identitas,
+            'npwp' => $request->npwp,
             'alamat' => $request->alamat,
             'is_active' => True,
         ]);
@@ -109,5 +116,12 @@ class AuthController extends Controller
             return redirect()->route('home')->with('success', 'Your account data completed');
         }
         return back()->with('success', 'Your account data completed');
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+
+        return redirect()->route('loginView')->with('success', 'Logout Berhasil');
     }
 }
