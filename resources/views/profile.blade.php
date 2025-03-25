@@ -2,7 +2,8 @@
     <!-- Main container with responsive flex direction -->
     <div class="flex flex-col lg:flex-row items-start justify-between mx-auto max-w-[1600px]">
         <!-- Left sidebar - full width on mobile, fixed width on desktop -->
-        <div class="w-full lg:w-[300px] flex flex-col items-center bg-white px-2 mb-4 lg:mb-0 lg:h-[150vh] overflow-y-auto">
+        <div
+            class="w-full lg:w-[300px] flex flex-col items-center bg-white px-2 mb-4 lg:mb-0 lg:h-[150vh] overflow-y-auto">
             <div class="flex flex-col items-center">
                 <!-- Container untuk gambar dan tombol kamera -->
                 <div class="relative">
@@ -28,9 +29,9 @@
                 </div>
 
                 <!-- Nama dan Umur -->
-                <h1 class="montserrat-font text-center font-semibold text-lg lg:text-xl mt-3">Muhammad Habib Abdillah
-                    Bin Satu</h1>
-                <p class="plus-jakarta-sans-font text-center mt-1">habibabdillah@gmail.com</p>
+                <h1 class="montserrat-font text-center font-semibold text-lg lg:text-xl mt-3">
+                    {{$user->entitasPenyewa->nama_entitas}}</h1>
+                <p class="plus-jakarta-sans-font text-center mt-1">{{$user->email}}</p>
             </div>
             <!-- Accordion - full width on all screen sizes -->
             <div class="w-full max-w-md mx-auto mt-4">

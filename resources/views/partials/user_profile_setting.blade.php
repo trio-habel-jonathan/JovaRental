@@ -8,23 +8,23 @@
             <div>
                 <label class="block text-xs text-gray-500 mb-1">Nama Lengkap</label>
                 <input type="text" class="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none"
-                    value="habib abdillah">
+                    value="{{$user->entitasPenyewa->nama_entitas}}">
             </div>
             <div>
                 <label class="block text-xs text-gray-500 mb-1">Email</label>
                 <input type="email" class="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none"
-                    value="{{ auth()->user()->email }}">
+                    value="{{ $user->email }}">
             </div>
         </div>
         <div class="mb-3">
             <label for="no_hp" class="block text-xs text-gray-500 mb-1">No HP</label>
             <input type="text" class="w-full p-2 border border-gray-300 rounded-lg text-sm focus:outline-none"
-                value="{{ auth() ->user()->no_telepon}}">
+                value="{{ $user->no_telepon}}">
         </div>
         <div class="mb-3">
             <label class="block text-xs text-gray-500 mb-1">Alamat</label>
             <textarea name="alamat" id="alamat"
-                class="w-full h-40 p-2 border border-gray-300 rounded-lg text-sm focus:outline-none">Bengkong,Batam</textarea>
+                class="w-full h-40 p-2 border border-gray-300 rounded-lg text-sm focus:outline-none">{{$user->entitasPenyewa->alamat}}</textarea>
         </div>
     </div>
 
