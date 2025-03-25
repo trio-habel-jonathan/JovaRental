@@ -22,7 +22,7 @@ class PageController extends Controller
         return view('auth.registerMitra');
     }
 
-    
+
     public function passwordView()
     {
         return view('auth.confirmPassword');
@@ -33,4 +33,13 @@ class PageController extends Controller
         return view('auth.forgotPassword');
     }
 
+    public function sewaSebagai()
+    {
+        return view("auth.sewaSebagai");
+    }
+
+    public function entityForm(Request $request)
+    {
+        return view('auth.enitityForm');
+    }
 }

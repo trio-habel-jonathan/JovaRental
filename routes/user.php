@@ -20,4 +20,3 @@ Route::get("/pemesanan/review/pembayaran/bukti-penyewaan-kendaraan", [UserPageCo
 
 
 
-Route::get("/sewa-sebagai", [UserPageController::class, "sewaSebagai"])->name("sewaSebagai");

@@ -42,3 +42,4 @@ class PengemudiPemesanan extends Model
         return $this->belongsTo(DetailPemesanan::class, 'id_detail_pemesanan', 'id_detail');
     }
 }
+
