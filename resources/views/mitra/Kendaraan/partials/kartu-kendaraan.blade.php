@@ -17,7 +17,7 @@
                 <!-- Color -->
                 <div class="mt-3 flex items-center space-x-3">
                     <div class="w-8 h-8 rounded-full bg-[{{$kendaraan->warna}}] border-2 border-white shadow"></div>
-                    <p class="text-base font-medium text-gray-700">{{$kendaraan->warna}} (Warna)</p>
+                    <p class="text-base font-medium text-gray-700">{{$kendaraan->warna}} </p>
                 </div>
             </div>
 
@@ -25,7 +25,7 @@
             <div class="w-full md:w-3/5 p-6 bg-white">
                 <h4 class="text-lg font-semibold text-gray-700 mb-4">Spesifikasi Kendaraan</h4>
 
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <div class="grid grid-cols-2 gap-4">
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
