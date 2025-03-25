@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="flex flex-col gap-4 items-center justify-end">
-                    {{-- Setelah Klik Lanjut ke passwordView untuk melanjutkan kinformasi password account --}}
+                    <input type="hidden" name="tipe_entitas" value="{{ request('role') }}">
                     <button
                         class="w-full py-3 rounded-full shadow-2xl text-white uppercase font-bold bg-gradient-to-r from-primary to-indigo-800 transition-all duration-300 ease-in-out hover:scale-105">
                         Register

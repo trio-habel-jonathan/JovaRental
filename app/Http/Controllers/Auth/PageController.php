@@ -40,13 +40,6 @@ class PageController extends Controller
 
     public function entityForm(Request $request)
     {
-        // $validation = $request->validate([
-        //     'nama_entitas' => 'required|string',
-        //     'no_indentitas' => 'required|numeric',
-        //     'no_telepon' => 'required|string|min:11|max:13',
-        //     'alamat' => 'reqiured|string'
-        // ]);
-
         return view('auth.enitityForm');
     }
 }
