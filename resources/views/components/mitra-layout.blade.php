@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
     <link rel="stylesheet" href="{{ asset('static/style/formKendaraan.css') }}">
@@ -28,6 +29,9 @@
 
 
 <body class="flex  bg-gray-100 min-h-screen">
+    @if (session('type') && session('message'))
+        <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
+    @endif
     @include('content.loading-overlay')
 
     <div class="w-64">
@@ -41,7 +45,7 @@
 
                 <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full relative group">
                     <div class="flex items-center gap-1 cursor-pointer">
-                        <p  class="font-semibold">IDR 120.000.000</p>
+                        <p class="font-semibold">IDR 120.000.000</p>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                             stroke-linejoin="round" class="lucide lucide-wallet">
