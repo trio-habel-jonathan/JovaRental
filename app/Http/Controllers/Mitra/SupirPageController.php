@@ -3,13 +3,15 @@
 namespace App\Http\Controllers\Mitra;
 
 use App\Http\Controllers\Controller;
+use App\Models\Sopir;
 use Illuminate\Http\Request;
 
 class SupirPageController extends Controller
 {
     public function supirmitraView()
     {
-        return view('mitra.supir.index');
+        $allSopir = Sopir::all();
+        return view('mitra.supir.index', compact('allSopir'));
     }
 
     public function tambahsupir()
