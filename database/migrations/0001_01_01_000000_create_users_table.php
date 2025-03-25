@@ -5,8 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -21,7 +20,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'penyewa', 'mitra']);
             $table->string('foto_profil', 255)->nullable();
             $table->timestamps();
-            $table->date('is_verified')->default(null);
+            $table->date('is_verified')->default(null)->nullable();
         });
 
         // Tabel sessions dengan user_id berbasis UUID

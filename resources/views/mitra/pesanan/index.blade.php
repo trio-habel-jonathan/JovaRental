@@ -33,58 +33,39 @@
                 </button>
             @endfor
         </form>
-        <div class="flex gap-4 w-full">
-            <div class="container mx-auto mt-4">
-                <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                    <table class="w-full text-sm text-left border-collapse">
-                        <thead class="bg-primary text-white uppercase">
-                            <tr class="text-center">
-                                <th class="px-6 py-3 border-b">Tanggal Pesanan</th>
-                                <th class="px-6 py-3 border-b">Nama Pemesan</th>
-                                <th class="px-6 py-3 border-b">Nomor Handphone</th>
-                                <th class="px-6 py-3 border-b">Status Pembayaran</th>
-                                <th class="px-6 py-3 border-b">Status Kendaraan</th>
-                                <th class="px-6 py-3 border-b">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            @for ($i = 1; $i <= 10; $i++)
-                                <tr class="hover:bg-gray-50 text-center transition">
-                                    <td class="px-4 py-2 flex-nowrap">Wed, 19 March 2025</td>
-                                    <td class="px-4 py-2 flex items-center gap-4">
-                                        <p><span class="font-semibold">Franklin</span> franklinchang@gmail.com</p>
-                                    </td>
-                                    <td class="px-4 py-2">0812345678</td>
-                                    <td class="px-4 py-2">
-                                        <div
-                                            class="bg-green-600/20 p-1 text-xs text-center rounded-full text-green-600 font-medium">
-                                            Sudah Bayar
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-2">
-                                        <div
-                                            class="bg-green-600/20 p-1 text-xs text-center rounded-full text-green-600 font-medium">
-                                            Sudah Diantar
-                                        </div>
-                                    </td>
-                                    <td class="px-4 py-2 flex items-between gap-2 justify-center">
-                                        <a href="{{ route('admin.user.edituserView') }}"
-                                            class="text-blue-600 hover:underline">Edit</a>
-                                        <a href="{{ route('mitra.pesanan.pesanandetailView') }}"
-                                            class="text-blue-600 hover:underline">Details</a>
-                                        <form action="" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:underline">Hapus</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @endfor
-                        </tbody>
-                    </table>
+        <div class="flex flex-col gap-2 mt-4">
+            @for ($i = 0; $i < 2; $i++)
+                <div class="flex items-center justify-between px-4 bg-white rounded-md shadow-md">
+                    <div class="flex items-center gap-2">
+                        <img class="rounded-full w-36 h-36"
+                            src="https://i.pinimg.com/736x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg"
+                            alt="">
+                        <div class="w-64">
+                            <h1 class="font-bold text-md montserrat-font">Franklin Sebastian Felix</h1>
+                            <p class="montserrat-font text-xs">franklinchang@gmail.com</p>
+                            <div class="flex justify-between mt-4 text-sm montserrat-font">
+                                <p>Qty: 2</p>
+                                <p class="font-bold">Price IDR 4.000.000</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="plus-jakarta-sans-font">
+                        <p class="text-gray-600 text-sm">Status</p>
+                        <p class="text-green-600 font-semibold">Delivered</p>
+                    </div>
+                    <div class="plus-jakarta-sans-font">
+                        <p class="text-gray-600 text-sm">Date Order</p>
+                        <p class="font-semibold">Thu, 25 December 2024</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="{{ route('mitra.pesanan.pesanandetailView') }}"
+                            class="bg-primary/20 uppercase text-xs text-primary hover:bg-primary hover:text-white font-bold px-4 py-2 rounded-md">see
+                            details</a>
+                        <button
+                            class="bg-primary uppercase text-xs text-white font-bold px-4 py-2 rounded-md">delete</button>
+                    </div>
                 </div>
-            </div>
-
+            @endfor
         </div>
     </div>
 </x-mitra-layout>

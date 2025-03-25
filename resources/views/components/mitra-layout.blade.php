@@ -100,6 +100,7 @@
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
 <script src="{{ asset('static/js/sidebarMitra.js') }}"></script>
 <script src="{{ asset('static/js/balanceMitra.js') }}"></script>
+<script src="{{ asset('static/js/progressPesanan.js') }}"></script>
 
 
 </html>

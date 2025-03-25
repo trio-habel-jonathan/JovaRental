@@ -10,6 +10,34 @@
     font-style: normal;
 }
 
+.timeline-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.timeline-line {
+    width: 2px;
+    background-color: #E5E7EB;
+    margin: 4px auto;
+}
+
+.completed {
+    background-color: #10B981 !important;
+    /* Green color for completed steps */
+    border: none !important;
+}
+
+.active {
+    border: none !important;
+}
+
+.disabled {
+    cursor: not-allowed !important;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
 /* width */
 .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
