@@ -11,10 +11,8 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
     Route::get('/settingss', [MitraPageController::class, 'settingsMitraView'])->name('settings'); // Pastikan rute memiliki nama ini
 
-    
+    Route::prefix('keuangan')->
     Route::get('/keuangan', [MitraPageController::class, 'keuanganMitraView'])->name('keuangan.index'); // Pastikan rute memiliki nama ini
-    Route::get('/pemasukan', [MitraPageController::class, 'pemasukan'])->name('keuangan.pemasukan'); // Pastikan rute memiliki nama ini
-    Route::get('/pengeluaran', [MitraPageController::class, 'pengeluaran'])->name('keuangan.pengeluaran'); // Pastikan rute memiliki nama ini
 
     Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');

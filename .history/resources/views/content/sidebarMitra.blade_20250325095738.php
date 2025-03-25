@@ -121,10 +121,10 @@
 
                 <div id="keuangan-submenu"
                     class="pl-12 max-h-0 overflow-hidden transition-all duration-300 ease-out bg-white rounded-b-lg mb-1">
-                    <a href="{{route ('mitra.keuangan.index')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Laporan
+                    <a href="{{route ('mitra.keuangankeuangan.index')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Laporan
                         Keuangan</a>
-                    <a href="{{route ('mitra.keuangan.pengeluaran')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pengeluaran</a>
-                    <a href="{{route ('mitra.keuangan.pemasukan')}}" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pendapatan</a>
+                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pengeluaran</a>
+                    <a href="#" class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pendapatan</a>
                 </div>
             </div>
 
