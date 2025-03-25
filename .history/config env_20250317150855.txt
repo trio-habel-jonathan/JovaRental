@@ -1,5 +1,0 @@
-add this anywhere in env
-
-GOOGLE_CLIENT_ID=738442995079-1pfe8c8c7lfg0idln149cvmrofpf6sun.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
-GOOGLE_REDIRECT_URI=http://localhost:8000/login/google/callback

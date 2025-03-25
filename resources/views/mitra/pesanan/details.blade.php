@@ -26,7 +26,7 @@
                         </svg>
                         <p>BTN Syariah</p>
                     </div>
-                    <p class="px-6 py-0.5 rounded-full bg-green-500/20 text-green-500">Completed</p>
+                    <p class="px-6 py-0.5 rounded-full bg-green-500/20 font-semibold text-green-500">Completed</p>
                 </div>
             </div>
             <div class="bg-white montserrat-font grid grid-cols-2 gap-4 shadow-lg p-4 rounded-md w-full">
@@ -132,11 +132,39 @@
                             <p>IDR 4.020.000</p>
                         </div>
                     </div>
+                    <div class="w-full grid grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-sm">Delivery Method</p>
+                            <p class="text-primary bg-primary/20 px-4 py-1 w-fit rounded-md mt-2 text-md font-semibold">
+                                Delivered</p>
+                        </div>
+                        <div>
+                            <p class="text-sm">Type of Service</p>
+                            <p class="text-primary bg-primary/20 px-4 py-1 w-fit rounded-md mt-2 text-md font-semibold">
+                                Just Deliver</p>
+                        </div>
+                        <div>
+                            <p class="text-sm">Time Start</p>
+                            <p class=" w-fit rounded-md mt-2 font-medium">
+                                Thu, 23 December 2025 10:00 PM</p>
+                        </div>
+                        <div>
+                            <p class="text-sm">Time End</p>
+                            <p class=" w-fit rounded-md mt-2 font-medium">
+                                Fri, 24 December 2025 12:00 PM</p>
+                        </div>
+                        <div class="col-span-2">
+                            <p class="text-sm">Location Delivery</p>
+                            <p class="text-justify w-fit rounded-md mt-2 font-medium">
+                                Perumahan Royal Grande 2, Jl. Blk. E No.5, Tlk. Tering, Kec. Batam Kota, Kota Batam,
+                                Kepulauan Riau 29444</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="bg-white shadow-lg rounded-lg p-4 w-[35rem]">
+            <div class="bg-white shadow-lg rounded-lg p-4 h-max w-[35rem]">
                 <div>
-                    <h1 class="font-bold text-md montserrat-font">Detail Ordered</h1>
+                    <h1 class="font-bold text-md montserrat-font">Progress Ordered</h1>
                 </div>
                 <div>
                     <div class="w-full mt-4 max-w-lg">
@@ -166,7 +194,7 @@
                                     onclick="setActive(0)">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <h3 class="font-medium text-gray-800">Pesanan</h3>
+                                            <h3 class="font-medium text-gray-800">Order</h3>
                                             <p class="text-xs text-gray-500">Early wakeup from bed and fresh</p>
                                         </div>
                                         <span class="text-xs text-gray-500 text-nowrap">7:00 AM</span>
@@ -224,95 +252,8 @@
 
         // Set the initial active step when the page loads
         window.onload = function() {
-            initialActiveStep = 3; // Setting the active step to 2 (Meeting)
+            initialActiveStep = 1; // Untuk menyelesaikan progress order buat lebih dari 3
             setActive(initialActiveStep);
         };
-
-        function setActive(index) {
-            // Get all timeline dots and cards
-            const dots = document.querySelectorAll('.timeline-dot');
-            const cards = document.querySelectorAll('.card');
-
-            // Mark all previous steps as completed and disabled (non-clickable)
-            for (let i = 0; i < index; i++) {
-                dots[i].classList.remove('active', 'bg-primary', 'border-2', 'border-blue-100', 'bg-white');
-                dots[i].classList.add('completed');
-
-                // Update previous cards to show completed state
-                cards[i].classList.remove('bg-primary', 'text-white', 'shadow-md', 'bg-gray-50');
-                cards[i].classList.add('bg-green-50', 'border-l-4', 'border-green-500', 'disabled');
-
-                // Update text colors for completed cards
-                const heading = cards[i].querySelector('h3');
-                const paragraph = cards[i].querySelector('p');
-                if (heading) {
-                    heading.classList.remove('text-white', 'text-gray-800');
-                    heading.classList.add('text-green-800');
-                }
-                if (paragraph) {
-                    paragraph.classList.remove('opacity-90', 'text-gray-500');
-                    paragraph.classList.add('text-green-600');
-                }
-            }
-
-            // Reset styling for current and future steps
-            for (let i = index; i < dots.length; i++) {
-                // Skip the current step as we'll style it separately
-                if (i !== index) {
-                    dots[i].classList.remove('active', 'bg-primary', 'completed');
-                    dots[i].classList.add('border-2', 'border-blue-100', 'bg-white');
-
-                    cards[i].classList.remove('bg-primary', 'text-white', 'shadow-md', 'bg-green-50', 'border-l-4',
-                        'border-green-500', 'disabled');
-                    cards[i].classList.add('bg-gray-50');
-
-                    // If this is the next step, make it clickable
-                    if (i === index + 1) {
-                        cards[i].classList.add('cursor-pointer');
-                        cards[i].onclick = function() {
-                            setActive(i);
-                        };
-                    } else {
-                        // Disable future steps beyond the next one
-                        cards[i].classList.add('disabled');
-                        cards[i].onclick = null;
-                    }
-
-                    const heading = cards[i].querySelector('h3');
-                    const paragraph = cards[i].querySelector('p');
-                    if (heading) {
-                        heading.classList.remove('text-white', 'text-green-800');
-                        heading.classList.add('text-gray-800');
-                    }
-                    if (paragraph) {
-                        paragraph.classList.remove('opacity-90', 'text-green-600');
-                        paragraph.classList.add('text-gray-500');
-                    }
-                }
-            }
-
-            // Style the current active step
-            dots[index].classList.remove('border-2', 'border-blue-100', 'bg-white', 'completed');
-            dots[index].classList.add('active', 'bg-primary');
-
-            cards[index].classList.remove('bg-gray-50', 'bg-green-50', 'border-l-4', 'border-green-500', 'disabled');
-            cards[index].classList.add('bg-primary', 'text-white', 'shadow-md');
-            cards[index].onclick = null; // Current step is not clickable
-
-            // Update text color for heading and paragraph in active card
-            const activeHeading = cards[index].querySelector('h3');
-            const activeParagraph = cards[index].querySelector('p');
-            const activeTime = cards[index].querySelector('span');
-            if (activeHeading) {
-                activeHeading.classList.remove('text-gray-800', 'text-green-800');
-            }
-            if (activeParagraph) {
-                activeParagraph.classList.remove('text-gray-500', 'text-green-600');
-                activeParagraph.classList.add('opacity-90');
-            }
-            if (activeTime) {
-                activeTime.classList.remove('text-gray-500');
-            }
-        }
     </script>
 </x-mitra-layout>
