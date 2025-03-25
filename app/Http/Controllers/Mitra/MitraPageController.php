@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mitra;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 
 class MitraPageController extends Controller
@@ -21,7 +22,8 @@ class MitraPageController extends Controller
     }
     public function kendaraanmitraView()
     {
-        return view('mitra.kendaraan.index');
+        $allKendaraan = Kendaraan::all();
+        return view('mitra.kendaraan.index', compact('allKendaraan'));
     }
     public function pesananmitraView()
     {
