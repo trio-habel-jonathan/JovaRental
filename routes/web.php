@@ -20,6 +20,8 @@ Route::get("/detail-data", [PageController::class, "entityForm"])->name("entityF
 
 Route::post('/login-action', [AuthController::class, 'login'])->name('login');
 Route::post('/register-action', [AuthController::class, 'register'])->name('register');
+Route::post('/entitas-action', [AuthController::class, 'entitas'])->name('entitas');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::post('/registerMitra-action', [AuthController::class, 'registerMitra'])->name('register.mitra');
 
 require 'user.php';

@@ -25,21 +25,21 @@
 
                 <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden shadow-lg">
                     <img draggable="false" src="https://i.pinimg.com/736x/7d/aa/e3/7daae3529fecbacf405b7904b67e6b19.jpg"
-                        class="w-full h-full object-cover" alt="rental-mobil">
+                        class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="rental-mobil">
                 </div>
                 <div class="flex space-x-4 ">
                     <div class="w-full flex-[200px] ">
                         <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
                             <img draggable="false"
                                 src="https://i.pinimg.com/736x/60/0c/48/600c4837a751426222a95ee5f5395926.jpg"
-                                alt="rental-mobil-ban" class="w-full h-full object-cover">
+                                alt="rental-mobil-ban" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                         </div>
                     </div>
                     <div class="w-full flex-[200px] ">
                         <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
                             <img draggable="false"
                                 src="https://i.pinimg.com/736x/c6/79/f1/c679f17d8ea683b155a5826034f64894.jpg"
-                                alt="rental-motor-1" class="w-full h-full object-cover  ">
+                                alt="rental-motor-1" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
                         </div>
                     </div>
 

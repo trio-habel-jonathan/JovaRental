@@ -25,6 +25,7 @@ class Kendaraan extends Model
         'tahun_produksi',
         'warna',
         'transmisi',
+        'cubic_centimeter',
         'jumlah_kursi',
         'harga_sewa_per_jam',
         'deskripsi',

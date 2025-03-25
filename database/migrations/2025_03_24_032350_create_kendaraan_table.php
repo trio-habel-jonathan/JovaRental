@@ -20,6 +20,7 @@ return new class extends Migration
             $table->year('tahun_produksi');
             $table->string('warna', 50);
             $table->enum('transmisi', ['automatic', 'manual', 'kopling']);
+            $table->integer('cubic_centimeter');
             $table->integer('jumlah_kursi');
             $table->decimal('harga_sewa_per_jam', 10, 2);
             $table->text('deskripsi')->nullable();
