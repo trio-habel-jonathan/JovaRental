@@ -32,11 +32,28 @@ class PenggantianKendaraan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_penggantian)) {
-                $model->id_penggantian = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    // Relasi ke DetailPemesanan (Setiap penggantian kendaraan dimiliki oleh 1 detail pemesanan)
+    public function detailPemesanan()
+    {
+        return $this->belongsTo(DetailPemesanan::class, 'id_detail', 'id_detail');
+    }
+
+    // Relasi ke Kendaraan (Kendaraan lama)
+    public function kendaraanLama()
+    {
+        return $this->belongsTo(Kendaraan::class, 'id_kendaraan_lama', 'id_kendaraan');
+    }
+
+    // Relasi ke Kendaraan (Kendaraan baru)
+    public function kendaraanBaru()
+    {
+        return $this->belongsTo(Kendaraan::class, 'id_kendaraan_baru', 'id_kendaraan');
     }
 }

@@ -32,11 +32,15 @@ class MetodePembayaranPlatform extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_metode_pembayaran_platform)) {
-                $model->id_metode_pembayaran_platform = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function pembayarans()
+    {
+        return $this->hasMany(Pembayaran::class, 'id_metode_pembayaran_platform', 'id_metode_pembayaran_platform');
     }
 }

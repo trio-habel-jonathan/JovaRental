@@ -31,11 +31,20 @@ class Denda extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_denda)) {
-                $model->id_denda = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function pemesanan()
+    {
+        return $this->belongsTo(Pemesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    public function jenisDenda()
+    {
+        return $this->belongsTo(JenisDenda::class, 'id_jenis_denda', 'id_jenis_denda');
     }
 }

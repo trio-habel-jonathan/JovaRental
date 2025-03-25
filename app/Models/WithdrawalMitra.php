@@ -32,11 +32,22 @@ class WithdrawalMitra extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_withdrawal)) {
-                $model->id_withdrawal = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    // Relasi ke Mitra (Setiap withdrawal dimiliki oleh 1 mitra)
+    public function mitra()
+    {
+        return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke RekeningMitra (Setiap withdrawal dimiliki oleh 1 rekening mitra)
+    public function rekeningMitra()
+    {
+        return $this->belongsTo(RekeningMitra::class, 'id_rekening_mitra', 'id_rekening_mitra');
     }
 }

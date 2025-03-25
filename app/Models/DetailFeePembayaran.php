@@ -29,11 +29,22 @@ class DetailFeePembayaran extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_detail_fee)) {
-                $model->id_detail_fee = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    // Relasi ke Pembayaran (Setiap detail fee pembayaran dimiliki oleh 1 pembayaran)
+    public function pembayaran()
+    {
+        return $this->belongsTo(Pembayaran::class, 'id_pembayaran', 'id_pembayaran');
+    }
+
+    // Relasi ke FeeSetting (Setiap detail fee pembayaran dimiliki oleh 1 fee setting)
+    public function feeSetting()
+    {
+        return $this->belongsTo(FeeSetting::class, 'id_fee', 'id_fee');
     }
 }

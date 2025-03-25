@@ -65,4 +65,16 @@ class User extends Authenticatable
             }
         });
     }
+
+    // Relasi ke Mitra (Setiap user bisa menjadi 1 mitra)
+    public function mitra()
+    {
+        return $this->hasOne(Mitra::class, 'id_user', 'id_user');
+    }
+
+    // Relasi ke EntitasPenyewa (Setiap user bisa menjadi 1 entitas penyewa)
+    public function entitasPenyewa()
+    {
+        return $this->hasOne(EntitasPenyewa::class, 'id_user', 'id_user');
+    }
 }

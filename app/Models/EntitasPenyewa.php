@@ -33,11 +33,23 @@ class EntitasPenyewa extends Model
     protected static function boot()
     {
         parent::boot();
-
-        static::creating(function ($model) {
-            if (empty($model->id_entitas_penyewa)) {
-                $model->id_entitas_penyewa = (string) Str::uuid();
+        static::creating(function ($user) {
+            if (empty($user->{$user->getKeyName()})) {
+                $user->{$user->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+
+    // Relasi ke User (Setiap entitas penyewa dimiliki oleh 1 user)
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    // Relasi ke Pemesanan (Setiap entitas penyewa bisa memiliki banyak pemesanan)
+    public function pemesanans()
+    {
+        return $this->hasMany(Pemesanan::class, 'id_entitas_penyewa', 'id_entitas');
     }
 }

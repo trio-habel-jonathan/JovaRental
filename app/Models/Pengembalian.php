@@ -33,11 +33,15 @@ class Pengembalian extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_pengembalian)) {
-                $model->id_pengembalian = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function detailPemesanan()
+    {
+        return $this->belongsTo(DetailPemesanan::class, 'id_detail', 'id_detail');
     }
 }

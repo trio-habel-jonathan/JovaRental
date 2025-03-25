@@ -28,11 +28,16 @@ class JenisKendaraan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_jenis)) {
-                $model->id_jenis = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    // Relasi ke KategoriKendaraan (Setiap jenis kendaraan bisa memiliki banyak kategori)
+    public function kategoriKendaraans()
+    {
+        return $this->hasMany(KategoriKendaraan::class, 'id_jenis', 'id_jenis');
     }
 }

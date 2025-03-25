@@ -30,11 +30,15 @@ class JenisDenda extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_jenis_denda)) {
-                $model->id_jenis_denda = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function dendas()
+    {
+        return $this->hasMany(Denda::class, 'id_jenis_denda', 'id_jenis_denda');
     }
 }

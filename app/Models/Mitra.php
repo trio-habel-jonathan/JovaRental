@@ -3,10 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 
 class mitra extends Model
 {
-    use HasFactory;
+    use HasFactory, HasUuids;
 
     protected $table = 'mitra';
 
@@ -47,9 +50,51 @@ class mitra extends Model
         });
     }
 
-    // Relasi ke User (Setiap mitra punya 1 user)
+    // Relasi ke User (Setiap mitra dimiliki oleh 1 user)
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user', 'id_user');
+    }
+
+    // Relasi ke Kendaraan (Setiap mitra bisa memiliki banyak kendaraan)
+    public function kendaraans()
+    {
+        return $this->hasMany(Kendaraan::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke Sopir (Setiap mitra bisa memiliki banyak sopir)
+    public function sopirs()
+    {
+        return $this->hasMany(Sopir::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke Pemesanan (Setiap mitra bisa memiliki banyak pemesanan)
+    public function pemesanans()
+    {
+        return $this->hasMany(Pemesanan::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke PendapatanMitra (Setiap mitra bisa memiliki banyak pendapatan)
+    public function pendapatans()
+    {
+        return $this->hasMany(PendapatanMitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke WithdrawalMitra (Setiap mitra bisa memiliki banyak withdrawal)
+    public function withdrawals()
+    {
+        return $this->hasMany(WithdrawalMitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke Refund (Setiap mitra bisa memiliki banyak refund)
+    public function refunds()
+    {
+        return $this->hasMany(Refund::class, 'id_mitra', 'id_mitra');
+    }
+
+    // Relasi ke RekeningMitra (Setiap mitra bisa memiliki banyak rekening)
+    public function rekenings()
+    {
+        return $this->hasMany(RekeningMitra::class, 'id_mitra', 'id_mitra');
     }
 }

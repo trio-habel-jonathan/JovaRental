@@ -36,11 +36,43 @@ class DetailPemesanan extends Model
     protected static function boot()
     {
         parent::boot();
-
         static::creating(function ($model) {
-            if (empty($model->id_detail)) {
-                $model->id_detail = (string) Str::uuid();
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
             }
         });
+    }
+
+    public function pemesanan()
+    {
+        return $this->belongsTo(Pemesanan::class, 'id_pemesanan', 'id_pemesanan');
+    }
+
+    public function kendaraan()
+    {
+        return $this->belongsTo(Kendaraan::class, 'id_kendaraan', 'id_kendaraan');
+    }
+
+    public function sopir()
+    {
+        return $this->belongsTo(Sopir::class, 'id_sopir', 'id_sopir');
+    }
+
+    // Relasi ke Pengembalian (Setiap detail pemesanan bisa memiliki 1 pengembalian)
+    public function pengembalian()
+    {
+        return $this->hasOne(Pengembalian::class, 'id_detail', 'id_detail');
+    }
+
+    // Relasi ke PengemudiPemesanan (Setiap detail pemesanan bisa memiliki banyak pengemudi)
+    public function pengemudiPemesanans()
+    {
+        return $this->hasMany(PengemudiPemesanan::class, 'id_detail_pemesanan', 'id_detail');
+    }
+
+    // Relasi ke PenggantianKendaraan (Setiap detail pemesanan bisa memiliki banyak penggantian kendaraan)
+    public function penggantianKendaraans()
+    {
+        return $this->hasMany(PenggantianKendaraan::class, 'id_detail', 'id_detail');
     }
 }
