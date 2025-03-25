@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->enum('role', ['admin', 'penyewa', 'mitra']);
             $table->string('foto_profil', 255)->nullable();
             $table->timestamps();
-            $table->date('is_verified')->default(null);
+            $table->date('is_verified')->default(null)->nullable();
         });
 
         // Tabel sessions dengan user_id berbasis UUID
