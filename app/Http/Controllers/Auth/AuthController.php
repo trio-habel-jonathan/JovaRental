@@ -64,7 +64,7 @@ class AuthController extends Controller
             'role' => 'penyewa', // Default role = penyewa
         ]);
 
-        return redirect()->route('loginView')->with('success', 'Your account successfuly registered, please login');
+        return redirect()->route('login')->with('success', 'Your account successfuly registered, please login');
     }
 
     public function registerMitra(Request $request)
@@ -122,6 +122,6 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('loginView')->with('success', 'Logout Berhasil');
+        return redirect()->route('home')->with('success', 'Logout Berhasil');
     }
 }
