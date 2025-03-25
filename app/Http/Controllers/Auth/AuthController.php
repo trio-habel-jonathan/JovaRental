@@ -32,9 +32,14 @@ class AuthController extends Controller
                 return redirect()->route('mitra.indexView')->with('success', "Welcome mitra");
             } else {
                 if ($entity) {
-                    return redirect()->route('home')->with('success', "Welcome mitra");
+                    return redirect()->route('home')->with(
+                        [
+                            'type' => 'success',
+                            'message' => 'Your login was successful!'
+                        ]
+                    );;
                 }
-                return redirect()->route('sewaSebagai')->with('success', "Welcome mitra");
+                return redirect()->route('sewaSebagai');
             }
         }
     }
