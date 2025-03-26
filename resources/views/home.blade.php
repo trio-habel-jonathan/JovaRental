@@ -6,45 +6,48 @@
             <div class="max-w-xl ">
                 <h1 class="text-5xl sm:text-7xl font-bold mb-4 uppercase  text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-300 drop-shadow-lg"">
                     Welcome to Jova Rental</h1>
-                <p class=" text-xl mb-8 font-medium">our trusted vehicle rental service, offering a Layanan Rental
+                <p class=" text-xl mb-8 font-medium ">our trusted vehicle rental service, offering a Layanan Rental
                     Kendaraan Terpercaya – Sewa Mobil & Motor dengan Mudah dan Terjangkau untuk Perjalanan Apa Pun.
                     Bebas Berkendara Kapan Saja, di Mana Saja!</p>
-                    <div class="flex flex-wrap gap-4">
-                        <a href="#menu"
-                            class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                            View More
-                        </a>
-                        <a href="#contact"
-                            class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
-                            Contact Us
-                        </a>
-                    </div>
+                    <div class=" flex flex-wrap gap-4">
+                    <a href="#menu"
+                        class="bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                        View More
+                    </a>
+                    <a href="#contact"
+                        class="border-2 border-purple-500 hover:bg-purple-500 text-purple-500 hover:text-white px-6 py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-lg">
+                        Contact Us
+                    </a>
             </div>
+        </div>
 
-            <div class="w-full max-w-4xl p-4 ">
+        <div class="w-full max-w-4xl p-4 ">
 
-                <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden shadow-lg">
-                    <img draggable="false" src="https://i.pinimg.com/736x/7d/aa/e3/7daae3529fecbacf405b7904b67e6b19.jpg"
-                        class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" alt="rental-mobil">
-                </div>
-                <div class="flex space-x-4 ">
-                    <div class="w-full flex-[200px] ">
-                        <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
-                            <img draggable="false"
-                                src="https://i.pinimg.com/736x/60/0c/48/600c4837a751426222a95ee5f5395926.jpg"
-                                alt="rental-mobil-ban" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        </div>
-                    </div>
-                    <div class="w-full flex-[200px] ">
-                        <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
-                            <img draggable="false"
-                                src="https://i.pinimg.com/736x/c6/79/f1/c679f17d8ea683b155a5826034f64894.jpg"
-                                alt="rental-motor-1" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        </div>
-                    </div>
-
-                </div>
+            <div class="border-2 rounded-xl h-64 mb-4 overflow-hidden shadow-lg">
+                <img draggable="false" src="https://i.pinimg.com/736x/7d/aa/e3/7daae3529fecbacf405b7904b67e6b19.jpg"
+                    class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    alt="rental-mobil">
             </div>
+            <div class="flex space-x-4 ">
+                <div class="w-full flex-[200px] ">
+                    <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
+                        <img draggable="false"
+                            src="https://i.pinimg.com/736x/60/0c/48/600c4837a751426222a95ee5f5395926.jpg"
+                            alt="rental-mobil-ban"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                </div>
+                <div class="w-full flex-[200px] ">
+                    <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
+                        <img draggable="false"
+                            src="https://i.pinimg.com/736x/c6/79/f1/c679f17d8ea683b155a5826034f64894.jpg"
+                            alt="rental-motor-1"
+                            class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
+                    </div>
+                </div>
+
+            </div>
+        </div>
         </div>
     </section>
     <section id="search" class="max-w-[1600px] mx-auto w-full flex items-center justify-center p-12">
@@ -124,7 +127,7 @@
                                     Sewa Kendaraan
                                     Mudah & Cepat, Perjalanan Tanpa Ribet!</p>
                             </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font">
+                            <dd class="mt-2 ml-16 text-base text-justify text-gray-500 plus-jakarta-sans-font">
                                 Jova Rental menawarkan proses penyewaan yang praktis dan cepat, baik untuk perjalanan
                                 bisnis, liburan, atau keperluan sehari-hari. Dengan pemesanan online yang simpel dan
                                 dukungan pelanggan 24/7, kami memastikan pengalaman sewa yang tanpa hambatan.
@@ -138,11 +141,13 @@
                                         alt="Vehicle Fleet">
                                 </div>
 
-                                <p class="font-heading ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
+                                <p
+                                    class="font-heading  ml-16 montserrat-font text-lg leading-6 font-bold text-gray-700">
                                     Fleet Berkualitas, Nyaman & Terawat untuk Setiap Perjalanan
                                 </p>
                             </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font"> Kendaraan kami
+                            <dd class="mt-2 ml-16  text-justify text-base text-gray-500 plus-jakarta-sans-font">
+                                Kendaraan kami
                                 selalu
                                 dalam kondisi prima,
                                 dengan perawatan rutin dan fitur keamanan lengkap. Dari mobil keluarga, motor praktis,
@@ -162,7 +167,8 @@
                                     Harga Transparan, Tanpa Biaya Tersembunyi!
                                 </p>
                             </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font">Tidak perlu khawatir
+                            <dd class="mt-2 ml-16 text-justify text-base text-gray-500 plus-jakarta-sans-font">Tidak
+                                perlu khawatir
                                 dengan biaya tambahan
                                 yang tidak jelas! Jova Rental menerapkan sistem harga transparan & kompetitif, sehingga
                                 Anda bisa menikmati perjalanan tanpa beban. Hemat lebih banyak, berkendara lebih nyaman!
@@ -180,7 +186,8 @@
                                     Asuransi, Keamanan Perjalanan Terjamin!
                                 </p>
                             </dt>
-                            <dd class="mt-2 ml-16 text-base text-gray-500 plus-jakarta-sans-font"> Kami mengutamakan
+                            <dd class="mt-2 ml-16 text-justify text-base text-gray-500 plus-jakarta-sans-font"> Kami
+                                mengutamakan
                                 keamanan dan kenyamanan
                                 pelanggan dengan asuransi kendaraan & bantuan darurat 24/7. Dengan Jova Rental, Anda
                                 bisa bepergian dengan tenang, kapan saja dan di mana saja.

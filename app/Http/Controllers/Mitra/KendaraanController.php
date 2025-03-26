@@ -45,6 +45,8 @@ class KendaraanController extends Controller
             'jumlah_kursi' => 'required|integer|min:1|max:50',
         ]);
 
+        dd($validated);
+
         $validated['id_mitra'] = $mitra->id_mitra;
 
         Kendaraan::create($validated);
