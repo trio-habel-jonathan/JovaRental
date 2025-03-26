@@ -595,34 +595,87 @@
                             </div>
 
                             <!-- Upload zone -->
-                            <div id="upload-zone" class="upload-zone rounded-xl p-4 text-center cursor-pointer">
-                                <div class="mb-4">
-                                    <svg class="mx-auto h-12 w-12 text-indigo-300" stroke="currentColor" fill="none"
-                                        viewBox="0 0 48 48" aria-hidden="true">
-                                        <path
-                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg>
-                                    <p class="mt-3 text-sm text-indigo-600 font-medium">Klik untuk mengunggah atau
-                                        seret dan lepas gambar di sini</p>
-                                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, JPEG (Maks. 5MB)</p>
+                            <div class="">
+                                <!-- UPLOAD -->
+                                <div id="upload-zone" class="upload-zone rounded-xl p-4 text-center cursor-pointer">
+                                    <div class="mb-4">
+                                        <svg class="mx-auto h-12 w-12 text-indigo-300" stroke="currentColor" fill="none"
+                                            viewBox="0 0 48 48" aria-hidden="true">
+                                            <path
+                                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        </svg>
+                                        <p class="mt-3 text-sm text-indigo-600 font-medium">Klik untuk mengunggah atau
+                                            seret dan lepas gambar di sini</p>
+                                        <p class="mt-1 text-xs text-gray-500">PNG, JPG, JPEG (Maks. 5MB)</p>
+                                    </div>
+                                    <input id="file-upload" name="file_upload[]" type="file" class="sr-only"
+                                        accept="image/*,video/*" multiple>
+                                    <div class="flex justify-center">
+                                        <button type="button" id="select-images-btn"
+                                            class="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium rounded-lg hover:from-blue-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all button-effect">
+                                            <span class="flex items-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        stroke-width="2"
+                                                        d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                                </svg>
+                                                Pilih File
+                                            </span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <input id="file-upload" name="file-upload" type="file" class="sr-only" accept="image/*"
-                                    multiple>
-                                <div class="flex justify-center">
-                                    <button type="button" id="select-images-btn"
-                                        class="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium rounded-lg hover:from-blue-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all button-effect">
-                                        <span class="flex items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                            </svg>
-                                            Pilih File
-                                        </span>
-                                    </button>
+
+                                <!-- PREVIEW -->
+                                <div class="grid grid-cols-3 gap-5 mt-3 place-items-center">
+                                    <div class="border h-[70px] w-[70px] flex items-center justify-center">
+                                        <img src="" class="object-cover w-full h-full" alt="Foto/Video">
+                                        <input type="text" class="hidden">
+                                    </div>
+                                    <div class="border h-[70px] w-[70px] flex items-center justify-center">
+                                        <img src="" class="object-cover w-full h-full" alt="Foto/Video">
+                                        <input type="text" class="hidden">
+                                    </div>
+                                    <div class="border h-[70px] w-[70px] flex items-center justify-center">
+                                        <img src="" class="object-cover w-full h-full" alt="Foto/Video">
+                                        <input type="text" class="hidden">
+                                    </div>
                                 </div>
                             </div>
+
+                            <script>
+                                // Trigger klik tombol untuk memunculkan file dialog
+                              document.getElementById('select-images-btn').addEventListener('click', function() {
+                                  document.getElementById('file-upload').click();
+                              });
+                            
+                              // Fungsi untuk melakukan preview file yang diupload
+                              document.getElementById('file-upload').addEventListener('change', function(e) {
+                                  const files = e.target.files;
+                                  const previewContainers = document.querySelectorAll('.grid.grid-cols-3 > div');
+                                  
+                                  // Bersihkan preview yang sudah ada
+                                  previewContainers.forEach(container => {
+                                      const img = container.querySelector('img');
+                                      img.src = "";
+                                  });
+                            
+                                  // Menampilkan preview untuk maksimal 2 file
+                                  const previewCount = Math.min(files.length, 3);
+                                  for (let i = 0; i < previewCount; i++) {
+                                      const file = files[i];
+                                      const reader = new FileReader();
+                            
+                                      reader.onload = function(e) {
+                                          // Tampilkan preview pada container yang sesuai
+                                          previewContainers[i].querySelector('img').src = e.target.result;
+                                      }
+                                      reader.readAsDataURL(file);
+                                  }
+                              });
+                            </script>
+
                         </div>
                     </div>
 

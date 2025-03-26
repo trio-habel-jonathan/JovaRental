@@ -1,5 +1,6 @@
 <div class="">
-    <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{ route('about') }}" />
+    <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{ route('mitra.kendaraan.hapusKendaraan') }}"
+        uuid="{{$kendaraan->id_kendaraan}}" />
     <div
         class="car-card bg-white rounded-xl shadow-md border border-gray-100 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="flex flex-col md:flex-row">
@@ -16,7 +17,8 @@
 
                 </div>
 
-                {{-- <!-- Color -->
+                {{--
+                <!-- Color -->
                 <div class="mt-3 flex items-center space-x-3">
                     <div class="w-8 h-8 rounded-full bg-[{{ $kendaraan->warna }}] border-2 border-white shadow"></div>
                     <p class="text-base font-medium text-gray-700">{{ $kendaraan->warna }} </p>
@@ -29,9 +31,9 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-blue-500">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="16" y1="2" x2="16" y2="6"></line>
                             <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -44,9 +46,9 @@
                     </div>
 
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-blue-500">
                             <path d="M5 9l2 -2v10l-2 -2z"></path>
                             <path d="M15 5l0 14"></path>
                             <path d="M19 5l0 14"></path>
@@ -66,9 +68,9 @@
                     </div>
 
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-blue-500">
                             <path
                                 d="M14 6a2 2 0 1 0 -4 0c0 .932 .14 1.807 .4 2.602l-.89 .9l.808 .8l.89 -.9a7.499 7.499 0 0 0 2.392 .498v2.1h1v-2.1a7.5 7.5 0 0 0 2.392 -.498l.89 .9l.808 -.8l-.89 -.9c.26 -.795 .4 -1.67 .4 -2.602a2 2 0 1 0 -4 0">
                             </path>
@@ -82,9 +84,9 @@
                     </div>
 
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            class="text-blue-500">
                             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
                             <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855">

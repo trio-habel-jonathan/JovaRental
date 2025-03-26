@@ -12,6 +12,7 @@
             <i class="fa-solid fa-xmark-large text-white text-3xl"></i>
         </div>
 
+        <input type="text" class="hidden" name="uuid" value="{{$uuid}}">
         <div>
             <h1 class="montserrat-font text-center font-bold text-2xl">Apakah Kamu Yakin?</h1>
             <p class="plus-jakarta-sans-font text-center">Hal yang kamu perbuat tidak dapat di ulang kembali</p>

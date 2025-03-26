@@ -45,12 +45,38 @@ class KendaraanController extends Controller
             'jumlah_kursi' => 'required|integer|min:1|max:50',
         ]);
 
-        dd($validated);
+
+        $paths = [];
+
+        if ($request->hasFile('file_upload')) {
+            foreach ($request->file('file_upload') as $file) {
+                // Simpan file ke folder "kendaraan" di dalam public
+                $filename = time() . '_' . $file->getClientOriginalName();
+                $file->move(public_path('kendaraan'), $filename);
+
+                // Simpan nama file ke dalam array
+                $paths[] = $filename;
+            }
+        }
 
         $validated['id_mitra'] = $mitra->id_mitra;
+        $validated['fotos'] = json_encode($paths);
+
 
         Kendaraan::create($validated);
 
-        return redirect()->route('mitra.kendaraan.kendaraanmitraView')->with('success', 'Kendaraan berhasil ditambahkan');
+        return redirect()->route('mitra.kendaraan.kendaraanmitraView')->with(['type' => 'success', 'message' => 'Kendaraan berhasil ditambahkan']);
+    }
+
+    public function destroy(Request $request)
+    {
+        $request->validate([
+            'uuid' => 'required',
+        ]);
+
+        Kendaraan::where('id_kendaraan', $request->uuid)->delete();
+        // dd($request->input());
+
+        return redirect()->back()->with(['type' => 'success', 'message' => 'Kendaraan Berhasil Dihapus']);
     }
 }
