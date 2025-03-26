@@ -8,9 +8,14 @@
     <title>JovaRental | {{ $title }}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 </head>
 
 <body class="w-full h-max">
+    @if (session('type') && session('message'))
+        <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
+    @endif
     @include('content.loading-overlay')
     <div class="background w-full h-full fixed top-0 -z-10">
         <div
