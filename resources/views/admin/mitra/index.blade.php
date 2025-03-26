@@ -23,8 +23,8 @@
             </div>
         </div>
         <div class="container mx-auto mt-4">
-            <div class="grid lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                @for ($i = 0; $i < 5; $i++)
+            <div class="grid lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                @foreach ($allmitra as $mitra)
                     <a href="{{ route('admin.mitra.detailmitraView') }}"
                         class="group relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 ease-in-out h-96 hover:shadow-2xl transform hover:-translate-y-1">
                         <!-- Fixed gradient overlay that doesn't change on hover -->
@@ -45,12 +45,12 @@
 
                             <!-- Name - starts visible but animates -->
                             <h1 class="text-2xl font-bold text-white uppercase transition-all duration-300">
-                                Pengusaha Sukses</h1>
+                             {{$mitra->nama_mitra}}</h1>
 
                             <!-- Details that fade in -->
                             <p
                                 class="text-white/80 text-sm font-medium mt-1 transition-all duration-500 opacity-70 group-hover:opacity-100">
-                                Muhammad Habib</p>
+                                {{$mitra->nama_pemilik}}</p>
 
                             <!-- Extra details that appear on hover -->
                             <div
@@ -69,7 +69,7 @@
                             </div>
                         </div>
                     </a>
-                @endfor
+                    @endforeach
             </div>
         </div>
     </div>

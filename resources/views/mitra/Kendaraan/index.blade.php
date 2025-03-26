@@ -70,7 +70,7 @@
                     </div>
                 </div>
 
-                <!-- Filter by Color -->
+                {{-- <!-- Filter by Color --> TIDAK DIGUNAKAN!
                 <div class="mb-6">
                     <h4 class="text-sm font-medium text-gray-700 mb-3">Filter Berdasarkan Warna</h4>
                     <div class="flex flex-wrap gap-3">
@@ -82,7 +82,7 @@
                         <div class="color-option bg-black" title="Hitam"></div>
                         <div class="color-option bg-white border border-gray-200" title="Putih"></div>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Filter by Year -->
                 <div class="mb-6">
