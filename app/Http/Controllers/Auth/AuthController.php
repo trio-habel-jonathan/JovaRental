@@ -41,6 +41,8 @@ class AuthController extends Controller
                 }
                 return redirect()->route('sewaSebagai');
             }
+        } else {
+            return redirect()->back()->with(['type' => 'error', 'message' => 'Kredensial Tidak Sesuai !']);
         }
     }
     public function register(Request $request)
@@ -127,6 +129,10 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('home')->with('success', 'Logout Berhasil');
+
+        return redirect()->route('home')->with([
+            'type' => 'success',
+            'message' => 'Your logout was successful!'
+        ]);
     }
 }

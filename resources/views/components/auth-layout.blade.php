@@ -14,7 +14,7 @@
 
 <body class="w-full h-max">
     @if (session('type') && session('message'))
-        <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
+    <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
     @endif
     @include('content.loading-overlay')
     <div class="background w-full h-full fixed top-0 -z-10">
