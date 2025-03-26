@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Models\{User};
 
+=======
+use App\Models\Mitra;
+>>>>>>> c6dfd1bf86154091e9cae17b9cd6d52203a39d4a
 
 class AdminPageController extends Controller
 {
@@ -38,7 +42,9 @@ class AdminPageController extends Controller
 
     public function mitraView()
     {
-        return view('admin.mitra.index');
+        $allmitra = Mitra::all();
+        return view('admin.mitra.index', compact('allmitra'));
+
     }
 
     public function detailmitraView()

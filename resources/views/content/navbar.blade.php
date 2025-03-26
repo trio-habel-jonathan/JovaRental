@@ -18,6 +18,7 @@
 
         <!-- ========== Nav Links (Desktop) ========== -->
         <ul class="hidden md:flex items-center space-x-8">
+            @auth
             <li>
                 <a href="{{ route('registerMitraView') }}"
                     class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
@@ -27,6 +28,7 @@
                         class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </li>
+            @endauth
             <li>
                 <a href="{{ route('about') }}"
                     class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
@@ -99,6 +101,7 @@
         <!-- Mobile Menu (Hidden by default) -->
         <div class="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg hidden" id="mobile-menu">
             <ul class="flex flex-col space-y-2 p-4">
+                @auth
                 <li>
                     <a href="{{ route('registerMitraView') }}"
                         class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
@@ -106,6 +109,7 @@
                             Us</span>
                     </a>
                 </li>
+                @endauth
                 <li>
                     <a href="{{ route('about') }}"
                         class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
