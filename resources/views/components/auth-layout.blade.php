@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    
+
     <title>JovaRental | {{ $title }}</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -25,7 +25,7 @@
     @if (session('type') && session('message'))
     <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
     @endif
-    <div class="background w-full h-full fixed top-0 left-0 -z-20"></div>
+    <div class="background w-full h-full fixed top-0 left-0 -z-30"></div>
     @include('content.loading-overlay')
     <div class="z-10">
         {{ $slot }}

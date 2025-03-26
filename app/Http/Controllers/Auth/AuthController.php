@@ -74,37 +74,38 @@ class AuthController extends Controller
         return redirect()->route('login')->with('success', 'Your account successfuly registered, please login');
     }
 
-    public function registerMitra(Request $request)
-    {
-        // Validasi input
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email|max:100|unique:users,email',
-            'password' => 'required|string|min:6|confirmed',
-            'no_hp' => 'required|string|max:15',
-        ]);
+    // public function registerMitra(Request $request)
+    // {
+    //     // Validasi input
+    //     $validator = Validator::make($request->all(), [
+    //         'email' => 'required|email|max:100|unique:users,email',
+    //         'password' => 'required|string|min:6|confirmed',
+    //         'no_hp' => 'required|string|max:15',
+    //     ]);
 
-        // Jika validasi gagal, kembalikan ke halaman register dengan error
-        if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
-        }
+    //     // Jika validasi gagal, kembalikan ke halaman register dengan error
+    //     if ($validator->fails()) {
+    //         return redirect()->back()
+    //             ->withErrors($validator)
+    //             ->withInput();
+    //     }
 
-        // Simpan user ke database dengan UUID otomatis
-        $user = User::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => 'penyewa',
-        ]);
+    //     // Simpan user ke database dengan UUID otomatis
+    //     Mitra::create([
+    //         'email' => $request->email,
+    //         'password' => Hash::make($request->password),
+    //         'role' => 'penyewa',
+    //     ]);
 
-        return redirect()->route('sewaSebagai')->with('success', 'Akun mitra berhasil dibuat! Silakan login.');
-    }
+    //     return redirect()->route('sewaSebagai')->with('success', 'Akun mitra berhasil dibuat! Silakan login.');
+    // }
 
     public function entitas(Request $request)
     {
         $validation = $request->validate([
             'nama_entitas' => 'required|string',
             'no_identitas' => 'required|string',
+            'tipe_entitas' => 'required|in:individu,perusahaan',
             'npwp' => 'string',
             'alamat' => 'required|string',
         ]);

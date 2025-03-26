@@ -17,12 +17,12 @@ Route::middleware("guest")->group(function () {
 Route::middleware("auth")->group(function () {
     Route::get("/sewa-sebagai", [PageController::class, "sewaSebagai"])->name("sewaSebagai");
     Route::get("/detail-data", [PageController::class, "entityForm"])->name("entityForm");
-    Route::get('/register-mitra', [PageController::class, 'registerMitraView'])->name('registerMitraView');
+    Route::get('/register-mitra', [PageController::class, 'registerMitraView'])->middleware('VerifiedEntity')->name('registerMitraView');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('/entitas-action', [AuthController::class, 'entitas'])->name('entitas-action');
-    Route::post('/registerMitra-action', [AuthController::class, 'registerMitra'])->name('register.mitra');
-    Route::post("/register-mitra-action", [MitraController::class, "store"])->name('registerMitra');
+    Route::post('/registerMitra-action', [MitraController::class, 'store'])->name('register.mitra');
+    // Route::post("/register-mitra-action", [MitraController::class, "store"])->name('registerMitra');
 });
 
 Route::get('/confirm-password', [PageController::class, 'passwordView'])->name('passwordView');
