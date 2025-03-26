@@ -475,6 +475,20 @@
                                 </div>
 
                                 <div class="mb-4">
+                                    <label for="harga_sewa_perhari" class="block mb-2 font-medium text-gray-700">Harga Sewa Perhari</label>
+                                    <div class="relative">
+                                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                            </svg>
+                                        </div>
+                                        <input type="number" id="harga_sewa_perhari" name="harga_sewa_perhari" min="1"  class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg input-focus focus:outline-none" placeholder="Contoh: 250000" required>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="mb-4">
                                     <label for="jumlah_kursi" class="block mb-2 font-medium text-gray-700">Kapasitas Tempat Duduk</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -489,6 +503,8 @@
                                     @enderror
                                 </div>
 
+                                
+
                                 <div class="mb-4">
                                     <label for="plat_nomor" class="block mb-2 font-medium text-gray-700">Nomor Plat</label>
                                     <div class="relative">
@@ -502,6 +518,46 @@
                                     @error('plat_nomor')
                                         <span class="text-red-500 text-sm">{{ $message }}</span>
                                     @enderror
+                                </div>
+
+                                
+                            </div>
+                            
+                        </div>
+                        <div id="upload-container">
+                            <!-- Image counter -->
+                            <div class="upload-counter mb-3">
+                                <span id="image-count">0</span>/3 foto diunggah
+                            </div>
+
+                            <!-- Upload zone -->
+                            <div id="upload-zone" class="upload-zone rounded-xl p-4 text-center cursor-pointer">
+                                <div class="mb-4">
+                                    <svg class="mx-auto h-12 w-12 text-indigo-300" stroke="currentColor"
+                                        fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                        <path
+                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                    </svg>
+                                    <p class="mt-3 text-sm text-indigo-600 font-medium">Klik untuk mengunggah atau
+                                        seret dan lepas gambar di sini</p>
+                                    <p class="mt-1 text-xs text-gray-500">PNG, JPG, JPEG (Maks. 5MB)</p>
+                                </div>
+                                <input id="file-upload" name="file-upload" type="file" class="sr-only"
+                                    accept="image/*" multiple>
+                                <div class="flex justify-center">
+                                    <button type="button" id="select-images-btn"
+                                        class="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-sm font-medium rounded-lg hover:from-blue-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all button-effect">
+                                        <span class="flex items-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    stroke-width="2"
+                                                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                            </svg>
+                                            Pilih File
+                                        </span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

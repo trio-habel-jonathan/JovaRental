@@ -1,5 +1,5 @@
 <div class="">
-    <x-modal-delete counter="{{$loop->iteration}}" formAction="{{route('about')}}" />
+    <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{ route('about') }}" />
     <div
         class="car-card bg-white rounded-xl shadow-md border border-gray-100 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="flex flex-col md:flex-row">
@@ -10,15 +10,17 @@
 
                 <!-- Car Name and Badge -->
                 <div class="mt-4 flex items-center justify-between">
-                    <h3 class="text-2xl font-bold text-gray-800">{{$kendaraan->nama_kendaraan}}</h3>
-                    <span class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">Mobil</span>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $kendaraan->nama_kendaraan }}</h3>
+                    <span class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">
+                        {{ $kendaraan->kategoriKendaraan->jenisKendaraan->nama_jenis ?? 'Tidak Diketahui' }}</span>
+
                 </div>
 
-                <!-- Color -->
+                {{-- <!-- Color -->
                 <div class="mt-3 flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-full bg-[{{$kendaraan->warna}}] border-2 border-white shadow"></div>
-                    <p class="text-base font-medium text-gray-700">{{$kendaraan->warna}} </p>
-                </div>
+                    <div class="w-8 h-8 rounded-full bg-[{{ $kendaraan->warna }}] border-2 border-white shadow"></div>
+                    <p class="text-base font-medium text-gray-700">{{ $kendaraan->warna }} </p>
+                </div> --}}
             </div>
 
             <!-- Right side with details -->
@@ -27,9 +29,9 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="text-blue-500">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
                             <line x1="16" y1="2" x2="16" y2="6"></line>
                             <line x1="8" y1="2" x2="8" y2="6"></line>
@@ -37,29 +39,36 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500">Tahun Pembuatan</p>
-                            <p class="text-base font-medium text-gray-800">{{$kendaraan->tahun_produksi}}</p>
+                            <p class="text-base font-medium text-gray-800">{{ $kendaraan->tahun_produksi }}</p>
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="text-blue-500">
                             <path d="M5 9l2 -2v10l-2 -2z"></path>
                             <path d="M15 5l0 14"></path>
                             <path d="M19 5l0 14"></path>
                             <path d="M15 9l-2 2l2 2"></path>
                         </svg>
-                        <div>
-                            <p class="text-xs text-gray-500">Tipe Transmisi</p>
-                            <p class="text-base font-medium text-gray-800">{{$kendaraan->transmisi}}</p>
+                        <div class="flex items-center gap-8 w-full">
+                            <div>
+                                <p class="text-xs text-gray-500">Tipe Transmisi</p>
+                                <p class="text-base font-medium text-gray-800">{{ $kendaraan->transmisi }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Kategori Kendaraan</p>
+                                <p class="text-base font-medium text-gray-800">
+                                    {{ $kendaraan->kategoriKendaraan->nama_kategori ?? 'Tidak Diketahui' }} </p>
+                            </div>
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="text-blue-500">
                             <path
                                 d="M14 6a2 2 0 1 0 -4 0c0 .932 .14 1.807 .4 2.602l-.89 .9l.808 .8l.89 -.9a7.499 7.499 0 0 0 2.392 .498v2.1h1v-2.1a7.5 7.5 0 0 0 2.392 -.498l.89 .9l.808 -.8l-.89 -.9c.26 -.795 .4 -1.67 .4 -2.602a2 2 0 1 0 -4 0">
                             </path>
@@ -68,14 +77,14 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500">Tenaga Mesin</p>
-                            <p class="text-base font-medium text-gray-800">1197 cc</p>
+                            <p class="text-base font-medium text-gray-800">{{ $kendaraan->cubic_centimeter }} CC</p>
                         </div>
                     </div>
 
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                            class="text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="text-blue-500">
                             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
                             <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855">
@@ -83,23 +92,20 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500">Kapasitas Tempat Duduk</p>
-                            <p class="text-base font-medium text-gray-800">{{$kendaraan->jumlah_kursi}} seat</p>
+                            <p class="text-base font-medium text-gray-800">{{ $kendaraan->jumlah_kursi }} seat</p>
                         </div>
+
                     </div>
+
                 </div>
 
-                <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm font-medium text-gray-700">ID Kendaraan:</span>
-                        <span class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
-                    </div>
-
+                <div class="mt-6 flex justify-end border-t border-gray-100 pt-4">
                     <div class="flex space-x-2">
                         <a href="{{ route('mitra.kendaraan.editkendaraanView') }}"
                             class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
                             ✎ Edit
                         </a>
-                        <label for="modal-delete-toggle-{{$loop->iteration}}"
+                        <label for="modal-delete-toggle-{{ $loop->iteration }}"
                             class="cursor-pointer px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
                             🗑 Hapus
                         </label>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Mitra;
 
 class AdminPageController extends Controller
 {
@@ -34,7 +35,9 @@ class AdminPageController extends Controller
 
     public function mitraView()
     {
-        return view('admin.mitra.index');
+        $allmitra = Mitra::all();
+        return view('admin.mitra.index', compact('allmitra'));
+
     }
 
     public function detailmitraView()

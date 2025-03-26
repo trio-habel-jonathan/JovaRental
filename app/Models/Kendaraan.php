@@ -27,7 +27,7 @@ class Kendaraan extends Model
         'transmisi',
         'cubic_centimeter',
         'jumlah_kursi',
-        'harga_sewa_per_jam',
+        'harga_sewa_perhari',
         'deskripsi',
         'status_kendaraan',
         'fotos',
@@ -53,11 +53,17 @@ class Kendaraan extends Model
         return $this->belongsTo(Mitra::class, 'id_mitra', 'id_mitra');
     }
 
+    public function jenisKendaraan()
+    {
+        return $this->belongsTo(JenisKendaraan::class, 'id_jenis', 'id_jenis');
+    }
+
     // Relasi ke KategoriKendaraan (Setiap kendaraan dimiliki oleh 1 kategori kendaraan)
     public function kategoriKendaraan()
     {
         return $this->belongsTo(KategoriKendaraan::class, 'id_kategori', 'id_kategori');
     }
+
 
     // Relasi ke DetailPemesanan (Setiap kendaraan bisa memiliki banyak detail pemesanan)
     public function detailPemesanans()

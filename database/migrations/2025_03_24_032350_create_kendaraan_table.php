@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('transmisi', ['automatic', 'manual', 'kopling']);
             $table->integer('cubic_centimeter');
             $table->integer('jumlah_kursi');
-            $table->decimal('harga_sewa_per_jam', 10, 2);
+            $table->decimal('harga_sewa_perhari', 10, 2);
             $table->text('deskripsi')->nullable();
             $table->enum('status_kendaraan', ['tersedia', 'disewa', 'maintenance'])->default('tersedia');
             $table->text('fotos')->nullable();
