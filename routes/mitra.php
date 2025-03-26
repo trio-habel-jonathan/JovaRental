@@ -20,6 +20,7 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
         Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
         Route::get('/create', [KendaraanController::class, 'tambahkendaraan'])->name('tambahkendaraanView');
         Route::get('/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraanView');
+        Route::post('/store', [KendaraanController::class, 'tambahkendaraanStore'])->name('tambahkendaraanStore');
     });
 
     Route::prefix('supir')->name('supir.')->group(function () {
