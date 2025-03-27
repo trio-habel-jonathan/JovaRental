@@ -22,6 +22,8 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Atugatran/FontAwesome6Pro@latest/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
     <link rel="stylesheet" href="{{ asset('static/style/formKendaraan.css') }}">
@@ -30,7 +32,7 @@
 
 <body class="flex  bg-gray-100 min-h-screen">
     @if (session('type') && session('message'))
-        <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
+    <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
     @endif
     @include('content.loading-overlay')
 

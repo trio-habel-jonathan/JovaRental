@@ -7,7 +7,7 @@
             <div class="grid grid-cols-1 gap-8 ">
                 <!-- Toyota Calya Card -->
                 @foreach ($allKendaraan as $kendaraan)
-                @include('mitra.Kendaraan.partials.kartu-kendaraan')
+                @include('content.kartu-kendaraan')
                 @endforeach
             </div>
         </div>
