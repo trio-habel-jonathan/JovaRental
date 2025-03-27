@@ -41,4 +41,28 @@ class AdminPageController extends Controller
     {
         return view('admin.mitra.detail');
     }
+
+    public function clasificationsView()
+    {
+        return view('admin.clasifications.index');
+    }
+
+    public function createKategoriView()
+    {
+        return view('admin.clasifications.createKategori');
+    }
+    public function editKategoriView()
+    {
+        return view('admin.clasifications.editKategori');
+    }
+
+    public function createJenisView()
+    {
+        return view('admin.clasifications.createJenis');
+    }
+
+    public function editJenisView()
+    {
+        return view('admin.clasifications.editJenis');
+    }
 }

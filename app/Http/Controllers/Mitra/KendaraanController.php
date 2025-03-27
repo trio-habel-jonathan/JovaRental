@@ -17,4 +17,5 @@ class KendaraanController extends Controller
     {
         return view('mitra.kendaraan.edit');
     }
+
 }
