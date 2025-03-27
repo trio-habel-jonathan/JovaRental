@@ -55,4 +55,5 @@ class MitraPageController extends Controller
     public function pemasukan(){
         return view ('mitra.keuangan.income');
     }
+
 }

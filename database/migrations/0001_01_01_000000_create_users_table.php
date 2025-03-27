@@ -14,6 +14,7 @@ return new class extends Migration {
         // Tabel users dengan UUID sebagai primary key
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('id_user')->primary(); // UUID sebagai primary key
+            $table->string('name', 100); // Menambahkan kolom nama pengguna
             $table->string('email', 100)->unique();
             $table->string('password', 255);
             $table->string('no_telepon', 15);

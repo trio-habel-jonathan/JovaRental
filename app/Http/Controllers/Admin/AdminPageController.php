@@ -4,7 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+use App\Models\{User};
+
+=======
 use App\Models\Mitra;
+>>>>>>> c6dfd1bf86154091e9cae17b9cd6d52203a39d4a
 
 class AdminPageController extends Controller
 {
@@ -18,19 +23,21 @@ class AdminPageController extends Controller
         return view('admin.settings');
     }
 
-    public function userView()
-    {
-        return view('admin.user.index');
-    }
+   public function userView()
+{
+    $users = User::all(); // Ambil semua data user
+    return view('admin.user.index', compact('users'));
+}
 
     public function adduserView()
     {
         return view('admin.user.add');
     }
 
-    public function edituserView()
+    public function edituserView($id_user)
     {
-        return view('admin.user.edit');
+        $user = User::where('id_user', $id_user)->firstOrFail();
+        return view('admin.user.edit', compact('user'));
     }
 
     public function mitraView()
@@ -43,5 +50,29 @@ class AdminPageController extends Controller
     public function detailmitraView()
     {
         return view('admin.mitra.detail');
+    }
+
+    public function clasificationsView()
+    {
+        return view('admin.clasifications.index');
+    }
+
+    public function createKategoriView()
+    {
+        return view('admin.clasifications.createKategori');
+    }
+    public function editKategoriView()
+    {
+        return view('admin.clasifications.editKategori');
+    }
+
+    public function createJenisView()
+    {
+        return view('admin.clasifications.createJenis');
+    }
+
+    public function editJenisView()
+    {
+        return view('admin.clasifications.editJenis');
     }
 }

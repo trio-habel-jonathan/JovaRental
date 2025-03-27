@@ -35,7 +35,7 @@
     @include('content.sidebarAdmin')
     <div class="flex-1">
         <div class="w-full bg-white sticky top-0 flex items-center justify-between p-2 px-6 border-b z-20">
-            <h1 class="font-semibold text-xl">{{ $title }}</h1>
+            <h1 class="font-semibold text-xl montserrat-font">{{ $title }}</h1>
             <ul class="flex items-center gap-2">
                 <li class="relative hover:bg-primary/20 hover:text-primary p-2 rounded-full">
                     <span class="absolute top-1 right-2 rounded-full bg-red-600 p-1"></span>
