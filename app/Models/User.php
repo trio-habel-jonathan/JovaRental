@@ -67,7 +67,7 @@ class User extends Authenticatable
         });
     }
 
-    public function hasEntitas()
+    public function entitasPenyewa()
     {
         return $this->hasOne(User::class, "id_user", "id_user");
     }

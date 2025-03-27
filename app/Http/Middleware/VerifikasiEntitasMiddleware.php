@@ -24,10 +24,10 @@ class VerifikasiEntitasMiddleware
             }
 
 
-            if ($user->role != 'mitra' && $user->hasEntitas) {
+            if ($user->role != 'mitra' && $user->entitasPenyewa) {
                 return $next($request);
             }
-            // dd($user->hasEntitas);
+            // dd($user->entitasPenyewa);
 
             return redirect()->route('sewaSebagai');
         }
