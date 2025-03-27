@@ -66,34 +66,114 @@
 
         <div class="flex flex-col flex-1 gap-10 lg:gap-0 lg:flex-row lg:justify-between">
             <div class="w-full lg:w-1/4 border-b pb-10 lg:border-b-0 lg:pb-0 lg:border-r border-gray-100">
-                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center ">
-                    540+
+                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center counter" data-target="540"
+                    data-format="+">
+                    0
                 </div>
-                <span class="text-xl text-gray-500 text-center block ">Kendaraan Terdaftar
-                </span>
+                <span class="text-xl text-gray-500 text-center block">Kendaraan Terdaftar</span>
             </div>
             <div class="w-full lg:w-1/4 border-b pb-10 lg:border-b-0 lg:pb-0 lg:border-r border-gray-100">
-                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center ">
-                    1,230+
+                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center counter" data-target="1230"
+                    data-format="+">
+                    0
                 </div>
-                <span class="text-xl text-gray-500 text-center block ">Pengguna Terverifikasi
-                </span>
+                <span class="text-xl text-gray-500 text-center block">Pengguna Terverifikasi</span>
             </div>
             <div class="w-full lg:w-1/4 border-b pb-10 lg:border-b-0 lg:pb-0 lg:border-r border-gray-100">
-                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center ">
-                    15,230+
+                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center counter" data-target="15230"
+                    data-format="+">
+                    0
                 </div>
-                <span class="text-xl text-gray-500 text-center block ">Transaksi Berhasil
-                </span>
+                <span class="text-xl text-gray-500 text-center block">Transaksi Berhasil</span>
             </div>
-            <div class="w-full lg:w-1/4  ">
-                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center ">
-                    97%
+            <div class="w-full lg:w-1/4">
+                <div class="font-manrope font-bold text-5xl text-gray-900 mb-5 text-center counter" data-target="97"
+                    data-format="%">
+                    0
                 </div>
-                <span class="text-xl text-gray-500 text-center block ">Ulasan Positif
-                </span>
+                <span class="text-xl text-gray-500 text-center block">Ulasan Positif</span>
             </div>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const counters = document.querySelectorAll('.counter');
+                const speed = 200; // Kecepatan animasi (ms)
+                let animationStarted = false;
+
+                // Fungsi untuk memformat angka dengan koma dan simbol
+                function formatNumber(number, format) {
+                    // Tambahkan koma sebagai pemisah ribuan
+                    let formatted = number.toLocaleString('en-US');
+
+                    // Tambahkan simbol jika ada
+                    if (format === '+') {
+                        formatted += '+';
+                    } else if (format === '%') {
+                        formatted += '%';
+                    }
+
+                    return formatted;
+                }
+
+                function startCounters() {
+                    if (animationStarted) return;
+                    animationStarted = true;
+
+                    counters.forEach(counter => {
+                        const target = +counter.getAttribute('data-target');
+                        const format = counter.getAttribute('data-format') || '';
+                        const count = +counter.innerText.replace(/[+,%]/g, '');
+                        const increment = target / speed;
+
+                        const updateCount = () => {
+                            const currentCount = +counter.innerText.replace(/[+,%]/g, '');
+                            if (currentCount < target) {
+                                const newCount = Math.ceil(currentCount + increment);
+                                counter.innerText = formatNumber(newCount, format);
+                                setTimeout(updateCount, 1);
+                            } else {
+                                counter.innerText = formatNumber(target, format);
+                            }
+                        };
+
+                        // Set initial value dengan format
+                        counter.innerText = formatNumber(0, format);
+                        updateCount();
+                    });
+                }
+
+                // Gunakan Intersection Observer
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            startCounters();
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, { threshold: 0.5 });
+
+                // Observasi container utama
+                const counterContainer = document.querySelector('.flex.flex-col.flex-1');
+                if (counterContainer) {
+                    observer.observe(counterContainer);
+                }
+
+                // Untuk memastikan animasi berjalan saat refresh di posisi tertentu
+                window.addEventListener('load', function () {
+                    if (counterContainer) {
+                        const rect = counterContainer.getBoundingClientRect();
+                        if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                            startCounters();
+                        }
+                    }
+                });
+            });
+        </script>
+        <style>
+            .counter {
+                transition: all 0.3s ease-out;
+            }
+        </style>
 
 
 
@@ -317,31 +397,31 @@
     <!-- Initialize Swiper -->
     <script>
         // Get references to elements
-      const gallery = document.querySelector('.gallery');
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImage = document.getElementById('lightbox-image');
-      const closeButton = document.getElementById('close');
-    
-      // Add event listener to each image
-      gallery.addEventListener('click', e => {
-        if (e.target.classList.contains('gallery-image')) {
-          const imageSrc = e.target.src;
-          lightboxImage.src = imageSrc;
-          lightbox.style.display = 'flex';
-        }
-      });
-    
-      // Close lightbox when close button is clicked
-      closeButton.addEventListener('click', () => {
-        lightbox.style.display = 'none';
-      });
-    
-      // Close lightbox when clicking outside the image
-      lightbox.addEventListener('click', e => {
-        if (e.target === lightbox) {
-          lightbox.style.display = 'none';
-        }
-      });
+        const gallery = document.querySelector('.gallery');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const closeButton = document.getElementById('close');
+
+        // Add event listener to each image
+        gallery.addEventListener('click', e => {
+            if (e.target.classList.contains('gallery-image')) {
+                const imageSrc = e.target.src;
+                lightboxImage.src = imageSrc;
+                lightbox.style.display = 'flex';
+            }
+        });
+
+        // Close lightbox when close button is clicked
+        closeButton.addEventListener('click', () => {
+            lightbox.style.display = 'none';
+        });
+
+        // Close lightbox when clicking outside the image
+        lightbox.addEventListener('click', e => {
+            if (e.target === lightbox) {
+                lightbox.style.display = 'none';
+            }
+        });
     </script>
 
 
