@@ -43,6 +43,42 @@ class Pemesanan extends Model
         });
     }
 
+    public function hitungTotalHargaKendaraan()
+    {
+        return $this->detailPemesanans->sum(function ($detail) {
+            $lamaSewa = max(1, (strtotime($detail->tanggal_selesai) - strtotime($detail->tanggal_mulai)) / 86400);
+            return $detail->kendaraan->harga_sewa_perhari * $lamaSewa;
+        });
+    }
+
+    public function getBiayaLayananPersen()
+    {
+        return FeeSetting::where('id_fee', '550e8400-e29b-41d4-a716-446655440000')->value('nilai_fee') ?? 0;
+    }
+
+    public function getPajakPersen()
+    {
+        return FeeSetting::where('id_fee', '550e8400-e29b-41d4-a716-446655440002')->value('nilai_fee') ?? 0;
+    }
+
+    public function hitungBiayaLayanan()
+    {
+        $biayaLayananPersen = FeeSetting::where('id_fee', '550e8400-e29b-41d4-a716-446655440000')->value('nilai_fee');
+        return ($this->hitungTotalHargaKendaraan() * $biayaLayananPersen) / 100;
+    }
+
+    public function hitungPajak()
+    {
+        $pajakPersen = FeeSetting::where('id_fee', '550e8400-e29b-41d4-a716-446655440002')->value('nilai_fee');
+        return ($this->hitungTotalHargaKendaraan() * $pajakPersen) / 100;
+    }
+
+    public function hitungTotalBayar()
+    {
+        return $this->hitungTotalHargaKendaraan() + $this->hitungBiayaLayanan() + $this->hitungPajak();
+    }
+
+
     // Relasi ke EntitasPenyewa (Setiap pemesanan dimiliki oleh 1 entitas penyewa)
     public function entitasPenyewa()
     {

@@ -14,21 +14,25 @@
             <!-- Biaya Layanan dan Pajak -->
             <div class="mt-2 space-y-1 montserrat-font text-sm">
                 <div class="flex items-center gap-2">
-                    <span class="text-gray-600">Biaya Layanan ({{ $biayaLayananPersen }}%)</span>
-                    <span class="font-semibold">Rp {{ number_format($biayaLayanan, 2, ',', '.') }}</span>
+                    <span class="text-gray-600">Biaya Layanan ({{ $pemesanan->getBiayaLayananPersen() }}%)</span>
+                    <span class="font-semibold">Rp {{ number_format($pemesanan->hitungBiayaLayanan(), 2, ',', '.') }}</span>
                 </div>
                 <div class="flex items-center gap-2">
-                    <span class="text-gray-600">Biaya Pajak ({{ $pajakPersen }}%)</span>
-                    <span class="font-semibold">Rp {{ number_format($pajak, 2, ',', '.') }}</span>
+                    <span class="text-gray-600">Biaya Pajak ({{ $pemesanan->getPajakPersen() }}%)</span>
+                    <span class="font-semibold">Rp {{ number_format($pemesanan->hitungPajak(), 2, ',', '.') }}</span>
                 </div>
             </div>
+            <div class="mt-2 space-y-1 montserrat-font text-sm">
+           
+            </div>
+            
             
         </div>
 
         <!-- Bagian Kanan: Total Pembayaran -->
         <div class="montserrat-font">
             <p class="text-xs text-gray-600">Total Pembayaran</p> 
-            <p class="text-lg font-semibold">Rp 250.000</p>
+            <p class="text-lg font-semibold">Rp {{ number_format($totalBayar, 2, ',', '.') }}</p>
         </div>
     </div>
 
@@ -150,7 +154,8 @@
                             <div class="w-full text-sm space-y-2 plus-jakarta-sans-font font-bold">
                                 <div class="flex items-center justify-between">
                                     <p>Harga Kendaraan/Hari</p>
-                                    <p>Rp {{$detail->kendaraan->harga_sewa_perhari}}</p> 
+                                    <p>Rp {{number_format($detail->kendaraan->harga_sewa_perhari,2,',','.')}}</p> 
+               
                                 </div>
                             </div>
                             <div class="w-full grid grid-cols-2 gap-6">

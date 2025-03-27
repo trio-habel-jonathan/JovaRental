@@ -40,25 +40,14 @@ class MitraPageController extends Controller
         // Ambil data pemesanan beserta detail kendaraan
         $pemesanan = Pemesanan::with('detailPemesanans.kendaraan')->findOrFail($id_pemesanan);
     
-        // Hitung total harga kendaraan yang disewa
-        $totalHargaKendaraan = $pemesanan->detailPemesanans->sum(function ($detail) {
-            $lamaSewa = (strtotime($detail->tanggal_selesai) - strtotime($detail->tanggal_mulai)) / 86400; // Konversi ke hari
-            return $detail->kendaraan->harga_sewa_perhari * max(1, $lamaSewa);
-        });
-        
-    
-        // Ambil nilai fee layanan & pajak dari database
-        $biayaLayananPersen = FeeSetting::where('id_fee', '550e8400-e29b-41d4-a716-446655440000')->value('nilai_fee');
-        $pajakPersen = FeeSetting::where('id_fee', '550e8400-e29b-41d4-a716-446655440002')->value('nilai_fee');
-    
-        // Hitung biaya layanan & pajak
-        $biayaLayanan = ($totalHargaKendaraan * $biayaLayananPersen) / 100;
-        $pajak = ($totalHargaKendaraan * $pajakPersen) / 100;
-    
-        // Hitung total pembayaran
-        $totalBayar = $totalHargaKendaraan + $biayaLayanan + $pajak;
-    
-        return view('mitra.pesanan.details', compact('pemesanan', 'totalHargaKendaraan', 'biayaLayananPersen', 'biayaLayanan', 'pajakPersen', 'pajak', 'totalBayar'));
+       
+    return view('mitra.pesanan.details', [
+        'pemesanan' => $pemesanan,
+        'totalHargaKendaraan' => $pemesanan->hitungTotalHargaKendaraan(),
+        'biayaLayanan' => $pemesanan->hitungBiayaLayanan(),
+        'pajak' => $pemesanan->hitungPajak(),
+        'totalBayar' => $pemesanan->hitungTotalBayar(),
+    ]);
     }
     
     
