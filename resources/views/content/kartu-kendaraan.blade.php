@@ -1,6 +1,9 @@
 <div class="">
+    @if (auth()->check() AND auth()->user()->role == 'mitra')
     <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{ route('mitra.kendaraan.hapusKendaraan') }}"
         uuid="{{$kendaraan->id_kendaraan}}" />
+    @endif
+
     <div
         class="car-card bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 transform transition-all duration-300 ease-in-out ">
         <div class="flex flex-col md:flex-row">
@@ -10,14 +13,14 @@
                     <swiper-container class="mySwiper w-full h-full" pagination="true" pagination-clickable="true"
                         navigation="true" space-between="30" centered-slides="true" autoplay-delay="2500"
                         autoplay-disable-on-interaction="false">
+                        @php
+                        $decode_foto = json_decode($kendaraan->fotos);
+                        @endphp
+                        @foreach ($decode_foto as $foto)
                         <swiper-slide class="w-full h-full">
-                            <img src="https://i.pinimg.com/736x/57/ba/e6/57bae6c4d573cc6d749f6035702691b5.jpg"
-                                class="h-full w-full object-contain" alt="">
+                            <img src="{{asset('/kendaraan/'. $foto)}}" class="h-full w-full object-contain" alt="">
                         </swiper-slide>
-                        <swiper-slide class="w-full h-full">
-                            <img src="https://i.pinimg.com/736x/7a/be/a3/7abea31dc03f1c1c56a13860e8ca6632.jpg"
-                                class="h-full w-full object-contain" alt="">
-                        </swiper-slide>
+                        @endforeach
                     </swiper-container>
                 </div>
 
@@ -115,6 +118,7 @@
                         <span class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
                     </div>
                 </div>
+                @if (auth()->check() AND auth()->user()->role == 'mitra')
 
                 <div class="mt-6 flex justify-end border-t border-gray-100 pt-4">
                     <div class="flex space-x-2">
@@ -128,6 +132,7 @@
                         </label>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
     </div>

@@ -16,15 +16,18 @@ class VerifikasiEntitasMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
-        if ($user) {
-            if ($user->entitasPenyewa) {
-                return $next($request);
-            }
+        if (Auth::check()) {
+            $user = Auth::user();
 
-            if ($user->mitra) {
+            if ($user->asMitra) {
                 return redirect()->route('mitra.indexView');
             }
+
+
+            if ($user->role != 'mitra' && $user->entitasPenyewa) {
+                return $next($request);
+            }
+            // dd($user->entitasPenyewa);
 
             return redirect()->route('sewaSebagai');
         }
