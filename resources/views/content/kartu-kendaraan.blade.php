@@ -1,5 +1,5 @@
 <div class="">
-    @if (auth()->user()->role == 'mitra')
+    @if (auth()->check() AND auth()->user()->role == 'mitra')
     <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{ route('mitra.kendaraan.hapusKendaraan') }}"
         uuid="{{$kendaraan->id_kendaraan}}" />
     @endif
@@ -118,7 +118,7 @@
                         <span class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
                     </div>
                 </div>
-                @if (auth()->user()->role == 'mitra')
+                @if (auth()->check() AND auth()->user()->role == 'mitra')
 
                 <div class="mt-6 flex justify-end border-t border-gray-100 pt-4">
                     <div class="flex space-x-2">
