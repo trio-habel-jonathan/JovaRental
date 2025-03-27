@@ -38,9 +38,15 @@ class KategoriKendaraanController extends Controller
         }
     }
 
-    public function destroy(KategoriKendaraan $uuid)
+    public function destroy(Request $request)
     {
-        $uuid->delete();
+        $request->validate([
+            'uuid' => 'required',
+        ]);
+
+        $kategori = KategoriKendaraan::findOrFail($request->uuid);
+
+        $kategori->delete();
 
         return redirect()->back()->with(['type' => 'success', 'message' => 'Kategori Kendaraan Berhasil Dihapus']);
     }
