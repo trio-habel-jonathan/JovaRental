@@ -18,12 +18,14 @@ class VerifikasiEntitasMiddleware
     {
         $user = Auth::user();
 
-        if ($user->role == 'mitra') {
-            return redirect()->route('mitra.indexView');
-        }
+        if (Auth::check()) {
+            if ($user->role == 'mitra') {
+                return redirect()->route('mitra.indexView');
+            }
 
-        if ($user and !$user->entitasPenyewa) {
-            return redirect()->route('sewaSebagai');
+            if ($user and !$user->entitasPenyewa) {
+                return redirect()->route('sewaSebagai');
+            }
         }
 
 
