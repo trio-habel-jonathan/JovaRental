@@ -1,5 +1,6 @@
 <div class="">
-    <x-modal-delete counter="{{$loop->iteration}}" formAction="{{route('about')}}" />
+    <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{ route('mitra.kendaraan.hapusKendaraan') }}"
+        uuid="{{$kendaraan->id_kendaraan}}" />
     <div
         class="car-card bg-white rounded-xl shadow-md border border-gray-100 transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
         <div class="flex flex-col md:flex-row">
@@ -10,15 +11,18 @@
 
                 <!-- Car Name and Badge -->
                 <div class="mt-4 flex items-center justify-between">
-                    <h3 class="text-2xl font-bold text-gray-800">{{$kendaraan->nama_kendaraan}}</h3>
-                    <span class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">Mobil</span>
+                    <h3 class="text-2xl font-bold text-gray-800">{{ $kendaraan->nama_kendaraan }}</h3>
+                    <span class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">
+                        {{ $kendaraan->kategoriKendaraan->jenisKendaraan->nama_jenis ?? 'Tidak Diketahui' }}</span>
+
                 </div>
 
+                {{--
                 <!-- Color -->
                 <div class="mt-3 flex items-center space-x-3">
-                    <div class="w-8 h-8 rounded-full bg-[{{$kendaraan->warna}}] border-2 border-white shadow"></div>
-                    <p class="text-base font-medium text-gray-700">{{$kendaraan->warna}} </p>
-                </div>
+                    <div class="w-8 h-8 rounded-full bg-[{{ $kendaraan->warna }}] border-2 border-white shadow"></div>
+                    <p class="text-base font-medium text-gray-700">{{ $kendaraan->warna }} </p>
+                </div> --}}
             </div>
 
             <!-- Right side with details -->
@@ -37,7 +41,7 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500">Tahun Pembuatan</p>
-                            <p class="text-base font-medium text-gray-800">{{$kendaraan->tahun_produksi}}</p>
+                            <p class="text-base font-medium text-gray-800">{{ $kendaraan->tahun_produksi }}</p>
                         </div>
                     </div>
 
@@ -50,9 +54,16 @@
                             <path d="M19 5l0 14"></path>
                             <path d="M15 9l-2 2l2 2"></path>
                         </svg>
-                        <div>
-                            <p class="text-xs text-gray-500">Tipe Transmisi</p>
-                            <p class="text-base font-medium text-gray-800">{{$kendaraan->transmisi}}</p>
+                        <div class="flex items-center gap-8 w-full">
+                            <div>
+                                <p class="text-xs text-gray-500">Tipe Transmisi</p>
+                                <p class="text-base font-medium text-gray-800">{{ $kendaraan->transmisi }}</p>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500">Kategori Kendaraan</p>
+                                <p class="text-base font-medium text-gray-800">
+                                    {{ $kendaraan->kategoriKendaraan->nama_kategori ?? 'Tidak Diketahui' }} </p>
+                            </div>
                         </div>
                     </div>
 
@@ -68,7 +79,7 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500">Tenaga Mesin</p>
-                            <p class="text-base font-medium text-gray-800">1197 cc</p>
+                            <p class="text-base font-medium text-gray-800">{{ $kendaraan->cubic_centimeter }} CC</p>
                         </div>
                     </div>
 
@@ -83,23 +94,20 @@
                         </svg>
                         <div>
                             <p class="text-xs text-gray-500">Kapasitas Tempat Duduk</p>
-                            <p class="text-base font-medium text-gray-800">{{$kendaraan->jumlah_kursi}} seat</p>
+                            <p class="text-base font-medium text-gray-800">{{ $kendaraan->jumlah_kursi }} seat</p>
                         </div>
+
                     </div>
+
                 </div>
 
-                <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm font-medium text-gray-700">ID Kendaraan:</span>
-                        <span class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
-                    </div>
-
+                <div class="mt-6 flex justify-end border-t border-gray-100 pt-4">
                     <div class="flex space-x-2">
                         <a href="{{ route('mitra.kendaraan.editkendaraanView') }}"
                             class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
                             ✎ Edit
                         </a>
-                        <label for="modal-delete-toggle-{{$loop->iteration}}"
+                        <label for="modal-delete-toggle-{{ $loop->iteration }}"
                             class="cursor-pointer px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
                             🗑 Hapus
                         </label>

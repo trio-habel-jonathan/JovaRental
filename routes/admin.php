@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminPageController;
+use App\Http\Controllers\Admin\{AdminPageController,UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
 use Illuminate\Support\Facades\Route;
 
@@ -11,8 +11,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::prefix('users')->name('user.')->group(function () {
         Route::get('/', [AdminPageController::class, 'userView'])->name('userView');
         Route::get('/add', [AdminPageController::class, 'adduserView'])->name('adduserView');
-        Route::get('/edit', [AdminPageController::class, 'edituserView'])->name('edituserView');
+        Route::get('/edit/{id_user}', [AdminPageController::class, 'edituserView'])->name('edituserView');
     });
+
+
+    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
+    Route::put('user/update/{id_user}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/users/{id_user}', [UserController::class, 'destroy'])->name('user.destroy');
+
 
     Route::prefix('mitra')->name('mitra.')->group(function () {
         Route::get('/', [AdminPageController::class, 'mitraView'])->name('mitraView');
