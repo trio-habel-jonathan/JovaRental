@@ -22,7 +22,7 @@
                 class="close-modal bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200 cursor-pointer">
                 Tidak, Batalkan
             </label>
-            <button
+            <button type="submit"
                 class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
                 Ya, Hapus
             </button>
