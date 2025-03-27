@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\{AdminPageController,UserController};
+use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
+use App\Http\Controllers\JenisKendaraanController;
+use App\Http\Controllers\KategoriKendaraanController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -31,6 +33,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/create-jenis', [AdminPageController::class, 'createJenisView'])->name('createJenisView');
         Route::get('/edit-kategori', [AdminPageController::class, 'editKategoriView'])->name('editKategoriView');
         Route::get('/edit-jenis', [AdminPageController::class, 'editJenisView'])->name('editJenisView');
+
+        Route::post('/create-jenis', [JenisKendaraanController::class, 'store'])->name('jenis.store');
+        Route::post('/create-kategori', [KategoriKendaraanController::class, 'store'])->name('kategori.store');
     });
 });
-

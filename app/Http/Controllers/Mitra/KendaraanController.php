@@ -60,6 +60,12 @@ class KendaraanController extends Controller
 
                     $filename = time() . '_' . $file->getClientOriginalName();
 
+                    $filePath = public_path('kendaraan/' . $fotoArray[$keyIndex]);
+
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+
                     $fotoArray[$keyIndex] = $filename;
 
                     $file->move(public_path('kendaraan'), $filename);
@@ -128,7 +134,17 @@ class KendaraanController extends Controller
             'uuid' => 'required',
         ]);
 
-        Kendaraan::where('id_kendaraan', $request->uuid)->delete();
+        $kendaraan = Kendaraan::findOrFail($request->uuid);
+        $fotos = json_decode($kendaraan->fotos);
+        if (is_array($fotos)) {
+            foreach ($fotos as $foto) {
+                $filePath = public_path('kendaraan/' . $foto);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+        }
+        $kendaraan->delete();
         // dd($request->input());
 
         return redirect()->back()->with(['type' => 'success', 'message' => 'Kendaraan Berhasil Dihapus']);
