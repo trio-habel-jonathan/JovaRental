@@ -24,5 +24,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminPageController::class, 'mitraView'])->name('mitraView');
         Route::get('/detail', [AdminPageController::class, 'detailmitraView'])->name('detailmitraView');
     });
+
+    Route::prefix('clasifications')->name('clasifications.')->group(function () {
+        Route::get('/', [AdminPageController::class, 'clasificationsView'])->name('clasificationsView');
+        Route::get('/create-kategori', [AdminPageController::class, 'createKategoriView'])->name('createKategoriView');
+        Route::get('/create-jenis', [AdminPageController::class, 'createJenisView'])->name('createJenisView');
+        Route::get('/edit-kategori', [AdminPageController::class, 'editKategoriView'])->name('editKategoriView');
+        Route::get('/edit-jenis', [AdminPageController::class, 'editJenisView'])->name('editJenisView');
+    });
 });
 
