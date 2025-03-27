@@ -61,9 +61,11 @@ class AdminPageController extends Controller
         $allJenis = JenisKendaraan::all();
         return view('admin.clasifications.createKategori', compact('allJenis'));
     }
-    public function editKategoriView()
+    public function editKategoriView($uuid)
     {
-        return view('admin.clasifications.editKategori');
+        $kategori = KategoriKendaraan::findOrFail($uuid);
+        $allJenis = JenisKendaraan::all();
+        return view('admin.clasifications.editKategori', compact('allJenis', 'kategori'));
     }
 
     public function createJenisView()
