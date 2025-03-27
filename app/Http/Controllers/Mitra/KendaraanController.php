@@ -19,9 +19,62 @@ class KendaraanController extends Controller
         return view('mitra.kendaraan.create', compact('jenisKendaraan', 'kategoriKendaraan'));
     }
 
-    public function editkendaraan()
+    public function editkendaraanView($uuid)
     {
-        return view('mitra.kendaraan.edit');
+        $kendaraan = Kendaraan::findOrFail($uuid);
+        $jenisKendaraan = JenisKendaraan::all();
+        $kategoriKendaraan = KategoriKendaraan::all();
+
+        return view('mitra.kendaraan.edit', compact('kendaraan', 'jenisKendaraan', 'kategoriKendaraan'));
+    }
+
+    public function editKendaraan(Request $request, Kendaraan $uuid)
+    {
+        try {
+            $user = Auth::user();
+            $mitra = Mitra::where('id_user', $user->id_user)->first();
+
+            if (!$mitra) {
+                return redirect()->route('kendaraan.kendaraanmitraView')->with('error', 'Anda bukan mitra yang terdaftar.');
+            }
+
+            $validated = $request->validate([
+                'nama_kendaraan' => 'required|string|max:100',
+                'id_kategori' => 'required|exists:kategori_kendaraan,id_kategori',
+                'tahun_produksi' => 'required|integer|min:1900|max:2025',
+                'warna' => 'required|string|max:50',
+                'transmisi' => 'required|in:automatic,manual,kopling',
+                'cubic_centimeter' => 'required|integer',
+                'harga_sewa_perhari' => 'required|numeric|min:0',
+                'jumlah_kursi' => 'required|integer|min:1|max:50',
+                'file_upload.foto.*' => 'nullable|max:5120|mimetypes:image/jpeg,image/png,image/jpg,image/webp,video/mp4,video/mpeg',
+                'file_upload' => 'nullable|array|max:3',
+            ]);
+
+            $fotoArray = json_decode($uuid->fotos);
+            $paths = [];
+            if ($request->file('file_upload')) {
+                $arrayKeys = array_keys($request->file('file_upload'));
+                foreach ($arrayKeys as $keyIndex) {
+                    $file = $request->file('file_upload')[$keyIndex]['foto'];
+
+                    $filename = time() . '_' . $file->getClientOriginalName();
+
+                    $fotoArray[$keyIndex] = $filename;
+
+                    $file->move(public_path('kendaraan'), $filename);
+                }
+            }
+
+            $validated['id_mitra'] = $mitra->id_mitra;
+            $validated['fotos'] = json_encode($fotoArray);
+
+            $uuid->update($validated);
+
+            return redirect()->route('mitra.kendaraan.kendaraanmitraView')->with(['type' => 'success', 'message' => 'Kendaraan berhasil diperbarui']);
+        } catch (\Exception $e) {
+            return redirect()->back()->with(['type' => 'error', 'message' => $e->getMessage()]);
+        }
     }
 
     public function tambahkendaraanStore(Request $request)
@@ -43,6 +96,7 @@ class KendaraanController extends Controller
             'cubic_centimeter' => 'required|integer',
             'harga_sewa_perhari' => 'required|numeric|min:0',
             'jumlah_kursi' => 'required|integer|min:1|max:50',
+            'file_upload.*' => 'nullable|file|max:5120|mimetypes:image/jpeg,image/png,image/jpg,image/webp,video/mp4,video/mpeg',
         ]);
 
 

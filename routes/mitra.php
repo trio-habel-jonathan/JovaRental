@@ -19,7 +19,8 @@ Route::prefix('mitra')->name('mitra.')->group(function () {
     Route::prefix('kendaraan')->name('kendaraan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'kendaraanmitraView'])->name('kendaraanmitraView');
         Route::get('/create', [KendaraanController::class, 'tambahkendaraan'])->name('tambahkendaraanView');
-        Route::get('/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraanView');
+        Route::get('/{uuid}/edit', [KendaraanController::class, 'editkendaraanView'])->name('editkendaraanView');
+        Route::put('/{uuid}/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraan');
         Route::post('/store', [KendaraanController::class, 'tambahkendaraanStore'])->name('tambahkendaraanStore');
         Route::delete('/destroy', [KendaraanController::class, 'destroy'])->name('hapusKendaraan');
     });

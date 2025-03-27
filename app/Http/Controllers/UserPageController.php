@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -9,7 +10,8 @@ class UserPageController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $limitedKendaraan = Kendaraan::limit(5)->get();
+        return view('home', compact('limitedKendaraan'));
     }
 
     public function about()
