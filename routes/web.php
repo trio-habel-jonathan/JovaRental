@@ -15,7 +15,7 @@ Route::middleware("guest")->group(function () {
 });
 
 Route::middleware("auth")->group(function () {
-    Route::get("/sewa-sebagai", [PageController::class, "sewaSebagai"])->name("sewaSebagai");
+    Route::get("/sewa-sebagai", [PageController::class, "sewaSebagai"])->name("sewaSebagai")->middleware('VerifiedEntity');
     Route::get("/detail-data", [PageController::class, "entityForm"])->name("entityForm");
     Route::get('/register-mitra', [PageController::class, 'registerMitraView'])->middleware('VerifiedEntity')->name('registerMitraView');
 
