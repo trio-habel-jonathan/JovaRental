@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Mitra;
 
 use App\Http\Controllers\Controller;
 use App\Models\Kendaraan;
+use App\Models\Pemesanan;
+use App\Models\DetailPemesanan;
+use App\Models\Pembayaran;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MitraPageController extends Controller
 {
@@ -27,11 +31,19 @@ class MitraPageController extends Controller
     }
     public function pesananmitraView()
     {
-        return view('mitra.pesanan.index');
+        $allPesanan = Pemesanan::all();
+       return view('mitra.pesanan.index', compact('allPesanan'));
     }
-    public function pesanandetailView()
+    public function pesananDetailView($id_pemesanan)
     {
-        return view('mitra.pesanan.details');
+
+    // Ambil data pemesanan beserta detail pemesanan dan kendaraan
+    $pemesanan = Pemesanan::with('detailPemesanans.kendaraan')->findOrFail($id_pemesanan);
+    $pembayaran = Pembayaran::where('id_pemesanan', $id_pemesanan)->first();
+
+
+    return view('mitra.pesanan.details', compact('pemesanan','pembayaran'));
+
     }
     public function keuanganMitraView()
     {
