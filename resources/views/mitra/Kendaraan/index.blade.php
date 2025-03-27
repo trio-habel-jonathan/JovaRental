@@ -6,7 +6,6 @@
         <div class="w-3/4">
             <div class="grid grid-cols-1 gap-8 ">
                 <!-- Toyota Calya Card -->
-
                 @foreach ($allKendaraan as $kendaraan)
                 @include('mitra.Kendaraan.partials.kartu-kendaraan')
                 @endforeach
@@ -70,7 +69,8 @@
                     </div>
                 </div>
 
-                {{-- <!-- Filter by Color --> TIDAK DIGUNAKAN!
+                {{--
+                <!-- Filter by Color --> TIDAK DIGUNAKAN!
                 <div class="mb-6">
                     <h4 class="text-sm font-medium text-gray-700 mb-3">Filter Berdasarkan Warna</h4>
                     <div class="flex flex-wrap gap-3">

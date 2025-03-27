@@ -103,7 +103,7 @@
 
                 <div class="mt-6 flex justify-end border-t border-gray-100 pt-4">
                     <div class="flex space-x-2">
-                        <a href="{{ route('mitra.kendaraan.editkendaraanView') }}"
+                        <a href="{{ route('mitra.kendaraan.editkendaraanView', $kendaraan->id_kendaraan) }}"
                             class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
                             ✎ Edit
                         </a>
