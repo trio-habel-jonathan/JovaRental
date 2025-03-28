@@ -50,5 +50,6 @@
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
+<script src="{{ asset('static/js/preventDoubleClick.js') }}"></script>
 
 </html>
