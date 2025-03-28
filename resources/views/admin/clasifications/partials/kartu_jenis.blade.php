@@ -6,6 +6,6 @@
     </svg>
     <div>
         <h1 class="text-xl font-bold uppercase montserrat-font">{{$jenis->nama_jenis}}</h1>
-        <p class="plus-jakarta-sans-font">{{$jenis->deskripsi}}</p>
+        <p class="plus-jakarta-sans-font line-clamp-2">{{$jenis->deskripsi}}</p>
     </div>
 </div>
