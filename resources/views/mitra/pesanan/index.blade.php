@@ -23,49 +23,60 @@
             </div>
         </div>
         <form action="" class="flex gap-4 items-center bg-white rounded-md shadow-md mt-4">
-            @for ($i = 0; $i < 5; $i++)
-                <button type="submit" name="status" value="sudah dibayar"
+
+                <button type="submit" name="status" value=""
                     class="text-gray-700 px-6 py-3 text-sm hover:text-primary font-bold relative overflow-hidden group block">
-                    <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Sudah
-                        Dibayar</span>
+                    <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Terkonfirmasi</span>
                     <span
                         class="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </button>
-            @endfor
+                <button type="submit" name="status" value=""
+                    class="text-gray-700 px-6 py-3 text-sm hover:text-primary font-bold relative overflow-hidden group block">
+                    <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Pending</span>
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </button>  
+                <button type="submit" name="status" value=""
+                class="text-gray-700 px-6 py-3 text-sm hover:text-primary font-bold relative overflow-hidden group block">
+                    <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Dibatalkan</span>
+                    <span
+                        class="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                </button>    
+
         </form>
         <div class="flex flex-col gap-2 mt-4">
-            @for ($i = 0; $i < 2; $i++)
+            @foreach($allPesanan as $pemesanan)
                 <div class="flex items-center justify-between px-4 bg-white rounded-md shadow-md">
                     <div class="flex items-center gap-2">
                         <img class="rounded-full w-36 h-36"
                             src="https://i.pinimg.com/736x/76/f3/f3/76f3f3007969fd3b6db21c744e1ef289.jpg"
                             alt="">
                         <div class="w-64">
-                            <h1 class="font-bold text-md montserrat-font">Franklin Sebastian Felix</h1>
+                            <h1 class="font-bold text-md montserrat-font">{{$pemesanan->entitasPenyewa->nama_entitas}}</h1>
                             <p class="montserrat-font text-xs">franklinchang@gmail.com</p>
                             <div class="flex justify-between mt-4 text-sm montserrat-font">
                                 <p>Qty: 2</p>
-                                <p class="font-bold">Price IDR 4.000.000</p>
+                                <p class="font-bold">Total Biaya : Rp {{$pemesanan->total_harga}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="plus-jakarta-sans-font">
                         <p class="text-gray-600 text-sm">Status</p>
-                        <p class="text-green-600 font-semibold">Delivered</p>
+                        <p class="text-green-600 font-semibold">{{$pemesanan->status_pemesanan}}</p>
                     </div>
                     <div class="plus-jakarta-sans-font">
-                        <p class="text-gray-600 text-sm">Date Order</p>
-                        <p class="font-semibold">Thu, 25 December 2024</p>
+                        <p class="text-gray-600 text-sm">Tanggal Pemesanan</p>
+                        <p class="font-semibold">{{$pemesanan->tanggal_pemesanan}}</p>
                     </div>
                     <div class="flex gap-2">
-                        <a href="{{ route('mitra.pesanan.pesanandetailView') }}"
+                        <a href="{{ route('mitra.pesanan.pesanandetailView', $pemesanan->id_pemesanan) }}"
                             class="bg-primary/20 uppercase text-xs text-primary hover:bg-primary hover:text-white font-bold px-4 py-2 rounded-md">see
                             details</a>
                         <button
                             class="bg-primary uppercase text-xs text-white font-bold px-4 py-2 rounded-md">delete</button>
                     </div>
                 </div>
-            @endfor
+@endforeach
         </div>
     </div>
 </x-mitra-layout>

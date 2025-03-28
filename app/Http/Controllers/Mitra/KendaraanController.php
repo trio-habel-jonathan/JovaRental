@@ -102,6 +102,7 @@ class KendaraanController extends Controller
             'cubic_centimeter' => 'required|integer',
             'harga_sewa_perhari' => 'required|numeric|min:0',
             'jumlah_kursi' => 'required|integer|min:1|max:50',
+            'file_upload' => 'nullable|array|max:3',
             'file_upload.*' => 'nullable|file|max:5120|mimetypes:image/jpeg,image/png,image/jpg,image/webp,video/mp4,video/mpeg',
         ]);
 

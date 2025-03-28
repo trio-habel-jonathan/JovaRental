@@ -75,4 +75,9 @@ class DetailPemesanan extends Model
     {
         return $this->hasMany(PenggantianKendaraan::class, 'id_detail', 'id_detail');
     }
+
+   public function detailFeePembayarans()
+    {
+        return $this->hasMany(detailFeePembayaran::class, 'id_detail', 'id_detail');
+    }
 }
