@@ -1,12 +1,16 @@
 <x-admin-layout title="Edit Kategori Kendaraan">
     <div class="p-4">
         <div class="bg-white rounded-md shadow-md p-4">
-            <form action="" class="space-y-6">
+            <form action="{{route('admin.clasifications.kategori.update', $kategori->id_kategori)}}" method="post"
+                class="space-y-6">
+                @csrf
+                @method("PUT")
                 <div class="flex flex-col gap-2">
-                    <label for="nama_kategori" class="text-sm font-semibold text-gray-500">Nama Kategori Kendaraan</label>
+                    <label for="nama_kategori" class="text-sm font-semibold text-gray-500">Jenis Kendaraan</label>
                     <div class="relative w-full">
                         <div id="custom-select" class="relative">
-                            <input type="text" id="select-input" placeholder="Select an option"
+                            <input type="text" value="{{$kategori->jenisKendaraan->nama_jenis}}" id="select-input"
+                                placeholder="Select an option"
                                 class="w-full border border-gray-300 rounded-md p-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
                             <button id="toggle-dropdown"
                                 class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700">
@@ -23,21 +27,18 @@
                             class="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto hidden">
                             <div id="options-list">
                                 <!-- Options will be dynamically populated -->
-                                <div class="option px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Mobil">
-                                    Mobil
+                                @foreach ($allJenis as $jenis)
+                                <div class="option px-3 py-2 hover:bg-gray-100 cursor-pointer"
+                                    data-value="{{$jenis->nama_jenis}}" data-id="{{$jenis->id_jenis}}">
+                                    {{$jenis->nama_jenis}}
                                 </div>
-                                <div class="option px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Motor">
-                                    Motor
-                                </div>
-                                <div class="option px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Truk">
-                                    Truk
-                                </div>
-                                <div class="option px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Bus">
-                                    Bus
-                                </div>
-                                <div class="option px-3 py-2 hover:bg-gray-100 cursor-pointer" data-value="Sepeda">
-                                    Sepeda
-                                </div>
+                                @endforeach
+                                <input type="text" name="id_jenis" class="hidden" value="{{$kategori->id_jenis}}"
+                                    id="id_jenis">
+                                @error('id_jenis')
+                                <p class="text-[red]">{{$message}}</p>
+                                @enderror
+
                             </div>
                         </div>
                     </div>
@@ -47,14 +48,20 @@
                         Kendaraan</label>
                     <input type="text" id="nama_kategori" name="nama_kategori"
                         class="w-full border border-gray-300 rounded-md p-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                        placeholder="Ketik nama kategori kendaraan...">
+                        placeholder="Ketik nama kategori kendaraan..." value="{{$kategori->nama_kategori}}">
+                    @error('nama_kategori')
+                    <p class="text-[red]">{{$message}}</p>
+                    @enderror
                 </div>
                 <div class="flex flex-col gap-2">
                     <label for="deskirpsi" class="text-sm font-semibold text-gray-500">Deskripsi Kategori
                         Kendaraan</label>
-                    <input type="text" id="deskirpsi" name="deskirpsi"
+                    <input value="{{$kategori->deskripsi}}" type="text" id="deskirpsi" name="deskripsi"
                         class="w-full border border-gray-300 rounded-md p-2 pr-8 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                         placeholder="Ketik deskripsi kategori kendaraan...">
+                    @error('deskripsi')
+                    <p class="text-[red]">{{$message}}</p>
+                    @enderror
                 </div>
                 <div>
                     <button
@@ -69,6 +76,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 const selectInput = document.getElementById('select-input');
+                const id_jenis = document.getElementById("id_jenis");
                 const toggleDropdownBtn = document.getElementById('toggle-dropdown');
                 const dropdownOptions = document.getElementById('dropdown-options');
                 const optionsList = document.getElementById('options-list');
@@ -109,6 +117,8 @@
                 options.forEach(option => {
                     option.addEventListener('click', function() {
                         const selectedValue = this.getAttribute('data-value');
+                        const selectedId = this.getAttribute('data-id');
+                        id_jenis.value = selectedId
                         selectInput.value = selectedValue;
                         dropdownOptions.classList.add('hidden');
                     });

@@ -1,5 +1,6 @@
 <div class="">
-    <x-modal-delete counter="{{ $loop->iteration }}" formAction="" uuid="{{$kategori->id_kategori}}" />
+    <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{route('admin.clasifications.kategori.destroy')}}"
+        uuid="{{$kategori->id_kategori}}" />
 
 
     <div class="flex flex-col gap-4 items-start p-4 relative shadow-md rounded-md">
@@ -19,7 +20,7 @@
                 {{$kategori->jenisKendaraan->nama_jenis}}</p>
         </div>
         <div class="flex gap-2 items-center">
-            <a href="{{ route('admin.clasifications.editKategoriView') }}"
+            <a href="{{ route('admin.clasifications.editKategoriView', $kategori->id_kategori) }}"
                 class="bg-primary/20 rounded-xl text-primary p-2 transition-all duration-150 ease-in-out hover:text-black hover:bg-yellow-400">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
