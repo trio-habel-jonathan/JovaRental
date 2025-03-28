@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('id_pembayaran');
             $table->uuid('id_fee');
             $table->text('keterangan')->nullable();
+            $table->decimal('jumlah_fee', 10, 2);
             $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('id_pembayaran')->references('id_pembayaran')->on('pembayaran')->onDelete('cascade');

@@ -20,7 +20,9 @@ class DetailFeePembayaran extends Model
     protected $fillable = [
         'id_pembayaran',
         'id_fee',
+        'jumlah_fee',
         'keterangan',
+        
     ];
 
     /**

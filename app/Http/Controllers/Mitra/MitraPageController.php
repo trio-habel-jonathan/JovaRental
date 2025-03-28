@@ -35,20 +35,37 @@ class MitraPageController extends Controller
         $allPesanan = Pemesanan::all();
        return view('mitra.pesanan.index', compact('allPesanan'));
     }
+    
     public function pesananDetailView($id_pemesanan)
     {
+        $pembayaran = Pembayaran::where('id_pemesanan', $id_pemesanan)->first();
+
         // Ambil data pemesanan beserta detail kendaraan
         $pemesanan = Pemesanan::with('detailPemesanans.kendaraan')->findOrFail($id_pemesanan);
     
-       
-    return view('mitra.pesanan.details', [
-        'pemesanan' => $pemesanan,
-        'totalHargaKendaraan' => $pemesanan->hitungTotalHargaKendaraan(),
-        'biayaLayanan' => $pemesanan->hitungBiayaLayanan(),
-        'pajak' => $pemesanan->hitungPajak(),
-        'totalBayar' => $pemesanan->hitungTotalBayar(),
-    ]);
+        // Ambil total biaya kendaraan langsung dari subtotal di detail_pemesanan
+        $totalHargaKendaraan = $pemesanan->detailPemesanans->sum('subtotal_harga');
+    
+        // Ambil biaya layanan & pajak yang sudah dihitung dan disimpan di database
+        $biayaLayanan = $pemesanan->detailPemesanans->sum('biaya_layanan');
+        $pajak = $pemesanan->detailPemesanans->sum('pajak');
+        $biayaSopir = $pemesanan->detailPemesanans->sum('biaya_supir');
+    
+        // Hitung total pembayaran
+        $totalBayar = $pemesanan->detailPemesanans->sum('subtotal_dengan_fee');
+    
+        return view('mitra.pesanan.details', compact(
+            'pembayaran',
+            'pemesanan',
+            'totalHargaKendaraan',
+            'biayaLayanan',
+            'pajak',
+            'biayaSopir',
+            'totalBayar'
+        ));
     }
+    
+    
     
     
     

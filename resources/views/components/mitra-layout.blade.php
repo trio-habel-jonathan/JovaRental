@@ -47,8 +47,7 @@
 
                 <li class="hover:bg-primary/20 hover:text-primary p-2 rounded-full relative group">
                     <div class="flex items-center gap-1 cursor-pointer">
-                        <p class="font-semibold">IDR 120.000.000</p>
-
+                        <p class="font-semibold">IDR {{ number_format($saldoMitra, 0, ',', '.') }}</p>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                             class="lucide lucide-wallet">
