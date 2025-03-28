@@ -2,48 +2,65 @@
     <div class="p-4">
         <div class="flex mb-4 gap-4">
             <div class="bg-white shadow-lg rounded-lg flex flex-col justify-between p-4 w-[42rem]">
-    <div class="flex gap-3 items-start">
-        <!-- Bagian Kiri: Ikon dan Biaya -->
-        <div class="flex flex-col items-start">
-            <!-- Ikon SVG -->
-            <div class="w-12 h-12 bg-primary/20 text-primary flex items-center justify-center rounded-md">
-                <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-            </div>
-            <!-- Biaya Layanan dan Pajak -->
-            <div class="mt-2 space-y-1 montserrat-font text-sm">
-                <div class="flex items-center gap-2">
-                    <span class="text-gray-600">Biaya Layanan ({{ $biayaLayananPersen }}%)</span>
-                    <span class="font-semibold">Rp {{ number_format($biayaLayanan, 2, ',', '.') }}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-gray-600">Biaya Pajak ({{ $pajakPersen }}%)</span>
-                    <span class="font-semibold">Rp {{ number_format($pajak, 2, ',', '.') }}</span>
-                </div>
-            </div>
-            
-        </div>
+                <div class="flex gap-3 items-start">
+                    <!-- Bagian Kiri: Ikon dan Biaya -->
+                    <div class="flex flex-col items-start">
+                        <!-- Ikon SVG -->
+                        <div class="w-12 h-12 bg-primary/20 text-primary flex items-center justify-center rounded-md">
+                            <svg width="25" height="25" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <!-- Biaya Layanan dan Pajak -->
+                        <div class="mt-2 space-y-1 montserrat-font text-sm">
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-600">Total Biaya Kendaraan:</span>
+                                <span class="font-semibold">Rp {{ number_format($totalHargaKendaraan, 2, ',', '.') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-600">Biaya Layanan:</span>
+                                <span class="font-semibold">Rp {{ number_format($biayaLayanan, 2, ',', '.') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-600">Pajak:</span>
+                                <span class="font-semibold">Rp {{ number_format($pajak, 2, ',', '.') }}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-600">Biaya Sopir:</span>
+                                <span class="font-semibold">Rp {{ number_format($biayaSopir, 2, ',', '.') }}</span>
+                            </div>
+                            <hr>
+                            <div class="flex items-center gap-2">
+                                <span class="text-gray-600">Total Pembayaran:</span>
+                                <span class="font-semibold text-lg">Rp {{ number_format($totalBayar, 2, ',', '.') }}</span>
+                            </div>            
+                        </div>
+                        <div class="mt-2 space-y-1 montserrat-font text-sm">
+                    
+                        </div>
+                        
+                        
+                    </div>
 
-        <!-- Bagian Kanan: Total Pembayaran -->
-        <div class="montserrat-font">
-            <p class="text-xs text-gray-600">Total Pembayaran</p> 
-            <p class="text-lg font-semibold">Rp 250.000</p>
-        </div>
-    </div>
+                    <!-- Bagian Kanan: Total Pembayaran -->
+                    <div class="montserrat-font">
+                        {{-- <p class="text-xs text-gray-600">Total Pembayaran</p> 
+                        <p class="text-lg font-semibold">Rp {{ number_format($totalBayar, 2, ',', '.') }}</p> --}}
+                    </div>
+                </div>
 
-    <!-- Bagian Bawah -->
-    <div class="flex justify-between mt-4">
-        <div class="flex items-center text-sm w-fit gap-2 font-semibold rounded-md">
-            <p>{{$pembayaran->metodePembayaranPlatform->jenis_metode ?? ''}}</p>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M22 10H2M11 14H6M2 8.2L2 15.8C2 16.9201 2 17.4802 2.21799 17.908C2.40973 18.2843 2.71569 18.5903 3.09202 18.782C3.51984 19 4.07989 19 5.2 19L18.8 19C19.9201 19 20.4802 19 20.908 18.782C21.2843 18.5903 21.5903 18.2843 21.782 17.908C22 17.4802 22 16.9201 22 15.8V8.2C22 7.0799 22 6.51984 21.782 6.09202C21.5903 5.7157 21.2843 5.40974 20.908 5.21799C20.4802 5 19.9201 5 18.8 5L5.2 5C4.0799 5 3.51984 5 3.09202 5.21799C2.7157 5.40973 2.40973 5.71569 2.21799 6.09202C2 6.51984 2 7.07989 2 8.2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            </svg> :
-            <p>{{ $pembayaran->metodePembayaranPlatform->nama_metode ?? '' }}</p>
-        </div>
-        <p class="px-6 py-0.5 rounded-full bg-green-500/20 font-semibold text-green-500">{{$pembayaran->status_pembayaran ?? 'belum melakukan pembayaran'}}</p>
-    </div>
-</div>
+                <!-- Bagian Bawah -->
+                <div class="flex justify-between mt-4">
+                    <div class="flex items-center text-sm w-fit gap-2 font-semibold rounded-md">
+                        <p>{{$pembayaran->metodePembayaranPlatform->jenis_metode ?? ''}}</p>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 10H2M11 14H6M2 8.2L2 15.8C2 16.9201 2 17.4802 2.21799 17.908C2.40973 18.2843 2.71569 18.5903 3.09202 18.782C3.51984 19 4.07989 19 5.2 19L18.8 19C19.9201 19 20.4802 19 20.908 18.782C21.2843 18.5903 21.5903 18.2843 21.782 17.908C22 17.4802 22 16.9201 22 15.8V8.2C22 7.0799 22 6.51984 21.782 6.09202C21.5903 5.7157 21.2843 5.40974 20.908 5.21799C20.4802 5 19.9201 5 18.8 5L5.2 5C4.0799 5 3.51984 5 3.09202 5.21799C2.7157 5.40973 2.40973 5.71569 2.21799 6.09202C2 6.51984 2 7.07989 2 8.2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg> :
+                        <p>{{ $pembayaran->metodePembayaranPlatform->nama_metode ?? '' }}</p>
+                    </div>
+                    <p class="px-6 py-0.5 rounded-full bg-green-500/20 font-semibold text-green-500">{{$pembayaran->status_pembayaran ?? 'belum melakukan pembayaran'}}</p>
+                </div>
+            </div>
             <div class="bg-white montserrat-font shadow-lg p-4 rounded-md w-full">
                 <div class="grid grid-cols-2 gap-4">
                     <!-- Entitas Penyewa (Kiri) -->
@@ -150,7 +167,8 @@
                             <div class="w-full text-sm space-y-2 plus-jakarta-sans-font font-bold">
                                 <div class="flex items-center justify-between">
                                     <p>Harga Kendaraan/Hari</p>
-                                    <p>Rp {{$detail->kendaraan->harga_sewa_perhari}}</p> 
+                                    <p>Rp {{number_format($detail->kendaraan->harga_sewa_perhari,2,',','.')}}</p> 
+               
                                 </div>
                             </div>
                             <div class="w-full grid grid-cols-2 gap-6">

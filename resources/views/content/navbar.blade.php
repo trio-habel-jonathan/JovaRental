@@ -19,15 +19,15 @@
         <!-- ========== Nav Links (Desktop) ========== -->
         <ul class="hidden md:flex items-center space-x-8">
             @auth
-            <li>
-                <a href="{{ route('registerMitraView') }}"
-                    class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Join With
-                        Us</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('registerMitraView') }}"
+                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Join With
+                            Us</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
             @endauth
             <li>
                 <a href="{{ route('about') }}"
@@ -45,56 +45,72 @@
                         class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </li>
-            <li>
-                <a href="#"
-                    class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+            <li class="relative">
+                <!-- Tombol trigger dropdown -->
+                <button id="language-dropdown-button"
+                    class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 flex items-center">
                     <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Bahasa</span>
                     <span
                         class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
+                    <svg class="w-4 h-4 ml-1 transition-transform duration-200" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </button>
+
+                <!-- Dropdown menu -->
+                <div id="language-dropdown-menu"
+                    class="absolute right-0 mt-2 p-2 w-40 bg-white rounded-lg shadow-lg py-1 z-50 origin-top-right transform scale-95 opacity-0 invisible transition-all duration-200 ease-out">
+                    <a href="#"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150">English</a>
+                    <a href="#"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150">Indonesia</a>
+                    <a href="#"
+                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-150">日本語</a>
+                </div>
             </li>
         </ul>
 
         <ul class="hidden md:flex items-center justify-center gap-1">
             @auth
-            <li>
-                <a href="{{ route('profile') }}"
-                    class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Profile</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    @method('POST')
-                    <button type="submit"
+                <li>
+                    <a href="{{ route('profile') }}"
                         class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Logout</span>
+                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Profile</span>
                         <span
                             class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                    </button>
-                </form>
-            </li>
+                    </a>
+                </li>
+                <li>
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        @method('POST')
+                        <button type="submit"
+                            class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Logout</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                        </button>
+                    </form>
+                </li>
             @endauth
             @guest
-            <li>
-                <a href="{{ route('register') }}"
-                    class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Register</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('login') }}"
-                    class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                    <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Login</span>
-                    <span
-                        class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                </a>
-            </li>
+                <li>
+                    <a href="{{ route('register') }}"
+                        class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Register</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('login') }}"
+                        class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Login</span>
+                        <span
+                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </li>
             @endguest
         </ul>
 
@@ -102,13 +118,13 @@
         <div class="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg hidden" id="mobile-menu">
             <ul class="flex flex-col space-y-2 p-4">
                 @auth
-                <li>
-                    <a href="{{ route('registerMitraView') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Join With
-                            Us</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('registerMitraView') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Join With
+                                Us</span>
+                        </a>
+                    </li>
                 @endauth
                 <li>
                     <a href="{{ route('about') }}"
@@ -125,33 +141,48 @@
                     </a>
                 </li>
                 <li>
-                    <a href=""
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Bahasa</span>
-                    </a>
+                    <div>
+                        <!-- Accordion Button -->
+                        <button id="mobile-lang-toggle"
+                            class="w-full text-left text-gray-700 uppercase text-sm font-bold py-2 flex justify-between items-center">
+                            <span class="plus-jakarta-sans-font">Bahasa</span>
+                            <svg id="mobile-lang-icon" class="w-4 h-4 transform transition-transform" fill="none"
+                                stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
+
+                        <!-- Accordion Content -->
+                        <div id="mobile-lang-content" class="hidden pl-4 space-y-1">
+                            <a href="#" class="block py-1 text-sm text-gray-700 hover:text-primary">English</a>
+                            <a href="#" class="block py-1 text-sm text-gray-700 hover:text-primary">Indonesia</a>
+                            <a href="#" class="block py-1 text-sm text-gray-700 hover:text-primary">日本語</a>
+                        </div>
+                    </div>
                 </li>
                 @auth
-                <li>
-                    <a href="{{ route('profile') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Profile</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('profile') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Profile</span>
+                        </a>
+                    </li>
                 @endauth
                 @guest
-                <li>
-                    <a href="{{ route('register') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span
-                            class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Register</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('login') }}"
-                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Login</span>
-                    </a>
-                </li>
+                    <li>
+                        <a href="{{ route('register') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span
+                                class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Register</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('login') }}"
+                            class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Login</span>
+                        </a>
+                    </li>
                 @endguest
             </ul>
         </div>
@@ -160,7 +191,7 @@
 
 <script>
     // JavaScript for mobile menu toggle
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         let isAnimating = false; // Flag untuk mencegah klik multiple
@@ -186,7 +217,7 @@
             }
         }
 
-        mobileMenuButton.addEventListener('click', function() {
+        mobileMenuButton.addEventListener('click', function () {
             // Mencegah klik berulang saat animasi sedang berjalan
             if (isAnimating) return;
             isAnimating = true;
@@ -230,6 +261,79 @@
             }
         });
     });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdownButton = document.getElementById('language-dropdown-button');
+        const dropdownMenu = document.getElementById('language-dropdown-menu');
+        let isOpen = false;
+
+        dropdownButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            isOpen = !isOpen;
+
+            if (isOpen) {
+                // Animasi saat dropdown dibuka
+                dropdownMenu.classList.remove('invisible', 'opacity-0', 'scale-95');
+                dropdownMenu.classList.add('opacity-100', 'scale-100');
+
+                // Rotate arrow icon
+                this.querySelector('svg').classList.add('rotate-180');
+            } else {
+                // Animasi saat dropdown ditutup
+                dropdownMenu.classList.remove('opacity-100', 'scale-100');
+                dropdownMenu.classList.add('opacity-0', 'scale-95');
+
+                // Set timeout untuk menambahkan invisible setelah animasi selesai
+                setTimeout(() => {
+                    dropdownMenu.classList.add('invisible');
+                }, 200);
+
+                // Rotate arrow icon kembali
+                this.querySelector('svg').classList.remove('rotate-180');
+            }
+        });
+
+        // Tutup dropdown ketika klik di luar
+        document.addEventListener('click', function (e) {
+            if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                dropdownMenu.classList.remove('opacity-100', 'scale-100');
+                dropdownMenu.classList.add('opacity-0', 'scale-95');
+                dropdownButton.querySelector('svg').classList.remove('rotate-180');
+
+                setTimeout(() => {
+                    dropdownMenu.classList.add('invisible');
+                }, 200);
+
+                isOpen = false;
+            }
+        });
+    });
+
+
+    // ========== ACCORDION ==========
+    // Mobile Accordion Functionality
+    const langToggle = document.getElementById('mobile-lang-toggle');
+    if (langToggle) {
+        langToggle.addEventListener('click', () => {
+            const content = document.getElementById('mobile-lang-content');
+            const icon = document.getElementById('mobile-lang-icon');
+
+            // Toggle content
+            content.classList.toggle('hidden');
+
+            // Toggle icon rotation
+            icon.classList.toggle('rotate-180');
+
+            // Smooth height animation
+            if (content.classList.contains('hidden')) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + 'px';
+            }
+        });
+    }
 </script>
 <style>
     /* Burger Icon Styles */
@@ -291,5 +395,17 @@
 
     #mobile-menu.hidden {
         display: none;
+    }
+
+
+    #mobile-lang-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    #mobile-lang-content.active {
+        max-height: 100px;
+        /* Sesuaikan nilai ini */
     }
 </style>
