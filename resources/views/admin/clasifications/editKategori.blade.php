@@ -64,7 +64,7 @@
                     @enderror
                 </div>
                 <div>
-                    <button
+                    <button type="submit"
                         class="bg-primary px-6 py-2 rounded-md text-white font-semibold transition-all duration-200 ease-in-out hover:scale-105">
                         Save & Tambah
                     </button>
