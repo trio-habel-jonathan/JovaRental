@@ -4,6 +4,7 @@ use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
+use App\Http\Controllers\SupirController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])->group(function () {
@@ -29,6 +30,10 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::get('/', [SupirPageController::class, 'supirmitraView'])->name('supirmitraView');
         Route::get('/create', [SupirPageController::class, 'tambahsupir'])->name('tambahsupir');
         Route::get('/edit', [SupirPageController::class, 'editsupir'])->name('editsupir');
+
+        Route::post('/create-action', [SupirController::class, 'store'])->name('store');
+        Route::delete('/delete-action', [SupirController::class, 'destroy'])->name('destroy');
+        Route::put('/update-action', [SupirController::class, 'update'])->name('update');
     });
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {
