@@ -1,6 +1,6 @@
 <x-admin-layout title="Clasifications Vehicles">
     <div class="p-4 space-y-4">
-        <div class="bg-white p-4 rounded-md shadow-md">
+        <div>
             <div class="flex items-center gap-4 mb-4">
                 <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
@@ -9,16 +9,16 @@
                 </svg>
                 <h1 class="text-xl montserrat-font font-bold uppercase">Jenis Kendaraan</h1>
             </div>
-            <div class="w-full grid grid-cols-2 2xl:grid-cols-3 gap-4">
+            <div class="w-full grid grid-cols-4 2xl:grid-cols-5 gap-4">
                 @foreach ($allJenis as $jenis)
-                @include('admin.clasifications.partials.kartu_jenis')
+                    @include('admin.clasifications.partials.kartu_jenis')
                 @endforeach
-
             </div>
         </div>
-        <div class="bg-white p-4 rounded-md shadow-md">
+        <div>
             <div class="flex items-center gap-4 mb-4">
-                <svg width="35" height="35" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg width="35" height="35" viewBox="0 0 24 24" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M12 16V12M12 8H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -27,14 +27,15 @@
             </div>
             <div class="w-full grid grid-cols-4 gap-4">
                 @foreach ($allKategori as $kategori)
-                @include('admin.clasifications.partials.kartu_klasifikasi')
+                    @include('admin.clasifications.partials.kartu_klasifikasi')
                 @endforeach
             </div>
         </div>
         <div class="fixed bottom-5 right-5 m-5">
             <div class="relative">
                 <!-- Main Action Button -->
-                <button id="action-btn" class="w-10 h-10 bg-primary text-white rounded-full shadow-lg 
+                <button id="action-btn"
+                    class="w-10 h-10 bg-primary text-white rounded-full shadow-lg 
                     flex items-center justify-center transition-all duration-300 ease-in-out 
                     hover:rotate-90 focus:outline-none focus:ring-2 focus:ring-primary/50">
                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

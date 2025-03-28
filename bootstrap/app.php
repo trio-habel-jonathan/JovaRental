@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'VerifiedEntity' => \App\Http\Middleware\VerifikasiEntitasMiddleware::class,
             'CheckRole' => \App\Http\Middleware\CheckRoleMiddleware::class,
+            'CheckHasEntitasPenyewa' => \App\Http\Middleware\CheckHasEntitasPenyewa::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

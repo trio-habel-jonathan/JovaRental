@@ -16,6 +16,7 @@ class VerifikasiEntitasMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+
         if (Auth::check()) {
             $user = Auth::user();
 
@@ -23,16 +24,20 @@ class VerifikasiEntitasMiddleware
                 return redirect()->route('mitra.indexView');
             }
 
+            if ($user->entitasPenyewa && $request->route()->named('sewaSebagai')) {
+                return redirect()->route('home');
+            }
 
-            if ($user->role != 'mitra' && $user->entitasPenyewa) {
+            if ($user->entitasPenyewa) {
                 return $next($request);
             }
-            // dd($user->entitasPenyewa);
 
-            return redirect()->route('sewaSebagai');
+            if (!$user->asMitra && !$user->entitasPenyewa && !$request->route()->named('sewaSebagai')) {
+                return redirect()->route('sewaSebagai');
+            }
+
+            return $next($request);
         }
-
-
         return $next($request);
     }
 }
