@@ -22,7 +22,10 @@ return new class extends Migration
             $table->enum('tipe_penggunaan_sopir', ['mengantar_saja', 'tanpa_sopir', 'sepanjang_hari'])->nullable();
             $table->string('lokasi_pengantaran', 255)->nullable();
             $table->decimal('biaya_pengantaran', 10, 2)->default(0.00);
-            $table->decimal('subtotal_harga', 10, 2);
+            $table->decimal('subtotal_harga', 10, 2)->default(0.00);
+            $table->decimal('biaya_layanan', 10, 2)->default(0.00); // Biaya layanan 2%
+            $table->decimal('pajak', 10, 2)->default(0.00); // Pajak 3%
+            $table->decimal('biaya_supir', 10, 2)->default(0.00); // Biaya sopir
             $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('id_pemesanan')->references('id_pemesanan')->on('pemesanan')->onDelete('cascade');

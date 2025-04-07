@@ -1,6 +1,5 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Atugatran/FontAwesome6Pro@latest/css/all.min.css">
-
 <input type="checkbox" class="hidden peer" id="modal-delete-toggle-{{$counter}}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Atugatran/FontAwesome6Pro@latest/css/all.min.css">
 
 <div
     class=" fixed left-0 top-0 z-50 bg-black bg-opacity-60 w-screen h-screen hidden peer-checked:flex items-center justify-center">
@@ -23,7 +22,7 @@
                 class="close-modal bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-4 rounded-lg transition duration-200 cursor-pointer">
                 Tidak, Batalkan
             </label>
-            <button
+            <button type="submit"
                 class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
                 Ya, Hapus
             </button>

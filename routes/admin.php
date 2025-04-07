@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\Admin\{AdminPageController,UserController};
+use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
+use App\Http\Controllers\Admin\JenisKendaraanController;
+use App\Http\Controllers\Admin\KategoriKendaraanController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -17,7 +19,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
     Route::put('user/update/{id_user}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/users/{id_user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/users', [UserController::class, 'destroy'])->name('user.destroy');
 
 
     Route::prefix('mitra')->name('mitra.')->group(function () {
@@ -29,8 +31,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminPageController::class, 'clasificationsView'])->name('clasificationsView');
         Route::get('/create-kategori', [AdminPageController::class, 'createKategoriView'])->name('createKategoriView');
         Route::get('/create-jenis', [AdminPageController::class, 'createJenisView'])->name('createJenisView');
-        Route::get('/edit-kategori', [AdminPageController::class, 'editKategoriView'])->name('editKategoriView');
+        Route::get('/{uuid}/edit-kategori', [AdminPageController::class, 'editKategoriView'])->name('editKategoriView');
         Route::get('/edit-jenis', [AdminPageController::class, 'editJenisView'])->name('editJenisView');
+
+        Route::post('/create-jenis', [JenisKendaraanController::class, 'store'])->name('jenis.store');
+        Route::post('/create-kategori', [KategoriKendaraanController::class, 'store'])->name('kategori.store');
+
+        Route::put('/{uuid}/update-kategori', [KategoriKendaraanController::class, 'update'])->name('kategori.update');
+
+        Route::delete('/kategori-hapus', [KategoriKendaraanController::class, 'destroy'])->name('kategori.destroy');
     });
 });
-

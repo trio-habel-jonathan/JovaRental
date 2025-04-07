@@ -60,6 +60,12 @@ class KendaraanController extends Controller
 
                     $filename = time() . '_' . $file->getClientOriginalName();
 
+                    $filePath = public_path('kendaraan/' . $fotoArray[$keyIndex]);
+
+                    if (file_exists($filePath)) {
+                        unlink($filePath);
+                    }
+
                     $fotoArray[$keyIndex] = $filename;
 
                     $file->move(public_path('kendaraan'), $filename);
@@ -96,6 +102,7 @@ class KendaraanController extends Controller
             'cubic_centimeter' => 'required|integer',
             'harga_sewa_perhari' => 'required|numeric|min:0',
             'jumlah_kursi' => 'required|integer|min:1|max:50',
+            'file_upload' => 'nullable|array|max:3',
             'file_upload.*' => 'nullable|file|max:5120|mimetypes:image/jpeg,image/png,image/jpg,image/webp,video/mp4,video/mpeg',
         ]);
 
@@ -128,7 +135,17 @@ class KendaraanController extends Controller
             'uuid' => 'required',
         ]);
 
-        Kendaraan::where('id_kendaraan', $request->uuid)->delete();
+        $kendaraan = Kendaraan::findOrFail($request->uuid);
+        $fotos = json_decode($kendaraan->fotos);
+        if (is_array($fotos)) {
+            foreach ($fotos as $foto) {
+                $filePath = public_path('kendaraan/' . $foto);
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+        }
+        $kendaraan->delete();
         // dd($request->input());
 
         return redirect()->back()->with(['type' => 'success', 'message' => 'Kendaraan Berhasil Dihapus']);

@@ -7,7 +7,7 @@
             <div class="grid grid-cols-1 gap-8 ">
                 <!-- Toyota Calya Card -->
                 @foreach ($allKendaraan as $kendaraan)
-                @include('mitra.Kendaraan.partials.kartu-kendaraan')
+                    @include('content.kartu-kendaraan')
                 @endforeach
             </div>
         </div>
@@ -113,9 +113,9 @@
                 <!-- Apply Filters Button -->
                 <button
                     class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors shadow-sm flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="mr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" class="mr-2">
                         <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
                     </svg>
                     Terapkan Filter

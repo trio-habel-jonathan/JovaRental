@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -12,10 +13,10 @@ class User extends Authenticatable
 
     // Specify the custom primary key
     protected $primaryKey = 'id_user';
-    
+
     // Indicate that the primary key is not an auto-incrementing integer
     public $incrementing = false;
-    
+
     // Specify the key type as UUID
     protected $keyType = 'string';
 
@@ -57,11 +58,21 @@ class User extends Authenticatable
     protected static function boot()
     {
         parent::boot();
-        
+
         static::creating(function ($model) {
             if (empty($model->{$model->getKeyName()})) {
                 $model->{$model->getKeyName()} = Str::uuid()->toString();
             }
         });
+    }
+
+    public function entitasPenyewa()
+    {
+        return $this->hasOne(EntitasPenyewa::class, "id_user", "id_user");
+    }
+
+    public function asMitra()
+    {
+        return $this->hasOne(Mitra::class, "id_user", "id_user");
     }
 }

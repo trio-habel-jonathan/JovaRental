@@ -5,8 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{User};
-
 use App\Models\Mitra;
+use App\Models\KategoriKendaraan;
+use App\Models\JenisKendaraan;
 
 class AdminPageController extends Controller
 {
@@ -20,11 +21,11 @@ class AdminPageController extends Controller
         return view('admin.settings');
     }
 
-   public function userView()
-{
-    $users = User::all(); // Ambil semua data user
-    return view('admin.user.index', compact('users'));
-}
+    public function userView()
+    {
+        $users = User::all(); // Ambil semua data user
+        return view('admin.user.index', compact('users'));
+    }
 
     public function adduserView()
     {
@@ -41,7 +42,6 @@ class AdminPageController extends Controller
     {
         $allmitra = Mitra::all();
         return view('admin.mitra.index', compact('allmitra'));
-
     }
 
     public function detailmitraView()
@@ -51,16 +51,21 @@ class AdminPageController extends Controller
 
     public function clasificationsView()
     {
-        return view('admin.clasifications.index');
+        $allKategori = KategoriKendaraan::all();
+        $allJenis = JenisKendaraan::all();
+        return view('admin.clasifications.index', compact('allKategori', 'allJenis'));
     }
 
     public function createKategoriView()
     {
-        return view('admin.clasifications.createKategori');
+        $allJenis = JenisKendaraan::all();
+        return view('admin.clasifications.createKategori', compact('allJenis'));
     }
-    public function editKategoriView()
+    public function editKategoriView($uuid)
     {
-        return view('admin.clasifications.editKategori');
+        $kategori = KategoriKendaraan::findOrFail($uuid);
+        $allJenis = JenisKendaraan::all();
+        return view('admin.clasifications.editKategori', compact('allJenis', 'kategori'));
     }
 
     public function createJenisView()

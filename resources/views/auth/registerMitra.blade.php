@@ -130,7 +130,7 @@
                     @enderror
                 </div>
                 <div class="flex gap-4 items-center justify-end">
-                    <button
+                    <button type="submit"
                         class="w-full py-2 rounded-full shadow-2xl text-white uppercase font-bold bg-gradient-to-r from-sky-600 to-indigo-800 transition-all duration-300 ease-in-out hover:scale-105">
                         Register
                     </button>

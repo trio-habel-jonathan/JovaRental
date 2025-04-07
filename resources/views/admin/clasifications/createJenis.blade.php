@@ -1,21 +1,28 @@
 <x-admin-layout title="Create Jenis Kendaraan">
     <div class="p-4">
         <div class="bg-white rounded-md shadow-md p-4">
-            <form action="" class="space-y-4">
+            <form action="{{route('admin.clasifications.jenis.store')}}" method="post" class="space-y-4">
+                @csrf
                 <div class="flex flex-col">
                     <label for="nama_jenis" class="text-sm font-semibold text-gray-500">Nama Jenis Kendaraan</label>
                     <input type="text" id="nama_jenis" name="nama_jenis"
                         class="border rounded-md border-gray-300 p-2 focus:outline-none"
                         placeholder="Ketik nama jenis kendaraan...">
+                    @error('nama_jenis')
+                    <p class="text-red">{{$message}}</p>
+                    @enderror
                 </div>
                 <div class="flex flex-col">
                     <label for="deskirpsi" class="text-sm font-semibold text-gray-500">Deskripsi Jenis Kendaraan</label>
-                    <input type="text" id="deskirpsi" name="deskirpsi"
+                    <input type="text" id="deskripsi" name="deskripsi"
                         class="border rounded-md border-gray-300 p-2 focus:outline-none"
                         placeholder="Ketik deskripsi jenis kendaraan...">
+                    @error('deskripsi')
+                    <p class="text-red">{{$message}}</p>
+                    @enderror
                 </div>
                 <div>
-                    <button
+                    <button type="submit"
                         class="bg-primary px-6 py-2 rounded-md text-white font-semibold transition-all duration-200 ease-in-out hover:scale-105">
                         Save & Tambah
                     </button>
