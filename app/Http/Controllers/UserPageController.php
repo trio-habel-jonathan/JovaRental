@@ -48,6 +48,12 @@ class UserPageController extends Controller
     {
         return view("pemesanan");
     }
+
+    public function pesanKendaraan()
+    {
+        return view("pesanKendaraan");
+    }
+
     public function review()
     {
         return view("review");

@@ -229,11 +229,16 @@
                                 </div>
                             </div>
 
-                            <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
+                            <div class="mt-6 flex items-center gap-4 border-t border-gray-100 pt-4">
                                 <div class="flex items-center space-x-2">
                                     <span class="text-sm font-medium text-gray-700">ID Kendaraan:</span>
                                     <span
                                         class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="text-sm font-medium text-gray-700">Milik Perusahaan:</span>
+                                    <span
+                                        class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">Pengusaha Sukses</span>
                                 </div>
                             </div>
                         </div>

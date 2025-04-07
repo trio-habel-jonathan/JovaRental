@@ -1,5 +1,5 @@
-<footer class="bg-white text-gray-600">
-    <svg id="wave" style="transform:rotate(0deg); transition: 0.3s" viewBox="0 0 1440 250" version="1.1"
+<footer class="text-gray-600 bg-transparent">
+    <svg id="wave" class="bg-transparent" style="transform:rotate(0deg); transition: 0.3s" viewBox="0 0 1440 250" version="1.1"
         xmlns="http://www.w3.org/2000/svg">
         <defs>
             <linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0">
@@ -29,35 +29,21 @@
             d="M0,0L60,12.5C120,25,240,50,360,70.8C480,92,600,108,720,120.8C840,133,960,142,1080,133.3C1200,125,1320,100,1440,112.5C1560,125,1680,175,1800,183.3C1920,192,2040,158,2160,145.8C2280,133,2400,142,2520,137.5C2640,133,2760,117,2880,91.7C3000,67,3120,33,3240,50C3360,67,3480,133,3600,141.7C3720,150,3840,100,3960,70.8C4080,42,4200,33,4320,29.2C4440,25,4560,25,4680,58.3C4800,92,4920,158,5040,191.7C5160,225,5280,225,5400,208.3C5520,192,5640,158,5760,141.7C5880,125,6000,125,6120,120.8C6240,117,6360,108,6480,87.5C6600,67,6720,33,6840,20.8C6960,8,7080,17,7200,54.2C7320,92,7440,158,7560,158.3C7680,158,7800,92,7920,83.3C8040,75,8160,125,8280,129.2C8400,133,8520,92,8580,70.8L8640,50L8640,250L8580,250C8520,250,8400,250,8280,250C8160,250,8040,250,7920,250C7800,250,7680,250,7560,250C7440,250,7320,250,7200,250C7080,250,6960,250,6840,250C6720,250,6600,250,6480,250C6360,250,6240,250,6120,250C6000,250,5880,250,5760,250C5640,250,5520,250,5400,250C5280,250,5160,250,5040,250C4920,250,4800,250,4680,250C4560,250,4440,250,4320,250C4200,250,4080,250,3960,250C3840,250,3720,250,3600,250C3480,250,3360,250,3240,250C3120,250,3000,250,2880,250C2760,250,2640,250,2520,250C2400,250,2280,250,2160,250C2040,250,1920,250,1800,250C1680,250,1560,250,1440,250C1320,250,1200,250,1080,250C960,250,840,250,720,250C600,250,480,250,360,250C240,250,120,250,60,250L0,250Z">
         </path>
     </svg>
-    <div
-        class="bg-primary text-white ">
-        <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 w-full px-16 py-12 montserrat-font">
-            <div class="space-y-6">
-                <h1 class="text-4xl font-bold">JovaRental</h1>
-                <p>Platform penyedia rental kendaraan terpercaya dengan pilihan beragam dan harga terbaik. Nikmati
-                    perjalanan nyaman dan aman bersama kami!</p>
-                <div class="flex gap-4">
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300"><i
-                            class="fa-brands fa-facebook-f"></i></a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300"><i
-                            class="fa-brands fa-twitter"></i></a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300"><i
-                            class="fa-brands fa-instagram"></i></a>
-                    <a href="#"
-                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300">
-                        <i class="fa-brands fa-linkedin"></i></a>
-                </div>
+    <div class="bg-primary text-white ">
+        <div
+            class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 place-items-center gap-4 w-full px-4 md:px-8 lg:px-12 xl:px-16 py-6 montserrat-font">
+            <div data-aos="fade-right">
+                <img src="https://www.jovaresto.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fartist.82944bcc.png&w=1920&q=75"
+                    alt="">
             </div>
-            <div class="col-span-2 flex flex-col space-y-6">
+            <div data-aos="fade-right" class="col-span-2 flex flex-col space-y-6">
                 <h1 class="text-4xl font-bold">Ada yang bisa kami bantu?</h1>
-                <p class="text-justify">Ada yang bisa kami bantu? Jangan ragu untuk menghubungi kami jika Anda memiliki
+                <p class="text-justify text-sm">Ada yang bisa kami bantu? Jangan ragu untuk
+                    menghubungi kami jika Anda memiliki
                     pertanyaan,
                     membutuhkan bantuan, atau ingin mendapatkan informasi lebih lanjut. Tim kami siap memberikan solusi
                     terbaik untuk Anda.</p>
-                <ul class="flex font-semibold flex-wrap justify-between items-center">
+                <ul class="flex font-semibold flex-wrap justify-between items-center gap-2">
                     <li class="flex gap-2 items-center">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
                             xmlns="http://www.w3.org/2000/svg">
@@ -95,21 +81,91 @@
                         JovaRental
                     </li>
                 </ul>
-                <a href="" class="bg-white rounded-md w-fit px-6 py-2 text-primary font-bold">
-                    Contact Us
-                </a>
+                <div class="w-fit">
+                    <a href="" class="bg-white rounded-md w-fit px-6 py-2 text-primary font-bold">
+                        Contact Us
+                    </a>
+                </div>
             </div>
-            <div class="space-y-6">
-                <h1 class="text-4xl font-bold">Our Apps</h1>
-                <ul class="flex gap-4">
+        </div>
+        <div
+            class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full px-6 md:px-8 lg:px-12 xl:px-16 py-6 montserrat-font">
+            <div data-aos="fade-right" class="space-y-6">
+                <h1 class="text-4xl font-bold">JovaRental</h1>
+                <p class="text-justify">Platform penyedia rental kendaraan terpercaya dengan
+                    pilihan
+                    beragam dan harga terbaik. Nikmati
+                    perjalanan nyaman dan aman bersama kami!</p>
+                <div class="flex gap-4">
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300"><i
+                            class="fa-brands fa-facebook-f"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300"><i
+                            class="fa-brands fa-twitter"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300"><i
+                            class="fa-brands fa-instagram"></i></a>
+                    <a href="#"
+                        class="w-10 h-10 rounded-full bg-transparent border border-white flex items-center justify-center hover:bg-white hover:scale-110 hover:text-primary transition-all duration-300">
+                        <i class="fa-brands fa-linkedin"></i></a>
+                </div>
+
+            </div>
+            <div data-aos="fade-right" data-aos-delay="150" class="space-y-6">
+                <h1 class="text-4xl font-bold">Quick Link</h1>
+
+                <ul class="space-y-2">
                     <li>
-                        <img draggable="false" class="rounded-lg w-44"
-                            src="https://i.pinimg.com/736x/a2/dc/17/a2dc1725c52455787f90c320d47e1acf.jpg"
+                        <a href="{{ route('home') }}"
+                            class="text-white text-md hover:text-white font-bold relative overflow-hidden pb-2 group block">
+                            <span
+                                class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Home</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('about') }}"
+                            class="text-white text-md hover:text-white font-bold relative overflow-hidden pb-2 group block">
+                            <span
+                                class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">About</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('contactus') }}"
+                            class="text-white text-md hover:text-white font-bold relative overflow-hidden pb-2 group block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Contact
+                                Us</span>
+                            <span
+                                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('contactus') }}"
+                            class="text-white text-md hover:text-white font-bold relative overflow-hidden pb-2 group block">
+                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Bahasa
+                            </span>
+                            <span
+                                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div data-aos="fade-right" data-aos-delay="300" class="space-y-6">
+                <h1 class="text-4xl font-bold">Our Apps</h1>
+                <p>Dapatkan pengalaman terbaik dengan aplikasi kami! Klik tautan di bawah untuk mengunduh sekarang. </p>
+                <ul class="flex gap-2">
+                    <li>
+                        <img class="rounded-md md:rounded-lg"
+                            src="https://i.pinimg.com/736x/2d/b1/b0/2db1b0c38a22cad84c474d276eabc30f.jpg"
                             alt="">
                     </li>
                     <li>
-                        <img draggable="false" class="rounded-lg w-44"
-                            src="https://i.pinimg.com/736x/ae/0d/5b/ae0d5b9d14f0c1d21bb997adf31e4e25.jpg"
+                        <img class="rounded-md md:rounded-lg"
+                            src="https://i.pinimg.com/736x/31/e5/00/31e500c33dc7b3481a651503196caf67.jpg"
                             alt="">
                     </li>
                 </ul>
