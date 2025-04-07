@@ -118,7 +118,6 @@ class UserController extends Controller
             return back()
                 ->withErrors($e->errors())
                 ->withInput();
-
         } catch (\Exception $e) {
             // Log any other unexpected errors
             \Log::error('Update Error', [
@@ -137,6 +136,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id_user);
 
+
             // Optional: Delete profile picture if it exists
             if ($user->foto_profil) {
                 \Storage::disk('public')->delete($user->foto_profil);
@@ -145,10 +145,10 @@ class UserController extends Controller
             $user->delete();
 
             return redirect()->route('admin.user.userView')
-                ->with('success', 'User berhasil dihapus.');
+                ->with(['type' => 'success', 'message' => 'Akun user berhasil dihapus.']);
         } catch (\Exception $e) {
             return redirect()->route('admin.user.userView')
-                ->with('error', 'Gagal menghapus user: ' . $e->getMessage());
+                ->with(['type' => 'error', 'message'  => 'Gagal menghapus akun user: ' . $e->getMessage()]);
         }
     }
 }

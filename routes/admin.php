@@ -19,7 +19,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
     Route::put('user/update/{id_user}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/users/{id_user}', [UserController::class, 'destroy'])->name('user.destroy');
+    Route::delete('/users', [UserController::class, 'destroy'])->name('user.destroy');
 
 
     Route::prefix('mitra')->name('mitra.')->group(function () {

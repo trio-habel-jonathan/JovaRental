@@ -31,12 +31,6 @@ class VerifikasiEntitasMiddleware
             if ($user->entitasPenyewa) {
                 return $next($request);
             }
-
-            if (!$user->asMitra && !$user->entitasPenyewa && !$request->route()->named('sewaSebagai')) {
-                return redirect()->route('sewaSebagai');
-            }
-
-            return $next($request);
         }
         return $next($request);
     }

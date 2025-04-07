@@ -28,7 +28,12 @@ class DetailPemesanan extends Model
         'lokasi_pengantaran',
         'biaya_pengantaran',
         'subtotal_harga',
+        'biaya_layanan',
+        'pajak',
+        'biaya_supir',
+        'subtotal_dengan_fee',
     ];
+
 
     /**
      * Override boot method to generate UUID for primary key.
@@ -42,6 +47,9 @@ class DetailPemesanan extends Model
             }
         });
     }
+
+   
+
 
     public function pemesanan()
     {
@@ -74,5 +82,10 @@ class DetailPemesanan extends Model
     public function penggantianKendaraans()
     {
         return $this->hasMany(PenggantianKendaraan::class, 'id_detail', 'id_detail');
+    }
+
+   public function detailFeePembayarans()
+    {
+        return $this->hasMany(detailFeePembayaran::class, 'id_detail', 'id_detail');
     }
 }
