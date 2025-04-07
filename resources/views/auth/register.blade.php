@@ -42,36 +42,61 @@
                     @enderror
                 </div>
                 <div>
-                    <div
-                        class="flex gap-4 items-center text-gray-400 border-b-2 border-gray-400 bg-transparent p-3 transition-all duration-300 ease-in-out">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M17 10V8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8V10M12 14.5V16.5M8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C17.7202 10 16.8802 10 15.2 10H8.8C7.11984 10 6.27976 10 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21Z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <input type="password" name="password"
-                            class="bg-transparent w-full text-black focus:outline-none placeholder:font-semibold"
-                            placeholder="Password...">
-                    </div>
-                    @error('password')
-                    <span class="text-red-600">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div>
-                    <div class="flex gap-4 items-center text-gray-400 border-b-2 border-gray-400 bg-transparent p-3">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M17 10V8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8V10M12 14.5V16.5M8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C17.7202 10 16.8802 10 15.2 10H8.8C7.11984 10 6.27976 10 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21Z"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        <input type="password" name="password_confirmation"
-                            class="bg-transparent w-full text-black focus:outline-none placeholder:font-semibold"
-                            placeholder="Konfirmasi Password...">
-                    </div>
-                    @error('password_confirmation')
-                    <span class="text-red-600">{{ $message }}</span>
-                    @enderror
-                </div>
+    <!-- PASSWORD -->
+    <div class="flex gap-4 items-center text-gray-400 border-b-2 border-gray-400 bg-transparent p-3 transition-all duration-300 ease-in-out">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 10V8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8V10M12 14.5V16.5M8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C17.7202 10 16.8802 10 15.2 10H8.8C7.11984 10 6.27976 10 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <input id="passwordInput" type="password" name="password"
+            class="bg-transparent w-full text-black focus:outline-none placeholder:font-semibold"
+            placeholder="Password...">
+
+        <!-- Eye Toggle -->
+        <button type="button" id="togglePassword" class="relative w-5 h-5 focus:outline-none">
+            <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 h-5 w-5 text-gray-600 transition-all duration-300 ease-in-out scale-100 opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 h-5 w-5 text-gray-600 transition-all duration-300 ease-in-out scale-0 opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.269-2.943-9.543-7a10.05 10.05 0 012.3-3.637m1.413-1.412A9.974 9.974 0 0112 5c4.478 0 8.269 2.943 9.543 7a9.978 9.978 0 01-4.138 5.132M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+            </svg>
+        </button>
+    </div>
+    @error('password')
+    <span class="text-red-600">{{ $message }}</span>
+    @enderror
+</div>
+
+<div class="mt-4">
+    <!-- KONFIRMASI PASSWORD -->
+    <div class="flex gap-4 items-center text-gray-400 border-b-2 border-gray-400 bg-transparent p-3">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17 10V8C17 5.23858 14.7614 3 12 3C9.23858 3 7 5.23858 7 8V10M12 14.5V16.5M8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C17.7202 10 16.8802 10 15.2 10H8.8C7.11984 10 6.27976 10 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <input id="confirmPasswordInput" type="password" name="password_confirmation"
+            class="bg-transparent w-full text-black focus:outline-none placeholder:font-semibold"
+            placeholder="Konfirmasi Password...">
+
+        <!-- Eye Toggle -->
+        <button type="button" id="toggleConfirmPassword" class="relative w-5 h-5 focus:outline-none">
+            <svg id="eyeOpenConfirm" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 h-5 w-5 text-gray-600 transition-all duration-300 ease-in-out scale-100 opacity-100" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+            <svg id="eyeClosedConfirm" xmlns="http://www.w3.org/2000/svg" class="absolute top-0 left-0 h-5 w-5 text-gray-600 transition-all duration-300 ease-in-out scale-0 opacity-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.269-2.943-9.543-7a10.05 10.05 0 012.3-3.637m1.413-1.412A9.974 9.974 0 0112 5c4.478 0 8.269 2.943 9.543 7a9.978 9.978 0 01-4.138 5.132M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18" />
+            </svg>
+        </button>
+    </div>
+    @error('password_confirmation')
+    <span class="text-red-600">{{ $message }}</span>
+    @enderror
+</div>
+
                 <div class="flex flex-col gap-4 items-center justify-end col-span-2">
                     {{-- Setelah Klik Lanjut ke passwordView untuk melanjutkan kinformasi password account --}}
                     <button type="submit"
@@ -100,3 +125,29 @@
         </div>
     </div>
 </x-auth-layout>
+<script>
+    function setupPasswordToggle(inputId, toggleId, eyeOpenId, eyeClosedId) {
+        const input = document.getElementById(inputId);
+        const toggle = document.getElementById(toggleId);
+        const eyeOpen = document.getElementById(eyeOpenId);
+        const eyeClosed = document.getElementById(eyeClosedId);
+
+        toggle.addEventListener('click', () => {
+            const isPassword = input.type === 'password';
+            input.type = isPassword ? 'text' : 'password';
+
+            eyeOpen.classList.toggle('scale-100', !isPassword);
+            eyeOpen.classList.toggle('opacity-100', !isPassword);
+            eyeOpen.classList.toggle('scale-0', isPassword);
+            eyeOpen.classList.toggle('opacity-0', isPassword);
+
+            eyeClosed.classList.toggle('scale-100', isPassword);
+            eyeClosed.classList.toggle('opacity-100', isPassword);
+            eyeClosed.classList.toggle('scale-0', !isPassword);
+            eyeClosed.classList.toggle('opacity-0', !isPassword);
+        });
+    }
+
+    setupPasswordToggle('passwordInput', 'togglePassword', 'eyeOpen', 'eyeClosed');
+    setupPasswordToggle('confirmPasswordInput', 'toggleConfirmPassword', 'eyeOpenConfirm', 'eyeClosedConfirm');
+</script>
