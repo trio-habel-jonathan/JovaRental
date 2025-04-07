@@ -26,21 +26,24 @@
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="{{ asset('static/style/app.css') }}">
+
 </head>
 
 
-<body class=" mx-auto">
+<body class="bg-gray-100 mx-auto">
     {{-- @include('content.loading-overlay') --}}
     @if (session('type') && session('message'))
-    <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
+        <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
     @endif
     @include('content.loading-overlay')
 
     @include('content.navbar')
 
     {{-- @yield('content') --}}
-    <main class="min-h-screen">
+    <main class="overflow-y-auto">
         {{ $slot }}
     </main>
 
@@ -51,5 +54,26 @@
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
 <script src="{{ asset('static/js/preventDoubleClick.js') }}"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr("#tanggal_mulai", {
+        enableTime: true, // Aktifkan pemilihan jam & menit
+        altInput: true,
+        altFormat: "D, d M Y H:i K",
+        dateFormat: "Y-m-d H:i", // this is the actual value sent/stored
+        time_24hr: true // Gunakan format 24 jam
+    });
+    flatpickr("#tanggal_selesai", {
+        enableTime: true, // Aktifkan pemilihan jam & menit
+        altInput: true,
+        altFormat: "D, d M Y H:i K",
+        dateFormat: "Y-m-d H:i", // this is the actual value sent/stored
+        time_24hr: true // Gunakan format 24 jam
+    });
+</script>
 
 </html>

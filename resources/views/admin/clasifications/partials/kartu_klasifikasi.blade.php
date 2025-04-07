@@ -1,4 +1,4 @@
-<div class="">
+<div class="shadow-md">
     <x-modal-delete counter="{{ $loop->iteration }}" formAction="{{route('admin.clasifications.kategori.destroy')}}"
         uuid="{{$kategori->id_kategori}}" />
 

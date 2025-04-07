@@ -16,7 +16,7 @@
         <div class="flex flex-col space-y-1">
             <!-- Dashboard -->
             <a href="{{ route('mitra.indexView') }}"
-                class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
+                class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-primary/20 hover:text-primary">
                 <div class="mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -31,7 +31,7 @@
             <!-- Pesanan -->
             <div class="group">
                 <div id="pesanan-menu"
-                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
+                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-primary/20 hover:text-primary">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -60,7 +60,7 @@
             <!-- Kendaraan -->
             <div class="group">
                 <div id="kendaraan-menu"
-                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
+                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-primary/20 hover:text-primary">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -94,7 +94,7 @@
             <!-- Keuangan -->
             <div class="group">
                 <div id="keuangan-menu"
-                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
+                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-primary/20 hover:text-primary">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -127,7 +127,7 @@
             <!-- Supir -->
             <div class="group">
                 <div id="supir-menu"
-                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-gray-50">
+                    class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-primary/20 hover:text-primary">
                     <div class="mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -161,7 +161,7 @@
             @csrf
             <!-- Logout -->
             <button type="submit"
-                class="flex items-center px-4 py-3 rounded-lg text-red-500 cursor-pointer hover:bg-red-50 mt-6">
+                class="flex w-full items-center px-4 py-3 rounded-lg text-red-500 cursor-pointer hover:bg-red-100 mt-6">
                 <div class="mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

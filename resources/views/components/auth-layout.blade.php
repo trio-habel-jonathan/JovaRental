@@ -12,22 +12,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
-    <style>
-        .background {
-            background-color: #e5e5f7;
-            opacity: 0.2;
-            background-image: repeating-radial-gradient(circle at 0 0, transparent 0, #e5e5f7 40px), repeating-linear-gradient(#3A2C7555, #3A2C75);
-        }
-    </style>
 </head>
 
 <body class="w-full h-max">
     @if (session('type') && session('message'))
     <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
     @endif
-    <div class="background w-full h-full fixed top-0 left-0 -z-30"></div>
     @include('content.loading-overlay')
-    <div class="z-10">
+    <div></div>
+    <div class="z-30 p-6 h-screen">
         {{ $slot }}
     </div>
 </body>

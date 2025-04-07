@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Models\{User};
 use App\Models\Mitra;
 use App\Models\KategoriKendaraan;
 use App\Models\JenisKendaraan;
+
 
 class AdminPageController extends Controller
 {

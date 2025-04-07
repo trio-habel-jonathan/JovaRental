@@ -88,3 +88,28 @@
     transform: translateY(100%);
 }
 
+.flatpickr-day.selected {
+    background: #705fb1 !important;
+    color: white;
+    border-radius: 50%;
+    border: none;
+}
+
+/* Hover style biar lebih interaktif */
+.flatpickr-day.selected:hover {
+    background: #3A2C75 !important;
+}
+
+/* Gaya hari ini */
+.flatpickr-day.today {
+    border: 1px solid #705fb1;
+}
+
+.flatpickr-day:hover {
+    background: rgba(67, 56, 202, 0.1) !important;
+}
+
+.flatpickr-day.today:hover {
+    background: rgba(67, 56, 202, 0.1) !important;
+    color: black
+}

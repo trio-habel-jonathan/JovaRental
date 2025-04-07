@@ -11,6 +11,7 @@ Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/about", [UserPageController::class, "about"])->name("about");
     Route::get("/contact-us", [UserPageController::class, "contactus"])->name("contactus");
     Route::get("/daftar-kendaraan", [UserPageController::class, "daftarKendaraan"])->name("daftarKendaraan");
+    Route::get("/daftar-kendaraan/pesan", [UserPageController::class, "pesanKendaraan"])->name("pesanKendaraan");
     Route::get("/pemesanan", [UserPageController::class, "pemesanan"])->name("pemesanan");
     Route::get("/pemesanan/review", [UserPageController::class, "review"])->name("review");
     Route::get("/pemesanan/review/pembayaran", [UserPageController::class, "pembayaran"])->name("pembayaran");
