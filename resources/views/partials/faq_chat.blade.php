@@ -1,4 +1,4 @@
-<li class="text-left mb-10">
+<li class="text-left mb-10" data-aos="zoom-in" data-aos-delay="150">
     <div class="flex flex-row items-start mb-5">
         <div
             class="hidden sm:flex items-center justify-center p-3 mr-3 rounded-full bg-indigo-500 text-white border-4 border-white text-xl font-semibold">
@@ -15,14 +15,14 @@
                 </g>
             </svg>
         </div>
-        <div class="bg-gray-100 p-5 px-10 w-full flex items-center">
-            <h4 class="text-md leading-6 font-medium text-gray-900 montserrat-font">{{$item['question']}}</h4>
+        <div class="bg-white shadow-sm p-5 px-10 w-full flex items-center">
+            <h4 class="text-md leading-6 font-medium text-gray-900 montserrat-font">{{ $item['question'] }}</h4>
         </div>
     </div>
 
     <div class="flex flex-row items-start">
         <div class="bg-indigo-100 p-5 px-10 w-full flex items-center">
-            <p class="text-gray-700 text-sm montserrat-font">{{$item['answer']}}
+            <p class="text-gray-700 text-sm montserrat-font">{{ $item['answer'] }}
             </p>
         </div>
         <div

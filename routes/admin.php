@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
-use App\Http\Controllers\JenisKendaraanController;
-use App\Http\Controllers\KategoriKendaraanController;
+use App\Http\Controllers\Admin\JenisKendaraanController;
+use App\Http\Controllers\Admin\KategoriKendaraanController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
