@@ -48,9 +48,7 @@
                                              src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" 
                                              alt="Default profile">
                                     @endif
-                                    <p>
-                                        <span class="font-semibold">{{ $user->email }}</span> 
-                                    </p>
+                                 
                                 </td>
                                 <td class="px-6 py-4">{{ $user->no_telepon }}</td>
                                 <td class="px-6 py-4">

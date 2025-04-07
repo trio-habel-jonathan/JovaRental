@@ -14,7 +14,11 @@
                         <div class="text-center">
                             <h1 class="uppercase font-bold">User Account</h1>
                         </div>
-                    
+                        <div class="flex flex-col">
+                            <label for="name" class="text-sm font-semibold text-gray-500">Full Name</label>
+                            <input type="text" id="name" name="name" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                                placeholder="Type your full name..." value="{{ $user->name }}">
+                        </div>
                         <div class="flex flex-col">
                             <label for="email" class="text-sm font-semibold text-gray-500">Email</label>
                             <input type="email" id="email" name="email" class="border rounded-md border-gray-300 p-2 focus:outline-none"
@@ -44,13 +48,7 @@
                                     <span class="text-gray-700">Verified</span>
                                 </label>
 
-                                <label class="flex items-center space-x-3 cursor-pointer">
-                                    <input type="radio" name="is_verified" value="0" class="hidden peer" {{ !$user->is_verified ? 'checked' : '' }}>
-                                    <div class="w-4 h-4 border-2 border-gray-400 rounded-full flex items-center justify-center peer-checked:border-blue-500 peer-checked:bg-blue-500">
-                                        <div class="w-2.5 h-2.5 bg-white rounded-full"></div>
-                                    </div>
-                                    <span class="text-gray-700">Not Verified</span>
-                                </label>
+                          
                             </div>
                         </div>
                     </div>

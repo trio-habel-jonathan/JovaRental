@@ -60,6 +60,7 @@ class UserController extends Controller
             // Validate the request
             $validatedData = $request->validate([
                 'email' => 'required|email|unique:users,email,' . $user->id_user . ',id_user',
+                'name' => 'required|max:100',
                 'no_telepon' => 'required|min:10|max:15',
                 'role' => 'required|in:penyewa,admin,mitra',
                 'foto_profil' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',

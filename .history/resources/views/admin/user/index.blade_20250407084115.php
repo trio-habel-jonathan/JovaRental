@@ -50,6 +50,7 @@
                                     @endif
                                     <p>
                                         <span class="font-semibold">{{ $user->email }}</span> 
+                                        - {{ $user->email }}
                                     </p>
                                 </td>
                                 <td class="px-6 py-4">{{ $user->no_telepon }}</td>

@@ -14,17 +14,17 @@
                         <div class="text-center">
                             <h1 class="uppercase font-bold">User Account</h1>
                         </div>
-                    
+                        <div class="flex flex-col">
+                            <label for="name" class="text-sm font-semibold text-gray-500">Full Name</label>
+                            <input type="text" id="name" name="name" class="border rounded-md border-gray-300 p-2 focus:outline-none"
+                                placeholder="Type your full name..." value="{{ $user->name }}">
+                        </div>
                         <div class="flex flex-col">
                             <label for="email" class="text-sm font-semibold text-gray-500">Email</label>
                             <input type="email" id="email" name="email" class="border rounded-md border-gray-300 p-2 focus:outline-none"
                                 placeholder="Type your email..." value="{{ $user->email }}">
                         </div>
-                        <div class="flex flex-col">
-                            <label for="no_telepon" class="text-sm font-semibold text-gray-500">Phone Number</label>
-                            <input type="text" id="no_telepon" name="no_telepon" class="border rounded-md border-gray-300 p-2 focus:outline-none"
-                                placeholder="Type your phone number..." value="{{ $user->no_telepon }}">
-                        </div>
+                 
                         <div class="flex flex-col">
                             <label for="role" class="text-sm font-semibold text-gray-500">Role</label>
                             <select name="role" id="role" class="border rounded-md border-gray-300 p-2 focus:outline-none">
