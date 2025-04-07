@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Models\{User};
 
+=======
 use App\Models\Mitra;
 
 class AdminPageController extends Controller

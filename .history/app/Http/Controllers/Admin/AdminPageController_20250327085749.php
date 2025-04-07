@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+<<<<<<< HEAD
 use App\Models\{User};
 
+=======
 use App\Models\Mitra;
-
+w
 class AdminPageController extends Controller
 {
     public function indexView()
