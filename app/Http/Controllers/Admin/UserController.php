@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str; // Add this line to import the Str class
+use Illuminate\Support\Str;
+use Storage;// Add this line to import the Str class
 
 
 class UserController extends Controller
@@ -104,6 +105,7 @@ class UserController extends Controller
 
             return redirect()->route('admin.user.userView')
                 ->with('success', 'User successfully updated.');
+
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Log validation errors
             \Log::error('Validation Error', [
@@ -127,11 +129,11 @@ class UserController extends Controller
         }
     }
 
-    public function destroy(Request $request)
+    public function destroy($id_user)
     {
-        $request->validate(['uuid' => 'required']);
         try {
-            $user = User::findOrFail($request->uuid);
+            $user = User::findOrFail($id_user);
+
 
             // Optional: Delete profile picture if it exists
             if ($user->foto_profil) {

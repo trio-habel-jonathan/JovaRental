@@ -40,5 +40,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put('/{uuid}/update-kategori', [KategoriKendaraanController::class, 'update'])->name('kategori.update');
 
         Route::delete('/kategori-hapus', [KategoriKendaraanController::class, 'destroy'])->name('kategori.destroy');
+        Route::delete('/jenis-hapus', [JenisKendaraanController::class, 'destroy'])->name('jenis.destroy');
     });
 });
