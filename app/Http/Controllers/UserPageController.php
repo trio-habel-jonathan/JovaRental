@@ -39,6 +39,12 @@ class UserPageController extends Controller
         return view("listKendaraan");
     }
 
+    public function searchJadwal()
+    {
+      
+        return view("search");
+    }
+    
     public function daftarMitra()
     {
         return view("listMitra");
