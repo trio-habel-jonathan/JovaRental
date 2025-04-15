@@ -43,7 +43,7 @@
         <div class="bg-white p-4 rounded-lg shadow-md mb-6">
             <div class="flex flex-wrap justify-between items-center">
                 <div class="mb-3 md:mb-0">
-                    <p class="font-medium text-gray-800">{{ count($vehicles) }} kendaraan ditemukan</p>
+                    <p class="font-medium text-gray-800">{{ count($groupedVehicles) }} jenis kendaraan ditemukan</p>
                 </div>
                 
                 <div class="flex flex-wrap gap-3">
@@ -69,24 +69,169 @@
             </div>
         </div>
         
-        <!-- Search Results -->
-        @if(count($vehicles) > 0)
+        <!-- Vehicle Slider (only shown when a vehicle is selected) -->
+        @if(isset($selectedVehicle) && count($relatedVehicles) > 0)
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-3">Pilihan {{ $selectedVehicle }}</h3>
+                
+                <div class="relative">
+                    <!-- Left arrow -->
+                    <button id="slider-left" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    
+                    <!-- Slider -->
+                    <div id="vehicle-slider" class="flex overflow-x-auto gap-4 py-2 px-8 hide-scrollbar">
+                        @foreach($relatedVehicles as $vehicle)
+                            <div class="flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden relative cursor-pointer
+                                    {{ request()->input('vendor') == $vehicle->id_kendaraan ? 'ring-2 ring-indigo-600' : '' }}">
+                                <a href="{{ request()->fullUrlWithQuery(['selected_vehicle' => $selectedVehicle, 'vendor' => $vehicle->id_kendaraan]) }}" class="block">
+                                    <div class="h-32 bg-gray-200">
+                                        @if ($vehicle->fotos)
+                                            @php $photos = json_decode($vehicle->fotos) @endphp
+                                            @if(count($photos) > 0)
+                                                <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $vehicle->nama_kendaraan }}">
+                                            @endif
+                                        @endif
+                                    </div>
+                                    <div class="p-3">
+                                        <p class="font-medium">{{ $vehicle->nama_mitra }}</p>
+                                        <p class="text-lg font-bold text-gray-900">Rp {{ number_format($vehicle->harga_sewa_perhari, 0, ',', '.') }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                    
+                    <!-- Right arrow -->
+                    <button id="slider-right" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Selected Vehicle Detail -->
+            @if(request()->has('vendor'))
+                @php
+                    $selectedVendorVehicle = null;
+                    foreach($relatedVehicles as $vehicle) {
+                        if($vehicle->id_kendaraan == request()->input('vendor')) {
+                            $selectedVendorVehicle = $vehicle;
+                            break;
+                        }
+                    }
+                @endphp
+                
+                @if($selectedVendorVehicle)
+                <div class="bg-white rounded-lg shadow-md overflow-hidden mb-6">
+                    <div class="flex flex-col md:flex-row">
+                        <!-- Vehicle Images -->
+                        <div class="md:w-1/3 h-64 md:h-auto bg-gray-200 relative">
+                            @if ($selectedVendorVehicle->fotos)
+                                @php $photos = json_decode($selectedVendorVehicle->fotos) @endphp
+                                <div class="swiper-container h-full">
+                                    <div class="swiper-wrapper">
+                                        @foreach ($photos as $foto)
+                                            <div class="swiper-slide">
+                                                <img src="{{ asset('/kendaraan/' . $foto) }}" class="h-full w-full object-cover" alt="{{ $selectedVendorVehicle->nama_kendaraan }}">
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                    <!-- Add pagination and navigation buttons if needed -->
+                                    <div class="swiper-pagination"></div>
+                                </div>
+                            @endif
+                        </div>
+                        
+                        <!-- Vehicle Details -->
+                        <div class="md:w-2/3 p-6">
+                            <div class="flex items-center mb-2">
+                                @if($selectedVendorVehicle->foto_mitra)
+                                    <img src="{{ asset('/mitra/' . $selectedVendorVehicle->foto_mitra) }}" class="h-10 w-10 rounded-full object-cover mr-3" alt="{{ $selectedVendorVehicle->nama_mitra }}">
+                                @else
+                                    <div class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center mr-3">
+                                        <span class="text-indigo-800 font-medium">{{ substr($selectedVendorVehicle->nama_mitra, 0, 1) }}</span>
+                                    </div>
+                                @endif
+                                <h3 class="text-lg font-semibold">{{ $selectedVendorVehicle->nama_mitra }}</h3>
+                            </div>
+                            
+                            <h2 class="text-2xl font-bold text-gray-900 mb-4">{{ $selectedVendorVehicle->nama_kendaraan }}</h2>
+                            
+                            <div class="flex flex-wrap gap-4 mb-4">
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    <span class="text-gray-700">{{ $selectedVendorVehicle->kota }}, {{ $selectedVendorVehicle->provinsi }}</span>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                    </svg>
+                                    <span class="text-gray-700">{{ $selectedVendorVehicle->jumlah_kursi }} Penumpang</span>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                                    </svg>
+                                    <span class="text-gray-700">{{ ucfirst($selectedVendorVehicle->transmisi) }}</span>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <span class="text-gray-700">{{ $selectedVendorVehicle->tahun_produksi }}</span>
+                                </div>
+                            </div>
+                            
+                            @if($selectedVendorVehicle->deskripsi)
+                                <p class="text-gray-700 mb-6">{{ $selectedVendorVehicle->deskripsi }}</p>
+                            @endif
+                            
+                            <div class="flex justify-between items-center mt-6">
+                                <div>
+                                    <p class="text-2xl font-bold text-gray-900">Rp {{ number_format($selectedVendorVehicle->harga_sewa_perhari, 0, ',', '.') }}</p>
+                                    <p class="text-xs text-gray-500">per hari</p>
+                                </div>
+                                
+                                <a href="#" class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                                    Pesan Sekarang
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
+            @endif
+        @endif
+        
+        <!-- Vehicle Cards (only shown when no vehicle is selected or when showing the initial listing) -->
+        @if(!isset($selectedVehicle) && count($groupedVehicles) > 0)
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($vehicles as $kendaraan)
+                @foreach($groupedVehicles as $kendaraan)
                     <div class="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:shadow-lg hover:-translate-y-1">
                         <!-- Vehicle Image -->
                         <div class="h-48 bg-gray-200 relative">
                             @if ($kendaraan->fotos)
-                            @php $photos = json_decode($kendaraan->fotos) @endphp
-                            @foreach ($photos as $foto)
-                                <img src="{{ asset('/kendaraan/' . $foto) }}" class="h-full w-full object-cover" alt="">
-                            @endforeach
-                        @endif
+                                @php $photos = json_decode($kendaraan->fotos) @endphp
+                                @if(count($photos) > 0)
+                                    <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $kendaraan->nama_kendaraan }}">
+                                @endif
+                            @endif
     
                             <!-- Vehicle Type Badge -->
                             <div class="absolute top-3 left-3">
                                 <span class="bg-indigo-100 text-indigo-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                                  
+                                    {{ $kendaraan->total_options }} penyedia tersedia
                                 </span>
                             </div>
                         </div>
@@ -119,25 +264,24 @@
                                 <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">
                                     {{ $kendaraan->jumlah_kursi ?? '4' }} Penumpang
                                 </span>
-
                             </div>
                             
                             <!-- Price and Book Button -->
                             <div class="flex justify-between items-center mt-4">
                                 <div>
-                                  <p class="text-xl font-bold text-gray-900">Rp {{ number_format($kendaraan->harga_sewa_perhari, 0, ',', '.') }}</p>
+                                    <p class="text-xl font-bold text-gray-900">Rp {{ number_format($kendaraan->harga_sewa_perhari, 0, ',', '.') }}</p>
                                     <p class="text-xs text-gray-500">per hari</p>
                                 </div>
                                 
-                                {{-- <a href="{{ route('kendaraan.detail', $kendaraan->id_kendaraan) }}" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors">
-                                    Detail
-                                </a> --}}
+                                <a href="{{ request()->fullUrlWithQuery(['selected_vehicle' => $kendaraan->nama_kendaraan]) }}" class="px-4 py-2 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
+                                    Lanjutkan
+                                </a>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
-        @else
+        @elseif(count($groupedVehicles) == 0)
             <div class="bg-white p-8 rounded-lg shadow-md text-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
@@ -150,4 +294,45 @@
             </div>
         @endif
     </div>
+
+    <!-- Add JavaScript for slider functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.getElementById('vehicle-slider');
+            const leftBtn = document.getElementById('slider-left');
+            const rightBtn = document.getElementById('slider-right');
+            
+            if (slider && leftBtn && rightBtn) {
+                leftBtn.addEventListener('click', function() {
+                    slider.scrollBy({ left: -300, behavior: 'smooth' });
+                });
+                
+                rightBtn.addEventListener('click', function() {
+                    slider.scrollBy({ left: 300, behavior: 'smooth' });
+                });
+            }
+            
+            // Initialize Swiper if available
+            if (typeof Swiper !== 'undefined' && document.querySelector('.swiper-container')) {
+                new Swiper('.swiper-container', {
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    loop: true,
+                });
+            }
+        });
+    </script>
+
+    <style>
+        /* Hide scrollbar but allow scrolling */
+        .hide-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;  /* Chrome, Safari and Opera */
+        }
+    </style>
 </x-user-layout>
