@@ -31,7 +31,12 @@ class UserPageController extends Controller
     }
     public function history()
     {
-        return view("history");
+        return view("profile");
+    }
+    public function settings()
+    {
+        $user = Auth::user();
+        return view("profile", compact('user'));
     }
 
     public function daftarKendaraan()

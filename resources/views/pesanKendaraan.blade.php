@@ -160,7 +160,7 @@
                 Detail Pemesanan
             </h1>
             <form action="" method="POST"
-                class="p-4 flex flex-col lg:flex-row montserrat-font gap-8 rounded-xl border border-gray-100 transition-all duration-300 ease-in-out hover:shadow-md">
+                class="p-4 flex flex-col lg:flex-row montserrat-font gap-8 rounded-xl border border-gray-200 transition-all duration-300 ease-in-out">
                 <div class="w-full lg:w-2/4 xl:w-3/4 grid grid-cols-1 xl:grid-cols-2 h-fit gap-4">
                     <h1 class="col-span-1 xl:col-span-2 font-bold uppercase">Order Rent Detail</h1>
                     <div>
@@ -290,6 +290,10 @@
                     <div class="flex gap-2">
                         @if (str_contains(url()->previous(), 'pemesanan/review'))
                             <a href="{{ route('review') }}"
+                                class="font-bold text-primary hover:text-white bg-gray-200 hover:bg-primary rounded-md shadow-lg text-cneter py-2 mt-4 transition-all duration-300 ease-in-out px-6 hover:scale-105">Back</a>
+                        @endif
+                        @if (str_contains(url()->previous(), 'daftar-kendaraan'))
+                            <a href="{{ route('daftarKendaraan') }}"
                                 class="font-bold text-primary hover:text-white bg-gray-200 hover:bg-primary rounded-md shadow-lg text-cneter py-2 mt-4 transition-all duration-300 ease-in-out px-6 hover:scale-105">Back</a>
                         @endif
                         <button type="submit"

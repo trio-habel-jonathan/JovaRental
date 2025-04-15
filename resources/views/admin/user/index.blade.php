@@ -4,7 +4,8 @@
             <form action="" class="flex gap-4 items-center">
                 <div class="flex rounded-full items-center gap-2 text-gray-400 bg-white w-fit pl-2">
                     <label for="search">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <path
                                 d="M21 21L16.65 16.65M11 6C13.7614 6 16 8.23858 16 11M19 11C19 15.4183 15.4183 19 11 19C6.58172 19 3 15.4183 3 11C3 6.58172 6.58172 3 11 3C15.4183 3 19 6.58172 19 11Z"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -22,50 +23,51 @@
             </div>
         </div>
         <div class="container mx-auto mt-4">
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
-                <table class="w-full text-sm text-left border-collapse">
-                    <thead class="bg-primary text-white uppercase">
+            <div class="overflow-x-auto rounded-lg">
+                <table class="w-full text-sm text-left border-collapse montserrat-font">
+                    <thead class="bg-white text-gray-500 shadow-md font-medium p-2">
                         <tr>
-                            <th class="px-6 py-3 border-b">Account</th>
-                            <th class="px-6 py-3 border-b">Phone Number</th>
-                            <th class="px-6 py-3 border-b">Status</th>
-                            <th class="px-6 py-3 border-b">Role</th>
-                            <th class="px-6 py-3 border-b">Date Join</th>
-                            <th class="px-6 py-3 border-b">Aksi</th>
+                            <td class="px-6 py-3 border-b">Account</td>
+                            <td class="px-6 py-3 border-b">Phone Number</td>
+                            <td class="px-6 py-3 border-b">Status</td>
+                            <td class="px-6 py-3 border-b">Role</td>
+                            <td class="px-6 py-3 border-b">Date Join</td>
+                            <td class="px-6 py-3 border-b">Aksi</td>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
                         @forelse ($users as $user)
-                            <tr class="hover:bg-gray-50 transition">
+                            <tr class="bg-white hover:bg-gray-50 transition">
                                 <td class="px-6 py-4 flex items-center gap-4">
-                                    @if($user->foto_profil)
-                                        <img class="w-8 h-8 rounded-full object-cover" 
-                                             src="{{ asset('storage/' . $user->foto_profil) }}" 
-                                             alt="{{ $user->name }}'s profile">
+                                    @if ($user->foto_profil)
+                                        <img class="w-12 h-12 rounded-full object-cover"
+                                            src="{{ asset('storage/' . $user->foto_profil) }}"
+                                            alt="{{ $user->name }}'s profile">
                                     @else
-                                        <img class="w-8 h-8" 
-                                             src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png" 
-                                             alt="Default profile">
+                                        <img class="w-12 h-12"
+                                            src="https://www.pngmart.com/files/23/Profile-PNG-Photo.png"
+                                            alt="Default profile">
                                     @endif
-                                    <p>
-                                        <span class="font-semibold">{{ $user->email }}</span> 
+                                    <p class="flex flex-col space-y-0.5">
+                                        <span class="font-semibold">{{ $user->email }}</span>
+                                        <span class="plus-jakarta-sans-font text-xs">{{ $user->no_telepon }}</span>
                                     </p>
                                 </td>
                                 <td class="px-6 py-4">{{ $user->no_telepon }}</td>
                                 <td class="px-6 py-4">
-                                    <div class="{{ $user->is_verified ? 'bg-green-600/20 text-green-600' : 'bg-red-600/20 text-red-600' }} p-2 text-center rounded-full font-bold">
+                                    <div
+                                        class="{{ $user->is_verified ? 'bg-green-600/20 text-green-600' : 'bg-red-600/20 text-red-600' }} p-2 text-center rounded-full font-bold">
                                         {{ $user->is_verified ? 'Active' : 'Inactive' }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4">{{ ucfirst($user->role) }}</td>
                                 <td class="px-6 py-4">{{ $user->created_at->format('D, d F Y') }}</td>
                                 <td class="px-6 py-4">
-                                    <a href="{{ route('admin.user.edituserView', $user->id_user) }}" 
-                                       class="text-blue-600 hover:underline">Edit</a>
-                                    <form action="{{ route('admin.user.destroy', $user->id_user) }}" 
-                                          method="POST" 
-                                          class="inline"
-                                          onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <a href="{{ route('admin.user.edituserView', $user->id_user) }}"
+                                        class="text-blue-600 hover:underline">Edit</a>
+                                    <form action="{{ route('admin.user.destroy', $user->id_user) }}" method="POST"
+                                        class="inline"
+                                        onsubmit="return confirm('Are you sure you want to delete this user?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="text-red-600 hover:underline ml-2">Hapus</button>
@@ -73,16 +75,17 @@
                                 </td>
                             </tr>
                         @empty
-                        <tr>
-                            <td colspan="6" class="text-center p-4 text-gray-500">
-                                No users found.
-                            </td>
-                        </tr>
+                            <tr>
+                                <td colspan="6" class="text-center p-4 text-gray-500">
+                                    No users found.
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+
         <a href="{{ route('admin.user.adduserView') }}"
             class="fixed bottom-0 right-0 p-2 rounded-md text-white m-5 bg-primary transition-all duration-300 ease-in-out hover:scale-125">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

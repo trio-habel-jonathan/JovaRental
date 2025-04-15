@@ -47,7 +47,10 @@
         {{ $slot }}
     </main>
 
-    @include('content.footer')
+    @if (!request()->is(['profile', 'profile/history', 'profile/settings']))
+        @include('content.footer')
+    @endif
+
 </body>
 
 </body>
