@@ -38,7 +38,7 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'pesananmitraView'])->name('pesananmitraView');
-        Route::get('/details/{id_pemesanan}', [MitraPageController::class, 'pesanandetailView'])->name('pesanandetailView');
+        Route::get('/details/{uuid}', [MitraPageController::class, 'pesanandetailView'])->name('pesanandetailView');
         Route::get('/create', [PesananController::class, 'tambahpesanan'])->name('tambahpesananView');
         Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
     });
