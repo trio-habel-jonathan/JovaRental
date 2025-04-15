@@ -23,6 +23,8 @@ class Pemesanan extends Model
         'perwakilan_penyewa',
         'kontak_perwakilan',
         'tanggal_pemesanan',
+        'tanggal_mulai',
+        'tanggal_selesai',
         'lokasi_pengambilan',
         'lokasi_pengembalian',
         'total_harga',

@@ -23,8 +23,9 @@ return new class extends Migration
             // Data untuk individu & perusahaan
             $table->string('no_identitas', 50)->unique(); // KTP (Individu) / NIB (Perusahaan)
             $table->string('npwp', 50)->nullable()->unique(); // NPWP (opsional, hanya untuk perusahaan)
-            $table->string('no_telepon', 20)->unique(); // Nomor telepon mitra
-            $table->text('alamat'); // Alamat mitra
+
+
+
 
             $table->enum('status_verifikasi', ['pending', 'verified', 'rejected'])->default('pending');
             $table->decimal('saldo', 10, 2)->default(0.00); // Saldo mitra dari hasil rental
