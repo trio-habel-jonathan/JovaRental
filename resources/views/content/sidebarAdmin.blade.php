@@ -100,7 +100,7 @@
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            <span>pengajuan</span>
+                            <span>Pengajuan</span>
                         </a>
                     </li>
                 </ul>

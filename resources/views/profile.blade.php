@@ -1,6 +1,6 @@
 <x-user-layout title="profile">
     <!-- Main container with responsive flex direction -->
-    <div class="flex flex-col gap-2 lg:flex-row items-start justify-between mx-auto max-w-[1600px] h-[90.5vh]">
+    <div class="flex flex-col gap-2 lg:flex-row items-start justify-between mx-auto max-w-[1600px] h-[89vh]">
         <!-- Left sidebar - full width on mobile, fixed width on desktop -->
         <div class="w-full h-full lg:w-72 flex flex-col bg-white shadow-md p-4 mb-4 lg:mb-0 overflow-y-auto relative">
             <form action="" class="p-2 border rounded-md mb-8">
@@ -25,38 +25,17 @@
                                 d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z"
                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
-                    </button>
-                    <div id="contact-info-1"
-                        class="overflow-hidden hidden text-gray-700 bg-gray-50 rounded-2xl border-t border-gray-200">
-                        <div class="p-5">
-                            <label for=""><strong
-                                    class="inline-block w-32 font-semibold text-gray-700">Email:</strong></label>
-                            <p class="mb-3 text-md">habibabdillah@gmail.com</p>
-                            <label for=""><strong
-                                    class="inline-block w-32 font-semibold text-gray-700">Username:</strong></label>
-                            <p class="mb-3 text-md">Habib Abdillah</p>
-                            <label for=""><strong class="inline-block w-32 font-semibold text-gray-700">No
-                                    HP:</strong></label>
-                            <p class="mb-3 text-md">081264728237</p>
-                            <label for=""><strong
-                                    class="inline-block w-32 font-semibold text-gray-700">Password:</strong></label>
-                            <p class="mb-3 text-md">********</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                        Profile</a>
+                </li>
 
-            <div class="w-full max-w-md mx-auto mt-4">
-                <div class="max-w-md mx-auto border border-gray-200 rounded-2xl">
-                    <button type="button"
-                        class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-800 bg-white rounded-2xl hover:bg-gray-50"
-                        data-collapse-toggle="contact-info-2">
-                        <span class="text-lg">Alamat</span>
-                        <svg data-accordion-icon
-                            class="w-5 h-5 shrink-0 text-gray-600 transition-transform duration-300" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 5 5 1 1 5" />
+                <li>
+                    <a href="{{ route('history') }}"
+                        class="text-sm w-full flex gap-4 items-center p-2 rounded-md text-gray-500 hover:text-primary font-medium montserrat-font transition-all duration-300 ease-in-out hover:bg-primary/20">
+                        <svg width="25" height="25" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M22 10H2M11 14H6M2 8.2L2 15.8C2 16.9201 2 17.4802 2.21799 17.908C2.40973 18.2843 2.71569 18.5903 3.09202 18.782C3.51984 19 4.07989 19 5.2 19L18.8 19C19.9201 19 20.4802 19 20.908 18.782C21.2843 18.5903 21.5903 18.2843 21.782 17.908C22 17.4802 22 16.9201 22 15.8V8.2C22 7.0799 22 6.51984 21.782 6.09202C21.5903 5.7157 21.2843 5.40974 20.908 5.21799C20.4802 5 19.9201 5 18.8 5L5.2 5C4.0799 5 3.51984 5 3.09202 5.21799C2.7157 5.40973 2.40973 5.71569 2.21799 6.09202C2 6.51984 2 7.07989 2 8.2Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                         History Payment</a>
                 </li>
