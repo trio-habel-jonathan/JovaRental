@@ -14,8 +14,8 @@
         </div>
 
         <div class="  mt-4">
-            <div class="overflow-x-auto bg-white shadow-md rounded-lg max-w-full">
-                <table class="w-full text-sm text-left border-collapse">
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg max-w-full custom-scrollbar">
+                <table class="w-full text-sm text-left border-collapse ">
                     <thead class="bg-primary text-white uppercase">
                         <tr>
                             <th class="px-6 py-3 border-b">Alamat</th>
