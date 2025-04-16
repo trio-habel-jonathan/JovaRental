@@ -96,9 +96,11 @@
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7"
+                                    d="M9 11L7 13L5 11M15 11L17 13L19 11M7 13L11.2 17.2C11.6 17.6 12.2 17.6 12.6 17.2L17 13M7 13H17"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path
+                                    d="M5 15V17M19 15V17M10.5 5.5L8 8L7 7M13.5 5.5L16 8L17 7"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span>pengajuan</span>
                         </a>

@@ -2,18 +2,14 @@
 
 use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
-use App\Http\Controllers\Admin\{JenisKendaraanController,PengajuanKemitraanController};
+use App\Http\Controllers\Admin\{JenisKendaraanController};
 use App\Http\Controllers\Admin\KategoriKendaraanController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
-
     Route::get('/', [AdminPageController::class, 'indexView'])->name('indexView');
 
-    Route::patch('/mitra/{id}/verifikasi', [PengajuanKemitraanController::class, 'verifikasi'])->name('mitra.verifikasi');
-    Route::patch('/mitra/{id}/tolak', [PengajuanKemitraanController::class, 'tolak'])->name('mitra.tolak');
-    Route::get('/pengajuan/mitra',[PengajuanKemitraanController::class, 'index'])->name('pengajuan.kemitraan');
-
+    Route::get('/pengajuan/mitra',[PengajuanKemitraanController::class, 'index']);
     Route::get('/settings', [AdminPageController::class, 'settingsView'])->name('settingsView');
 
     Route::prefix('users')->name('user.')->group(function () {

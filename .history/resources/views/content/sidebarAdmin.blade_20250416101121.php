@@ -96,9 +96,17 @@
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
-                                    d="M16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7"
+                                    d="M10.5 13.5L9 15C8.2 15.8 7 15.8 6.2 15L3 11.8C2.6 11.4 2.6 10.8 3 10.4C3.4 10 4 10 4.4 10.4L7 13"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path
+                                    d="M13.5 13.5L15 15C15.8 15.8 17 15.8 17.8 15L21 11.8C21.4 11.4 21.4 10.8 21 10.4C20.6 10 20 10 19.6 10.4L17 13"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path
+                                    d="M10.5 13.5L14 10L13.5 9.5C12.5 8.5 11 8.7 10.2 9.8L9 11L10.5 13.5Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path
+                                    d="M13.5 13.5L10 10L10.5 9.5C11.5 8.5 13 8.7 13.8 9.8L15 11L13.5 13.5Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             <span>pengajuan</span>
                         </a>

@@ -25,6 +25,7 @@ class Mitra extends Model
         'nama_pemilik',
         'no_identitas',
         'npwp',
+        'no_telepon',
         'alamat',
         'status_verifikasi',
         'saldo',
