@@ -34,9 +34,9 @@
                     </button>
                 </form>
             @endif
+            <li><a href="{{ route('admin.mitra.detailmitraView') }}"></a></li>
             
-        </li>
-        <li><a href="{{ route('admin.mitra.detailmitraView') }}">view</a></li>
+            </li>
             <li>{{$Mitra->foto_mitra}}</li>
         </ul>
     @endforeach

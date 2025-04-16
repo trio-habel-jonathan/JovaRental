@@ -4,6 +4,7 @@
         <br>
         <ul>
             <h2>data user</h2>
+            <li><a href="{{ route('admin.mitra.detailmitraView') }}"></a></li>
             <li>{{$Mitra->user->email}}</li>
             <li>{{$Mitra->user->no_telepon}}</li>
             <li>{{$Mitra->user->role}}</li>
@@ -35,8 +36,7 @@
                 </form>
             @endif
             
-        </li>
-        <li><a href="{{ route('admin.mitra.detailmitraView') }}">view</a></li>
+            </li>
             <li>{{$Mitra->foto_mitra}}</li>
         </ul>
     @endforeach
