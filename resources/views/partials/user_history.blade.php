@@ -1,6 +1,6 @@
 <div class="space-y-4">
     <!-- Card 1 -->
-    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
+    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-primary">
         <div class="flex justify-between items-start mb-3">
             <h2 class="text-base lg:text-lg font-semibold text-gray-700">Transaksi #RT25031801</h2>
             <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Lunas</span>
@@ -17,7 +17,7 @@
         </div>
         <div class="bg-gray-50 p-3 rounded-lg mb-3">
             <div class="flex items-center mb-2">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <svg class="w-5 h-5 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
@@ -42,7 +42,7 @@
             </div>
             <div class="flex justify-between items-center font-medium mt-2 pt-2 border-t border-gray-100">
                 <p class="text-gray-700">Total</p>
-                <p class="text-blue-600">Rp499.500</p>
+                <p class="text-darkprimary">Rp499.500</p>
             </div>
         </div>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <button
-                class="w-full sm:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
+                class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-darkprimary text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -67,7 +67,7 @@
     </div>
 
     <!-- Card 2 -->
-    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
+    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-primary">
         <div class="flex justify-between items-start mb-3">
             <h2 class="text-base lg:text-lg font-semibold text-gray-700">Transaksi #RT25031801</h2>
             <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Gagal</span>
@@ -84,7 +84,7 @@
         </div>
         <div class="bg-gray-50 p-3 rounded-lg mb-3">
             <div class="flex items-center mb-2">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <svg class="w-5 h-5 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
@@ -109,7 +109,7 @@
             </div>
             <div class="flex justify-between items-center font-medium mt-2 pt-2 border-t border-gray-100">
                 <p class="text-gray-700">Total</p>
-                <p class="text-blue-600">Rp499.500</p>
+                <p class="text-darkprimary">Rp499.500</p>
             </div>
         </div>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
@@ -122,7 +122,7 @@
                 </div>
             </div>
             <button
-                class="w-full sm:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
+                class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-darkprimary text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -134,7 +134,7 @@
     </div>
 
     <!-- Card 3 -->
-    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
+    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-primary">
         <div class="flex justify-between items-start mb-3">
             <h2 class="text-base lg:text-lg font-semibold text-gray-700">Transaksi #RT25031801</h2>
             <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Refund</span>
@@ -151,7 +151,7 @@
         </div>
         <div class="bg-gray-50 p-3 rounded-lg mb-3">
             <div class="flex items-center mb-2">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                <svg class="w-5 h-5 text-primary mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
@@ -176,7 +176,7 @@
             </div>
             <div class="flex justify-between items-center font-medium mt-2 pt-2 border-t border-gray-100">
                 <p class="text-gray-700">Total</p>
-                <p class="text-blue-600">Rp499.500</p>
+                <p class="text-darkprimary">Rp499.500</p>
             </div>
         </div>
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
@@ -189,7 +189,7 @@
                 </div>
             </div>
             <button
-                class="w-full sm:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
+                class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-darkprimary text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
                 <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

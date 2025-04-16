@@ -40,131 +40,105 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        // Validate request
+        // Validasi input
         $request->validate([
             'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
             'lokasi' => 'required|string',
             'tanggal_mulai' => 'required|date',
             'waktu_mulai' => 'required',
         ]);
-        
-        // Parse dates and times
-        $tanggalMulai = $request->input('tanggal_mulai');
-        $waktuMulai = $request->input('waktu_mulai');
-        
-        $startDateTime = Carbon::parse($tanggalMulai . ' ' . $waktuMulai);
-        
-        // For "tanpa_sopir" we need both start and end dates
-        if ($request->input('tipe_rental') == 'tanpa_sopir') {
+    
+        $tipeRental = $request->input('tipe_rental');
+        $lokasi = $request->input('lokasi');
+    
+        // Gabungkan tanggal dan waktu mulai
+        $startDateTime = Carbon::parse($request->input('tanggal_mulai') . ' ' . $request->input('waktu_mulai'));
+    
+        // Hitung endDateTime sesuai tipe rental
+        if ($tipeRental === 'tanpa_sopir') {
             $request->validate([
                 'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
                 'waktu_selesai' => 'required',
             ]);
-            
-            $tanggalSelesai = $request->input('tanggal_selesai');
-            $waktuSelesai = $request->input('waktu_selesai');
-            
-            $endDateTime = Carbon::parse($tanggalSelesai . ' ' . $waktuSelesai);
-        } 
-        // For "dengan_sopir" we calculate end date based on duration
-        else {
+            $endDateTime = Carbon::parse($request->input('tanggal_selesai') . ' ' . $request->input('waktu_selesai'));
+        } else {
             $request->validate([
                 'durasi' => 'required|integer|min:1',
             ]);
-            
             $durasi = $request->input('durasi');
-            $endDateTime = $startDateTime->copy()->addDays($durasi);
+            $endDateTime = $startDateTime->copy()->addHours($durasi * 12); // 12 jam per hari dengan sopir
         }
-        
-        // Extract location information
-        $lokasi = $request->input('lokasi');
-        $locationQuery = $lokasi; // Don't split for simplicity
-        
-        // Find available vehicles
+    
+        // Ambil kendaraan yang tidak digunakan pada range waktu tersebut (cek di detail_pemesanan!)
         $availableVehicles = DB::table('kendaraan')
             ->select(
-                'kendaraan.*', 
-                'alamat_mitra.kota', 
-                'alamat_mitra.kecamatan', 
+                'kendaraan.*',
+                'alamat_mitra.kota',
+                'alamat_mitra.kecamatan',
                 'alamat_mitra.provinsi',
                 'mitra.nama_mitra',
                 'mitra.foto_mitra'
             )
             ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
             ->join('alamat_mitra', 'mitra.id_mitra', '=', 'alamat_mitra.id_mitra')
-            ->whereNotIn('kendaraan.id_kendaraan', function($query) use ($startDateTime, $endDateTime) {
-                $query->select('detail_pemesanan.id_kendaraan')
+            ->whereNotIn('kendaraan.id_kendaraan', function ($query) use ($startDateTime, $endDateTime) {
+                $query->select('id_kendaraan')
                     ->from('detail_pemesanan')
-                    ->join('pemesanan', 'detail_pemesanan.id_pemesanan', '=', 'pemesanan.id_pemesanan')
-                    ->where(function($q) use ($startDateTime, $endDateTime) {
-                        $q->where(function($subq) use ($startDateTime, $endDateTime) {
-                            $subq->where('pemesanan.tanggal_mulai', '<', $endDateTime)
-                                ->where('pemesanan.tanggal_kembali', '>', $startDateTime);
-                        });
-                    })
-                    ->where('pemesanan.status_pemesanan', '!=', 'canceled');
+                    ->where(function ($q) use ($startDateTime, $endDateTime) {
+                        $q->where('tanggal_mulai', '<', $endDateTime)
+                          ->where('tanggal_kembali', '>', $startDateTime);
+                    });
             })
-            ->where(function($query) use ($locationQuery) {
-                $query->where('alamat_mitra.kota', 'LIKE', "%$locationQuery%")
-                    ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$locationQuery%")
-                    ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$locationQuery%");
+            ->where(function ($query) use ($lokasi) {
+                $query->where('alamat_mitra.kota', 'LIKE', "%$lokasi%")
+                      ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
+                      ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
             })
-            ->when($request->input('tipe_rental') == 'dengan_sopir', function($query) {
-                // For "dengan_sopir", only include vehicles with driver capability
+            ->when($tipeRental === 'dengan_sopir', function ($query) {
                 return $query->where('kendaraan.tersedia_dengan_sopir', 1);
             })
             ->get();
-        
-        // Group vehicles by name and find lowest price for each
+    
+        // Group berdasarkan nama kendaraan untuk tampilkan harga termurah
         $groupedVehicles = [];
         $allVehicles = [];
-        
+    
         foreach ($availableVehicles as $vehicle) {
             $allVehicles[] = $vehicle;
-            
-            // Use name as key for grouping
             $name = $vehicle->nama_kendaraan;
-            
+    
             if (!isset($groupedVehicles[$name]) || $vehicle->harga_sewa_perhari < $groupedVehicles[$name]->harga_sewa_perhari) {
-                // Store vehicle with lowest price
                 $vehicle->total_options = 1;
                 $groupedVehicles[$name] = $vehicle;
             } else {
-                // Increment counter for this vehicle name
                 $groupedVehicles[$name]->total_options++;
             }
         }
-        
-        // Check for selected vehicle
+    
+        // Kalau ada kendaraan terpilih
         $selectedVehicle = null;
         $relatedVehicles = [];
         if ($request->has('selected_vehicle')) {
             $selectedName = $request->input('selected_vehicle');
-            
-            // Get vehicles with this name
             foreach ($allVehicles as $vehicle) {
                 if ($vehicle->nama_kendaraan === $selectedName) {
                     $relatedVehicles[] = $vehicle;
                 }
             }
-            
-            // Sort related vehicles by price
-            usort($relatedVehicles, function($a, $b) {
-                return $a->harga_sewa_perhari - $b->harga_sewa_perhari;
-            });
+            usort($relatedVehicles, fn($a, $b) => $a->harga_sewa_perhari <=> $b->harga_sewa_perhari);
         }
-        
-        // Pass search parameters and results to the view
+    
+        // Kirim ke view
         return view('search', [
             'groupedVehicles' => array_values($groupedVehicles),
             'allVehicles' => $allVehicles,
             'selectedVehicle' => $request->input('selected_vehicle') ?? null,
             'relatedVehicles' => $relatedVehicles,
             'searchParams' => [
-                'tipe_rental' => $request->input('tipe_rental'),
+                'tipe_rental' => $tipeRental,
                 'lokasi' => $lokasi,
-                'tanggal_mulai' => $tanggalMulai,
-                'waktu_mulai' => $waktuMulai,
+                'tanggal_mulai' => $request->input('tanggal_mulai'),
+                'waktu_mulai' => $request->input('waktu_mulai'),
                 'tanggal_selesai' => $request->input('tanggal_selesai') ?? null,
                 'waktu_selesai' => $request->input('waktu_selesai') ?? null,
                 'durasi' => $request->input('durasi') ?? null,
@@ -173,6 +147,7 @@ class SearchController extends Controller
             ]
         ]);
     }
+    
 
 }
 
