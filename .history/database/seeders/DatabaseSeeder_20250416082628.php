@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         // Admin Account
         User::create([
-            'id_user' => Str::uuid(),
+            'id' => Str::uuid(),
             'email' => 'admin@gmail.com',
             'password' => Hash::make('1234567890'),
             'role' => 'admin',
@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
 
         // Mitra Account
         User::create([
-            'id_user' => Str::uuid(),
+            'id' => Str::uuid(),
             'email' => 'mitra@gmail.com',
             'password' => Hash::make('1234567890'),
             'role' => 'mitra',
@@ -34,7 +34,7 @@ class DatabaseSeeder extends Seeder
 
         // Penyewa Account
         User::create([
-            'id_user' => Str::uuid(),
+            'id' => Str::uuid(),
             'email' => 'habel@gmail.com',
             'password' => Hash::make('1234567890'),
             'role' => 'penyewa',

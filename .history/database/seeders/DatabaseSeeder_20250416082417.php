@@ -16,37 +16,26 @@ class DatabaseSeeder extends Seeder
     {
         // Admin Account
         User::create([
-            'id_user' => Str::uuid(),
+            'uuid' => Str::uuid(),
             'email' => 'admin@gmail.com',
             'password' => Hash::make('1234567890'),
             'role' => 'admin',
-            'no_telepon' => $this->generatePhoneNumber(),
         ]);
 
         // Mitra Account
         User::create([
-            'id_user' => Str::uuid(),
+            'uuid' => Str::uuid(),
             'email' => 'mitra@gmail.com',
             'password' => Hash::make('1234567890'),
             'role' => 'mitra',
-            'no_telepon' => $this->generatePhoneNumber(),
         ]);
 
         // Penyewa Account
         User::create([
-            'id_user' => Str::uuid(),
+            'uuid' => Str::uuid(),
             'email' => 'habel@gmail.com',
             'password' => Hash::make('1234567890'),
             'role' => 'penyewa',
-            'no_telepon' => $this->generatePhoneNumber(),
         ]);
-    }
-
-    /**
-     * Generate random Indonesian phone number starting with 08.
-     */
-    private function generatePhoneNumber(): string
-    {
-        return '08' . rand(1000000000, 9999999999);
     }
 }

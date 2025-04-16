@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\mitra;
 
-use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Mitra;
 use App\Models\User;
@@ -13,13 +12,6 @@ use Illuminate\Support\Str;
 
 class MitraController extends Controller
 {
-    public function profile(){
-        $user = Auth::User();
-        $mitra = Mitra::where('id_user', $user->id_user)->first();
-
-        return view('mitra.settings', compact(['mitra','user']));
-    }
-
     public function store(Request $request)
     {
         $request->validate([

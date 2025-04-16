@@ -4,14 +4,14 @@ use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
-use App\Http\Controllers\Mitra\MitraController;
+use App\Http\Controllers\SupirController;
 use App\Http\Controllers\SupirController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])->group(function () {
     Route::get('/', [MitraPageController::class, 'indexMitraView'])->name('indexView'); // Pastikan rute memiliki nama ini
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
-    Route::get('/settingss', [MitraController::class, 'profile'])->name('settings'); // Pastikan rute memiliki nama ini
+    Route::get('/settingss', [MitraController::class, 'settingsMitraView'])->name('settings'); // Pastikan rute memiliki nama ini
 
 
     Route::get('/keuangan', [MitraPageController::class, 'keuanganMitraView'])->name('keuangan.index'); // Pastikan rute memiliki nama ini

@@ -14,10 +14,8 @@ use Illuminate\Support\Str;
 class MitraController extends Controller
 {
     public function profile(){
-        $user = Auth::User();
-        $mitra = Mitra::where('id_user', $user->id_user)->first();
-
-        return view('mitra.settings', compact(['mitra','user']));
+        $user = User::Auth();
+        $mitra = Mitra::where()
     }
 
     public function store(Request $request)
