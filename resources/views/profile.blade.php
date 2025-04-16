@@ -59,9 +59,6 @@
                             <label for=""><strong class="inline-block w-32 font-semibold text-gray-700">No
                                     HP:</strong></label>
                             <p class="mb-3 text-md">081264728237</p>
-                            <label for=""><strong
-                                    class="inline-block w-32 font-semibold text-gray-700">Password:</strong></label>
-                            <p class="mb-3 text-md">********</p>
                         </div>
                     </div>
                 </div>
