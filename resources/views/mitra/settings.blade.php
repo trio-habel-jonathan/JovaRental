@@ -25,16 +25,20 @@
                     </div>
                 </center>
                 <div class="flex flex-wrap gap-2 justify-center">
-                    <span
-                        class="plus-jakarta-sans-font px-2 py-1 bg-green-200 rounded-xl text-xs text-green-800 ">Verified</span>
-                    {{-- <span
-                        class="plus-jakarta-sans-font px-2 py-1 bg-red-200 rounded-xl text-xs text-red-800 ">Rejected</span>
-                    --}}
-                    <span
-                        class="plus-jakarta-sans-font px-2 py-1 bg-blue-200 rounded-xl text-xs text-blue-800 ">Individu</span>
-                    {{-- <span
-                        class="plus-jakarta-sans-font px-2 py-1 bg-orange-200 rounded-xl text-xs text-orange-800 ">Perusahaan</span>
-                    --}}
+                    @if (Auth::user()->mitra->status_verifikasi)
+                        <span class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
+                            {{ Auth::user()->mitra->status_verifikasi == 'verified' ? 'bg-green-200 text-green-800' : '' }}
+                            {{ Auth::user()->mitra->status_verifikasi == 'pending' ? 'bg-yellow-200 text-yellow-800' : '' }}
+                            {{ Auth::user()->mitra->status_verifikasi == 'rejected' ? 'bg-red-200 text-red-800' : '' }}">
+                            {{ ucfirst(Auth::user()->mitra->status_verifikasi) }}
+                        </span>
+                    @endif
+
+                    <span class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
+                        {{ Auth::user()->mitra->tipe_mitra == 'individu' ? 'bg-blue-200 text-blue-800' : 'bg-orange-200 text-orange-800' }}">
+                        {{ Auth::user()->mitra->tipe_mitra == 'individu' ? 'Individu' : 'Perusahaan' }}
+                    </span>
+                    
                 </div>
             </div>
 
@@ -77,57 +81,59 @@
                 <p class=" montserrat-font font-semibold text-xl">Aksi</p>
 
                 <div class="flex items-center gap-2">
-                    <button class=" border border-purple-500 px-3 rounded-xl py-1 montserrat-font">Edit Profile</button>
-                    <button class=" border border-purple-500 px-3 rounded-xl py-1 montserrat-font" id="toggle-hidden">Hide</button>
+                    <button class=" border border-purple-500 px-3 rounded-xl py-1 montserrat-font"
+                        onclick="window.location.href='{{route('mitra.indexEdit')}}'">Edit Profile</button>
+                    <button class=" border border-purple-500 px-3 rounded-xl py-1 montserrat-font"
+                        id="toggle-hidden">Hide</button>
                 </div>
             </div>
 
             <div class="bg-white relative rounded-xl mt-4 overflow-hidden border border-gray-300">
-                <div class="bg-white-30 backdrop-blur-sm z-10 w-full h-full absolute top-0 left-0 rounded-xl hidden opacity-0 transition-opacity duration-300" id="blur-hidden"></div>
+                <div class="bg-white-30 backdrop-blur-sm z-10 w-full h-full absolute top-0 left-0 rounded-xl hidden opacity-0 transition-opacity duration-300"
+                    id="blur-hidden"></div>
                 <div class="p-5">
                     <div class="flex gap-x-6 mb-6">
                         <div class="w-full relative">
                             <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama Pemilik</label>
                             <input type="text" id="default-search"
                                 class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="Hello World">
+                                readonly disabled value="{{Auth::user()->mitra->nama_pemilik}}">
                         </div>
                         <div class="w-full relative">
                             <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama Mitra</label>
                             <input type="text" id="default-search"
                                 class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="Hello World">
+                                readonly disabled value="{{Auth::user()->mitra->nama_mitra}}">
                         </div>
                     </div>
                     <div class="relative mb-6">
                         <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nomor Identitas</label>
                         <input type="text" id="default-search"
                             class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                            readonly disabled value="Hello World">
+                            readonly disabled value="{{Auth::user()->mitra->no_identitas}}">
                     </div>
                     <div class="flex gap-x-6 mb-6">
                         <div class="w-full relative">
                             <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Npwp</label>
                             <input type="text" id="default-search"
                                 class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="Hello World">
+                                readonly disabled value="{{Auth::user()->mitra->npwp}}">
                         </div>
                         <div class="w-full relative">
                             <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Status</label>
                             <input type="text" id="default-search"
                                 class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="Hello World">
+                                readonly disabled value="{{Auth::user()->mitra->status_verifikasi}}">
                         </div>
                     </div>
                 </div>
             </div>
 
-        <script>
-            const hiddenBtn = document.getElementById("toggle-hidden");
+            <script>
+                const hiddenBtn = document.getElementById("toggle-hidden");
             const layerHidden = document.getElementById("blur-hidden");
 
-            // Check localStorage on page load
-            if (localStorage.getItem("isHidden") === "true") {
+             if (localStorage.getItem("isHidden") === "true") {
                 layerHidden.classList.remove("opacity-0");
                 layerHidden.classList.remove("hidden");
                 hiddenBtn.textContent = "Show";
@@ -150,6 +156,6 @@
                     localStorage.setItem("isHidden", "false");
                 }
             });
-        </script>
-    </div>
+            </script>
+        </div>
 </x-mitra-layout>

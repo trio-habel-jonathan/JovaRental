@@ -90,4 +90,8 @@ class MitraPageController extends Controller
         return view ('mitra.keuangan.income');
     }
 
+    public function indexMitraEdit(){
+        return view('mitra.edit');
+    }
+    
 }
