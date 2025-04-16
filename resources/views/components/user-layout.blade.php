@@ -63,19 +63,52 @@
 </script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script>
-    flatpickr("#tanggal_mulai", {
-        enableTime: true, // Aktifkan pemilihan jam & menit
-        altInput: true,
-        altFormat: "D, d M Y H:i K",
-        dateFormat: "Y-m-d H:i", // this is the actual value sent/stored
-        time_24hr: true // Gunakan format 24 jam
-    });
-    flatpickr("#tanggal_selesai", {
-        enableTime: true, // Aktifkan pemilihan jam & menit
-        altInput: true,
-        altFormat: "D, d M Y H:i K",
-        dateFormat: "Y-m-d H:i", // this is the actual value sent/stored
-        time_24hr: true // Gunakan format 24 jam
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get today's date
+        const today = new Date();
+
+        // Get tomorrow's date
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        // Set default time to 9:00
+        today.setHours(9, 0, 0);
+        tomorrow.setHours(9, 0, 0);
+
+        // Initialize start date flatpickr
+        flatpickr("#tanggal_mulai_rental", {
+            altInput: true,
+            altFormat: "D, d M Y",
+            dateFormat: "Y-m-d",
+            time_24hr: true,
+            defaultDate: today,
+            minDate: "today"
+        });
+
+        // Initialize end date flatpickr
+        flatpickr("#tanggal_selesai_rental", {
+            altInput: true,
+            altFormat: "D, d M Y",
+            dateFormat: "Y-m-d",
+            time_24hr: true,
+            defaultDate: tomorrow,
+            minDate: today
+        });
+
+        // Update the minDate of the end date picker when start date changes
+        const startDatePicker = document.querySelector("#tanggal_mulai_rental")._flatpickr;
+        startDatePicker.config.onChange.push(function(selectedDates, dateStr) {
+            const minEndDate = new Date(selectedDates[0]);
+            minEndDate.setDate(minEndDate.getDate() + 1);
+
+            const endDatePicker = document.querySelector("#tanggal_selesai_rental")._flatpickr;
+            endDatePicker.set("minDate", minEndDate);
+
+            // If current end date is before new min date, update it
+            if (endDatePicker.selectedDates[0] < minEndDate) {
+                endDatePicker.setDate(minEndDate);
+            }
+        });
     });
 </script>
 
