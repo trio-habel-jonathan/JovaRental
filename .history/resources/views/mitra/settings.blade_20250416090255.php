@@ -6,7 +6,7 @@
     </ul>
     
     <ul>
-        <h1>mitra data table mitra</h1>
+        <h1>mitra </h1>
         <li>{{$mitra->tipe_mitra}}</li>
         <li>{{$mitra->nama_mitra}}</li>
         <li>{{$mitra->nama_pemilik}}</li>

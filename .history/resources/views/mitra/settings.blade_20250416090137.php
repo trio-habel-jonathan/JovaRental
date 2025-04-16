@@ -1,12 +1,14 @@
 <x-mitra-layout title="Settings Mitra">
     <ul>
-        <h1>user data table user</h1>
         <li>{{$user->email}}</li>
-        <li>{{$user->no_telepon}}</li>      
+        <li>{{$user->no_telpon}}</li>
+        <li></li>
+        
+        
+        {{$user->foto_profil}}
     </ul>
     
     <ul>
-        <h1>mitra data table mitra</h1>
         <li>{{$mitra->tipe_mitra}}</li>
         <li>{{$mitra->nama_mitra}}</li>
         <li>{{$mitra->nama_pemilik}}</li>
