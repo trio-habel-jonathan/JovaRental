@@ -71,7 +71,7 @@ class User extends Authenticatable
         return $this->hasOne(EntitasPenyewa::class, "id_user", "id_user");
     }
 
-    public function asMitra()
+    public function mitra()
     {
         return $this->hasOne(Mitra::class, "id_user", "id_user");
     }

@@ -27,9 +27,23 @@ class MitraPageController extends Controller
     }
     public function kendaraanmitraView()
     {
-        $allKendaraan = Kendaraan::all();
+        $user = Auth::user();
+
+        // Ambil mitra berdasarkan user yang login
+        $mitra = $user->mitra;
+    
+        if (!$mitra) {
+            // Jika user belum terdaftar sebagai mitra, arahkan atau beri pesan error
+            abort(403, 'Anda belum terdaftar sebagai mitra.');
+        }
+    
+        // Ambil kendaraan yang hanya dimiliki mitra ini
+        $allKendaraan = Kendaraan::where('id_mitra', $mitra->id_mitra)->get();
+    
         return view('mitra.kendaraan.index', compact('allKendaraan'));
     }
+    
+    
     public function pesananmitraView()
     {
         $allPesanan = Pemesanan::all();

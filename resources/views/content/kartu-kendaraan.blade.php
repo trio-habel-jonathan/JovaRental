@@ -19,7 +19,7 @@
                         @if ($kendaraan->fotos)
                             @foreach ($decode_foto as $foto)
                                 <swiper-slide class="w-full h-full">
-                                    <img src="{{ asset('/kendaraan/' . $foto) }}" class="h-full w-full object-contain"
+                                    <img src="{{ asset('/kendaraan/' . $foto) }}" class="h-full w-full object-cover"
                                         alt="">
                                 </swiper-slide>
                             @endforeach

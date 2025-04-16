@@ -37,6 +37,7 @@ class SearchController extends Controller
         });
     }
 
+
     public function search(Request $request)
     {
         // Validate request
@@ -77,14 +78,18 @@ class SearchController extends Controller
         
         // Extract location information
         $lokasi = $request->input('lokasi');
+        $locationQuery = $lokasi; // Don't split for simplicity
         
-        // Get location-based constraints (city, district, etc.)
-        $locationParts = explode(',', $lokasi);
-        $locationQuery = $lokasi; // Jangan split        
         // Find available vehicles
-        // A vehicle is available if it's not in any booking during the requested period
         $availableVehicles = DB::table('kendaraan')
-            ->select('kendaraan.*', 'alamat_mitra.kota', 'alamat_mitra.kecamatan', 'alamat_mitra.provinsi')
+            ->select(
+                'kendaraan.*', 
+                'alamat_mitra.kota', 
+                'alamat_mitra.kecamatan', 
+                'alamat_mitra.provinsi',
+                'mitra.nama_mitra',
+                'mitra.foto_mitra'
+            )
             ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
             ->join('alamat_mitra', 'mitra.id_mitra', '=', 'alamat_mitra.id_mitra')
             ->whereNotIn('kendaraan.id_kendaraan', function($query) use ($startDateTime, $endDateTime) {
@@ -110,9 +115,51 @@ class SearchController extends Controller
             })
             ->get();
         
+        // Group vehicles by name and find lowest price for each
+        $groupedVehicles = [];
+        $allVehicles = [];
+        
+        foreach ($availableVehicles as $vehicle) {
+            $allVehicles[] = $vehicle;
+            
+            // Use name as key for grouping
+            $name = $vehicle->nama_kendaraan;
+            
+            if (!isset($groupedVehicles[$name]) || $vehicle->harga_sewa_perhari < $groupedVehicles[$name]->harga_sewa_perhari) {
+                // Store vehicle with lowest price
+                $vehicle->total_options = 1;
+                $groupedVehicles[$name] = $vehicle;
+            } else {
+                // Increment counter for this vehicle name
+                $groupedVehicles[$name]->total_options++;
+            }
+        }
+        
+        // Check for selected vehicle
+        $selectedVehicle = null;
+        $relatedVehicles = [];
+        if ($request->has('selected_vehicle')) {
+            $selectedName = $request->input('selected_vehicle');
+            
+            // Get vehicles with this name
+            foreach ($allVehicles as $vehicle) {
+                if ($vehicle->nama_kendaraan === $selectedName) {
+                    $relatedVehicles[] = $vehicle;
+                }
+            }
+            
+            // Sort related vehicles by price
+            usort($relatedVehicles, function($a, $b) {
+                return $a->harga_sewa_perhari - $b->harga_sewa_perhari;
+            });
+        }
+        
         // Pass search parameters and results to the view
         return view('search', [
-            'vehicles' => $availableVehicles,
+            'groupedVehicles' => array_values($groupedVehicles),
+            'allVehicles' => $allVehicles,
+            'selectedVehicle' => $request->input('selected_vehicle') ?? null,
+            'relatedVehicles' => $relatedVehicles,
             'searchParams' => [
                 'tipe_rental' => $request->input('tipe_rental'),
                 'lokasi' => $lokasi,
@@ -126,6 +173,7 @@ class SearchController extends Controller
             ]
         ]);
     }
+
 }
 
     
