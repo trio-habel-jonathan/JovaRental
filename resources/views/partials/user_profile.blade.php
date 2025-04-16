@@ -109,14 +109,14 @@
         </form>
     </div>
     <div class="w-full flex flex-col">
-        <h1 class="text-start text-lg font-semibold mb-4">Photo Profile</h1>
+        <h1 class="text-start montserrat-font text-lg font-semibold mb-4">Photo Profile</h1>
         <div class="w-full flex items-center justify-center">
             <img class="rounded-full w-72 aspect-square object-cover "
                 src="https://i.pinimg.com/736x/ee/cd/be/eecdbe232b5e579a9c62791f200e8a74.jpg" alt="">
         </div>
 
         <div class="mt-8">
-            <h1 class="text-lg font-semibold mb-2">Notifications</h1>
+            <h1 class="text-lg montserrat-font font-semibold mb-2">Notifications</h1>
 
             <div class="flex flex-col gap-2">
                 <div class="flex items-center gap-4 p-2 rounded-xl border border-[#9EC6F3]">

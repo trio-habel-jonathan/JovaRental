@@ -17,7 +17,7 @@
                         class="bg-primary hover:bg-darkprimary text-white px-4 lg:px-6 py-1.5 lg:py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-sm md:text-md lg:text-lg">
                         View More
                     </a>
-                    <a href="#contact"
+                    <a href="{{route('contactus')}}"
                         class="border-2 border-primary hover:bg-primary text-primary hover:text-white px-4 lg:px-6 py-1.5 lg:py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-sm md:text-md lg:text-lg">
                         Contact Us
                     </a>
