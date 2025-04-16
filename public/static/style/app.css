@@ -18,12 +18,12 @@
 
 .timeline-line {
     width: 2px;
-    background-color: #E5E7EB;
+    background-color: #e5e7eb;
     margin: 4px auto;
 }
 
 .completed {
-    background-color: #10B981 !important;
+    background-color: #10b981 !important;
     /* Green color for completed steps */
     border: none !important;
 }
@@ -97,7 +97,7 @@
 
 /* Hover style biar lebih interaktif */
 .flatpickr-day.selected:hover {
-    background: #3A2C75 !important;
+    background: #3a2c75 !important;
 }
 
 /* Gaya hari ini */
@@ -111,5 +111,33 @@
 
 .flatpickr-day.today:hover {
     background: rgba(67, 56, 202, 0.1) !important;
-    color: black
+    color: black;
+}
+
+/* Scrollbar container */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 10px; /* for horizontal scrollbars */
+}
+
+/* Scrollbar track (the background) */
+::-webkit-scrollbar-track {
+    background: #f4f5f6; /* light background */
+    border-radius: 10px;
+}
+
+/* Scrollbar thumb (the draggable thing) */
+::-webkit-scrollbar-thumb {
+    background: #705fb1;
+    border-radius: 10px;
+    border: 3px solid transparent; /* creates spacing inside the track */
+    background-clip: content-box; /* makes the border spacing visible */
+}
+
+/* Scrollbar thumb on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #5a4a91;
+    border-radius: 10px;
+    border: 3px solid transparent; /* creates spacing inside the track */
+    background-clip: content-box; /* makes the border spacing visible */
 }

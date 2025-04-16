@@ -7,7 +7,12 @@
                     class="inline-block transition-transform duration-300 montserrat-font">JovaRental</span></a>
         </div>
 
-
+        @php
+            function urlActive($url)
+            {
+                return request()->is($url) ? 'text-primary' : 'text-gray-700';
+            }
+        @endphp
         <!-- Mobile Menu Button -->
         <button class="md:hidden text-gray-700 focus:outline-none" id="mobile-menu-button">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
@@ -31,18 +36,26 @@
             @endauth
             <li>
                 <a href="{{ route('about') }}"
-                    class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                    class="{{ urlActive('about') }} text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
                     <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">About Us</span>
                     <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                        class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full {{ request()->is('about') ? 'w-full' : 'w-0' }}"></span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('contactus') }}"
-                    class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                    class="{{ urlActive('contact-us') }} text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
                     <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Contact Us</span>
                     <span
-                        class="absolute bottom-0 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                        class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full {{ request()->is('contact-us') ? 'w-full' : 'w-0' }}"></span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('daftarMitra') }}"
+                    class="{{ urlActive('daftar-mitra') }} text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                    <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Daftar Mitra</span>
+                    <span
+                        class="absolute bottom-0 left-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full {{ request()->is('daftar-mitra') ? 'w-full' : 'w-0' }}"></span>
                 </a>
             </li>
             <li class="relative">
@@ -73,25 +86,22 @@
 
         <ul class="hidden md:flex items-center justify-center gap-1">
             @auth
+                @php
+                    function urlActiveProfile($url)
+                    {
+                        return request()->is($url) ? 'text-white bg-primary' : 'text-gray-700 bg-transparent';
+                    }
+                @endphp
                 <li>
                     <a href="{{ route('profile') }}"
-                        class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        class="{{ urlActiveProfile('profile') }} text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
                         <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Profile</span>
                         <span
-                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
+                            class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full {{ request()->is('profile') ? 'w-full' : 'w-0' }}"></span>
                     </a>
                 </li>
                 <li>
-                    <form action="{{ route('logout') }}" method="POST">
-                        @csrf
-                        @method('POST')
-                        <button type="submit"
-                            class="text-gray-700 uppercase text-sm px-6 rounded-lg hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                            <span class="relative z-10 transition-colors duration-300 group-hover:text-white">Logout</span>
-                            <span
-                                class="absolute bottom-0 left-0 w-0 h-full bg-primary transition-all duration-300 group-hover:w-full"></span>
-                        </button>
-                    </form>
+             
                 </li>
             @endauth
             @guest
@@ -141,6 +151,13 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{ route('daftarMitra') }}"
+                        class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
+                        <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Daftar
+                            Mitra</span>
+                    </a>
+                </li>
+                <li>
                     <div>
                         <!-- Accordion Button -->
                         <button id="mobile-lang-toggle"
@@ -156,7 +173,8 @@
                         <!-- Accordion Content -->
                         <div id="mobile-lang-content" class="hidden pl-4 space-y-1">
                             <a href="#" class="block py-1 text-sm text-gray-700 hover:text-primary">English</a>
-                            <a href="#" class="block py-1 text-sm text-gray-700 hover:text-primary">Indonesia</a>
+                            <a href="#"
+                                class="block py-1 text-sm text-gray-700 hover:text-primary">Indonesia</a>
                             <a href="#" class="block py-1 text-sm text-gray-700 hover:text-primary">日本語</a>
                         </div>
                     </div>
@@ -165,7 +183,8 @@
                     <li>
                         <a href="{{ route('profile') }}"
                             class="text-gray-700 uppercase text-sm hover:text-primary font-bold relative overflow-hidden group py-2 block">
-                            <span class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Profile</span>
+                            <span
+                                class="relative z-10 transition-colors duration-300 plus-jakarta-sans-font">Profile</span>
                         </a>
                     </li>
                 @endauth
@@ -191,7 +210,7 @@
 
 <script>
     // JavaScript for mobile menu toggle
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const mobileMenuButton = document.getElementById('mobile-menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
         let isAnimating = false; // Flag untuk mencegah klik multiple
@@ -217,7 +236,7 @@
             }
         }
 
-        mobileMenuButton.addEventListener('click', function () {
+        mobileMenuButton.addEventListener('click', function() {
             // Mencegah klik berulang saat animasi sedang berjalan
             if (isAnimating) return;
             isAnimating = true;
@@ -262,12 +281,12 @@
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const dropdownButton = document.getElementById('language-dropdown-button');
         const dropdownMenu = document.getElementById('language-dropdown-menu');
         let isOpen = false;
 
-        dropdownButton.addEventListener('click', function (e) {
+        dropdownButton.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
 
@@ -296,7 +315,7 @@
         });
 
         // Tutup dropdown ketika klik di luar
-        document.addEventListener('click', function (e) {
+        document.addEventListener('click', function(e) {
             if (!dropdownButton.contains(e.target) && !dropdownMenu.contains(e.target)) {
                 dropdownMenu.classList.remove('opacity-100', 'scale-100');
                 dropdownMenu.classList.add('opacity-0', 'scale-95');

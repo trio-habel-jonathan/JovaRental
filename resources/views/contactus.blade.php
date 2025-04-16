@@ -51,12 +51,12 @@
             <div class="text-center mb-10">
                 <h2 data-aos="fade-up" class="text-4xl font-light text-gray-800 tracking-tight">OUR
                     LOCATION</h2>
-                <div data-aos="fade-up" class="mt-3 h-1 w-24 bg-purple-500 mx-auto"></div>
+                <div data-aos="fade-up" class="mt-3 h-1 w-24 bg-primary mx-auto"></div>
                 <p data-aos="fade-up" class="mt-4 text-gray-600 max-w-2xl mx-auto">Lokasi kantor
                     pusat kami</p>
             </div>
 
-            <div data-aos="fade-right" data-aos-delay="150" class="bg-white w-3/4 rounded-2xl shadow-xl overflow-hidden">
+            <div data-aos="fade-right" data-aos-delay="150" class="bg-white w-full lg:w-3/4 rounded-2xl shadow-xl overflow-hidden">
                 <div class="aspect-w-16 aspect-h-9 w-full">
                     <iframe class="w-full h-[500px] border-0"
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1254.627029895096!2d104.06711693199878!3d1.11411289972001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x303133717060061f%3A0x7c748248a50f7e1d!2sPT.%20Pundi%20Mas%20Berjaya!5e0!3m2!1sen!2ssg!4v1743038777005!5m2!1sen!2ssg"
@@ -70,7 +70,7 @@
                         <p class="text-gray-600 mt-1">Batam, Indonesia</p>
                     </div>
                     <a href="https://maps.google.com/?q=PT.%20Pundi%20Mas%20Berjaya" target="_blank"
-                        class="inline-flex items-center px-5 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg transition-colors duration-200">
+                        class="inline-flex items-center px-5 py-3 bg-primary hover:bg-darkprimary text-white rounded-lg transition-colors duration-200">
                         <span>Get Directions</span>
                         <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                             xmlns="http://www.w3.org/2000/svg">
