@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('kontak_perwakilan', 50)->nullable();
             $table->timestamp('tanggal_pemesanan')->useCurrent();
             $table->dateTime('tanggal_mulai');
-            $table->dateTime('tanggal_kembali');
+            $table->datteeTime('tanggal_kembali');
 
             $table->text('lokasi_pengambilan');
             $table->decimal('lat_pengambilan', 10, 7);
