@@ -18,6 +18,16 @@ return new class extends Migration
             $table->uuid('id_sopir')->nullable();
             $table->enum('metode_pengantaran', ['diantar', 'ambil_di_tempat']);
             $table->enum('tipe_penggunaan_sopir', ['tanpa_sopir', 'dengan_sopir'])->nullable();
+            $table->dateTime('tanggal_mulai');
+            $table->dateTime('tanggal_kembali');
+
+            $table->text('lokasi_pengambilan');
+            $table->decimal('lat_pengambilan', 10, 7);
+            $table->decimal('long_pengambilan', 10, 7);
+
+            $table->text('lokasi_pengembalian');
+            $table->decimal('lat_pengembalian', 10, 7);
+            $table->decimal('long_pengembalian', 10, 7);
             $table->decimal('biaya_pengantaran', 10, 2)->default(0.00);
             $table->decimal('subtotal_harga', 10, 2)->default(0.00);
             $table->decimal('biaya_layanan', 10, 2)->default(0.00); // Biaya layanan 2%
