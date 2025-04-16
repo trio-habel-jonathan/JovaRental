@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlamatMitraController;
 use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
@@ -41,5 +42,14 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::get('/details/{uuid}', [MitraPageController::class, 'pesanandetailView'])->name('pesanandetailView');
         Route::get('/create', [PesananController::class, 'tambahpesanan'])->name('tambahpesananView');
         Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
+    });
+
+    Route::prefix("/alamat")->name('alamat.')->group(function () {
+        Route::get('/', [AlamatMitraController::class, 'index'])->name('MitraView');
+        Route::get('/create', [AlamatMitraController::class, 'create'])->name('MitraCreate');
+        Route::get('/{alamatMitra}/edit', [AlamatMitraController::class, 'edit'])->name('MitraEdit');
+        Route::post('/create', [AlamatMitraController::class, 'store'])->name('MitraStore');
+        Route::put('/{alamatMitra}/update', [AlamatMitraController::class, 'update'])->name('MitraUpdate');
+        Route::delete('/{uuid}/destroy/', [AlamatMitraController::class, 'destroy'])->name('MitraDestroy');
     });
 });
