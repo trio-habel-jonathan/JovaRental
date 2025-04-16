@@ -2,7 +2,7 @@
     <div class=" w-full montserrat-font bg-white flex justify-between items-center shadow-lg py-4 px-4 md:px-8 lg:px-12">
 
         <!-- ========== Logo ========== -->
-        <div class="text-xl md:text-2xl text-gray-700 font-bold relative overflow-hidden">
+        <div class="text-xl md:text-2xl text-gray-700 font-bold integral-font relative overflow-hidden">
             <a href="{{ route('home') }}"><span
                     class="inline-block transition-transform duration-300 montserrat-font">JovaRental</span></a>
         </div>

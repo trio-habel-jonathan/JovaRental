@@ -1,3 +1,14 @@
+@font-face {
+    font-family: "Integral";
+    src: url("../font/Integralcf.otf") format("opentype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.integral-font {
+    font-family: "Integral";
+}
+
 .montserrat-font {
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
