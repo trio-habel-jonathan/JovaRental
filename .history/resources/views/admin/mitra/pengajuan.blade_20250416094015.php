@@ -1,0 +1,8 @@
+<x-admin-layout title="pengajuan-mitra">
+    <h1>backend for pengajuan kemitraan</h1>
+    @foreach ($mitraPenyewa as $Mitra)
+        <ul>
+            <li>{{$Mitra->user->email}}</li>
+        </ul>
+    @endforeach
+</x-admin-layout>
