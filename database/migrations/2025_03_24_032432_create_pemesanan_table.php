@@ -18,16 +18,7 @@ return new class extends Migration
             $table->string('perwakilan_penyewa', 255)->nullable();
             $table->string('kontak_perwakilan', 50)->nullable();
             $table->timestamp('tanggal_pemesanan')->useCurrent();
-            $table->dateTime('tanggal_mulai');
-            $table->dateTime('tanggal_kembali');
-
-            $table->text('lokasi_pengambilan');
-            $table->decimal('lat_pengambilan', 10, 7);
-            $table->decimal('long_pengambilan', 10, 7);
-
-            $table->text('lokasi_pengembalian');
-            $table->decimal('lat_pengembalian', 10, 7);
-            $table->decimal('long_pengembalian', 10, 7);
+          
             
             $table->decimal('total_harga', 10, 2);
             $table->enum('status_pemesanan', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
