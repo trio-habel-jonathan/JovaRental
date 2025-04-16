@@ -1,5 +1,5 @@
-<div class="grid grid-cols-2 items-start justify-items-center gap-8">
-    <div class="w-full">
+<div class="grid grid-cols-1 lg:grid-cols-2 grid-row-reverse items-start justify-items-center gap-8">
+    <div class="w-full order-2 lg:order-1">
         <div class="space-y-2 montserrat-font">
             <h1 class="font-semibold text-xl">User Information</h1>
             <div>
@@ -108,7 +108,7 @@
             </div>
         </form>
     </div>
-    <div class="w-full flex flex-col">
+    <div class="w-full flex flex-col order-1 lg:order-2">
         <h1 class="text-start montserrat-font text-lg font-semibold mb-4">Photo Profile</h1>
         <div class="w-full flex items-center justify-center">
             <img class="rounded-full w-72 aspect-square object-cover "

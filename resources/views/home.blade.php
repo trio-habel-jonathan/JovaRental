@@ -1,52 +1,64 @@
 <x-user-layout title="Home">
     <!-- Hero Section -->
-    <section id="home"
-        class="w-full bg-slate-100 z-10 bg-[url('/hero-background.png')] bg-full bg-cover p-8 space-y-4">
-        <div class="max-w-[1600px] h-full flex items-center justify-between flex-wrap-reverse lg:flex-nowrap mx-auto">
-            <div class="max-w-xl mt-4">
-                <h1 data-aos="fade-right"
-                    class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 uppercase text-transparent bg-clip-text bg-gradient-to-r from-darkprimary to-blue-300 drop-shadow-lg">
-                    Welcome to Jova Rental</h1>
-                <p data-aos="fade-right" data-aos-delay="150" class="text-sm lg:text-md mb-8 font-medium">
-                    Layanan Rental Kendaraan Terpercaya – Sewa Mobil & Motor dengan Mudah dan Terjangkau untuk
-                    Perjalanan Apa Pun.
-                    Bebas Berkendara Kapan Saja, di Mana Saja!
-                </p>
-                <div data-aos="fade-right" data-aos-delay="300" class="flex flex-wrap gap-4">
-                    <a href="#menu"
-                        class="bg-primary hover:bg-darkprimary text-white px-4 lg:px-6 py-1.5 lg:py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-sm md:text-md lg:text-lg">
-                        View More
-                    </a>
-                    <a href="{{route('contactus')}}"
-                        class="border-2 border-primary hover:bg-primary text-primary hover:text-white px-4 lg:px-6 py-1.5 lg:py-3 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105 font-semibold text-sm md:text-md lg:text-lg">
-                        Contact Us
-                    </a>
-                </div>
-            </div>
+    <section>
+        <div class="w-full h-screen max-h-[680px] max-w-[1600px] mx-auto bg-white">
+            <div class="w-full h-full grid grid-cols-2 relative">
+                <div class="absolute inset-0 w-full h-full flex flex-col items-start justify-start flex-wrap z-0">
+                    @for ($i = 0; $i < 434; $i++)
+                        <svg width="48" height="48" viewBox="0 0 48 48">
+                            <g fill="none" opacity="0.1">
+                                <path d="M48 23.5L0 23.5" stroke="currentColor"></path>
+                                <path d="M48 47.5001L0 47.5001" stroke="currentColor"></path>
+                                <path d="M23.5 0V48" stroke="currentColor"></path>
+                                <path d="M47.5 0V48" stroke="currentColor"></path>
+                            </g>
+                        </svg>
+                    @endfor
 
-            <div class="w-full max-w-4xl">
-                <div data-aos="zoom-in" class="border-2 rounded-xl h-64 mb-4 overflow-hidden shadow-lg">
-                    <img draggable="false" src="https://i.pinimg.com/736x/7d/aa/e3/7daae3529fecbacf405b7904b67e6b19.jpg"
-                        class="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
-                        alt="rental-mobil">
                 </div>
-                <div class="flex space-x-4">
-                    <div data-aos="zoom-in" data-aos-delay="150" class="w-full flex-[200px]">
-                        <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
-                            <img draggable="false"
-                                src="https://i.pinimg.com/736x/60/0c/48/600c4837a751426222a95ee5f5395926.jpg"
-                                alt="rental-mobil-ban"
-                                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        </div>
+                <div
+                    class="absolute animate-leftright top-12 left-12 w-96 aspect-square bg-accent/50 rounded-full blur-xl z-10">
+                </div>
+                <div
+                    class="absolute animate-downup top-12 left-64 w-48 aspect-square bg-darkprimary/50 rounded-full blur-xl z-10">
+                </div>
+                <div class="pl-8 space-y-6 flex flex-col items-center justify-center z-20">
+                    <h1 class="uppercase font-bold integral-font text-8xl">WELCOME To JovaRental</h1>
+                    <p class="text-md montserrat-font"> Layanan Rental Kendaraan Terpercaya – Sewa Mobil & Motor dengan
+                        Mudah dan Terjangkau untuk
+                        Perjalanan Apa Pun.
+                        Bebas Berkendara Kapan Saja, di Mana Saja!</p>
+                    <div class="w-full flex gap-4">
+                        <button
+                            class="group relative flex items-center rounded-md bg-primary px-6 py-2 font-bold text-md text-white transition-all duration-300 ease-in-out hover:opacity-85 active:opacity-100">
+                            <span class="montserrat-font">PESAN SEKARANG</span>
+                            <!-- SVG icon that appears on hover -->
+                            <span
+                                class="ml-0 w-0 overflow-hidden transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:w-6">
+                                <svg width="25" height="25" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                        </button>
+                        <button
+                            class="group relative flex items-center rounded-md border border-primary px-6 py-2 font-bold text-md text-primary transition-all duration-300 ease-in-out hover:opacity-85 active:opacity-100">
+                            <span class="montserrat-font uppercase">Contact Us</span>
+                            <!-- SVG icon that appears on hover -->
+                            <span
+                                class="ml-0 w-0 overflow-hidden transition-all duration-300 ease-in-out group-hover:ml-4 group-hover:w-6">
+                                <svg width="25" height="25" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M6 18L18 6M18 6H10M18 6V14" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </span>
+                        </button>
                     </div>
-                    <div data-aos="zoom-in" data-aos-delay="300" class="w-full flex-[200px]">
-                        <div class="border-2 h-32 rounded-xl overflow-hidden shadow-lg">
-                            <img draggable="false"
-                                src="https://i.pinimg.com/736x/c6/79/f1/c679f17d8ea683b155a5826034f64894.jpg"
-                                alt="rental-motor-1"
-                                class="w-full h-full object-cover transition-transform duration-500 hover:scale-105">
-                        </div>
-                    </div>
+                </div>
+                <div class="w-full flex items-center justify-center z-20">
+                    <img class="w-3/4" src="{{ asset('static/undraw_vintage.svg') }}" alt="">
                 </div>
             </div>
         </div>
@@ -60,7 +72,7 @@
                     <input type="radio" id="tanpa_sopir" name="tipe_rental" value="tanpa_sopir" checked
                         class="hidden peer" onchange="toggleDriverOptions()">
                     <label for="tanpa_sopir"
-                        class="cursor-pointer w-48 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-purple-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
+                        class="cursor-pointer w-48 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-primary-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
                         Tanpa Sopir
                     </label>
                 </div>
@@ -68,7 +80,7 @@
                     <input type="radio" id="dengan_sopir" name="tipe_rental" value="dengan_sopir" class="hidden peer"
                         onchange="toggleDriverOptions()">
                     <label for="dengan_sopir"
-                        class="cursor-pointer w-48 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-purple-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
+                        class="cursor-pointer w-48 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-primary-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
                         Dengan Sopir
                     </label>
                 </div>
