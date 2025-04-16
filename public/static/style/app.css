@@ -52,6 +52,7 @@
 /* width */
 .custom-scrollbar::-webkit-scrollbar {
     width: 4px;
+    height: 5px;
 }
 
 /* Track */

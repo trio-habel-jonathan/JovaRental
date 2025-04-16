@@ -64,11 +64,11 @@
                 </div>
                 <div class="flex justify-around p-2 py-4">
                     <div class="text-center">
-                        <p class="font-bold montserrat-font text-lg text-primary">120</p>
+                        <p class="font-bold montserrat-font text-lg text-primary">{{$sopir->total_mengantar}}</p>
                         <p class="text-xs text-gray-400">Total Delivery</p>
                     </div>
                     <div class="text-center">
-                        <p class="font-bold montserrat-font text-lg text-primary">24</p>
+                        <p class="font-bold montserrat-font text-lg text-primary">{{$sopir->total_mengemudi}}</p>
                         <p class="text-xs text-gray-400">Total Driver</p>
                     </div>
                 </div>
