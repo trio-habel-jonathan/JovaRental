@@ -42,7 +42,7 @@ class AdminPageController extends Controller
 
     public function mitraView()
     {
-        $allmitra = Mitra::all();
+        $allmitra = Mitra::whereNot('status_verifikasi', 'pending')->get();
         return view('admin.mitra.index', compact('allmitra'));
     }
 
