@@ -68,4 +68,27 @@ class MitraController extends Controller
 
         return redirect()->route('mitra.indexView')->with(['type' => 'success', 'message' => 'Pendaftaran Sebagai Mitra Berhasil']);
     }
+
+    public function update(Request $request, Mitra $mitra) {
+        $request->validate([
+            'tipe_mitra'   => 'required|in:individu,perusahaan',
+            'nama_mitra'   => 'required|string|max:100',
+            'nama_pemilik' => 'required|string|max:100',
+            'no_identitas' => 'required|string|max:50|unique:mitra,no_identitas,' . $request->no_identitas . ',no_identitas',
+            'npwp'         => 'nullable|string|max:50|unique:mitra,npwp,' . $request->npwp . ',npwp',
+        ]);
+
+        // Update mitra data
+        $mitra->update([
+            'tipe_mitra'    => $request->tipe_mitra,
+            'nama_mitra'    => $request->nama_mitra,
+            'nama_pemilik'  => $request->nama_pemilik,
+            'no_identitas'  => $request->no_identitas,
+            'npwp'          => $request->npwp,
+            'status_verifikasi' => $request->status_verifikasi,
+        ]);
+
+
+        return redirect()->route('mitra.settings')->with(['type' => 'success', 'message' => 'Profil Mitra berhasil diperbarui']);
+    }
 }

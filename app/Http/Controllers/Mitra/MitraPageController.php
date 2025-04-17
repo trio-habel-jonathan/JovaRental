@@ -79,10 +79,6 @@ class MitraPageController extends Controller
         ));
     }
     
-    
-    
-    
-    
     public function keuanganMitraView()
     {
         return view('mitra.keuangan.index');
@@ -94,4 +90,8 @@ class MitraPageController extends Controller
         return view ('mitra.keuangan.income');
     }
 
+    public function indexMitraEdit(){
+        return view('mitra.edit');
+    }
+    
 }
