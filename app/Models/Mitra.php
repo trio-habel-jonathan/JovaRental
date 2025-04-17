@@ -96,4 +96,9 @@ class Mitra extends Model
     {
         return $this->hasMany(RekeningMitra::class, 'id_mitra', 'id_mitra');
     }
+
+    // Relasi ke alamat_mitra
+    public function hasAlamatMitra(){
+        return $this->hasMany(AlamatMitra::class, "id_mitra", 'id_mitra');
+    }
 }
