@@ -129,6 +129,5 @@
     </div>
 </body>
 <script src="{{ asset('static/js/tailwind.js') }}"></script>
-<script src="{{ asset('static/js/preventDoubleClick.js') }}"></script>
 
 </html>
