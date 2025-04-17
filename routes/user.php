@@ -3,16 +3,15 @@
 use App\Http\Controllers\Auth\PageController;
 use App\Http\Controllers\UserPageController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\PemesananController;;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("daftarMitra");
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search/alamat', [SearchController::class, 'searchAlamat'])->name('search.alamat');
-
-
-// Route::post("/search", [SearchController::class, "search"])->name("search.submit");
-
+Route::get('/review', [PemesananController::class, 'showReview'])->name('review_page');
+Route::get('/detail', [PemesananController::class, 'create'])->name('detail');
 
 Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/", [UserPageController::class, "home"])->name("home");
