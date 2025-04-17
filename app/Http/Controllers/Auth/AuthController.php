@@ -110,6 +110,7 @@ class AuthController extends Controller
             'alamat' => 'required|string',
         ]);
 
+
         $entitas = EntitasPenyewa::create([
             'id_user' => auth()->user()->id_user,
             'tipe_entitas' => $request->tipe_entitas,

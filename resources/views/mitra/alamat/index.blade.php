@@ -44,10 +44,11 @@
                             <td class="px-6 py-4">{{$item->latitude}}</td>
                             <td class="px-6 py-4">{{$item->longitude}}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <a href="{{route('mitra.alamat.MitraEdit', $item->id_alamat)}}" class="text-blue-600 hover:underline">Edit</a>
+                                <a href="{{route('mitra.alamat.MitraEdit', $item->id_alamat)}}"       class="bg-yellow-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-yellow-600 transition">Edit</a>
 
                                 <label for="modal-delete-toggle-{{ $loop->iteration }}"
-                                    class="text-red-600 cursor-pointer  ml-2">Hapus</label>
+                                    class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-600 transition">
+                                    Hapus</label>
                                 <x-modal-delete counter="{{ $loop->iteration }}"
                                     formAction="{{ route('mitra.alamat.MitraDestroy', $item->id_alamat) }}"
                                     uuid="{{ $item->id_alamat }}" />
