@@ -1,3 +1,4 @@
+
 <x-user-layout title="Hasil Pencarian">
     <div class="max-w-[1600px] mx-auto px-4 py-8">
         <!-- Search Summary -->

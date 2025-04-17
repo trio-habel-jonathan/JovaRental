@@ -1,4 +1,4 @@
-<nav class="sticky top-0 inset-x-0 flex justify-center items-center w-full z-20 max-w-[1600px] mx-auto ">
+<nav class="sticky top-0 inset-x-0 flex justify-center items-center w-full z-30 max-w-[1600px] mx-auto ">
     <div class=" w-full montserrat-font bg-white flex justify-between items-center shadow-lg py-4 px-4 md:px-8 lg:px-12">
 
         <!-- ========== Logo ========== -->
