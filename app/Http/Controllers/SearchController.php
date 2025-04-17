@@ -37,6 +37,11 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
+        // Reset session hanya jika bukan dari halaman detail (tanpa parameter id_unit)
+// Reset session hanya jika bukan dari halaman detail
+if (!$request->has('from_detail')) {
+    $request->session()->forget('selected_units');
+}
         $request->validate([
             'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
         ]);
@@ -73,36 +78,39 @@ class SearchController extends Controller
             ->where('is_active', 1)
             ->value('nilai_fee') ?? 0;
 
-        // Query ketersediaan berdasarkan unit_kendaraan
-        $availableVehicles = DB::table('kendaraan')
-            ->select(
-                'kendaraan.*',
-                'alamat_mitra.kota',
-                'alamat_mitra.kecamatan',
-                'alamat_mitra.provinsi',
-                'mitra.nama_mitra',
-                'mitra.foto_mitra',
-                'unit_kendaraan.id_unit',
-                'unit_kendaraan.plat_nomor'
-            )
-            ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
-            ->join('unit_kendaraan', 'kendaraan.id_kendaraan', '=', 'unit_kendaraan.id_kendaraan')
-            ->join('alamat_mitra', 'unit_kendaraan.id_alamat_mitra', '=', 'alamat_mitra.id_alamat')
-            ->where('unit_kendaraan.status_unit_kendaraan', 'tersedia')
-            ->whereNotIn('unit_kendaraan.id_unit', function ($query) use ($startDateTime, $endDateTime) {
-                $query->select('id_unit')
-                    ->from('detail_pemesanan')
-                    ->where('tanggal_mulai', '<', $endDateTime)
-                    ->where('tanggal_kembali', '>', $startDateTime);
-            })
-            ->where(function ($query) use ($lokasi) {
-                $query->where('alamat_mitra.alamat', 'LIKE', "%$lokasi%")
-                      ->orWhere('alamat_mitra.kota', 'LIKE', "%$lokasi%")
-                      ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
-                      ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
-            })
-            ->get();
-
+       // Get selected units from session
+       $selectedUnits = $request->session()->get('selected_units', []);
+    // Query ketersediaan berdasarkan unit_kendaraan, excluding selected units
+    $availableVehicles = DB::table('kendaraan')
+    ->select(
+        'kendaraan.*',
+        'alamat_mitra.kota',
+        'alamat_mitra.kecamatan',
+        'alamat_mitra.provinsi',
+        'mitra.nama_mitra',
+        'mitra.foto_mitra',
+        'unit_kendaraan.id_unit',
+        'unit_kendaraan.plat_nomor'
+    )
+    ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
+    ->join('unit_kendaraan', 'kendaraan.id_kendaraan', '=', 'unit_kendaraan.id_kendaraan')
+    ->join('alamat_mitra', 'unit_kendaraan.id_alamat_mitra', '=', 'alamat_mitra.id_alamat')
+    ->where('unit_kendaraan.status_unit_kendaraan', 'tersedia')
+    ->whereNotIn('unit_kendaraan.id_unit', function ($query) use ($startDateTime, $endDateTime) {
+        $query->select('id_unit')
+            ->from('detail_pemesanan')
+            ->where('tanggal_mulai', '<', $endDateTime)
+            ->where('tanggal_kembali', '>', $startDateTime);
+    })
+    ->whereNotIn('unit_kendaraan.id_unit', $selectedUnits)
+    ->where(function ($query) use ($lokasi) {
+        $query->where('alamat_mitra.alamat', 'LIKE', "%$lokasi%")
+              ->orWhere('alamat_mitra.kota', 'LIKE', "%$lokasi%")
+              ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
+              ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
+    })
+    ->get();
+        
       $groupedVehicles = [];
     $allVehicles = [];
     $mitraPerVehicle = []; // Untuk menyimpan mitra unik per kendaraan
@@ -156,23 +164,25 @@ class SearchController extends Controller
         });
     }   
 
-        return view('search', [
-            'groupedVehicles' => array_values($groupedVehicles),
-            'allVehicles' => $allVehicles,
-            'selectedVehicle' => $request->input('selected_vehicle') ?? null,
-            'relatedVehicles' => $relatedVehicles,
-            'searchParams' => [
-                'tipe_rental' => $request->tipe_rental,
-                'lokasi' => $lokasi,
-                'tanggal_mulai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('tanggal_mulai') : $request->input('tanggal_mulai_sopir'),
-                'waktu_mulai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('waktu_mulai') : $request->input('waktu_mulai_sopir'),
-                'tanggal_selesai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('tanggal_selesai') : null,
-                'waktu_selesai' => $endDateTime->format('H:i'),
-                'start_date_formatted' => $startDateTime->format('d M Y, H:i'),
-                'end_date_formatted' => $endDateTime->format('d M Y, H:i'),
-                'durasi' => $durasi,
-            ],
-            'driver_fee' => $driverFee,
-        ]);
+    return view('search', [
+        'groupedVehicles' => array_values($groupedVehicles),
+        'allVehicles' => $allVehicles,
+        'selectedVehicle' => $request->input('selected_vehicle') ?? null,
+        'relatedVehicles' => $relatedVehicles,
+        'searchParams' => [
+            'tipe_rental' => $request->tipe_rental,
+            'lokasi' => $lokasi,
+            'tanggal_mulai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('tanggal_mulai') : $request->input('tanggal_mulai_sopir'),
+            'waktu_mulai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('waktu_mulai') : $request->input('waktu_mulai_sopir'),
+            'tanggal_selesai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('tanggal_selesai') : null,
+            'waktu_selesai' => $endDateTime->format('H:i'),
+            'start_date_formatted' => $startDateTime->format('d M Y, H:i'),
+            'end_date_formatted' => $endDateTime->format('d M Y, H:i'),
+            'durasi' => $durasi,
+        ],
+        'driver_fee' => $driverFee,
+    ]);
     }
+
+    
 }

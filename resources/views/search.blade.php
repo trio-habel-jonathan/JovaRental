@@ -1,6 +1,10 @@
 
 <x-user-layout title="Hasil Pencarian">
     <div class="max-w-[1600px] mx-auto px-4 py-8">
+             <!-- Search Form Component -->
+             <section id="search" class="w-full flex items-center justify-center p-4 md:p-8 lg:p-12 mb-6">
+                <x-search-form action="{{ route('search') }}" />
+            </section>
         <!-- Search Summary -->
         <div class="bg-white p-6 rounded-lg shadow-md mb-6">
             <h1 class="text-2xl font-bold text-gray-800 mb-4">Hasil Pencarian</h1>
@@ -206,15 +210,15 @@
                                         <p class="text-xs text-gray-500">Termasuk biaya sopir Rp {{ number_format($driver_fee, 0, ',', '.') }}/hari</p>
                                     @endif
                                 </div>
-                                <a href="{{ route('detail', [
-                                    'id_unit' => $vehicle->id_unit,
-                                    'tipe_rental' => $searchParams['tipe_rental'],
-                                    'start_date' => $searchParams['start_date_formatted'],
-                                    'end_date' => $searchParams['end_date_formatted'],
-                                    'lokasi' => $searchParams['lokasi']
-                                ]) }}" class="px-6 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors">
-                                    Pesan Sekarang
-                                </a>
+                               <a href="{{ route('detail', [
+    'id_unit' => $vehicle->id_unit,
+    'tipe_rental' => $searchParams['tipe_rental'],
+    'start_date' => $searchParams['start_date_formatted'],
+    'end_date' => $searchParams['end_date_formatted'],
+    'lokasi' => $searchParams['lokasi']
+]) }}" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-2 px-4 rounded-lg">
+    Pesan Sekarang
+</a>
                             </div>
                         </div>
                     </div>

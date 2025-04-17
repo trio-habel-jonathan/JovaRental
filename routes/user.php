@@ -10,6 +10,7 @@ Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("d
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search/alamat', [SearchController::class, 'searchAlamat'])->name('search.alamat');
+Route::get('/search/ajax', [App\Http\Controllers\SearchController::class, 'searchAjax'])->name('search.ajax');
 Route::get('/review', [PemesananController::class, 'showReview'])->name('review_page');
 
 Route::post('cart/add', [PemesananController::class, 'addToCart'])->name('cart.add');

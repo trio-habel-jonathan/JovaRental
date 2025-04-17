@@ -28,10 +28,16 @@
     <div class="flex flex-col sm:flex-row w-full min-h-screen gap-4 p-4 mt-8">
         <!-- Form Section -->
         <div class="order-1 sm:w-[65%] w-full rounded-md bg-white p-6 md:p-8 rounded-tl-2xl rounded-bl-2xl shadow-lg">
-            <form method="POST" action="#" id="rentalForm">
+            <form id="rentalForm" action="{{ route('review') }}" method="POST">
                 @csrf
                 <!-- Hidden Fields -->
-                <input type="hidden" name="id_unit" value="{{ $unit->id_unit }}">
+                @foreach($units as $unit)
+                <!-- Debug jumlah kendaraan -->
+<div class="mb-4 text-gray-600">
+    Jumlah kendaraan yang dipilih: {{ count($units) }}
+</div>
+                    <input type="hidden" name="id_units[]" value="{{ $unit->id_unit }}">
+                @endforeach
                 <input type="hidden" name="tipe_rental" value="{{ $tipe_rental }}">
                 <input type="hidden" name="tanggal_mulai" value="{{ $startDateTime->format('Y-m-d H:i:s') }}">
                 <input type="hidden" name="tanggal_kembali" value="{{ $endDateTime->format('Y-m-d H:i:s') }}">
@@ -139,7 +145,22 @@
                 </div>
                 @endif
 
-                <div class="flex justify-end mt-6">
+                <!-- Buttons -->
+                <div class="flex justify-between mt-6">
+                    <a href="{{ route('search', [
+                        'tipe_rental' => $tipe_rental,
+                        'lokasi' => $lokasi,
+                        'tanggal_mulai' => $startDateTime->format('Y-m-d'),
+                        'waktu_mulai' => $startDateTime->format('H:i'),
+                        'tanggal_selesai' => $endDateTime->format('Y-m-d'),
+                        'waktu_selesai' => $endDateTime->format('H:i'),
+                        'from_detail' => 1
+                    ]) }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                        Tambah Kendaraan
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
                     <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         Lanjutkan
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -156,88 +177,93 @@
                 <h1 class="text-2xl font-bold text-gray-800">Detail Rental</h1>
             </div>
 
-            <!-- Vehicle Image -->
-            <div class="h-48 bg-gray-200 relative mb-6 rounded-lg overflow-hidden shadow-md">
-                @if ($unit->fotos)
-                    @php $photos = json_decode($unit->fotos) @endphp
-                    @if(count($photos) > 0)
-                        <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $unit->nama_kendaraan }}">
+            <!-- Vehicle List -->
+            @foreach($units as $unit)
+            <div class="mb-6">
+                <!-- Vehicle Image -->
+                <div class="h-48 bg-gray-200 relative mb-6 rounded-lg overflow-hidden shadow-md">
+                    @if ($unit->fotos)
+                        @php $photos = json_decode($unit->fotos) @endphp
+                        @if(count($photos) > 0)
+                            <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $unit->nama_kendaraan }}">
+                        @else
+                            <div class="h-full w-full flex items-center justify-center bg-gray-200 text-gray-500">
+                                No Image Available
+                            </div>
+                        @endif
                     @else
                         <div class="h-full w-full flex items-center justify-center bg-gray-200 text-gray-500">
                             No Image Available
                         </div>
                     @endif
-                @else
-                    <div class="h-full w-full flex items-center justify-center bg-gray-200 text-gray-500">
-                        No Image Available
-                    </div>
-                @endif
-            </div>
+                </div>
 
-            <!-- Informasi Mitra -->
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Informasi Mitra</h3>
-                <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg shadow-sm">
-                    <div class="bg-purple-100 p-2 rounded-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-800">{{ $unit->nama_mitra }}</h4>
-                        <p class="text-sm text-gray-600" id="selected-mitra-address">
-                            @if($alamatMitra->isNotEmpty())
-                                {{ $alamatMitra->first()->alamat }}, {{ $alamatMitra->first()->kota }}, {{ $alamatMitra->first()->kecamatan }}, {{ $alamatMitra->first()->provinsi }}
-                            @else
-                                Lokasi Tidak Tersedia
-                            @endif
-                        </p>
+                <!-- Informasi Mitra -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Informasi Mitra</h3>
+                    <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <div class="bg-purple-100 p-2 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-gray-800">{{ $unit->nama_mitra }}</h4>
+                            <p class="text-sm text-gray-600" id="selected-mitra-address-{{ $unit->id_unit }}">
+                                @if($alamatMitra->isNotEmpty())
+                                    {{ $alamatMitra->first()->alamat }}, {{ $alamatMitra->first()->kota }}, {{ $alamatMitra->first()->kecamatan }}, {{ $alamatMitra->first()->provinsi }}
+                                @else
+                                    Lokasi Tidak Tersedia
+                                @endif
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Detail Kendaraan -->
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-2">Detail Kendaraan</h3>
-                <div class="grid grid-cols-1 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                        </svg>
-                        <div>
-                            <p class="text-sm font-medium text-gray-700">Kendaraan</p>
-                            <p class="text-sm text-gray-600 font-semibold">{{ $unit->nama_kendaraan }}</p>
+                <!-- Detail Kendaraan -->
+                <div class="mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Detail Kendaraan</h3>
+                    <div class="grid grid-cols-1 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">Kendaraan</p>
+                                <p class="text-sm text-gray-600 font-semibold">{{ $unit->nama_kendaraan }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-                        </svg>
-                        <div>
-                            <p class="text-sm font-medium text-gray-700">Transmisi</p>
-                            <p class="text-sm text-gray-600">{{ ucfirst($unit->transmisi) }}</p>
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">Transmisi</p>
+                                <p class="text-sm text-gray-600">{{ ucfirst($unit->transmisi) }}</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                        <div>
-                            <p class="text-sm font-medium text-gray-700">Jumlah Kursi</p>
-                            <p class="text-sm text-gray-600">{{ $unit->jumlah_kursi }} Penumpang</p>
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">Jumlah Kursi</p>
+                                <p class="text-sm text-gray-600">{{ $unit->jumlah_kursi }} Penumpang</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div>
-                            <p class="text-sm font-medium text-gray-700">Tahun Produksi</p>
-                            <p class="text-sm text-gray-600">{{ $unit->tahun_produksi }}</p>
+                        <div class="flex items-center gap-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <div>
+                                <p class="text-sm font-medium text-gray-700">Tahun Produksi</p>
+                                <p class="text-sm text-gray-600">{{ $unit->tahun_produksi }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+            @endforeach
 
             <!-- Periode Rental -->
             <div class="mb-6">
@@ -266,16 +292,21 @@
 
             <!-- Total Harga -->
             @php
+                $totalCost = 0;
                 if ($tipe_rental === 'tanpa_sopir') {
                     $duration = $startDateTime->diffInDays($endDateTime) + 1;
-                    $totalCost = $unit->harga_sewa_perhari * $duration;
+                    foreach ($units as $unit) {
+                        $totalCost += $unit->harga_sewa_perhari * $duration;
+                    }
                 } else {
                     $duration = $startDateTime->diffInDays($endDateTime) + 1;
                     $driverFee = \Illuminate\Support\Facades\DB::table('fee_setting')
                         ->where('nama_fee', 'biaya_sopir')
                         ->where('is_active', 1)
                         ->value('nilai_fee') ?? 0;
-                    $totalCost = ($unit->harga_sewa_perhari + $driverFee) * $duration;
+                    foreach ($units as $unit) {
+                        $totalCost += ($unit->harga_sewa_perhari + $driverFee) * $duration;
+                    }
                 }
             @endphp
             <div>
@@ -290,7 +321,7 @@
                         </div>
                     </div>
                     @if($tipe_rental == 'dengan_sopir')
-                        <p class="text-sm text-gray-600 mt-2">Termasuk biaya sopir Rp {{ number_format($driverFee, 0, ',', '.') }}/hari</p>
+                        <p class="text-sm text-gray-600 mt-2">Termasuk biaya sopir Rp {{ number_format($driverFee, 0, ',', '.') }}/hari per kendaraan</p>
                     @endif
                 </div>
             </div>
@@ -304,16 +335,19 @@
             const lainPengambilan = document.getElementById('lokasi_pengambilan_lain');
             const kantorPengembalian = document.getElementById('alamat_kantor_pengembalian');
             const lainPengembalian = document.getElementById('lokasi_pengembalian_lain');
-            const mitraAddress = document.getElementById('selected-mitra-address');
+            @foreach($units as $unit)
+                const mitraAddress{{ $unit->id_unit }} = document.getElementById('selected-mitra-address-{{ $unit->id_unit }}');
+            @endforeach
 
             if (type === 'pengambilan') {
                 if (document.querySelector('input[name="lokasi_pengambilan"][value="kantor_rental"]').checked) {
                     if (kantorPengambilan) {
                         kantorPengambilan.disabled = false;
-                        // Update alamat mitra di summary saat dropdown berubah
                         kantorPengambilan.addEventListener('change', () => {
                             const selectedOption = kantorPengambilan.options[kantorPengambilan.selectedIndex];
-                            mitraAddress.textContent = selectedOption.text || 'Pilih alamat dari dropdown';
+                            @foreach($units as $unit)
+                                mitraAddress{{ $unit->id_unit }}.textContent = selectedOption.text || 'Pilih alamat dari dropdown';
+                            @endforeach
                         });
                     }
                     if (lainPengambilan) {
@@ -327,9 +361,10 @@
                     }
                     if (lainPengambilan) {
                         lainPengambilan.disabled = false;
-                        // Update alamat mitra ke input custom
                         lainPengambilan.addEventListener('input', () => {
-                            mitraAddress.textContent = lainPengambilan.value || 'Masukkan alamat';
+                            @foreach($units as $unit)
+                                mitraAddress{{ $unit->id_unit }}.textContent = lainPengambilan.value || 'Masukkan alamat';
+                            @endforeach
                         });
                     }
                 }
