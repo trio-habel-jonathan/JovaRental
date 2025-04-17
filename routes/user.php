@@ -26,8 +26,6 @@ Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/pemesanan/review/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");
     Route::get("/pemesanan/review/pembayaran/bukti-penyewaan-kendaraan", [UserPageController::class, "buktiPenyewaanKendaraan"])->name("buktiPenyewaanKendaraan");
 
-    Route::middleware("auth")->group(function () {
-        Route::get("/profile", [UserPageController::class, "profile"])->name("profile");
-        Route::get("/profile/history", [UserPageController::class, "history"])->name("history");
-    });
+    Route::get("/profile", [UserPageController::class, "profile"])->name("profile");
+    Route::get("/profile/history", [UserPageController::class, "history"])->name("history");
 });
