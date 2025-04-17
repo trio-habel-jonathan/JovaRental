@@ -23,4 +23,13 @@ class SupirPageController extends Controller
     {
         return view('mitra.supir.edit');
     }
+
+    public function editsupirView($id)
+    {
+        $sopir = Sopir::where('id_sopir', $id)->first();
+        if (!$sopir) {
+            return redirect()->route('mitra.supir.index')->with('error', 'Data supir tidak ditemukan');
+        }
+        return view('mitra.supir.edit', compact('sopir'));
+    }
 }

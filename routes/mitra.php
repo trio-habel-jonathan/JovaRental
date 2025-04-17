@@ -30,7 +30,7 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
     Route::prefix('supir')->name('supir.')->group(function () {
         Route::get('/', [SupirPageController::class, 'supirmitraView'])->name('supirmitraView');
         Route::get('/create', [SupirPageController::class, 'tambahsupir'])->name('tambahsupir');
-        Route::get('/edit', [SupirPageController::class, 'editsupir'])->name('editsupir');
+        Route::get('/edit/{id}', [SupirPageController::class, 'editsupirView'])->name('editsupirView');
 
         Route::post('/create-action', [SupirController::class, 'store'])->name('store');
         Route::delete('/delete-action', [SupirController::class, 'destroy'])->name('destroy');
