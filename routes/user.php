@@ -11,7 +11,10 @@ Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("d
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search/alamat', [SearchController::class, 'searchAlamat'])->name('search.alamat');
 Route::get('/review', [PemesananController::class, 'showReview'])->name('review_page');
-Route::get('/detail', [PemesananController::class, 'create'])->name('detail');
+
+Route::post('cart/add', [PemesananController::class, 'addToCart'])->name('cart.add');
+Route::get('cart', [PemesananController::class, 'viewCart'])->name('cart.view');
+Route::post('cart/remove/{id_unit}', [PemesananController::class, 'removeFromCart'])->name('cart.remove');
 
 Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/", [UserPageController::class, "home"])->name("home");
@@ -26,8 +29,11 @@ Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/pemesanan/review/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");
     Route::get("/pemesanan/review/pembayaran/bukti-penyewaan-kendaraan", [UserPageController::class, "buktiPenyewaanKendaraan"])->name("buktiPenyewaanKendaraan");
 
+
     Route::middleware("auth")->group(function () {
         Route::get("/profile", [UserPageController::class, "profile"])->name("profile");
         Route::get("/profile/history", [UserPageController::class, "history"])->name("history");
+        Route::get("/detail", [PemesananController::class, "detail"])->name("detail");
+
     });
 });

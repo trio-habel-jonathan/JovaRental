@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('detail_pemesanan', function (Blueprint $table) {
             $table->uuid('id_detail')->primary();
             $table->uuid('id_pemesanan');
-            $table->uuid('id_kendaraan');
+            $table->uuid('id_unit');
+            $table->uuid('id_unit_kendaraan');
             $table->uuid('id_sopir')->nullable();
             $table->enum('metode_pengantaran', ['diantar', 'ambil_di_tempat']);
             $table->enum('tipe_penggunaan_sopir', ['tanpa_sopir', 'dengan_sopir'])->nullable();
@@ -36,7 +37,7 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
 
             $table->foreign('id_pemesanan')->references('id_pemesanan')->on('pemesanan')->onDelete('cascade');
-            $table->foreign('id_kendaraan')->references('id_kendaraan')->on('kendaraan')->onDelete('cascade');
+            $table->foreign('id_unit')->references('id_unit')->on('unit_kendaraan')->onDelete('cascade');
             $table->foreign('id_sopir')->references('id_sopir')->on('sopir')->onDelete('set null');
         });
     }

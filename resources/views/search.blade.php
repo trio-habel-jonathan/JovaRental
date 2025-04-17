@@ -60,54 +60,55 @@
         </div>
 
         <!-- Vehicle Slider (only shown when a vehicle is selected) -->
-        @if(isset($selectedVehicle) && count($relatedVehicles) > 0)
-            <div class="mb-6">
-                <h3 class="text-lg font-semibold text-gray-800 mb-3">Pilihan {{ $selectedVehicle }}</h3>
-                <div class="relative">
-                    <button id="slider-left" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
-                    <div id="vehicle-slider" class="flex overflow-x-auto gap-4 py-2 px-8 hide-scrollbar">
-                        @foreach($relatedVehicles as $vehicle)
-                            @php
-                                if ($searchParams['tipe_rental'] === 'tanpa_sopir') {
-                                    $start = \Carbon\Carbon::createFromFormat('d M Y, H:i', $searchParams['start_date_formatted']);
-                                    $end = \Carbon\Carbon::createFromFormat('d M Y, H:i', $searchParams['end_date_formatted']);
-                                    $duration = $start->diffInDays($end) + 1;
-                                    $totalCost = $vehicle->harga_sewa_perhari * $duration;
-                                } else {
-                                    $duration = $searchParams['durasi'];
-                                    $totalCost = ($vehicle->harga_sewa_perhari + $driver_fee) * $duration;
-                                }
-                            @endphp
-                            <div class="flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden relative cursor-pointer
-                                    {{ request()->input('vendor') == $vehicle->id_kendaraan ? 'ring-2 ring-indigo-600' : '' }}">
-                                <a href="{{ request()->fullUrlWithQuery(['selected_vehicle' => $selectedVehicle, 'vendor' => $vehicle->id_kendaraan]) }}" class="block">
-                                    <div class="h-32 bg-gray-200">
-                                        @if ($vehicle->fotos)
-                                            @php $photos = json_decode($vehicle->fotos) @endphp
-                                            @if(count($photos) > 0)
-                                                <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $vehicle->nama_kendaraan }}">
-                                            @endif
-                                        @endif
-                                    </div>
-                                    <div class="p-3">
-                                        <p class="font-medium">{{ $vehicle->nama_mitra }}</p>
-                                        <p class="text-lg font-bold text-gray-900">Rp {{ number_format($totalCost, 0, ',', '.') }}</p>
-                                    </div>
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-                    <button id="slider-right" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </button>
+       <!-- Vehicle Slider (only shown when a vehicle is selected) -->
+@if(isset($selectedVehicle) && count($relatedVehicles) > 0)
+<div class="mb-6">
+    <h3 class="text-lg font-semibold text-gray-800 mb-3">Pilih Penyedia Rental Untuk: {{ $selectedVehicle }}</h3>
+    <div class="relative">
+        <button id="slider-left" class="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+        </button>
+        <div id="vehicle-slider" class="flex overflow-x-auto gap-4 py-2 px-8 hide-scrollbar">
+            @foreach($relatedVehicles as $vehicle)
+                @php
+                    if ($searchParams['tipe_rental'] === 'tanpa_sopir') {
+                        $start = \Carbon\Carbon::createFromFormat('d M Y, H:i', $searchParams['start_date_formatted']);
+                        $end = \Carbon\Carbon::createFromFormat('d M Y, H:i', $searchParams['end_date_formatted']);
+                        $duration = $start->diffInDays($end) + 1;
+                        $totalCost = $vehicle->harga_sewa_perhari * $duration;
+                    } else {
+                        $duration = $searchParams['durasi'];
+                        $totalCost = ($vehicle->harga_sewa_perhari + $driver_fee) * $duration;
+                    }
+                @endphp
+                <div class="flex-shrink-0 w-64 bg-white rounded-lg shadow-md overflow-hidden relative cursor-pointer
+                        {{ request()->input('vendor') == $vehicle->id_kendaraan ? 'ring-2 ring-indigo-600' : '' }}">
+                    <a href="{{ request()->fullUrlWithQuery(['selected_vehicle' => $selectedVehicle, 'vendor' => $vehicle->id_kendaraan]) }}" class="block">
+                        <div class="h-32 bg-gray-200">
+                            @if ($vehicle->fotos)
+                                @php $photos = json_decode($vehicle->fotos) @endphp
+                                @if(count($photos) > 0)
+                                    <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $vehicle->nama_kendaraan }}">
+                                @endif
+                            @endif
+                        </div>
+                        <div class="p-3">
+                            <p class="font-medium">{{ $vehicle->nama_mitra }}</p>
+                            <p class="text-lg font-bold text-gray-900">Rp {{ number_format($totalCost, 0, ',', '.') }}</p>
+                        </div>
+                    </a>
                 </div>
-            </div>
+            @endforeach
+        </div>
+        <button id="slider-right" class="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 bg-white rounded-full p-2 shadow-md">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+        </button>
+    </div>
+</div>
 
             <!-- Selected Vehicle Detail -->
             @if(request()->has('vendor'))
@@ -205,7 +206,7 @@
                                     @endif
                                 </div>
                                 <a href="{{ route('detail', [
-                                    'id_kendaraan' => $selectedVendorVehicle->id_kendaraan,
+                                    'id_unit' => $vehicle->id_unit,
                                     'tipe_rental' => $searchParams['tipe_rental'],
                                     'start_date' => $searchParams['start_date_formatted'],
                                     'end_date' => $searchParams['end_date_formatted'],

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AlamatMitraController;
+use App\Http\Controllers\Mitra\AlamatMitraController;
 use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;

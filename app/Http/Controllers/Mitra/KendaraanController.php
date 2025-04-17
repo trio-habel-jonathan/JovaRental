@@ -42,7 +42,6 @@ class KendaraanController extends Controller
                 'nama_kendaraan' => 'required|string|max:100',
                 'id_kategori' => 'required|exists:kategori_kendaraan,id_kategori',
                 'tahun_produksi' => 'required|integer|min:1900|max:2025',
-                'warna' => 'required|string|max:50',
                 'transmisi' => 'required|in:automatic,manual,kopling',
                 'cubic_centimeter' => 'required|integer',
                 'harga_sewa_perhari' => 'required|numeric|min:0',
@@ -95,9 +94,7 @@ class KendaraanController extends Controller
         $validated = $request->validate([
             'nama_kendaraan' => 'required|string|max:100',
             'id_kategori' => 'required|exists:kategori_kendaraan,id_kategori',
-            'plat_nomor' => 'required|string|max:20|unique:kendaraan,plat_nomor',
             'tahun_produksi' => 'required|integer|min:1900|max:2025',
-            'warna' => 'required|string|max:50',
             'transmisi' => 'required|in:automatic,manual,kopling',
             'cubic_centimeter' => 'required|integer',
             'harga_sewa_perhari' => 'required|numeric|min:0',
