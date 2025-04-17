@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Import HasFactory
+
 
 class AlamatMitra extends Model
 {
+    use HasFactory;
     //
     protected $table = 'alamat_mitra';
     protected $primaryKey = 'id_alamat'; // Menentukan primary key

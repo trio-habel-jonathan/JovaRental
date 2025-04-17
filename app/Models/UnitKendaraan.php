@@ -3,10 +3,15 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Import HasFactory
+
 
 class UnitKendaraan extends Model
 {
+    use HasFactory;
+    
     protected $primaryKey = "id_unit";
     public $incrementing = false; // UUID is not auto-incrementing
     

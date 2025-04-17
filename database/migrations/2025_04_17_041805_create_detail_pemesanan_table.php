@@ -39,6 +39,8 @@ return new class extends Migration
             $table->foreign('id_pemesanan')->references('id_pemesanan')->on('pemesanan')->onDelete('cascade');
             $table->foreign('id_unit')->references('id_unit')->on('unit_kendaraan')->onDelete('cascade');
             $table->foreign('id_sopir')->references('id_sopir')->on('sopir')->onDelete('set null');
+
+            $table->timestamp('updated_at')->useCurrent()->nullable();
         });
     }
 
