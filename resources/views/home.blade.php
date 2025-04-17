@@ -377,22 +377,22 @@
                         };
                     },
                     processResults: function(data, params) {
-                        const term = params.term || '';
-                        const results = data.map(item => ({
-                            id: item.alamat,
-                            text: `${item.kota}, ${item.kecamatan}, ${item.provinsi}`
-                        }));
-                        // Add the raw input as an option
-                        if (term) {
-                            results.unshift({
-                                id: term,
-                                text: term
-                            });
-                        }
-                        return {
-                            results
-                        };
-                    },
+    const term = params.term || '';
+    const results = data.map(item => ({
+        id: item.alamat,
+        text: `${item.alamat}, ${item.kota}, ${item.kecamatan}, ${item.provinsi}`
+    }));
+    // Add the raw input as an option
+    if (term) {
+        results.unshift({
+            id: term,
+            text: term
+        });
+    }
+    return {
+        results
+    };
+},
                     cache: true
                 },
                 placeholder: 'Cari kota, kecamatan, atau alamat...',

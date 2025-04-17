@@ -26,50 +26,67 @@ class SearchController extends Controller
             ->distinct()
             ->take(10)
             ->get();
-
-        return response()->json($results);
-
+    
+        // Format results to include the full address
         $formattedResults = $results->map(function ($item) {
             return [
-                'id' => $item->kota,
-                'text' => "{$item->kota}, {$item->kecamatan}, {$item->provinsi}"
+                'id' => $item->alamat,
+                'text' => "{$item->alamat}, {$item->kota}, {$item->kecamatan}, {$item->provinsi}"
             ];
         });
+    
+        return response()->json($results);
     }
-
-
     public function search(Request $request)
     {
-        // Validasi input
+        // Validasi tipe rental harus ada dua pilihan: tanpa_sopir dan dengan_sopir
         $request->validate([
             'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
-            'lokasi' => 'required|string',
-            'tanggal_mulai' => 'required|date',
-            'waktu_mulai' => 'required',
         ]);
-    
-        $tipeRental = $request->input('tipe_rental');
-        $lokasi = $request->input('lokasi');
-    
-        // Gabungkan tanggal dan waktu mulai
-        $startDateTime = Carbon::parse($request->input('tanggal_mulai') . ' ' . $request->input('waktu_mulai'));
-    
-        // Hitung endDateTime sesuai tipe rental
-        if ($tipeRental === 'tanpa_sopir') {
+        
+        // Jika rental tanpa sopir
+        if ($request->tipe_rental === 'tanpa_sopir') {
             $request->validate([
+                'lokasi' => 'required|string',
+                'tanggal_mulai' => 'required|date',
+                'waktu_mulai' => 'required',
                 'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
                 'waktu_selesai' => 'required',
             ]);
+            $lokasi = $request->input('lokasi');
+            $startDateTime = Carbon::parse($request->input('tanggal_mulai') . ' ' . $request->input('waktu_mulai'));
             $endDateTime = Carbon::parse($request->input('tanggal_selesai') . ' ' . $request->input('waktu_selesai'));
-        } else {
+            $durasi = null; // Set durasi to null for tanpa_sopir
+        }
+        // Rental dengan sopir
+        else {
             $request->validate([
+                'lokasi_sopir' => 'required|string',
+                'tanggal_mulai_sopir' => 'required|date',
+                'waktu_mulai_sopir' => 'required',
                 'durasi' => 'required|integer|min:1',
             ]);
-            $durasi = $request->input('durasi');
-            $endDateTime = $startDateTime->copy()->addHours($durasi * 12); // 12 jam per hari dengan sopir
+            $lokasi = $request->input('lokasi_sopir');
+            $startDateTime = Carbon::parse($request->input('tanggal_mulai_sopir') . ' ' . $request->input('waktu_mulai_sopir'));
+            $durasi = (int)$request->input('durasi');
+            
+            // Aturan: rental dengan sopir berakhir pada pukul 23:59
+            if ($durasi === 1) {
+                $endDateTime = Carbon::parse($request->input('tanggal_mulai_sopir'))->setTime(23, 59);
+            } else {
+                $endDateTime = Carbon::parse($request->input('tanggal_mulai_sopir'))
+                    ->addDays($durasi - 1)
+                    ->setTime(23, 59);
+            }
         }
     
-        // Ambil kendaraan yang tidak digunakan pada range waktu tersebut (cek di detail_pemesanan!)
+        // Ambil biaya sopir dari tabel fee_setting
+        $driverFee = DB::table('fee_setting')
+            ->where('nama_fee', 'biaya_sopir')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0;
+    
+        // Query pencarian kendaraan yang tidak dipesan di rentang waktu
         $availableVehicles = DB::table('kendaraan')
             ->select(
                 'kendaraan.*',
@@ -90,16 +107,14 @@ class SearchController extends Controller
                     });
             })
             ->where(function ($query) use ($lokasi) {
-                $query->where('alamat_mitra.kota', 'LIKE', "%$lokasi%")
+                $query->where('alamat_mitra.alamat', 'LIKE', "%$lokasi%")
+                      ->orWhere('alamat_mitra.kota', 'LIKE', "%$lokasi%")
                       ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
                       ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
             })
-            ->when($tipeRental === 'dengan_sopir', function ($query) {
-                return $query->where('kendaraan.tersedia_dengan_sopir', 1);
-            })
             ->get();
     
-        // Group berdasarkan nama kendaraan untuk tampilkan harga termurah
+        // Proses grouping kendaraan agar menampilkan penyedia dengan harga sewa paling rendah
         $groupedVehicles = [];
         $allVehicles = [];
     
@@ -115,9 +130,10 @@ class SearchController extends Controller
             }
         }
     
-        // Kalau ada kendaraan terpilih
+        // Ambil kendaraan yang dipilih (jika ada)
         $selectedVehicle = null;
         $relatedVehicles = [];
+    
         if ($request->has('selected_vehicle')) {
             $selectedName = $request->input('selected_vehicle');
             foreach ($allVehicles as $vehicle) {
@@ -125,35 +141,34 @@ class SearchController extends Controller
                     $relatedVehicles[] = $vehicle;
                 }
             }
-            usort($relatedVehicles, fn($a, $b) => $a->harga_sewa_perhari <=> $b->harga_sewa_perhari);
+            usort($relatedVehicles, function ($a, $b) {
+                return $a->harga_sewa_perhari <=> $b->harga_sewa_perhari;
+            });
         }
     
-        // Kirim ke view
         return view('search', [
             'groupedVehicles' => array_values($groupedVehicles),
             'allVehicles' => $allVehicles,
             'selectedVehicle' => $request->input('selected_vehicle') ?? null,
             'relatedVehicles' => $relatedVehicles,
             'searchParams' => [
-                'tipe_rental' => $tipeRental,
+                'tipe_rental' => $request->tipe_rental,
                 'lokasi' => $lokasi,
-                'tanggal_mulai' => $request->input('tanggal_mulai'),
-                'waktu_mulai' => $request->input('waktu_mulai'),
-                'tanggal_selesai' => $request->input('tanggal_selesai') ?? null,
-                'waktu_selesai' => $request->input('waktu_selesai') ?? null,
-                'durasi' => $request->input('durasi') ?? null,
+                'tanggal_mulai' => $request->tipe_rental === 'tanpa_sopir'
+                    ? $request->input('tanggal_mulai')
+                    : $request->input('tanggal_mulai_sopir'),
+                'waktu_mulai' => $request->tipe_rental === 'tanpa_sopir'
+                    ? $request->input('waktu_mulai')
+                    : $request->input('waktu_mulai_sopir'),
+                'tanggal_selesai' => $request->tipe_rental === 'tanpa_sopir'
+                    ? $request->input('tanggal_selesai')
+                    : null,
+                'waktu_selesai' => $endDateTime->format('H:i'),
                 'start_date_formatted' => $startDateTime->format('d M Y, H:i'),
                 'end_date_formatted' => $endDateTime->format('d M Y, H:i'),
-            ]
+                'durasi' => $durasi, // Add durasi to searchParams
+            ],
+            'driver_fee' => $driverFee,
         ]);
     }
-    
-
 }
-
-    
-
-
-
-
-

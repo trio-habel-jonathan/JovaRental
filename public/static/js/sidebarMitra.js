@@ -1,11 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
     // Setup for all menus with submenus
     const menuItems = [
+        { menu: 'alamat', submenu: 'alamat-submenu', chevron: 'alamat-chevron' },
+
         { menu: 'pesanan', submenu: 'pesanan-submenu', chevron: 'pesanan-chevron' },
         { menu: 'kendaraan', submenu: 'kendaraan-submenu', chevron: 'kendaraan-chevron' },
         { menu: 'keuangan', submenu: 'keuangan-submenu', chevron: 'keuangan-chevron' },
         { menu: 'supir', submenu: 'supir-submenu', chevron: 'supir-chevron' },
-        { menu: 'pengaturan', submenu: 'pengaturan-submenu', chevron: 'pengaturan-chevron' }
+        { menu: 'pengaturan', submenu: 'pengaturan-submenu', chevron: 'pengaturan-chevron' },
     ];
 
     // Initialize each menu
@@ -13,7 +15,6 @@ document.addEventListener('DOMContentLoaded', function () {
         const menuElement = document.getElementById(`${item.menu}-menu`);
         const submenuElement = document.getElementById(item.submenu);
         const chevronElement = document.getElementById(item.chevron);
-
         // Add click event to toggle submenu
             menuElement.addEventListener('click', function () {
                 // Toggle expanded state
