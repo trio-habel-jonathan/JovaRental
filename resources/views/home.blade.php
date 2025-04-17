@@ -1,10 +1,10 @@
 <x-user-layout title="Home">
     <!-- Hero Section -->
     <section>
-        <div class="w-full h-screen max-h-[680px] max-w-[1600px] mx-auto bg-white">
-            <div class="w-full h-full grid grid-cols-2 relative">
-                <div class="absolute inset-0 w-full h-full flex flex-col items-start justify-start flex-wrap z-0">
-                    @for ($i = 0; $i < 434; $i++)
+        <div class="w-full h-screen max-w-[1600px] max-h-[1080px] mx-auto bg-white">
+            <div class="w-full h-full grid grid-cols-1 lg:grid-cols-2 relative">
+                <div class="absolute inset-0 w-full h-full flex flex-col items-start justify-start flex-wrap z-0 overflow-hidden">
+                    @for ($i = 0; $i < 868; $i++)
                         <svg width="48" height="48" viewBox="0 0 48 48">
                             <g fill="none" opacity="0.1">
                                 <path d="M48 23.5L0 23.5" stroke="currentColor"></path>
@@ -22,8 +22,8 @@
                 <div
                     class="absolute animate-downup top-12 left-64 w-48 aspect-square bg-darkprimary/50 rounded-full blur-xl z-10">
                 </div>
-                <div class="pl-8 space-y-6 flex flex-col items-center justify-center z-20">
-                    <h1 class="uppercase font-bold integral-font text-8xl">WELCOME To JovaRental</h1>
+                <div class="px-4 lg:px-8 space-y-6 flex flex-col items-center justify-center z-20">
+                    <h1 class="uppercase text-start font-bold integral-font text-5xl md:text-6xl lg:text-7xl">WELCOME To JovaRental</h1>
                     <p class="text-md montserrat-font"> Layanan Rental Kendaraan Terpercaya – Sewa Mobil & Motor dengan
                         Mudah dan Terjangkau untuk
                         Perjalanan Apa Pun.
@@ -57,7 +57,7 @@
                         </button>
                     </div>
                 </div>
-                <div class="w-full flex items-center justify-center z-20">
+                <div class="hidden w-full lg:flex items-center justify-center z-20">
                     <img class="w-3/4" src="{{ asset('static/undraw_vintage.svg') }}" alt="">
                 </div>
             </div>
@@ -72,7 +72,7 @@
                     <input type="radio" id="tanpa_sopir" name="tipe_rental" value="tanpa_sopir" checked
                         class="hidden peer" onchange="toggleDriverOptions()">
                     <label for="tanpa_sopir"
-                        class="cursor-pointer w-48 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-primary-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
+                        class="cursor-pointer w-36 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-primary-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
                         Tanpa Sopir
                     </label>
                 </div>
@@ -80,7 +80,7 @@
                     <input type="radio" id="dengan_sopir" name="tipe_rental" value="dengan_sopir" class="hidden peer"
                         onchange="toggleDriverOptions()">
                     <label for="dengan_sopir"
-                        class="cursor-pointer w-48 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-primary-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
+                        class="cursor-pointer w-36 text-nowrap flex items-center justify-center px-6 py-3 text-center border-2 border-gray-300 rounded-md peer-checked:border-primary peer-checked:bg-primary-50 peer-checked:text-darkprimary hover:bg-gray-50 font-medium">
                         Dengan Sopir
                     </label>
                 </div>
@@ -377,22 +377,22 @@
                         };
                     },
                     processResults: function(data, params) {
-                        const term = params.term || '';
-                        const results = data.map(item => ({
-                            id: item.alamat,
-                            text: `${item.kota}, ${item.kecamatan}, ${item.provinsi}`
-                        }));
-                        // Add the raw input as an option
-                        if (term) {
-                            results.unshift({
-                                id: term,
-                                text: term
-                            });
-                        }
-                        return {
-                            results
-                        };
-                    },
+    const term = params.term || '';
+    const results = data.map(item => ({
+        id: item.alamat,
+        text: `${item.alamat}, ${item.kota}, ${item.kecamatan}, ${item.provinsi}`
+    }));
+    // Add the raw input as an option
+    if (term) {
+        results.unshift({
+            id: term,
+            text: term
+        });
+    }
+    return {
+        results
+    };
+},
                     cache: true
                 },
                 placeholder: 'Cari kota, kecamatan, atau alamat...',

@@ -85,6 +85,15 @@
             defaultDate: today,
             minDate: "today"
         });
+        
+        flatpickr("#tanggal_mulai_sopir", {
+            altInput: true,
+            altFormat: "D, d M Y",
+            dateFormat: "Y-m-d",
+            time_24hr: true,
+            defaultDate: today,
+            minDate: "today"
+        });
 
         // Initialize end date flatpickr
         flatpickr("#tanggal_selesai_rental", {
