@@ -30,7 +30,7 @@
 </head>
 
 
-<body class="flex  bg-gray-100 min-h-screen">
+<body class="flex  bg-gray-100 min-h-screen ">
     @if (session('type') && session('message'))
     <x-alert type="{{ session('type') }}" message="{{ session('message') }}"></x-alert>
     @endif
@@ -40,7 +40,7 @@
         @include('content.sidebarMitra')
     </div>
 
-    <main class="flex-1 overflow-visible">
+    <main class=" overflow-x-hidden w-screen">
         <div class="w-full bg-white sticky top-0 flex items-center justify-between p-2 px-6 border-b z-20">
             <h1 class="font-semibold text-xl">{{ $title }}</h1>
             <ul class="flex items-center gap-2">
@@ -99,7 +99,10 @@
                 </li>
             </ul>
         </div>
+
+        <div class="max-w-[1700px] mx-auto" >
         {{ $slot }}
+        </div>
     </main>
 </body>
 

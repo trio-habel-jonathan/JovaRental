@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AlamatMitraController;
 use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
@@ -10,8 +11,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])->group(function () {
     Route::get('/', [MitraPageController::class, 'indexMitraView'])->name('indexView'); // Pastikan rute memiliki nama ini
+    Route::get('/edit', [MitraPageController::class, 'indexMitraEdit'])->name('indexEdit'); // Pastikan rute memiliki nama ini
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
     Route::get('/settingss', [MitraController::class, 'profile'])->name('settings'); // Pastikan rute memiliki nama ini
+
+    Route::put("/settings/{mitra}", [MitraController::class, "update"])->name('settingUpdate');
 
 
     Route::get('/keuangan', [MitraPageController::class, 'keuanganMitraView'])->name('keuangan.index'); // Pastikan rute memiliki nama ini
@@ -42,5 +46,14 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::get('/details/{uuid}', [MitraPageController::class, 'pesanandetailView'])->name('pesanandetailView');
         Route::get('/create', [PesananController::class, 'tambahpesanan'])->name('tambahpesananView');
         Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
+    });
+
+    Route::prefix("/alamat")->name('alamat.')->group(function () {
+        Route::get('/', [AlamatMitraController::class, 'index'])->name('MitraView');
+        Route::get('/create', [AlamatMitraController::class, 'create'])->name('MitraCreate');
+        Route::get('/{alamatMitra}/edit', [AlamatMitraController::class, 'edit'])->name('MitraEdit');
+        Route::post('/create', [AlamatMitraController::class, 'store'])->name('MitraStore');
+        Route::put('/{alamatMitra}/update', [AlamatMitraController::class, 'update'])->name('MitraUpdate');
+        Route::delete('/{uuid}/destroy/', [AlamatMitraController::class, 'destroy'])->name('MitraDestroy');
     });
 });

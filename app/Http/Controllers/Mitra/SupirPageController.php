@@ -10,7 +10,14 @@ class SupirPageController extends Controller
 {
     public function supirmitraView()
     {
-        $allSopir = Sopir::all();
+        $allSopir = Sopir::withCount([
+            'detailPemesanans as total_mengemudi' => function($query){
+                $query->where('tipe_penggunaan_sopir', 'dengan_sopir');
+            },
+            'detailPemesanans as total_mengantar' => function($query) {
+                $query->where('metode_pengantaran', 'diantar');
+            }
+        ])->get();
         return view('mitra.supir.index', compact('allSopir'));
     }
 
