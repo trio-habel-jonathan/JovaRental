@@ -1,206 +1,195 @@
-<div class="flex justify-between border-b pb-4 mb-4">
-    <h1 class="text-lg lg:text-xl font-bold text-gray-800">Riwayat Transaksi</h1>
-    <a href="{{ route('history') }}" class="text-normal font-normal text-blue-500 hover:text-blue-700">Lihat Semua</a>
-</div>
-<div class="space-y-4">
-    <!-- Card 1 -->
-    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
-        <div class="flex justify-between items-start mb-3">
-            <h2 class="text-base lg:text-lg font-semibold text-gray-700">Transaksi #RT25031801</h2>
-            <span class="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">Lunas</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+<div class="grid grid-cols-1 lg:grid-cols-2 grid-row-reverse items-start justify-items-center gap-8">
+    <div class="w-full order-2 lg:order-1">
+        <div class="space-y-2 montserrat-font">
+            <h1 class="font-semibold text-xl">User Information</h1>
             <div>
-                <p class="text-xs text-gray-500">Tanggal Sewa</p>
-                <p class="text-sm font-medium text-gray-700">18 Maret 2025, 08:00</p>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500">Tanggal Kembali</p>
-                <p class="text-sm font-medium text-gray-700">20 Maret 2025, 08:00</p>
+                <p>Here you can edit information about yourself.</p>
+                <p>The changes will be displayed for other users within in 5 minutes.</p>
             </div>
         </div>
-        <div class="bg-gray-50 p-3 rounded-lg mb-3">
-            <div class="flex items-center mb-2">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                    </path>
-                </svg>
-                <p class="text-sm font-medium text-gray-700">Toyota Avanza 2023 (Silver)</p>
-            </div>
-            <p class="text-xs text-gray-600 pl-7">Plat: B 1234 AJH</p>
-        </div>
-        <div class="border-t border-gray-100 pt-3 mb-3">
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Biaya Sewa (2 hari)</p>
-                <p class="text-sm font-medium">Rp400.000</p>
-            </div>
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Asuransi</p>
-                <p class="text-sm font-medium">Rp50.000</p>
-            </div>
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Pajak (11%)</p>
-                <p class="text-sm font-medium">Rp49.500</p>
-            </div>
-            <div class="flex justify-between items-center font-medium mt-2 pt-2 border-t border-gray-100">
-                <p class="text-gray-700">Total</p>
-                <p class="text-blue-600">Rp499.500</p>
-            </div>
-        </div>
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-            <div class="flex items-center">
-                <img src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=mhabib" alt="Profile"
-                    class="w-8 h-8 rounded-full mr-2" />
-                <div>
-                    <p class="text-xs text-gray-500">Supir</p>
-                    <p class="text-sm font-medium text-gray-700">Habib bin Abdullah</p>
+        <form action="" class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="space-y-2 col-span-2">
+                <label for="">Email Address</label>
+                <div class="relative">
+                    <input type="text" class="w-full p-2 border rounded-lg focus:outline-primary">
+                    <span class="absolute right-3 inset-y-0 flex items-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M16 7.99999V13C16 13.7956 16.3161 14.5587 16.8787 15.1213C17.4413 15.6839 18.2043 16 19 16C19.7956 16 20.5587 15.6839 21.1213 15.1213C21.6839 14.5587 22 13.7956 22 13V12C21.9999 9.74302 21.2362 7.55247 19.8333 5.78452C18.4303 4.01658 16.4705 2.77521 14.2726 2.26229C12.0747 1.74936 9.76793 1.99503 7.72734 2.95936C5.68676 3.92368 4.03239 5.54995 3.03325 7.57371C2.03411 9.59748 1.74896 11.8997 2.22416 14.1061C2.69936 16.3125 3.90697 18.2932 5.65062 19.7263C7.39428 21.1593 9.57143 21.9603 11.8281 21.9991C14.0847 22.0379 16.2881 21.3122 18.08 19.94M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79085 9.79086 7.99999 12 7.99999C14.2091 7.99999 16 9.79085 16 12Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
                 </div>
             </div>
-            <button
-                class="w-full sm:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Riwayat Detail
-            </button>
-        </div>
-    </div>
+            <div class="space-y-2 col-span-2">
+                <label for="">Name Account</label>
+                <div class="relative">
+                    <input type="text" class="w-full p-2 border rounded-lg focus:outline-primary">
+                    <span class="absolute right-3 inset-y-0 flex items-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label for="">Phone Number</label>
+                <div class="relative">
+                    <input type="text" class="w-full p-2 border rounded-lg focus:outline-primary">
+                    <span class="absolute right-3 inset-y-0 flex items-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M8.38028 8.85335C9.07627 10.303 10.0251 11.6616 11.2266 12.8632C12.4282 14.0648 13.7869 15.0136 15.2365 15.7096C15.3612 15.7694 15.4235 15.7994 15.5024 15.8224C15.7828 15.9041 16.127 15.8454 16.3644 15.6754C16.4313 15.6275 16.4884 15.5704 16.6027 15.4561C16.9523 15.1064 17.1271 14.9316 17.3029 14.8174C17.9658 14.3864 18.8204 14.3864 19.4833 14.8174C19.6591 14.9316 19.8339 15.1064 20.1835 15.4561L20.3783 15.6509C20.9098 16.1824 21.1755 16.4481 21.3198 16.7335C21.6069 17.301 21.6069 17.9713 21.3198 18.5389C21.1755 18.8242 20.9098 19.09 20.3783 19.6214L20.2207 19.779C19.6911 20.3087 19.4263 20.5735 19.0662 20.7757C18.6667 21.0001 18.0462 21.1615 17.588 21.1601C17.1751 21.1589 16.8928 21.0788 16.3284 20.9186C13.295 20.0576 10.4326 18.4332 8.04466 16.0452C5.65668 13.6572 4.03221 10.7948 3.17124 7.76144C3.01103 7.19699 2.93092 6.91477 2.9297 6.50182C2.92833 6.0436 3.08969 5.42311 3.31411 5.0236C3.51636 4.66357 3.78117 4.39876 4.3108 3.86913L4.46843 3.7115C4.99987 3.18006 5.2656 2.91433 5.55098 2.76999C6.11854 2.48292 6.7888 2.48292 7.35636 2.76999C7.64174 2.91433 7.90747 3.18006 8.43891 3.7115L8.63378 3.90637C8.98338 4.25597 9.15819 4.43078 9.27247 4.60655C9.70347 5.26945 9.70347 6.12403 9.27247 6.78692C9.15819 6.96269 8.98338 7.1375 8.63378 7.4871C8.51947 7.60142 8.46231 7.65857 8.41447 7.72538C8.24446 7.96281 8.18576 8.30707 8.26748 8.58743C8.29048 8.66632 8.32041 8.72866 8.38028 8.85335Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <label for="">Number Identity (ID Card)</label>
+                <div class="relative">
+                    <input type="text" class="w-full p-2 border rounded-lg focus:outline-primary">
+                    <span class="absolute right-3 inset-y-0 flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-id-card-icon lucide-id-card">
+                            <path d="M16 10h2" />
+                            <path d="M16 14h2" />
+                            <path d="M6.17 15a3 3 0 0 1 5.66 0" />
+                            <circle cx="9" cy="11" r="2" />
+                            <rect x="2" y="5" width="20" height="14" rx="2" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </form>
 
-    <!-- Card 2 -->
-    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
-        <div class="flex justify-between items-start mb-3">
-            <h2 class="text-base lg:text-lg font-semibold text-gray-700">Transaksi #RT25031801</h2>
-            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Gagal</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
+        <div class="space-y-2 mt-8 montserrat-font">
+            <h1 class="font-semibold text-xl">Password Update</h1>
             <div>
-                <p class="text-xs text-gray-500">Tanggal Sewa</p>
-                <p class="text-sm font-medium text-gray-700">18 Maret 2025, 08:00</p>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500">Tanggal Kembali</p>
-                <p class="text-sm font-medium text-gray-700">20 Maret 2025, 08:00</p>
+                <p>Here you can change your password for this account.</p>
+                <p>The changes will cause the account to re-login.</p>
             </div>
         </div>
-        <div class="bg-gray-50 p-3 rounded-lg mb-3">
-            <div class="flex items-center mb-2">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                    </path>
-                </svg>
-                <p class="text-sm font-medium text-gray-700">Toyota Avanza 2023 (Silver)</p>
-            </div>
-            <p class="text-xs text-gray-600 pl-7">Plat: B 1234 AJH</p>
-        </div>
-        <div class="border-t border-gray-100 pt-3 mb-3">
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Biaya Sewa (2 hari)</p>
-                <p class="text-sm font-medium">Rp400.000</p>
-            </div>
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Asuransi</p>
-                <p class="text-sm font-medium">Rp50.000</p>
-            </div>
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Pajak (11%)</p>
-                <p class="text-sm font-medium">Rp49.500</p>
-            </div>
-            <div class="flex justify-between items-center font-medium mt-2 pt-2 border-t border-gray-100">
-                <p class="text-gray-700">Total</p>
-                <p class="text-blue-600">Rp499.500</p>
-            </div>
-        </div>
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-            <div class="flex items-center">
-                <img src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=mhabib" alt="Profile"
-                    class="w-8 h-8 rounded-full mr-2" />
-                <div>
-                    <p class="text-xs text-gray-500">Supir</p>
-                    <p class="text-sm font-medium text-gray-700">Habib bin Abdullah</p>
+        <form action="" class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="space-y-2 col-span-2">
+                <label for="">Password</label>
+                <div class="relative">
+                    <input type="text" class="w-full p-2 border rounded-lg focus:outline-primary">
+                    <span class="absolute right-3 inset-y-0 flex items-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M16 7.99999V13C16 13.7956 16.3161 14.5587 16.8787 15.1213C17.4413 15.6839 18.2043 16 19 16C19.7956 16 20.5587 15.6839 21.1213 15.1213C21.6839 14.5587 22 13.7956 22 13V12C21.9999 9.74302 21.2362 7.55247 19.8333 5.78452C18.4303 4.01658 16.4705 2.77521 14.2726 2.26229C12.0747 1.74936 9.76793 1.99503 7.72734 2.95936C5.68676 3.92368 4.03239 5.54995 3.03325 7.57371C2.03411 9.59748 1.74896 11.8997 2.22416 14.1061C2.69936 16.3125 3.90697 18.2932 5.65062 19.7263C7.39428 21.1593 9.57143 21.9603 11.8281 21.9991C14.0847 22.0379 16.2881 21.3122 18.08 19.94M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79085 9.79086 7.99999 12 7.99999C14.2091 7.99999 16 9.79085 16 12Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
                 </div>
             </div>
-            <button
-                class="w-full sm:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Riwayat Detail
-            </button>
-        </div>
+            <div class="space-y-2 col-span-2">
+                <label for="">Confirm Password</label>
+                <div class="relative">
+                    <input type="text" class="w-full p-2 border rounded-lg focus:outline-primary">
+                    <span class="absolute right-3 inset-y-0 flex items-center">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M3 20C5.33579 17.5226 8.50702 16 12 16C15.493 16 18.6642 17.5226 21 20M16.5 7.5C16.5 9.98528 14.4853 12 12 12C9.51472 12 7.5 9.98528 7.5 7.5C7.5 5.01472 9.51472 3 12 3C14.4853 3 16.5 5.01472 16.5 7.5Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                </div>
+            </div>
+        </form>
     </div>
+    <div class="w-full flex flex-col order-1 lg:order-2">
+        <h1 class="text-start montserrat-font text-lg font-semibold mb-4">Photo Profile</h1>
+        <div class="w-full flex items-center justify-center">
+            <img class="rounded-full w-72 aspect-square object-cover "
+                src="https://i.pinimg.com/736x/ee/cd/be/eecdbe232b5e579a9c62791f200e8a74.jpg" alt="">
+        </div>
 
-    <!-- Card 3 -->
-    <div class="p-3 lg:p-4 bg-white shadow-xl rounded-lg border-l-4 border-blue-500">
-        <div class="flex justify-between items-start mb-3">
-            <h2 class="text-base lg:text-lg font-semibold text-gray-700">Transaksi #RT25031801</h2>
-            <span class="px-2 py-1 bg-red-100 text-red-800 text-xs font-medium rounded-full">Refund</span>
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mb-3">
-            <div>
-                <p class="text-xs text-gray-500">Tanggal Sewa</p>
-                <p class="text-sm font-medium text-gray-700">18 Maret 2025, 08:00</p>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500">Tanggal Kembali</p>
-                <p class="text-sm font-medium text-gray-700">20 Maret 2025, 08:00</p>
-            </div>
-        </div>
-        <div class="bg-gray-50 p-3 rounded-lg mb-3">
-            <div class="flex items-center mb-2">
-                <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                    </path>
-                </svg>
-                <p class="text-sm font-medium text-gray-700">Toyota Avanza 2023 (Silver)</p>
-            </div>
-            <p class="text-xs text-gray-600 pl-7">Plat: B 1234 AJH</p>
-        </div>
-        <div class="border-t border-gray-100 pt-3 mb-3">
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Biaya Sewa (2 hari)</p>
-                <p class="text-sm font-medium">Rp400.000</p>
-            </div>
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Asuransi</p>
-                <p class="text-sm font-medium">Rp50.000</p>
-            </div>
-            <div class="flex justify-between items-center mb-1">
-                <p class="text-sm text-gray-600">Pajak (11%)</p>
-                <p class="text-sm font-medium">Rp49.500</p>
-            </div>
-            <div class="flex justify-between items-center font-medium mt-2 pt-2 border-t border-gray-100">
-                <p class="text-gray-700">Total</p>
-                <p class="text-blue-600">Rp499.500</p>
-            </div>
-        </div>
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-            <div class="flex items-center">
-                <img src="https://api.dicebear.com/6.x/fun-emoji/svg?seed=mhabib" alt="Profile"
-                    class="w-8 h-8 rounded-full mr-2" />
-                <div>
-                    <p class="text-xs text-gray-500">Supir</p>
-                    <p class="text-sm font-medium text-gray-700">Habib bin Abdullah</p>
+        <div class="mt-8">
+            <h1 class="text-lg montserrat-font font-semibold mb-2">Notifications</h1>
+
+            <div class="flex flex-col gap-2">
+                <div class="flex items-center gap-4 p-2 rounded-xl border border-[#9EC6F3]">
+                    <div class="bg-[#9EC6F3] text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check">
+                            <path d="M18 6 7 17l-5-5" />
+                            <path d="m22 10-7.5 7.5L13 16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="font-medium">Pemesanan Berhasil Dibuat</h6>
+                        <p class="text-sm">Pesanan Anda telah berhasil terekam di sistem dan akan segera diproses</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-2 rounded-xl border border-[#95D2B3]">
+                    <div class="bg-[#95D2B3] text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check">
+                            <path d="M18 6 7 17l-5-5" />
+                            <path d="m22 10-7.5 7.5L13 16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="font-medium">Pemesanan Berhasil Dibuat</h6>
+                        <p class="text-sm">Pesanan Anda telah berhasil terekam di sistem dan akan segera diproses</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-2 rounded-xl border border-[#FADA7A]">
+                    <div class="bg-[#FADA7A] text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check">
+                            <path d="M18 6 7 17l-5-5" />
+                            <path d="m22 10-7.5 7.5L13 16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="font-medium">Pemesanan Berhasil Dibuat</h6>
+                        <p class="text-sm">Pesanan Anda telah berhasil terekam di sistem dan akan segera diproses</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-2 rounded-xl border border-[#F7A4A4]">
+                    <div class="bg-[#F7A4A4] text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check">
+                            <path d="M18 6 7 17l-5-5" />
+                            <path d="m22 10-7.5 7.5L13 16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="font-medium">Pemesanan Berhasil Dibuat</h6>
+                        <p class="text-sm">Pesanan Anda telah berhasil terekam di sistem dan akan segera diproses</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 p-2 rounded-xl border border-[#A6AEBF]">
+                    <div class="bg-[#A6AEBF] text-white w-10 h-10 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" class="lucide lucide-check-check-icon lucide-check-check">
+                            <path d="M18 6 7 17l-5-5" />
+                            <path d="m22 10-7.5 7.5L13 16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h6 class="font-medium">Pemesanan Berhasil Dibuat</h6>
+                        <p class="text-sm">Pesanan Anda telah berhasil terekam di sistem dan akan segera diproses</p>
+                    </div>
                 </div>
             </div>
-            <button
-                class="w-full sm:w-auto px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
-                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                Riwayat Detail
-            </button>
         </div>
     </div>
 </div>

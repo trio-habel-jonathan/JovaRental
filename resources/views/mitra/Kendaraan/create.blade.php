@@ -93,25 +93,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-4">
-                                    <label for="warna" class="block mb-2 font-medium text-gray-700">Warna</label>
-                                    <div class="relative">
-                                        <div
-                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-                                            </svg>
-                                        </div>
-                                        <input type="text" id="warna" name="warna"
-                                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg input-focus focus:outline-none"
-                                            placeholder="Contoh: Putih Metalik" required>
-                                    </div>
-                                    @error('warna')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                    
                             </div>
                         </div>
 
@@ -149,12 +131,7 @@
                                             <label for="automatic"
                                                 class="ml-2 text-gray-700 font-medium">Automatic</label>
                                         </div>
-                                        <div
-                                            class="relative flex items-center pl-4 pr-6 py-2 border border-gray-200 rounded-lg cursor-pointer hover:bg-indigo-50 transition">
-                                            <input type="radio" id="kopling" name="transmisi" value="kopling"
-                                                class="w-4 h-4 text-indigo-600 focus:ring-indigo-500">
-                                            <label for="kopling" class="ml-2 text-gray-700 font-medium">Kopling</label>
-                                        </div>
+                        
                                     </div>
                                     @error('transmisi')
                                     <span class="text-red-500 text-sm">{{ $message }}</span>
@@ -225,26 +202,7 @@
 
 
 
-                                <div class="mb-4">
-                                    <label for="plat_nomor" class="block mb-2 font-medium text-gray-700">Nomor
-                                        Plat</label>
-                                    <div class="relative">
-                                        <div
-                                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M7 20l4-16m2 16l4-16M6 9h14M4 15h14" />
-                                            </svg>
-                                        </div>
-                                        <input type="text" id="plat_nomor" name="plat_nomor"
-                                            class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg input-focus focus:outline-none"
-                                            placeholder="Contoh: B 1234 XYZ" required>
-                                    </div>
-                                    @error('plat_nomor')
-                                    <span class="text-red-500 text-sm">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                              
 
 
                             </div>

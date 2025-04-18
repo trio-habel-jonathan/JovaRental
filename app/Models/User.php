@@ -7,9 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Import HasFactory
+
+
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     // Specify the custom primary key
     protected $primaryKey = 'id_user';
@@ -27,7 +31,6 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'id_user',
-        'name',
         'email',
         'password',
         'no_telepon',
@@ -72,7 +75,7 @@ class User extends Authenticatable
         return $this->hasOne(EntitasPenyewa::class, "id_user", "id_user");
     }
 
-    public function asMitra()
+    public function mitra()
     {
         return $this->hasOne(Mitra::class, "id_user", "id_user");
     }

@@ -18,11 +18,12 @@ return new class extends Migration
             $table->string('perwakilan_penyewa', 255)->nullable();
             $table->string('kontak_perwakilan', 50)->nullable();
             $table->timestamp('tanggal_pemesanan')->useCurrent();
-            $table->text('lokasi_pengambilan');
-            $table->text('lokasi_pengembalian');
+          
+            
             $table->decimal('total_harga', 10, 2);
             $table->enum('status_pemesanan', ['pending', 'confirmed', 'canceled', 'completed'])->default('pending');
             $table->text('catatan')->nullable();
+
             $table->timestamps();
 
             $table->foreign('id_entitas_penyewa')->references('id_entitas_penyewa')->on('entitas_penyewa')->onDelete('cascade');

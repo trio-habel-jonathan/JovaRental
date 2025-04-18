@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\EntitasPenyewa;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -27,9 +27,9 @@ class AuthController extends Controller
             $entity = EntitasPenyewa::where('id_user', '=', $user->id_user)->first();
 
             if ($user->role == 'admin') {
-                return redirect()->route('admin.indexView')->with('success', "Welcome admin");
+                return redirect()->route('admin.indexView')->with(['type' => 'success','message'=> "Welcome admin"]);
             } elseif ($user->role == 'mitra') {
-                return redirect()->route('mitra.indexView')->with('success', "Welcome mitra");
+                return redirect()->route('mitra.indexView')->with(['type'=>'success','message' => "Welcome mitra"]);
             } else {
                 if ($entity) {
                     return redirect()->route('home')->with(
@@ -39,7 +39,7 @@ class AuthController extends Controller
                         ]
                     );;
                 }
-                return redirect()->route('sewaSebagai');
+                return redirect()->route('sewaSebagai')->with(['type' => 'success', 'message' => 'Your login was successful!. Silahlan Lanjut Step Selanjutnya']);
             }
         } else {
             return redirect()->back()->with(['type' => 'error', 'message' => 'Kredensial Tidak Sesuai !']);
@@ -71,7 +71,7 @@ class AuthController extends Controller
             'role' => 'penyewa', // Default role = penyewa
         ]);
 
-        return redirect()->route('login')->with('success', 'Your account successfuly registered, please login');
+        return redirect()->route('login')->with(['type'=> 'success','message' => 'Your account successfuly registered, please login']);
     }
 
     // public function registerMitra(Request $request)
@@ -110,6 +110,7 @@ class AuthController extends Controller
             'alamat' => 'required|string',
         ]);
 
+
         $entitas = EntitasPenyewa::create([
             'id_user' => auth()->user()->id_user,
             'tipe_entitas' => $request->tipe_entitas,
@@ -123,7 +124,7 @@ class AuthController extends Controller
         if ($entitas) {
             return redirect()->route('home')->with('success', 'Your account data completed');
         }
-        return back()->with('success', 'Your account data completed');
+        return back()->with(['type'=>'success','message' => 'Your account data completed']);
     }
 
     public function logout()

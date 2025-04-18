@@ -25,7 +25,6 @@ class Mitra extends Model
         'nama_pemilik',
         'no_identitas',
         'npwp',
-        'no_telepon',
         'alamat',
         'status_verifikasi',
         'saldo',
@@ -96,5 +95,10 @@ class Mitra extends Model
     public function rekenings()
     {
         return $this->hasMany(RekeningMitra::class, 'id_mitra', 'id_mitra');
+    }
+
+    public function alamatMitra()
+    {
+        return $this->hasMany(AlamatMitra::class, 'id_mitra', 'id_mitra');
     }
 }

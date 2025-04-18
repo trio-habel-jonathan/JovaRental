@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kendaraan;
+use App\Models\Mitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,7 +32,12 @@ class UserPageController extends Controller
     }
     public function history()
     {
-        return view("history");
+        return view("profile");
+    }
+    public function settings()
+    {
+        $user = Auth::user();
+        return view("profile", compact('user'));
     }
 
     public function daftarKendaraan()
@@ -39,9 +45,16 @@ class UserPageController extends Controller
         return view("listKendaraan");
     }
 
+    public function searchJadwal()
+    {
+      
+        return view("search");
+    }
+    
     public function daftarMitra()
     {
-        return view("listMitra");
+        $allMitra = Mitra::all();
+        return view("listMitra", compact('allMitra'));
     }
 
     public function pemesanan()

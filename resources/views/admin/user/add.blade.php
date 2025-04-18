@@ -13,11 +13,7 @@
                         <div class="text-center">
                             <h1 class="uppercase font-bold">User Account</h1>
                         </div>
-                        <div class="flex flex-col">
-                            <label for="name" class="text-sm font-semibold text-gray-500">Full Name</label>
-                            <input type="text" id="name" name="name" class="border rounded-md border-gray-300 p-2 focus:outline-none"
-                            placeholder="Type your full name..." required>                        
-                        </div>
+                    
                         <div class="flex flex-col">
                             <label for="email" class="text-sm font-semibold text-gray-500">Email</label>
                             <input type="email" id="email" name="email" class="border rounded-md border-gray-300 p-2 focus:outline-none"

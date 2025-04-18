@@ -64,54 +64,57 @@
                 </span>
                 Pesanan Rental
             </h1>
-            <div class="pr-2 space-y-4 bg-white transition-all h-96 overflow-auto custom-scrollbar mb-6">
+            <div class="pr-2 flex flex-col gap-4 py-4 bg-white transition-all h-96 overflow-auto custom-scrollbar mb-6">
                 @for ($i = 0; $i < 2; $i++)
-                    <div class="border space-y-4 relative w-full shadow-lg p-4 rounded-md ">
-                        <div class="flex gap-4">
-                            <div class="w-36 h-36 aspect-square">
-                                <img class="w-full h-full object-cover rounded-md"
-                                    src="https://i.pinimg.com/736x/6a/9c/94/6a9c94db88cfc28cf20a79cf562de8d5.jpg"
-                                    alt="">
-                            </div>
-                            <div class="flex-1">
-                                <div class="space-y-2">
-                                    <h1 class="font-bold montserrat-font text-xl">Mazda RX-7</h1>
-                                    <div class="w-full flex flex-col flex-wrap gap-1">
-                                        <div class="text-xs flex gap-2">
-                                            <p class="font-medium text-gray-500">Tipe Rental</p>
-                                            <p class="font-bold montserrat-font">Lepas Kunci</p>
-                                        </div>
-                                        <div class="text-xs flex gap-2">
-                                            <p class="font-medium text-gray-500">Metode Pengantaran</p>
-                                            <p class="font-bold montserrat-font">Diambil Di Tempat</p>
-                                        </div>
-                                        <div class="text-xs flex gap-2">
-                                            <p class="font-medium text-gray-500">Penggunaan Sopir</p>
-                                            <p class="font-bold montserrat-font">Sepanjang Hari</p>
-                                        </div>
-                                    </div>
+                    <a href="{{ route('pesanKendaraan') }}">
+                        <div class="border space-y-4 relative w-full shadow-lg p-4 rounded-md ">
+                            <div class="flex gap-4">
+                                <div class="w-36 h-36 aspect-square">
+                                    <img class="w-full h-full object-cover rounded-md"
+                                        src="https://i.pinimg.com/736x/6a/9c/94/6a9c94db88cfc28cf20a79cf562de8d5.jpg"
+                                        alt="">
                                 </div>
-                                <div class="bg-gray-100 border border-gray-200 p-2 flex justify-between items-center rounded-md mt-4">
-                                    <div>
-                                        <p class="text-xs text-gray-700 font-medium">Harga Kendaraan</p>
-                                        <p class="montserrat-font font-bold">Rp 400.000</p>
+                                <div class="flex-1">
+                                    <div class="space-y-2">
+                                        <h1 class="font-bold montserrat-font text-xl">Mazda RX-7</h1>
+                                        <div class="w-full flex flex-col flex-wrap gap-1">
+                                            <div class="text-xs flex gap-2">
+                                                <p class="font-medium text-gray-500">Tipe Rental</p>
+                                                <p class="font-bold montserrat-font">Lepas Kunci</p>
+                                            </div>
+                                            <div class="text-xs flex gap-2">
+                                                <p class="font-medium text-gray-500">Metode Pengantaran</p>
+                                                <p class="font-bold montserrat-font">Diambil Di Tempat</p>
+                                            </div>
+                                            <div class="text-xs flex gap-2">
+                                                <p class="font-medium text-gray-500">Penggunaan Sopir</p>
+                                                <p class="font-bold montserrat-font">Sepanjang Hari</p>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p class="text-xs text-gray-700 font-medium">Biaya Pengantaran</p>
-                                        <p class="montserrat-font font-bold">Rp 15.000</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-700 font-medium">Biaya Sopir/Jam</p>
-                                        <p class="montserrat-font font-bold">Rp 25.000</p>
-                                    </div>
-                                    <div>
-                                        <p class="text-xs text-gray-700 font-medium">Total</p>
-                                        <p class="montserrat-font font-bold">Rp 440.000</p>
+                                    <div
+                                        class="bg-gray-100 border border-gray-200 p-2 flex justify-between items-center rounded-md mt-4">
+                                        <div>
+                                            <p class="text-xs text-gray-700 font-medium">Harga Kendaraan</p>
+                                            <p class="montserrat-font font-bold">Rp 400.000</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-700 font-medium">Biaya Pengantaran</p>
+                                            <p class="montserrat-font font-bold">Rp 15.000</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-700 font-medium">Biaya Sopir/Jam</p>
+                                            <p class="montserrat-font font-bold">Rp 25.000</p>
+                                        </div>
+                                        <div>
+                                            <p class="text-xs text-gray-700 font-medium">Total</p>
+                                            <p class="montserrat-font font-bold">Rp 440.000</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endfor
             </div>
             <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">

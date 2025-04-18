@@ -90,6 +90,19 @@
                             <span>Documents</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('admin.pengajuan.kemitraan')}}"
+                            class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Pengajuan</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
             <div class="mt-4">
