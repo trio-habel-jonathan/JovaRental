@@ -62,11 +62,9 @@ class MitraController extends Controller
             'longitude'  => $request->longitude,
         ]);
 
-        User::where('id_user', auth()->user()->id_user)->update(['role' => 'mitra']);
-
         EntitasPenyewa::where('id_user', auth()->user()->id_user)->delete();
 
-        return redirect()->route('mitra.indexView')->with(['type' => 'success', 'message' => 'Pendaftaran Sebagai Mitra Berhasil']);
+        return redirect()->route('suksesRegister');
     }
 
     public function update(Request $request, Mitra $mitra) {
@@ -90,5 +88,10 @@ class MitraController extends Controller
 
 
         return redirect()->route('mitra.settings')->with(['type' => 'success', 'message' => 'Profil Mitra berhasil diperbarui']);
+    }
+
+    
+    public function suksesRegisterMitra(){
+        return view('auth.register-mitra-sukses');
     }
 }

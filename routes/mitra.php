@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AlamatMitraController;
+use App\Http\Controllers\Mitra\AlamatMitraController;
 use App\Http\Controllers\Mitra\KendaraanController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
 use App\Http\Controllers\Mitra\MitraController;
+use App\Http\Controllers\Mitra\UnitKendaraanController;
 use App\Http\Controllers\SupirController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,14 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::put('/{uuid}/edit', [KendaraanController::class, 'editkendaraan'])->name('editkendaraan');
         Route::post('/store', [KendaraanController::class, 'tambahkendaraanStore'])->name('tambahkendaraanStore');
         Route::delete('/destroy', [KendaraanController::class, 'destroy'])->name('hapusKendaraan');
+    });
+
+    Route::prefix("unit-kendaraan")->name("unitKendaraan.")->group(function () {
+        Route::get("/", [UnitKendaraanController::class, "index"])->name('index');
+        Route::get("/create", [UnitKendaraanController::class, "create"])->name('create');
+        Route::post("/create", [UnitKendaraanController::class, "store"])->name('store');
+        Route::get("/{uuid}/edit", [UnitKendaraanController::class, "edit"])->name('edit');
+        Route::delete("/{uuid}/destroy", [UnitKendaraanController::class, "destroy"])->name('destroy');
     });
 
     Route::prefix('supir')->name('supir.')->group(function () {

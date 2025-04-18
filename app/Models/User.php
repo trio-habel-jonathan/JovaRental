@@ -7,9 +7,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
+
+use Illuminate\Database\Eloquent\Factories\HasFactory; // Import HasFactory
+
+
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     // Specify the custom primary key
     protected $primaryKey = 'id_user';

@@ -16,15 +16,12 @@ return new class extends Migration
             $table->uuid('id_mitra');
             $table->uuid('id_kategori');
             $table->string('nama_kendaraan', 100);
-            $table->string('plat_nomor', 20)->unique();
             $table->year('tahun_produksi');
-            $table->string('warna', 50);
-            $table->enum('transmisi', ['automatic', 'manual', 'kopling']);
+            $table->enum('transmisi', ['automatic', 'manual']);
             $table->integer('cubic_centimeter');
             $table->integer('jumlah_kursi');
             $table->decimal('harga_sewa_perhari', 10, 2);
             $table->text('deskripsi')->nullable();
-            $table->enum('status_kendaraan', ['tersedia', 'disewa', 'maintenance'])->default('tersedia');
             $table->text('fotos')->nullable();
             $table->boolean('is_active')->default(1);
             $table->timestamps();

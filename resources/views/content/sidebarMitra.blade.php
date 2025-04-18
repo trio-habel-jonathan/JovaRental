@@ -85,6 +85,9 @@
                     <a href="{{ route('mitra.kendaraan.kendaraanmitraView') }}"
                         class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Daftar
                         Kendaraan</a>
+                    <a href="{{ route('mitra.unitKendaraan.index') }}"
+                        class="block py-2 text-sm text-gray-600 hover:text-indigo-600">
+                        Unit Kendaraan</a>
                     <a href="{{ route('mitra.kendaraan.tambahkendaraanView') }}"
                         class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Tambah
                         Kendaraan</a>
@@ -155,15 +158,19 @@
 
                 </div>
             </div>
-            
+
             <div class="group">
                 <div id="alamat-menu"
                     class="flex items-center px-4 py-3 rounded-lg text-gray-600 cursor-pointer hover:bg-primary/20 hover:text-primary">
                     <div class="mr-3">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
+                            <path
+                                d="M12 13C13.6569 13 15 11.6569 15 10C15 8.34315 13.6569 7 12 7C10.3431 7 9 8.34315 9 10C9 11.6569 10.3431 13 12 13Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            <path
+                                d="M12 22C16 18 20 14.4183 20 10C20 5.58172 16.4183 2 12 2C7.58172 2 4 5.58172 4 10C4 14.4183 8 18 12 22Z"
+                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
                     </div>
                     <div class="text-sm flex-1">Alamat</div>
                     <div id="alamat-chevron" class="transform transition-transform duration-300">
@@ -183,7 +190,7 @@
 
                 </div>
             </div>
-        
+
         </div>
 
         <form action="{{route('logout')}}" method="post" class="mt-auto">

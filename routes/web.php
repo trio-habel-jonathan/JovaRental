@@ -23,6 +23,7 @@ Route::middleware("auth")->group(function () {
     Route::post('/entitas-action', [AuthController::class, 'entitas'])->name('entitas-action');
     Route::post('/registerMitra-action', [MitraController::class, 'store'])->name('register.mitra');
     // Route::post("/register-mitra-action", [MitraController::class, "store"])->name('registerMitra');
+    Route::get("/register-mitra/sukses", [MitraController::class, 'suksesRegisterMitra'])->name('suksesRegister');
 });
 
 Route::get('/confirm-password', [PageController::class, 'passwordView'])->name('passwordView');

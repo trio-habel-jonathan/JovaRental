@@ -82,7 +82,14 @@
             altFormat: "D, d M Y",
             dateFormat: "Y-m-d",
             time_24hr: true,
-            defaultDate: today,
+            minDate: "today"
+        });
+
+        flatpickr("#tanggal_mulai_sopir", {
+            altInput: true,
+            altFormat: "D, d M Y",
+            dateFormat: "Y-m-d",
+            time_24hr: true,
             minDate: "today"
         });
 
@@ -92,7 +99,6 @@
             altFormat: "D, d M Y",
             dateFormat: "Y-m-d",
             time_24hr: true,
-            defaultDate: tomorrow,
             minDate: today
         });
 
