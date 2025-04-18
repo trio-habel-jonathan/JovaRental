@@ -256,7 +256,7 @@
                                         @endif
                                     </div>
                                     <a href="{{ route('detail', [
-                                        'id_unit' => $vehicle->id_unit,
+                                        'id_unit' => $selectedVendorVehicle->id_unit, // Changed from $vehicle->id_unit
                                         'tipe_rental' => $searchParams['tipe_rental'],
                                         'start_date' => $searchParams['start_date_formatted'],
                                         'end_date' => $searchParams['end_date_formatted'],

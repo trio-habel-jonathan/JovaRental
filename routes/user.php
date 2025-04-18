@@ -10,12 +10,10 @@ Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("d
 
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search/alamat', [SearchController::class, 'searchAlamat'])->name('search.alamat');
-Route::get('/search/ajax', [App\Http\Controllers\SearchController::class, 'searchAjax'])->name('search.ajax');
+Route::get('/remove-unit/{id_unit}', [PemesananController::class, 'removeUnit'])->name('remove-unit');
 Route::get('/review', [PemesananController::class, 'showReview'])->name('review_page');
 
-Route::post('cart/add', [PemesananController::class, 'addToCart'])->name('cart.add');
-Route::get('cart', [PemesananController::class, 'viewCart'])->name('cart.view');
-Route::post('cart/remove/{id_unit}', [PemesananController::class, 'removeFromCart'])->name('cart.remove');
+
 
 Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/", [UserPageController::class, "home"])->name("home");

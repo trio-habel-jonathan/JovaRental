@@ -37,11 +37,11 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        // Reset session hanya jika bukan dari halaman detail (tanpa parameter id_unit)
         // Reset session hanya jika bukan dari halaman detail
         if (!$request->has('from_detail')) {
-            $request->session()->forget('selected_units');
+            $request->session()->forget(['selected_units', 'selected_mitra_id']);
         }
+
         $request->validate([
             'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
         ]);
@@ -80,8 +80,15 @@ class SearchController extends Controller
 
         // Get selected units from session
         $selectedUnits = $request->session()->get('selected_units', []);
+        
+        // Extract id_unit values from selectedUnits
+        $selectedUnitIds = array_keys($selectedUnits);
+
+        // Get selected mitra_id from session
+        $selectedMitraId = $request->session()->get('selected_mitra_id');
+
         // Query ketersediaan berdasarkan unit_kendaraan, excluding selected units
-        $availableVehicles = DB::table('kendaraan')
+        $query = DB::table('kendaraan')
             ->select(
                 'kendaraan.*',
                 'alamat_mitra.kota',
@@ -102,18 +109,24 @@ class SearchController extends Controller
                     ->where('tanggal_mulai', '<', $endDateTime)
                     ->where('tanggal_kembali', '>', $startDateTime);
             })
-            ->whereNotIn('unit_kendaraan.id_unit', $selectedUnits)
+            ->whereNotIn('unit_kendaraan.id_unit', $selectedUnitIds) // Use flat array of id_unit
             ->where(function ($query) use ($lokasi) {
                 $query->where('alamat_mitra.alamat', 'LIKE', "%$lokasi%")
                     ->orWhere('alamat_mitra.kota', 'LIKE', "%$lokasi%")
                     ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
                     ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
-            })
-            ->get();
+            });
+
+        // Jika from_detail ada dan selected_mitra_id tersedia, filter berdasarkan id_mitra
+        if ($request->has('from_detail') && $selectedMitraId) {
+            $query->where('kendaraan.id_mitra', $selectedMitraId);
+        }
+
+        $availableVehicles = $query->get();
 
         $groupedVehicles = [];
         $allVehicles = [];
-        $mitraPerVehicle = []; // Untuk menyimpan mitra unik per kendaraan
+        $mitraPerVehicle = [];
 
         foreach ($availableVehicles as $vehicle) {
             $allVehicles[] = $vehicle;
