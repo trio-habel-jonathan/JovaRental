@@ -20,7 +20,7 @@ class PengemudiPemesanan extends Model
     protected $fillable = [
         'id_detail_pemesanan',
         'nama_pengemudi',
-        'no_handphone',
+        'no_telepon',
         'email',
     ];
 

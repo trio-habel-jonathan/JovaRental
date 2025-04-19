@@ -39,4 +39,12 @@ class UnitKendaraan extends Model
         return $this->belongsTo(Kendaraan::class, "id_kendaraan", 'id_kendaraan');
     }
 
+    public function alamatMitra(){
+        return $this->belongsTo(AlamatMitra::class, "id_alamat_mitra", 'id_alamat_mitra');
+    }
+
+    public function mitra(){
+        return $this->belongsTo(Mitra::class, "id_mitra", 'id_mitra');
+    }
+
 }

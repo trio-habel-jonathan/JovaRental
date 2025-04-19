@@ -15,8 +15,7 @@ return new class extends Migration
             $table->uuid('id_pengemudi')->primary();
             $table->uuid('id_detail_pemesanan');
             $table->string('nama_pengemudi', 255);
-            $table->string('no_handphone', 20);
-            $table->string('email', 100)->nullable();
+            $table->string('no_telepon', 20);
 
             $table->foreign('id_detail_pemesanan')->references('id_detail')->on('detail_pemesanan')->onDelete('cascade');
         });

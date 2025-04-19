@@ -11,7 +11,8 @@ Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("d
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search/alamat', [SearchController::class, 'searchAlamat'])->name('search.alamat');
 Route::get('/remove-unit/{id_unit}', [PemesananController::class, 'removeUnit'])->name('remove-unit');
-Route::get('/review', [PemesananController::class, 'showReview'])->name('review_page');
+Route::post('/pemesanan/review/{id_units?}', [PemesananController::class, 'review'])->name('review');
+Route::post('/pemesanan/store', [PemesananController::class, 'store'])->name('pemesanan.store');
 
 
 

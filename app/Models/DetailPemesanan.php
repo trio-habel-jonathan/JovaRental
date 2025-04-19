@@ -56,10 +56,15 @@ class DetailPemesanan extends Model
         return $this->belongsTo(Pemesanan::class, 'id_pemesanan', 'id_pemesanan');
     }
 
-    public function kendaraan()
+    public function unitKendaraan()
     {
-        return $this->belongsTo(Kendaraan::class, 'id_kendaraan', 'id_kendaraan');
+        return $this->belongsTo(UnitKendaraan::class, 'id_unit', 'id_unit');
     }
+
+    // public function kendaraan()
+    // {
+    //     return $this->belongsTo(Kendaraan::class, 'id_kendaraan', 'id_kendaraan');
+    // }
 
     public function sopir()
     {

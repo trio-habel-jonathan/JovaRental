@@ -2,6 +2,7 @@
     <div class="w-full lg:max-w-4xl md:max-w-2xl mx-auto mt-8 px-5">
         <!-- Progress Bar -->
         <div class="relative">
+            
             <div class="absolute top-5 w-full h-1.5 bg-white shadow-sm rounded-full"></div>
             <div class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full w-0"></div>
             <div class="flex justify-between relative">
@@ -28,8 +29,7 @@
     <div class="flex flex-col sm:flex-row w-full min-h-screen gap-4 p-4 mt-8">
         <!-- Form Section -->
         <div class="order-1 sm:w-[65%] w-full rounded-md bg-white p-6 md:p-8 rounded-tl-2xl rounded-bl-2xl shadow-lg">
-            <form id="rentalForm" action="{{ route('review') }}" method="POST">
-                @csrf
+            <form id="rentalForm" action="{{ route('review', ['id_units' => implode(',', $units->pluck('id_unit')->toArray())]) }}" method="POST">                @csrf
                 <!-- Hidden Fields -->
                 @foreach ($units as $unit)
                     <!-- Debug jumlah kendaraan -->
@@ -42,108 +42,161 @@
                 @endforeach
                 <input type="hidden" name="tipe_rental" value="{{ $tipe_rental }}">
 
-                <!-- Lokasi Pengambilan -->
-                <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                <!-- Data Pemesan -->
+                <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
                     <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                     </span>
-                    Lokasi Pengambilan
-                </h1>
+                    Data Pemesan
+                </h3>
                 <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                    <div class="flex flex-col gap-4">
-                        @if ($alamatMitra->isEmpty())
-                            <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
-                            <label class="flex items-center opacity-50">
-                                <input type="radio" name="lokasi_pengambilan" value="kantor_rental" disabled class="mr-2">
-                                Kantor Rental: Tidak Tersedia
-                            </label>
-                        @else
-                            <label class="flex items-center">
-                                <input type="radio" name="lokasi_pengambilan" value="kantor_rental" checked class="mr-2" onclick="toggleDropdown('pengambilan')">
-                                Kantor Rental:
-                                <select name="alamat_kantor_pengambilan" id="alamat_kantor_pengambilan" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" required>
-                                    <option value="">Pilih Alamat Kantor Rental</option>
-                                    @foreach ($alamatMitra as $alamat)
-                                        <option value="{{ $alamat->id_alamat }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
-                                    @endforeach
-                                </select>
-                            </label>
-                        @endif
-                        <label class="flex items-center">
-                            <input type="radio" name="lokasi_pengambilan" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengambilan')">
-                            Lokasi Lain:
-                            <input type="text" name="lokasi_pengambilan_lain" id="lokasi_pengambilan_lain" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" placeholder="Masukkan alamat" disabled>
-                        </label>
+                    <div class="flex flex-col md:flex-row gap-5 w-full">
+                        <div class="flex-1">
+                            <label for="nama_entitas" class="block mb-2 text-base font-medium text-gray-700">Nama Entitas</label>
+                            <input type="text" id="nama_entitas" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-100" value="{{ $entitasPenyewa->nama_entitas ?? 'Nama Entitas' }}" readonly>
+                        </div>
+                        <div class="flex-1">
+                            <label for="no_telepon" class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
+                                <input type="tel" id="no_telepon" class="w-full p-3 pl-12 border border-gray-200 rounded-lg bg-gray-100" value="{{ $user->no_telepon ?? '0812345678' }}" readonly>
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <label for="email_entitas" class="block mb-2 text-base font-medium text-gray-700">Email Entitas</label>
+                            <input type="text" id="email_entitas" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-100" value="{{ $user->email ?? 'email@entitas.com' }}" readonly>
+                        </div>
                     </div>
-                </div>
-
-                <!-- Lokasi Pengembalian -->
-                <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-                    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                        </svg>
-                    </span>
-                    Lokasi Pengembalian
-                </h1>
-                <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                    <div class="flex flex-col gap-4">
-                        @if ($alamatMitra->isEmpty())
-                            <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
-                            <label class="flex items-center opacity-50">
-                                <input type="radio" name="lokasi_pengembalian" value="kantor_rental" disabled class="mr-2">
-                                Kantor Rental: Tidak Tersedia
-                            </label>
-                        @else
-                            <label class="flex items-center">
-                                <input type="radio" name="lokasi_pengembalian" value="kantor_rental" checked class="mr-2" onclick="toggleDropdown('pengembalian')">
-                                Kantor Rental:
-                                <select name="alamat_kantor_pengembalian" id="alamat_kantor_pengembalian" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" required>
-                                    <option value="">Pilih Alamat Kantor Rental</option>
-                                    @foreach ($alamatMitra as $alamat)
-                                        <option value="{{ $alamat->id_alamat }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
-                                    @endforeach
-                                </select>
-                            </label>
-                        @endif
-                        <label class="flex items-center">
-                            <input type="radio" name="lokasi_pengembalian" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengembalian')">
-                            Lokasi Lain:
-                            <input type="text" name="lokasi_pengembalian_lain" id="lokasi_pengembalian_lain" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" placeholder="Masukkan alamat" disabled>
-                        </label>
-                    </div>
-                </div>
-
-                <!-- Data Pengemudi (hanya untuk tanpa sopir) -->
-                @if ($tipe_rental == 'tanpa_sopir')
-                    <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-                        <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </span>
-                        Data Pengemudi
-                    </h1>
-                    <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                        <div class="flex flex-col md:flex-row gap-5 w-full">
+                    <!-- Kontak Perwakilan (Hanya untuk Perusahaan) -->
+                    @if ($entitasPenyewa && $entitasPenyewa->tipe_entitas === 'perusahaan')
+                        <div class="flex flex-col md:flex-row gap-5 w-full mt-6">
                             <div class="flex-1">
-                                <label for="driver_nama" class="block mb-2 text-base font-medium text-gray-700">Nama Lengkap</label>
-                                <input type="text" name="driver_nama" id="driver_nama" class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Masukkan nama lengkap pengemudi" required>
+                                <label for="perwakilan_penyewa" class="block mb-2 text-base font-medium text-gray-700">Nama Perwakilan</label>
+                                <input type="text" name="perwakilan_penyewa" id="perwakilan_penyewa" class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Masukkan nama perwakilan" required>
                             </div>
                             <div class="flex-1">
-                                <label for="driver_telepon" class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon</label>
+                                <label for="kontak_perwakilan" class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon Perwakilan</label>
                                 <div class="relative">
                                     <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
-                                    <input type="tel" name="driver_telepon" id="driver_telepon" class="w-full p-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="8123456789" required pattern="[0-9]{9,12}">
+                                    <input type="tel" name="kontak_perwakilan" id="kontak_perwakilan" class="w-full p-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="8123456789" required pattern="[0-9]{9,12}">
                                 </div>
                             </div>
                         </div>
+                    @endif
+                </div>
+
+                <!-- Per Kendaraan -->
+                @foreach ($units as $unit)
+                    <div class="mb-8 border-b pb-6">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">{{ $unit->nama_kendaraan }}</h2>
+
+                        <!-- Lokasi Pengambilan -->
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </span>
+                            Lokasi Pengambilan
+                        </h3>
+                        <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                            <div class="flex flex-col gap-4">
+                                @if ($alamatMitra->isEmpty())
+                                    <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
+                                    <label class="flex items-center opacity-50">
+                                        <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" disabled class="mr-2">
+                                        Kantor Rental: Tidak Tersedia
+                                    </label>
+                                @else
+                                    <label class="flex items-center">
+                                        <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2" onclick="toggleDropdown('pengambilan', '{{ $unit->id_unit }}')">
+                                        Kantor Rental:
+                                        <select name="alamat_kantor_pengambilan[{{ $unit->id_unit }}]" id="alamat_kantor_pengambilan_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" required>
+                                            <option value="">Pilih Alamat Kantor Rental</option>
+                                            @foreach ($alamatMitra as $alamat)
+                                                <option value="{{ $alamat->id_alamat }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
+                                            @endforeach
+                                        </select>
+                                    </label>
+                                @endif
+                                <label class="flex items-center">
+                                    <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengambilan', '{{ $unit->id_unit }}')">
+                                    Lokasi Lain:
+                                    <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" placeholder="Masukkan alamat" disabled>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Lokasi Pengembalian -->
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </span>
+                            Lokasi Pengembalian
+                        </h3>
+                        <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                            <div class="flex flex-col gap-4">
+                                @if ($alamatMitra->isEmpty())
+                                    <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
+                                    <label class="flex items-center opacity-50">
+                                        <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" disabled class="mr-2">
+                                        Kantor Rental: Tidak Tersedia
+                                    </label>
+                                @else
+                                    <label class="flex items-center">
+                                        <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2" onclick="toggleDropdown('pengembalian', '{{ $unit->id_unit }}')">
+                                        Kantor Rental:
+                                        <select name="alamat_kantor_pengembalian[{{ $unit->id_unit }}]" id="alamat_kantor_pengembalian_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" required>
+                                            <option value="">Pilih Alamat Kantor Rental</option>
+                                            @foreach ($alamatMitra as $alamat)
+                                                <option value="{{ $alamat->id_alamat }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
+                                            @endforeach
+                                        </select>
+                                    </label>
+                                @endif
+                                <label class="flex items-center">
+                                    <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengembalian', '{{ $unit->id_unit }}')">
+                                    Lokasi Lain:
+                                    <input type="text" name="lokasi_pengembalian_lain[{{ $unit->id_unit }}]" id="lokasi_pengembalian_lain_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" placeholder="Masukkan alamat" disabled>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Data Pengemudi (hanya untuk tanpa sopir) -->
+                        @if ($tipe_rental == 'tanpa_sopir')
+                            <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+                                <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </span>
+                                Data Pengemudi
+                            </h3>
+                            <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                                <div class="flex flex-col md:flex-row gap-5 w-full">
+                                    <div class="flex-1">
+                                        <label for="driver_nama_{{ $unit->id_unit }}" class="block mb-2 text-base font-medium text-gray-700">Nama Lengkap</label>
+                                        <input type="text" name="driver_nama[{{ $unit->id_unit }}]" id="driver_nama_{{ $unit->id_unit }}" class="w-full p-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Masukkan nama lengkap pengemudi" required>
+                                    </div>
+                                    <div class="flex-1">
+                                        <label for="driver_telepon_{{ $unit->id_unit }}" class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
+                                            <input type="tel" name="driver_telepon[{{ $unit->id_unit }}]" id="driver_telepon_{{ $unit->id_unit }}" class="w-full p-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="8123456789" required pattern="[0-9]{9,12}">
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        @endif
                     </div>
-                @endif
+                @endforeach
 
                 <!-- Buttons -->
                 <div class="flex justify-between mt-6">
@@ -352,24 +405,20 @@
 
     <!-- JavaScript untuk mengontrol dropdown dan validasi -->
     <script>
-        function toggleDropdown(type) {
-            const kantorPengambilan = document.getElementById('alamat_kantor_pengambilan');
-            const lainPengambilan = document.getElementById('lokasi_pengambilan_lain');
-            const kantorPengembalian = document.getElementById('alamat_kantor_pengembalian');
-            const lainPengembalian = document.getElementById('lokasi_pengembalian_lain');
-            @foreach ($units as $unit)
-                const mitraAddress{{ $unit->id_unit }} = document.getElementById('selected-mitra-address-{{ $unit->id_unit }}');
-            @endforeach
+        function toggleDropdown(type, unitId) {
+            const kantorPengambilan = document.getElementById(`alamat_kantor_pengambilan_${unitId}`);
+            const lainPengambilan = document.getElementById(`lokasi_pengambilan_lain_${unitId}`);
+            const kantorPengembalian = document.getElementById(`alamat_kantor_pengembalian_${unitId}`);
+            const lainPengembalian = document.getElementById(`lokasi_pengembalian_lain_${unitId}`);
+            const mitraAddress = document.getElementById(`selected-mitra-address-${unitId}`);
 
             if (type === 'pengambilan') {
-                if (document.querySelector('input[name="lokasi_pengambilan"][value="kantor_rental"]').checked) {
+                if (document.querySelector(`input[name="lokasi_pengambilan[${unitId}]"][value="kantor_rental"]`).checked) {
                     if (kantorPengambilan) {
                         kantorPengambilan.disabled = false;
                         kantorPengambilan.addEventListener('change', () => {
                             const selectedOption = kantorPengambilan.options[kantorPengambilan.selectedIndex];
-                            @foreach ($units as $unit)
-                                mitraAddress{{ $unit->id_unit }}.textContent = selectedOption.text || 'Pilih alamat dari dropdown';
-                            @endforeach
+                            mitraAddress.textContent = selectedOption.text || 'Pilih alamat dari dropdown';
                         });
                     }
                     if (lainPengambilan) {
@@ -384,14 +433,12 @@
                     if (lainPengambilan) {
                         lainPengambilan.disabled = false;
                         lainPengambilan.addEventListener('input', () => {
-                            @foreach ($units as $unit)
-                                mitraAddress{{ $unit->id_unit }}.textContent = lainPengambilan.value || 'Masukkan alamat';
-                            @endforeach
+                            mitraAddress.textContent = lainPengambilan.value || 'Masukkan alamat';
                         });
                     }
                 }
             } else if (type === 'pengembalian') {
-                if (document.querySelector('input[name="lokasi_pengembalian"][value="kantor_rental"]').checked) {
+                if (document.querySelector(`input[name="lokasi_pengembalian[${unitId}]"][value="kantor_rental"]`).checked) {
                     if (kantorPengembalian) kantorPengembalian.disabled = false;
                     if (lainPengembalian) {
                         lainPengembalian.disabled = true;
@@ -409,37 +456,41 @@
 
         // Validasi form sebelum submit
         document.getElementById('rentalForm').addEventListener('submit', function(e) {
-            const kantorPengambilan = document.getElementById('alamat_kantor_pengambilan');
-            const lainPengambilan = document.getElementById('lokasi_pengambilan_lain');
-            const kantorPengembalian = document.getElementById('alamat_kantor_pengembalian');
-            const lainPengembalian = document.getElementById('lokasi_pengembalian_lain');
+            @foreach ($units as $unit)
+                const kantorPengambilan{{ $unit->id_unit }} = document.getElementById('alamat_kantor_pengambilan_{{ $unit->id_unit }}');
+                const lainPengambilan{{ $unit->id_unit }} = document.getElementById('lokasi_pengambilan_lain_{{ $unit->id_unit }}');
+                const kantorPengembalian{{ $unit->id_unit }} = document.getElementById('alamat_kantor_pengembalian_{{ $unit->id_unit }}');
+                const lainPengembalian{{ $unit->id_unit }} = document.getElementById('lokasi_pengembalian_lain_{{ $unit->id_unit }}');
 
-            if (document.querySelector('input[name="lokasi_pengambilan"][value="kantor_rental"]').checked && kantorPengambilan.value === '') {
-                e.preventDefault();
-                alert('Pilih alamat kantor pengambilan!');
-                return;
-            }
-            if (document.querySelector('input[name="lokasi_pengambilan"][value="lokasi_lain"]').checked && lainPengambilan.value.trim() === '') {
-                e.preventDefault();
-                alert('Masukkan alamat pengambilan!');
-                return;
-            }
-            if (document.querySelector('input[name="lokasi_pengembalian"][value="kantor_rental"]').checked && kantorPengembalian.value === '') {
-                e.preventDefault();
-                alert('Pilih alamat kantor pengembalian!');
-                return;
-            }
-            if (document.querySelector('input[name="lokasi_pengembalian"][value="lokasi_lain"]').checked && lainPengembalian.value.trim() === '') {
-                e.preventDefault();
-                alert('Masukkan alamat pengembalian!');
-                return;
-            }
+                if (document.querySelector(`input[name="lokasi_pengambilan[{{ $unit->id_unit }}]"][value="kantor_rental"]`).checked && kantorPengambilan{{ $unit->id_unit }}.value === '') {
+                    e.preventDefault();
+                    alert('Pilih alamat kantor pengambilan untuk kendaraan {{ $unit->nama_kendaraan }}!');
+                    return;
+                }
+                if (document.querySelector(`input[name="lokasi_pengambilan[{{ $unit->id_unit }}]"][value="lokasi_lain"]`).checked && lainPengambilan{{ $unit->id_unit }}.value.trim() === '') {
+                    e.preventDefault();
+                    alert('Masukkan alamat pengambilan untuk kendaraan {{ $unit->nama_kendaraan }}!');
+                    return;
+                }
+                if (document.querySelector(`input[name="lokasi_pengembalian[{{ $unit->id_unit }}]"][value="kantor_rental"]`).checked && kantorPengembalian{{ $unit->id_unit }}.value === '') {
+                    e.preventDefault();
+                    alert('Pilih alamat kantor pengembalian untuk kendaraan {{ $unit->nama_kendaraan }}!');
+                    return;
+                }
+                if (document.querySelector(`input[name="lokasi_pengembalian[{{ $unit->id_unit }}]"][value="lokasi_lain"]`).checked && lainPengembalian{{ $unit->id_unit }}.value.trim() === '') {
+                    e.preventDefault();
+                    alert('Masukkan alamat pengembalian untuk kendaraan {{ $unit->nama_kendaraan }}!');
+                    return;
+                }
+            @endforeach
         });
 
         // Panggil fungsi saat halaman dimuat untuk mengatur status awal
         document.addEventListener('DOMContentLoaded', () => {
-            toggleDropdown('pengambilan');
-            toggleDropdown('pengembalian');
+            @foreach ($units as $unit)
+                toggleDropdown('pengambilan', '{{ $unit->id_unit }}');
+                toggleDropdown('pengembalian', '{{ $unit->id_unit }}');
+            @endforeach
         });
     </script>
 </x-user-layout>
