@@ -35,11 +35,7 @@
                                 <span class="font-semibold text-lg">Rp {{ number_format($totalBayar, 2, ',', '.') }}</span>
                             </div>            
                         </div>
-                        <div class="mt-2 space-y-1 montserrat-font text-sm">
-                    
-                        </div>
-                        
-                        
+                        <div class="mt-2 space-y-1 montserrat-font text-sm"></div>
                     </div>
 
                     <!-- Bagian Kanan: Total Pembayaran -->
@@ -52,13 +48,13 @@
                 <!-- Bagian Bawah -->
                 <div class="flex justify-between mt-4">
                     <div class="flex items-center text-sm w-fit gap-2 font-semibold rounded-md">
-                        <p>{{$pembayaran->metodePembayaranPlatform->jenis_metode ?? ''}}</p>
+                        <p>{{ $pembayaran->metodePembayaranPlatform->jenis_metode ?? '' }}</p>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M22 10H2M11 14H6M2 8.2L2 15.8C2 16.9201 2 17.4802 2.21799 17.908C2.40973 18.2843 2.71569 18.5903 3.09202 18.782C3.51984 19 4.07989 19 5.2 19L18.8 19C19.9201 19 20.4802 19 20.908 18.782C21.2843 18.5903 21.5903 18.2843 21.782 17.908C22 17.4802 22 16.9201 22 15.8V8.2C22 7.0799 22 6.51984 21.782 6.09202C21.5903 5.7157 21.2843 5.40974 20.908 5.21799C20.4802 5 19.9201 5 18.8 5L5.2 5C4.0799 5 3.51984 5 3.09202 5.21799C2.7157 5.40973 2.40973 5.71569 2.21799 6.09202C2 6.51984 2 7.07989 2 8.2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                         </svg> :
                         <p>{{ $pembayaran->metodePembayaranPlatform->nama_metode ?? '' }}</p>
                     </div>
-                    <p class="px-6 py-0.5 rounded-full bg-green-500/20 font-semibold text-green-500">{{$pembayaran->status_pembayaran ?? 'belum melakukan pembayaran'}}</p>
+                    <p class="px-6 py-0.5 rounded-full bg-green-500/20 font-semibold text-green-500">{{ $pembayaran->status_pembayaran ?? 'belum melakukan pembayaran' }}</p>
                 </div>
             </div>
             <div class="bg-white montserrat-font shadow-lg p-4 rounded-md w-full">
@@ -74,7 +70,7 @@
                             </div>
                             <div>
                                 <p class="text-xs">Nama Penyewa</p>
-                                <p class="text-sm font-bold">{{$pemesanan->entitasPenyewa->nama_entitas}}</p>
+                                <p class="text-sm font-bold">{{ $pemesanan->entitasPenyewa->nama_entitas }}</p>
                             </div>
                         </div>
                         <div class="flex gap-2 items-center">
@@ -85,7 +81,7 @@
                             </div>
                             <div>
                                 <p class="text-xs">Email Penyewa</p>
-                                <p class="text-sm font-bold">{{$pemesanan->entitasPenyewa->User->email}}</p>
+                                <p class="text-sm font-bold">{{ $pemesanan->entitasPenyewa->User->email }}</p>
                             </div>
                         </div>
                         <div class="flex gap-2 items-center">
@@ -96,7 +92,7 @@
                             </div>
                             <div>
                                 <p class="text-xs">Nomor Telepon Penyewa</p>
-                                <p class="text-sm font-bold">{{$pemesanan->entitasPenyewa->User->no_telepon}}</p>
+                                <p class="text-sm font-bold">{{ $pemesanan->entitasPenyewa->User->no_telepon }}</p>
                             </div>
                         </div>
                     </div>
@@ -113,7 +109,7 @@
                                 </div>
                                 <div>
                                     <p class="text-xs">Perwakilan Penyewa</p>
-                                    <p class="text-sm font-bold">{{$pemesanan->perwakilan_penyewa}}</p>
+                                    <p class="text-sm font-bold">{{ $pemesanan->perwakilan_penyewa }}</p>
                                 </div>
                             </div>
                         @endif
@@ -126,7 +122,7 @@
                                 </div>
                                 <div>
                                     <p class="text-xs">Kontak Perwakilan</p>
-                                    <p class="text-sm font-bold">{{$pemesanan->kontak_perwakilan}}</p>
+                                    <p class="text-sm font-bold">{{ $pemesanan->kontak_perwakilan }}</p>
                                 </div>
                             </div>
                         @endif
@@ -140,22 +136,20 @@
                     <h1 class="font-bold text-md montserrat-font">Ordered Items</h1>
                 </div>
             
-                @foreach($pemesanan->detailPemesanans as $detail)
+                @foreach($pemesanan->detailPemesanan as $detail)
                     <div class="bg-white shadow-lg p-4 rounded-md mt-4 w-full">
                         <!-- Bagian Item -->
                         <div class="flex gap-2 justify-between items-center">
                             <div class="flex items-center gap-2">
                                 <img class="w-24 h-24 object-cover rounded-sm"
-                                    src="https://i.pinimg.com/736x/28/42/71/284271ea0f2d525a896694bc643cf8e5.jpg"
-                                    alt="">
+                                    src="{{ $detail->unitKendaraan && $detail->unitKendaraan->kendaraan && $detail->unitKendaraan->kendaraan->fotos ? asset('/kendaraan/' . json_decode($detail->unitKendaraan->kendaraan->fotos)[0]) : 'https://via.placeholder.com/150' }}"
+                                    alt="{{ $detail->unitKendaraan && $detail->unitKendaraan->kendaraan ? $detail->unitKendaraan->kendaraan->nama_kendaraan : 'Kendaraan Tidak Ditemukan' }}">
                                 <div>
                                     <h1 class="font-bold text-lg montserrat-font">
-                                        {{ $detail->kendaraan->nama_kendaraan ?? 'Kendaraan Tidak Ditemukan' }}
+                                        {{ $detail->unitKendaraan && $detail->unitKendaraan->kendaraan ? $detail->unitKendaraan->kendaraan->nama_kendaraan : 'Kendaraan Tidak Ditemukan' }}
                                     </h1>
-
                                 </div>
                             </div>
-                          
                         </div>
             
                         <!-- Bagian Detail -->
@@ -167,41 +161,46 @@
                             <div class="w-full text-sm space-y-2 plus-jakarta-sans-font font-bold">
                                 <div class="flex items-center justify-between">
                                     <p>Harga Kendaraan/Hari</p>
-                                    <p>Rp {{number_format($detail->kendaraan->harga_sewa_perhari,2,',','.')}}</p> 
-               
+                                    <p>Rp {{ $detail->unitKendaraan && $detail->unitKendaraan->kendaraan ? number_format($detail->unitKendaraan->kendaraan->harga_sewa_perhari, 2, ',', '.') : 'N/A' }}</p>
                                 </div>
                             </div>
                             <div class="w-full grid grid-cols-2 gap-6">
                                 <div>
                                     <p class="text-sm">Metode Pengantaran</p>
                                     <p class="text-primary bg-primary/20 px-4 py-1 w-fit rounded-md mt-2 text-md font-semibold">
-                                        {{$detail->metode_pengantaran}}
+                                        {{ $detail->metode_pengantaran }}
                                     </p>
                                 </div>
                                 <div>
                                     <p class="text-sm">Penggunaan Supir</p>
                                     <p class="text-primary bg-primary/20 px-4 py-1 w-fit rounded-md mt-2 text-md font-semibold">
-                                        {{$detail->tipe_penggunaan_sopir}}
+                                        {{ $detail->tipe_penggunaan_sopir }}
                                     </p>
                                 </div>
                                 <div>
                                     <p class="text-sm">Time Start</p>
                                     <p class="w-fit rounded-md mt-2 font-medium">
-                                        {{$detail->tanggal_mulai}}
+                                        {{ $detail->tanggal_mulai }}
                                     </p>
                                 </div>
                                 <div>
                                     <p class="text-sm">Time End</p>
                                     <p class="w-fit rounded-md mt-2 font-medium">
-                                        {{$detail->tanggal_selesai}}
+                                        {{ $detail->tanggal_kembali }}
                                     </p>
                                 </div>
                                 <div class="col-span-2">
                                     <p class="text-sm">Location Delivery</p>
                                     <p class="text-justify w-fit rounded-md mt-2 font-medium">
-                                        {{$pemesanan->lokasi_pengambilan}}
+                                        {{ $detail->lokasi_pengambilan }}
                                     </p>
                                 </div>
+                            </div> 
+                            <div class="col-span-2">
+                                <p class="text-sm">Location Pengembalian</p>
+                                <p class="text-justify w-fit rounded-md mt-2 font-medium">
+                                    {{ $detail->lokasi_pengambilan }}
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -219,15 +218,12 @@
                                 <!-- 7:00 AM -->
                                 <div class="timeline-dot border-2 border-blue-100 bg-white" id="dot-0"></div>
                                 <div class="timeline-line h-14"></div>
-
                                 <!-- 8:00 AM -->
                                 <div class="timeline-dot border-2 border-blue-100 bg-white" id="dot-1"></div>
                                 <div class="timeline-line h-14"></div>
-
                                 <!-- 9:00 AM -->
                                 <div class="timeline-dot border-2 border-blue-100 bg-white" id="dot-2"></div>
                                 <div class="timeline-line h-14"></div>
-
                                 <!-- 10:00 AM -->
                                 <div class="timeline-dot border-2 border-blue-100 bg-white" id="dot-3"></div>
                             </div>
@@ -235,8 +231,7 @@
                             <!-- Schedule Cards -->
                             <div class="flex-1">
                                 <!-- Wakeup -->
-                                <div class="card mb-4 p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-0"
-                                    onclick="setActive(0)">
+                                <div class="card mb-4 p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-0" onclick="setActive(0)">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h3 class="font-medium text-gray-800">Order</h3>
@@ -245,10 +240,8 @@
                                         <span class="text-xs text-gray-500 text-nowrap">7:00 AM</span>
                                     </div>
                                 </div>
-
                                 <!-- Morning Exercise -->
-                                <div class="card mb-4 p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-1"
-                                    onclick="setActive(1)">
+                                <div class="card mb-4 p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-1" onclick="setActive(1)">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h3 class="font-medium text-gray-800">Review</h3>
@@ -257,28 +250,22 @@
                                         <span class="text-xs text-gray-500 text-nowrap">8:00 AM</span>
                                     </div>
                                 </div>
-
                                 <!-- Meeting -->
-                                <div class="card mb-4 p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-2"
-                                    onclick="setActive(2)">
+                                <div class="card mb-4 p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-2" onclick="setActive(2)">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h3 class="font-medium text-gray-800">Payment</h3>
-                                            <p class="text-xs text-gray-500">Zoom call, Discuss team task for the day
-                                            </p>
+                                            <p class="text-xs text-gray-500">Zoom call, Discuss team task for the day</p>
                                         </div>
                                         <span class="text-xs text-gray-500 text-nowrap">9:00 AM</span>
                                     </div>
                                 </div>
-
                                 <!-- Breakfast -->
-                                <div class="card p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-3"
-                                    onclick="setActive(3)">
+                                <div class="card p-3 bg-gray-50 rounded-lg cursor-pointer" id="card-3" onclick="setActive(3)">
                                     <div class="flex justify-between items-start">
                                         <div>
                                             <h3 class="font-medium text-gray-800">Completed</h3>
-                                            <p class="text-xs text-gray-500">Morning breakfast with bread, banana egg
-                                                bowl and tea.</p>
+                                            <p class="text-xs text-gray-500">Morning breakfast with bread, banana egg bowl and tea.</p>
                                         </div>
                                         <span class="text-xs text-gray-500 text-nowrap">10:00 AM</span>
                                     </div>
@@ -288,9 +275,7 @@
                     </div>
                 </div>
             </div>
-            
         </div>
-
     </div>
     <script>
         // Store the active step from window.onload

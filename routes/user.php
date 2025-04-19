@@ -11,9 +11,9 @@ Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("d
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/search/alamat', [SearchController::class, 'searchAlamat'])->name('search.alamat');
 Route::get('/remove-unit/{id_unit}', [PemesananController::class, 'removeUnit'])->name('remove-unit');
-Route::post('/pemesanan/review/{id_units?}', [PemesananController::class, 'review'])->name('review');
-Route::post('/pemesanan/store', [PemesananController::class, 'store'])->name('pemesanan.store');
-
+Route::get('/pemesanan/review/{id_pemesanan}', [PemesananController::class, 'review'])->name('review');
+Route::post('/pemesanan/process', [PemesananController::class, 'processDetail'])->name('process.detail');
+Route::post('/pemesanan/add-unit', [SearchController::class, 'addUnit'])->name  ('pemesanan.add-unit');
 
 
 Route::middleware(['VerifiedEntity'])->group(function () {
@@ -23,7 +23,7 @@ Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/daftar-kendaraan", [UserPageController::class, "daftarKendaraan"])->name("daftarKendaraan");
     Route::get("/daftar-kendaraan/pesan", [UserPageController::class, "pesanKendaraan"])->name("pesanKendaraan");
     Route::get("/pemesanan", [UserPageController::class, "pemesanan"])->name("pemesanan");
-    Route::get("/pemesanan/review", [UserPageController::class, "review"])->name("review");
+    // Route::get("/pemesanan/review", [UserPageController::class, "review"])->name("review");
     Route::get("/pemesanan/review/pembayaran", [UserPageController::class, "pembayaran"])->name("pembayaran");
     Route::get("/pemesanan/review/pembayaran/petunjuk-pembayaran-transfer", [UserPageController::class, "petunjukPembayaranTransfer"])->name("petunjukPembayaranTransfer");
     Route::get("/pemesanan/review/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");

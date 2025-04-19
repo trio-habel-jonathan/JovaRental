@@ -1,11 +1,7 @@
-
 <x-user-layout title="Review Pemesanan">
-    
     <div class="w-full lg:max-w-4xl md:max-w-2xl mx-auto mt-8 px-5">
-        <!-- Progress Bar -->
-      
+        <!-- Bilah Progres -->
         <div class="relative">
-
             <div class="absolute top-5 w-full h-1.5 bg-white shadow-sm rounded-full"></div>
             <div class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full w-[33%]"></div>
             <div class="flex justify-between relative">
@@ -30,16 +26,16 @@
     </div>
 
     <div class="flex flex-col sm:flex-row w-full min-h-screen gap-4 p-4 mt-8">
-        <!-- Sisi Kiri (Form Section) -->
+        <!-- Sisi Kiri (Bagian Formulir) -->
         <div class="order-1 sm:w-[65%] w-full rounded-md bg-white p-6 md:p-8 rounded-tl-2xl rounded-bl-2xl shadow-lg">
-            <!-- Pesanan Rental -->
+            <!-- Pesanan Sewa -->
             <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
                 <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
                 </span>
-                Pesanan Rental
+                Pesanan Sewa
             </h1>
             <div class="pr-2 flex flex-col gap-4 py-4 bg-white transition-all h-96 overflow-auto custom-scrollbar mb-6">
                 @foreach ($rentalDetails as $id_unit => $detail)
@@ -51,7 +47,10 @@
                         $endDateTime = $detail['endDateTime'];
                         $unitCost = $detail['unitCost'];
                         $driverFee = $detail['driverFee'] ?? 0;
-                        $deliveryFee = $lokasi_pengambilan instanceof \App\Models\AlamatMitra ? 0 : 15000; // Contoh biaya pengantaran
+                        $deliveryFee = $detail['deliveryFee'] ?? 0;
+                        $returnFee = $detail['returnFee'] ?? 0;
+
+                        $tipe_rental = $detail['tipe_penggunaan_sopir'] ?? 'tanpa_sopir';
                         $total = $unitCost + $deliveryFee + ($tipe_rental === 'dengan_sopir' ? $driverFee : 0);
                     @endphp
                     <div class="border space-y-4 relative w-full shadow-lg p-4 rounded-md">
@@ -62,10 +61,10 @@
                                     @if (count($photos) > 0)
                                         <img class="w-full h-full object-cover rounded-md" src="{{ asset('/kendaraan/' . $photos[0]) }}" alt="{{ $unit->nama_kendaraan }}">
                                     @else
-                                        <img class="w-full h-full object-cover rounded-md" src="https://via.placeholder.com/150" alt="No Image">
+                                        <img class="w-full h-full object-cover rounded-md" src="https://via.placeholder.com/150" alt="Gambar Tidak Tersedia">
                                     @endif
                                 @else
-                                    <img class="w-full h-full object-cover rounded-md" src="https://via.placeholder.com/150" alt="No Image">
+                                    <img class="w-full h-full object-cover rounded-md" src="https://via.placeholder.com/150" alt="Gambar Tidak Tersedia">
                                 @endif
                             </div>
                             <div class="flex-1">
@@ -73,12 +72,12 @@
                                     <h1 class="font-bold montserrat-font text-xl">{{ $unit->nama_kendaraan }}</h1>
                                     <div class="w-full flex flex-col flex-wrap gap-1">
                                         <div class="text-xs flex gap-2">
-                                            <p class="font-medium text-gray-500">Tipe Rental</p>
+                                            <p class="font-medium text-gray-500">Tipe Sewa</p>
                                             <p class="font-bold montserrat-font">{{ $tipe_rental === 'tanpa_sopir' ? 'Lepas Kunci' : 'Dengan Sopir' }}</p>
                                         </div>
                                         <div class="text-xs flex gap-2">
                                             <p class="font-medium text-gray-500">Metode Pengantaran</p>
-                                            <p class="font-bold montserrat-font">{{ $lokasi_pengambilan instanceof \App\Models\AlamatMitra ? 'Diambil Di Tempat' : 'Diantar' }}</p>
+                                            {{-- <p class="font-bold montserrat-font">{{ $lokasi_pengambilan instanceof \App\Models\AlamatMitra ? 'Diambil di Tempat' : 'Diantar' }}</p> --}}
                                         </div>
                                         @if ($tipe_rental === 'dengan_sopir')
                                             <div class="text-xs flex gap-2">
@@ -87,28 +86,17 @@
                                             </div>
                                         @endif
                                         <div class="text-xs flex gap-2">
-                                            <p class="font-medium text-gray-500">Periode Rental</p>
+                                            <p class="font-medium text-gray-500">Periode Sewa</p>
                                             <p class="font-bold montserrat-font">{{ $startDateTime->format('d M Y H:i') }} - {{ $endDateTime->format('d M Y H:i') }}</p>
                                         </div>
                                         <div class="text-xs flex gap-2">
                                             <p class="font-medium text-gray-500">Lokasi Pengambilan</p>
-                                            <p class="font-bold montserrat-font">
-                                                @if ($lokasi_pengambilan instanceof \App\Models\AlamatMitra)
-                                                    {{ $lokasi_pengambilan->alamat }}
-                                                @else
-                                                    {{ $lokasi_pengambilan }}
-                                                @endif
-                                            </p>
+                                            <p class="font-bold montserrat-font">{{ $lokasi_pengambilan }}</p>
+                                        
                                         </div>
                                         <div class="text-xs flex gap-2">
                                             <p class="font-medium text-gray-500">Lokasi Pengembalian</p>
-                                            <p class="font-bold montserrat-font">
-                                                @if ($lokasi_pengembalian instanceof \App\Models\AlamatMitra)
-                                                    {{ $lokasi_pengembalian->alamat }}
-                                                @else
-                                                    {{ $lokasi_pengembalian }}
-                                                @endif
-                                            </p>
+                                            <p class="font-bold montserrat-font">{{ $lokasi_pengembalian }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -121,9 +109,13 @@
                                         <p class="text-xs text-gray-700 font-medium">Biaya Pengantaran</p>
                                         <p class="montserrat-font font-bold">Rp {{ number_format($deliveryFee, 0, ',', '.') }}</p>
                                     </div>
+                                    <div>
+                                        <p class="text-xs text-gray-700 font-medium">Biaya Pengembalian</p>
+                                        <p class="montserrat-font font-bold">Rp {{ number_format($returnFee, 0, ',', '.') }}</p>
+                                    </div>
                                     @if ($tipe_rental === 'dengan_sopir')
                                         <div>
-                                            <p class="text-xs text-gray-700 font-medium">Biaya Sopir/Hari</p>
+                                            <p class="text-xs text-gray-700 font-medium">Biaya Sopir</p>
                                             <p class="montserrat-font font-bold">Rp {{ number_format($driverFee, 0, ',', '.') }}</p>
                                         </div>
                                     @endif
@@ -138,174 +130,88 @@
                 @endforeach
             </div>
 
-            <!-- Data Pemesanan -->
+            <!-- Data Pemesan -->
             <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
                 <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </span>
-                Data Pemesanan
+                Data Pemesan
             </h1>
-            <div class="p-6 space-y-8 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                <div class="space-y-4">
-                    <h1 class="uppercase font-bold text-md plus-jakarta-sans-font">Account Pemesan</h1>
-                    <div>
-                        <p class="mb-2 text-base font-medium text-gray-500">Nama Entitas</p>
-                        <p class="text-md montserrat-font font-medium">{{ $entitasPenyewa->nama_entitas ?? 'Nama Entitas' }}</p>
+            <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                <div class="flex flex-col md:flex-row gap-5 w-full">
+                    <div class="flex-1">
+                        <label class="block mb-2 text-base font-medium text-gray-700">Nama Entitas</label>
+                        <input type="text" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-100" value="{{ $entitasPenyewa->nama_entitas ?? 'Nama Entitas' }}" readonly>
                     </div>
-                    <div class="flex flex-col md:flex-row gap-5 w-full">
-                        <div class="flex-1">
-                            <p class="mb-2 text-base font-medium text-gray-500">Nomor Telepon</p>
-                            <p class="text-md montserrat-font font-medium">+62 {{ $user->no_telepon ?? '0812345678' }}</p>
+                    <div class="flex-1">
+                        <label class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon</label>
+                        <div class="relative">
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
+                            <input type="tel" class="w-full p-3 pl-12 border border-gray-200 rounded-lg bg-gray-100" value="{{ $user->no_telepon ?? '0812345678' }}" readonly>
                         </div>
-                        <div class="flex-1">
-                            <p class="mb-2 text-base font-medium text-gray-500">Email</p>
-                            <p class="text-md montserrat-font font-medium">{{ $user->email ?? 'email@example.com' }}</p>
-                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <label class="block mb-2 text-base font-medium text-gray-700">Email Entitas</label>
+                        <input type="text" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-100" value="{{ $user->email ?? 'email@entitas.com' }}" readonly>
                     </div>
                 </div>
                 @if ($entitasPenyewa && $entitasPenyewa->tipe_entitas === 'perusahaan')
-                    <div class="w-full h-[1px] bg-gray-200"></div>
-                    <div class="space-y-4">
-                        <h1 class="uppercase font-bold text-md plus-jakarta-sans-font">Perwakilan Pemesan</h1>
-                        <div class="flex flex-col md:flex-row gap-5 w-full">
-                            <div class="flex-1">
-                                <p class="mb-2 text-base font-medium text-gray-500">Nama Perwakilan</p>
-                                <p class="text-md montserrat-font font-medium">{{ $rentalDetails[array_key_first($rentalDetails)]['perwakilan_penyewa'] ?? 'Tidak Ada' }}</p>
-                            </div>
-                            <div class="flex-1">
-                                <p class="mb-2 text-base font-medium text-gray-500">Nomor Telepon Perwakilan</p>
-                                <p class="text-md montserrat-font font-medium">+62 {{ $rentalDetails[array_key_first($rentalDetails)]['kontak_perwakilan'] ?? 'Tidak Ada' }}</p>
+                    <div class="flex flex-col md:flex-row gap-5 w-full mt-6">
+                        <div class="flex-1">
+                            <label class="block mb-2 text-base font-medium text-gray-700">Nama Perwakilan</label>
+                            <input type="text" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-100" value="{{ $pemesanan->perwakilan_penyewa ?? 'Tidak Ada' }}" readonly>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon Perwakilan</label>
+                            <div class="relative">
+                                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
+                                <input type="tel" class="w-full p-3 pl-12 border border-gray-200 rounded-lg bg-gray-100" value="{{ $pemesanan->kontak_perwakilan ?? 'Tidak Ada' }}" readonly>
                             </div>
                         </div>
                     </div>
                 @endif
-               <!-- Data Pengemudi (Jika Tanpa Sopir) -->
-                    @if ($tipe_rental === 'tanpa_sopir')
-                    <div class="w-full h-[1px] bg-gray-200"></div>
-                    <div class="space-y-4">
-                        <h1 class="uppercase font-bold text-md plus-jakarta-sans-font">Data Pengemudi</h1>
-                        @foreach ($rentalDetails as $id_unit => $detail)
-                            <div class="border-b pb-4 last:border-b-0">
-                                <h4 class="font-semibold text-gray-800 mb-2">{{ $detail['unit']->nama_kendaraan }}</h4>
+            </div>
+
+            <!-- Data Pengemudi (Hanya untuk unit dengan tipe_rental tanpa_sopir) -->
+            @if (collect($rentalDetails)->where('tipe_penggunaan_sopir', 'tanpa_sopir')->count() > 0)
+                <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
+                    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </span>
+                    Data Pengemudi
+                </h1>
+                <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                    @foreach ($rentalDetails as $id_unit => $detail)
+                        @if ($detail['tipe_penggunaan_sopir'] === 'tanpa_sopir')
+                            <div class="mb-4">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ $detail['unit']->nama_kendaraan }}</h3>
                                 <div class="flex flex-col md:flex-row gap-5 w-full">
                                     <div class="flex-1">
-                                        <p class="mb-2 text-base font-medium text-gray-500">Nama Pengemudi</p>
-                                        <p class="text-md montserrat-font font-medium">{{ $detail['driver_nama'] ?? 'Tidak Ada' }}</p>
+                                        <label class="block mb-2 text-base font-medium text-gray-700">Nama Lengkap</label>
+                                        <input type="text" class="w-full p-3 border border-gray-200 rounded-lg bg-gray-100" value="{{ $detail['driver_nama'] ?? 'Tidak Ada' }}" readonly>
                                     </div>
                                     <div class="flex-1">
-                                        <p class="mb-2 text-base font-medium text-gray-500">Nomor Telepon Pengemudi</p>
-                                        <p class="text-md montserrat-font font-medium">+62 {{ $detail['driver_telepon'] ?? 'Tidak Ada' }}</p>
+                                        <label class="block mb-2 text-base font-medium text-gray-700">Nomor Telepon</label>
+                                        <div class="relative">
+                                            <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">+62</span>
+                                            <input type="tel" class="w-full p-3 pl-12 border border-gray-200 rounded-lg bg-gray-100" value="{{ $detail['driver_telepon'] ?? 'Tidak Ada' }}" readonly>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
-                @endif
-            </div>
-        </div>
-
-        <!-- Sisi Kanan (Summary Section) -->
-        <div class="order-1 sm:w-[35%] h-fit bg-white rounded-md shadow-md w-full p-6 md:p-8 rounded-tr-2xl rounded-br-2xl">
-            <div class="flex justify-between items-center mb-6">
-                <h1 class="text-2xl font-bold text-gray-800">Detail Rental</h1>
-            </div>
-
-            <div class="rounded-xl p-6 space-y-4 text-gray-800 border border-gray-100 mt-4 hover:shadow-lg transition-all">
-                <!-- Informasi Mitra -->
-                <div class="flex items-center justify-between border-b border-gray-100 pb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="bg-purple-100 p-2 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="30px" height="30px" class="text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h3 class="text-normal lg:text-xl font-bold text-gray-800">{{ $rentalDetails[array_key_first($rentalDetails)]['unit']->nama_mitra ?? 'Nama Mitra' }}</h3>
-                            <p class="text-sm text-gray-500">{{ $rentalDetails[array_key_first($rentalDetails)]['unit']->kota_mitra ?? 'Kota Mitra' }}</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Detail Per Unit -->
-                <div class="bg-white plus-jakarta-sans-font p-4 rounded-lg space-y-4 mt-2">
-                    @foreach ($rentalDetails as $id_unit => $detail)
-                        @php
-                            $unit = $detail['unit'];
-                            $lokasi_pengambilan = $detail['lokasi_pengambilan'];
-                            $lokasi_pengembalian = $detail['lokasi_pengembalian'];
-                            $startDateTime = $detail['startDateTime'];
-                            $endDateTime = $detail['endDateTime'];
-                        @endphp
-                        <div class="border-b border-gray-100 pb-4 last:border-b-0">
-                            <h4 class="font-semibold text-gray-800 mb-2">{{ $unit->nama_kendaraan }}</h4>
-                            <div class="flex items-start gap-3">
-                                <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-700">Tanggal dan Waktu Mulai</h4>
-                                    <p class="text-gray-600">{{ $startDateTime->format('D, d M Y') }}</p>
-                                    <p class="text-sm text-purple-600 font-medium">{{ $startDateTime->format('H:i') }} WIB</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3 mt-2">
-                                <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-700">Tanggal dan Waktu Selesai</h4>
-                                    <p class="text-gray-600">{{ $endDateTime->format('D, d M Y') }}</p>
-                                    <p class="text-sm text-purple-600 font-medium">{{ $endDateTime->format('H:i') }} WIB</p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3 mt-2">
-                                <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-700">Lokasi Jemput</h4>
-                                    <p class="text-gray-600">
-                                        @if ($lokasi_pengambilan instanceof \App\Models\AlamatMitra)
-                                            {{ $lokasi_pengambilan->alamat }}
-                                        @else
-                                            {{ $lokasi_pengambilan }}
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="flex items-start gap-3 mt-2">
-                                <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h4 class="font-semibold text-gray-700">Lokasi Kembali</h4>
-                                    <p class="text-gray-600">
-                                        @if ($lokasi_pengembalian instanceof \App\Models\AlamatMitra)
-                                            {{ $lokasi_pengembalian->alamat }}
-                                        @else
-                                            {{ $lokasi_pengembalian }}
-                                        @endif
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                        @endif
                     @endforeach
                 </div>
-            </div>
+            @endif
 
-            <div class="flex justify-end mt-6">
-                <a href="#" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+            <!-- Tombol -->
+            <div class="flex justify-between mt-6">
+                <a href="#"
+                    class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                     Lanjutkan
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -313,9 +219,195 @@
                 </a>
             </div>
         </div>
+
+        <!-- Sisi Kanan (Bagian Ringkasan) -->
+        <div class="order-1 sm:w-[35%] bg-white rounded-md shadow-md w-full p-6 md:p-8 rounded-tr-2xl rounded-br-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h1 class="text-2xl font-bold text-gray-800">Detail Sewa</h1>
+            </div>
+
+            <!-- Kelompokkan berdasarkan periode -->
+            @php
+                $groupedUnits = collect($rentalDetails)->groupBy(function ($detail) {
+                    return $detail['startDateTime']->format('Y-m-d H:i') . '|' . $detail['endDateTime']->format('Y-m-d H:i');
+                });
+                $totalAll = 0;
+            @endphp
+
+            @foreach ($groupedUnits as $periode => $unitGroup)
+                @php
+                    [$startDate, $endDate] = explode('|', $periode);
+                    $startDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $startDate);
+                    $endDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $endDate);
+                    $duration = $startDateTime->diffInDays($endDateTime) + 1;
+                    $totalCost = 0;
+                @endphp
+
+                <div class="mb-8 border-b pb-6">
+                    <!-- Periode Sewa -->
+                    <div class="mb-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Periode Sewa</h3>
+                        <div class="p-4 bg-gray-50 rounded-lg shadow-sm space-y-4">
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700">Tanggal Mulai</p>
+                                    <p class="text-sm text-gray-600">{{ $startDateTime->format('D, d M Y') }} • {{ $startDateTime->format('H:i') }} WIB</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700">Tanggal Selesai</p>
+                                    <p class="text-sm text-gray-600">{{ $endDateTime->format('D, d M Y') }} • {{ $endDateTime->format('H:i') }} WIB</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Daftar Kendaraan -->
+                    @foreach ($unitGroup as $detail)
+                        @php
+                            $unit = $detail['unit'];
+                            $unitCost = $detail['unitCost'];
+                            $driverFee = $detail['driverFee'] ?? 0;
+                            $deliveryFee = $detail['deliveryFee'] ?? 0;
+                            $returnFee = $detail['returnFee'] ?? 0;
+                            $tipe_rental = $detail['tipe_penggunaan_sopir'];
+                            $subtotal = $unitCost + $deliveryFee + ($tipe_rental === 'dengan_sopir' ? $driverFee : 0);
+                            $totalCost += $subtotal;
+                            $totalAll += $subtotal;
+                        @endphp
+                        <div class="mb-6">
+                            <!-- Gambar Kendaraan -->
+                            <div class="h-48 bg-gray-200 relative mb-6 rounded-lg overflow-hidden shadow-md">
+                                @if ($unit->fotos)
+                                    @php $photos = json_decode($unit->fotos) @endphp
+                                    @if (count($photos) > 0)
+                                        <img src="{{ asset('/kendaraan/' . $photos[0]) }}" class="h-full w-full object-cover" alt="{{ $unit->nama_kendaraan }}">
+                                    @else
+                                        <div class="h-full w-full flex items-center justify-center bg-gray-200 text-gray-500">
+                                            Gambar Tidak Tersedia
+                                        </div>
+                                    @endif
+                                @else
+                                    <div class="h-full w-full flex items-center justify-center bg-gray-200 text-gray-500">
+                                        Gambar Tidak Tersedia
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Informasi Mitra -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Informasi Mitra</h3>
+                                <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg shadow-sm">
+                                    <div class="bg-purple-100 p-2 rounded-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">{{ $unit->nama_mitra }}</h4>
+                                        <p class="text-sm text-gray-600">
+                                            @if ($unit->alamat_mitra)
+                                                {{ $unit->alamat_mitra->alamat }}, {{ $unit->alamat_mitra->kota }}, {{ $unit->alamat_mitra->kecamatan }}, {{ $unit->alamat_mitra->provinsi }}
+                                            @else
+                                                Lokasi Tidak Tersedia
+                                            @endif
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Detail Kendaraan -->
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Detail Kendaraan</h3>
+                                <div class="grid grid-cols-1 gap-4 p-4 bg-gray-50 rounded-lg shadow-sm">
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Kendaraan</p>
+                                            <p class="text-sm text-gray-600 font-semibold">{{ $unit->nama_kendaraan }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Transmisi</p>
+                                            <p class="text-sm text-gray-600">{{ ucfirst($unit->transmisi) }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Jumlah Kursi</p>
+                                            <p class="text-sm text-gray-600">{{ $unit->jumlah_kursi }} Penumpang</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Tahun Produksi</p>
+                                            <p class="text-sm text-gray-600">{{ $unit->tahun_produksi }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+
+                    <!-- Total Harga untuk Periode Ini -->
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Harga</h3>
+                        <div class="p-4 bg-purple-50 rounded-lg shadow-sm">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2m0 0c-1.657 0-3 .895-3 2s1.343 2 3 2m-6 0V5m12 14v-4" />
+                                    </svg>
+                                    <p class="text-lg font-semibold text-gray-800">Rp {{ number_format($totalCost, 0, ',', '.') }}</p>
+                                </div>
+                            </div>
+                            @foreach ($unitGroup as $detail)
+                                @if ($detail['tipe_penggunaan_sopir'] === 'dengan_sopir')
+                                    <p class="text-sm text-gray-600 mt-2">Termasuk biaya sopir Rp {{ number_format($detail['driverFee'], 0, ',', '.') }}/kendaraan</p>
+                                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+
+            <!-- Total Keseluruhan -->
+            <div class="mt-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Keseluruhan</h3>
+                <div class="p-4 bg-purple-100 rounded-lg shadow-sm">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2m0 0c-1.657 0-3 .895-3 2s1.343 2 3 2m-6 0V5m12 14v-4" />
+                            </svg>
+                            <p class="text-xl font-bold text-gray-800">Rp {{ number_format($totalAll, 0, ',', '.') }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <!-- Custom Scrollbar CSS -->
+    <!-- CSS untuk Scrollbar Kustom -->
     <style>
         .custom-scrollbar::-webkit-scrollbar {
             width: 8px;
@@ -325,11 +417,11 @@
             border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #888;
+            background: #c084fc;
             border-radius: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #a855f7;
         }
     </style>
 </x-user-layout>

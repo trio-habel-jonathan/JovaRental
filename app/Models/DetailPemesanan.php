@@ -19,18 +19,34 @@ class DetailPemesanan extends Model
 
     protected $fillable = [
         'id_pemesanan',
-        'id_kendaraan',
+        'id_unit',
         'id_sopir',
         'tanggal_mulai',
         'tanggal_selesai',
         'metode_pengantaran',
         'tipe_penggunaan_sopir',
-        'lokasi_pengantaran',
+
+        'lokasi_pengambilan',
+        'lokasi_pengambilan_detail',
+        'lat_pengambilan',
+        'long_pengambilan',
+
+        'lokasi_pengembalian',
+        'lokasi_pengembalian_detail',
+        'lat_pengembalian',
+        'long_pengembalian',
+
         'biaya_pengantaran',
+        'biaya_pengembalian',
+
+        'jarak_pengantaran',
+        'jarak_pengembalian',
+        'tarif_per_km',
+        'lokasi_pengembalian',
         'subtotal_harga',
         'biaya_layanan',
         'pajak',
-        'biaya_supir',
+        'biaya_sopir',
         'subtotal_dengan_fee',
     ];
 

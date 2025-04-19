@@ -89,7 +89,7 @@ class Pemesanan extends Model
     }
 
     // Relasi ke DetailPemesanan (Setiap pemesanan bisa memiliki banyak detail pemesanan)
-    public function detailPemesanans()
+    public function detailPemesanan()
     {
         return $this->hasMany(DetailPemesanan::class, 'id_pemesanan', 'id_pemesanan');
     }

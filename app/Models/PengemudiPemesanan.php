@@ -21,7 +21,6 @@ class PengemudiPemesanan extends Model
         'id_detail_pemesanan',
         'nama_pengemudi',
         'no_telepon',
-        'email',
     ];
 
     /**

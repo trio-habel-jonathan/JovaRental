@@ -18,6 +18,7 @@ class FeeSetting extends Model
     protected $keyType = 'string'; // UUID disimpan sebagai string
 
     protected $fillable = [
+        'jenis_fee',
         'nama_fee',
         'nilai_fee',
         'deskripsi',

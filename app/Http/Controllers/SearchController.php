@@ -12,6 +12,189 @@ use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
+    public function search(Request $request)
+    {
+        // Log parameter yang diterima untuk debugging
+        \Log::info('Search request parameters:', $request->all());
+
+        // Reset session hanya jika bukan dari halaman detail dan bukan tambah unit
+        if (!$request->has('from_detail')) {
+            $request->session()->forget(['selected_units', 'selected_mitra_id']);
+        }
+
+        // Validasi tipe rental untuk unit baru
+        $request->validate([
+            'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
+        ]);
+
+        // Inisialisasi variabel
+        $lokasi = null;
+        $startDateTime = null;
+        $endDateTime = null;
+        $durasi = null;
+        $newTipeRental = $request->tipe_rental; // Tipe rental untuk unit baru
+
+        // Validasi dan pengolahan parameter berdasarkan tipe rental untuk unit baru
+        if ($newTipeRental === 'tanpa_sopir') {
+            $request->validate([
+                'lokasi' => 'required|string',
+                'tanggal_mulai' => 'required|date',
+                'waktu_mulai' => 'required',
+                'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+                'waktu_selesai' => 'required',
+            ]);
+
+            $lokasi = $request->input('lokasi');
+            $startDateTime = Carbon::parse($request->input('tanggal_mulai') . ' ' . $request->input('waktu_mulai'));
+            $endDateTime = Carbon::parse($request->input('tanggal_selesai') . ' ' . $request->input('waktu_selesai'));
+        } else {
+            $request->validate([
+                'lokasi_sopir' => 'required|string',
+                'tanggal_mulai_sopir' => 'required|date',
+                'waktu_mulai_sopir' => 'required',
+                'durasi' => 'required|numeric|min:1',
+            ]);
+
+            $lokasi = $request->input('lokasi_sopir');
+            $startDateTime = Carbon::parse($request->input('tanggal_mulai_sopir') . ' ' . $request->input('waktu_mulai_sopir'));
+            $durasi = (int) ceil($request->input('durasi'));
+            $endDateTime = ($durasi === 1)
+                ? Carbon::parse($request->input('tanggal_mulai_sopir'))->setTime(23, 59)
+                : Carbon::parse($request->input('tanggal_mulai_sopir'))->addDays($durasi - 1)->setTime(23, 59);
+        }
+
+        // Ambil biaya sopir
+        $driverFee = DB::table('fee_setting')
+            ->where('nama_fee', 'biaya_sopir')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0;
+
+        // Ambil unit yang sudah dipilih dari sesi
+        $selectedUnits = $request->session()->get('selected_units', []);
+        $selectedUnitIds = array_keys($selectedUnits);
+
+        // Ambil ID mitra yang sudah dipilih dari sesi
+        $selectedMitraId = $request->session()->get('selected_mitra_id');
+        \Log::info('selected_mitra_id in session:', ['selected_mitra_id' => $selectedMitraId]);
+
+        // Query ketersediaan kendaraan
+        $query = DB::table('kendaraan')
+            ->select(
+                'kendaraan.*',
+                'alamat_mitra.kota',
+                'alamat_mitra.kecamatan',
+                'alamat_mitra.provinsi',
+                'mitra.nama_mitra',
+                'mitra.foto_mitra',
+                'unit_kendaraan.id_unit',
+                'unit_kendaraan.plat_nomor'
+            )
+            ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
+            ->join('unit_kendaraan', 'kendaraan.id_kendaraan', '=', 'unit_kendaraan.id_kendaraan')
+            ->join('alamat_mitra', 'unit_kendaraan.id_alamat_mitra', '=', 'alamat_mitra.id_alamat')
+            ->where('unit_kendaraan.status_unit_kendaraan', 'tersedia')
+            ->whereNotIn('unit_kendaraan.id_unit', function ($query) use ($startDateTime, $endDateTime) {
+                $query->select('detail_pemesanan.id_unit')
+                    ->from('detail_pemesanan')
+                    ->join('pemesanan', 'detail_pemesanan.id_pemesanan', '=', 'pemesanan.id_pemesanan')
+                    ->where('detail_pemesanan.tanggal_mulai', '<', $endDateTime)
+                    ->where('detail_pemesanan.tanggal_kembali', '>', $startDateTime)
+                    ->whereNotIn('pemesanan.status_pemesanan', ['pending', 'canceled']);
+            })
+            ->whereNotIn('unit_kendaraan.id_unit', $selectedUnitIds)
+            ->where(function ($query) use ($lokasi) {
+                $query->where('alamat_mitra.alamat', 'LIKE', "%$lokasi%")
+                    ->orWhere('alamat_mitra.kota', 'LIKE', "%$lokasi%")
+                    ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
+                    ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
+            });
+
+        // Jika from_detail ada dan selected_mitra_id tersedia, filter berdasarkan id_mitra
+        if ($request->has('from_detail') && $selectedMitraId) {
+            $query->where('kendaraan.id_mitra', $selectedMitraId);
+        }
+
+        $availableVehicles = $query->get();
+
+        // Kelompokkan kendaraan berdasarkan nama
+        $groupedVehicles = [];
+        $allVehicles = [];
+        $mitraPerVehicle = [];
+
+        foreach ($availableVehicles as $vehicle) {
+            $allVehicles[] = $vehicle;
+            $name = $vehicle->nama_kendaraan;
+
+            // Tambahkan ID mitra ke array mitra unik untuk kendaraan ini
+            if (!isset($mitraPerVehicle[$name])) {
+                $mitraPerVehicle[$name] = [];
+            }
+            if (!in_array($vehicle->id_mitra, $mitraPerVehicle[$name])) {
+                $mitraPerVehicle[$name][] = $vehicle->id_mitra;
+            }
+
+            // Simpan kendaraan dengan harga terendah untuk setiap nama kendaraan
+            if (!isset($groupedVehicles[$name]) || $vehicle->harga_sewa_perhari < $groupedVehicles[$name]->harga_sewa_perhari) {
+                $groupedVehicles[$name] = $vehicle;
+            }
+        }
+
+        // Update jumlah penyedia (mitra) untuk setiap kendaraan
+        foreach ($groupedVehicles as $name => &$vehicle) {
+            $vehicle->total_options = count($mitraPerVehicle[$name]);
+        }
+
+        // Logika untuk kendaraan yang dipilih dan kendaraan terkait
+        $selectedVehicle = null;
+        $relatedVehicles = [];
+        $groupedByMitra = [];
+
+        if ($request->has('selected_vehicle')) {
+            $selectedName = $request->input('selected_vehicle');
+
+            // Kelompokkan kendaraan berdasarkan mitra
+            foreach ($allVehicles as $vehicle) {
+                if ($vehicle->nama_kendaraan === $selectedName) {
+                    $mitraId = $vehicle->id_mitra;
+
+                    // Hanya tambahkan kendaraan pertama per mitra
+                    if (!isset($groupedByMitra[$mitraId])) {
+                        $groupedByMitra[$mitraId] = $vehicle;
+                        $relatedVehicles[] = $vehicle;
+                    }
+                }
+            }
+
+            // Urutkan berdasarkan harga
+            usort($relatedVehicles, function ($a, $b) {
+                return $a->harga_sewa_perhari <=> $b->harga_sewa_perhari;
+            });
+        }
+
+        // Siapkan parameter untuk view
+        $searchParams = [
+            'tipe_rental' => $newTipeRental, // Tipe rental untuk pencarian baru
+            'lokasi' => $lokasi,
+            'tanggal_mulai' => $newTipeRental === 'tanpa_sopir' ? $request->input('tanggal_mulai') : $request->input('tanggal_mulai_sopir'),
+            'waktu_mulai' => $newTipeRental === 'tanpa_sopir' ? $request->input('waktu_mulai') : $request->input('waktu_mulai_sopir'),
+            'tanggal_selesai' => $newTipeRental === 'tanpa_sopir' ? $request->input('tanggal_selesai') : null,
+            'waktu_selesai' => $endDateTime->format('H:i'),
+            'start_date_formatted' => $startDateTime->format('d M Y, H:i'),
+            'end_date_formatted' => $endDateTime->format('d M Y, H:i'),
+            'durasi' => $durasi,
+        ];
+
+        return view('search', [
+            'groupedVehicles' => array_values($groupedVehicles),
+            'allVehicles' => $allVehicles,
+            'selectedVehicle' => $request->input('selected_vehicle') ?? null,
+            'relatedVehicles' => $relatedVehicles,
+            'searchParams' => $searchParams,
+            'driver_fee' => $driverFee,
+            'selected_units' => $selectedUnits, // Kirim selected_units ke view
+        ]);
+    }
+
     public function searchAlamat(Request $request)
     {
         $query = $request->input('q', '');
@@ -33,167 +216,5 @@ class SearchController extends Controller
         });
 
         return response()->json($results);
-    }
-
-    public function search(Request $request)
-    {
-        // Reset session hanya jika bukan dari halaman detail
-        if (!$request->has('from_detail')) {
-            $request->session()->forget(['selected_units', 'selected_mitra_id']);
-        }
-
-        $request->validate([
-            'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
-        ]);
-
-        if ($request->tipe_rental === 'tanpa_sopir') {
-            $request->validate([
-                'lokasi' => 'required|string',
-                'tanggal_mulai' => 'required|date',
-                'waktu_mulai' => 'required',
-                'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
-                'waktu_selesai' => 'required',
-            ]);
-            $lokasi = $request->input('lokasi');
-            $startDateTime = Carbon::parse($request->input('tanggal_mulai') . ' ' . $request->input('waktu_mulai'));
-            $endDateTime = Carbon::parse($request->input('tanggal_selesai') . ' ' . $request->input('waktu_selesai'));
-            $durasi = null;
-        } else {
-            $request->validate([
-                'lokasi_sopir' => 'required|string',
-                'tanggal_mulai_sopir' => 'required|date',
-                'waktu_mulai_sopir' => 'required',
-                'durasi' => 'required|integer|min:1',
-            ]);
-            $lokasi = $request->input('lokasi_sopir');
-            $startDateTime = Carbon::parse($request->input('tanggal_mulai_sopir') . ' ' . $request->input('waktu_mulai_sopir'));
-            $durasi = (int)$request->input('durasi');
-            $endDateTime = ($durasi === 1)
-                ? Carbon::parse($request->input('tanggal_mulai_sopir'))->setTime(23, 59)
-                : Carbon::parse($request->input('tanggal_mulai_sopir'))->addDays($durasi - 1)->setTime(23, 59);
-        }
-
-        $driverFee = DB::table('fee_setting')
-            ->where('nama_fee', 'biaya_sopir')
-            ->where('is_active', 1)
-            ->value('nilai_fee') ?? 0;
-
-        // Get selected units from session
-        $selectedUnits = $request->session()->get('selected_units', []);
-        
-        // Extract id_unit values from selectedUnits
-        $selectedUnitIds = array_keys($selectedUnits);
-
-        // Get selected mitra_id from session
-        $selectedMitraId = $request->session()->get('selected_mitra_id');
-
-        // Query ketersediaan berdasarkan unit_kendaraan, excluding selected units
-        $query = DB::table('kendaraan')
-            ->select(
-                'kendaraan.*',
-                'alamat_mitra.kota',
-                'alamat_mitra.kecamatan',
-                'alamat_mitra.provinsi',
-                'mitra.nama_mitra',
-                'mitra.foto_mitra',
-                'unit_kendaraan.id_unit',
-                'unit_kendaraan.plat_nomor'
-            )
-            ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
-            ->join('unit_kendaraan', 'kendaraan.id_kendaraan', '=', 'unit_kendaraan.id_kendaraan')
-            ->join('alamat_mitra', 'unit_kendaraan.id_alamat_mitra', '=', 'alamat_mitra.id_alamat')
-            ->where('unit_kendaraan.status_unit_kendaraan', 'tersedia')
-            ->whereNotIn('unit_kendaraan.id_unit', function ($query) use ($startDateTime, $endDateTime) {
-                $query->select('id_unit')
-                    ->from('detail_pemesanan')
-                    ->where('tanggal_mulai', '<', $endDateTime)
-                    ->where('tanggal_kembali', '>', $startDateTime);
-            })
-            ->whereNotIn('unit_kendaraan.id_unit', $selectedUnitIds) // Use flat array of id_unit
-            ->where(function ($query) use ($lokasi) {
-                $query->where('alamat_mitra.alamat', 'LIKE', "%$lokasi%")
-                    ->orWhere('alamat_mitra.kota', 'LIKE', "%$lokasi%")
-                    ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
-                    ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
-            });
-
-        // Jika from_detail ada dan selected_mitra_id tersedia, filter berdasarkan id_mitra
-        if ($request->has('from_detail') && $selectedMitraId) {
-            $query->where('kendaraan.id_mitra', $selectedMitraId);
-        }
-
-        $availableVehicles = $query->get();
-
-        $groupedVehicles = [];
-        $allVehicles = [];
-        $mitraPerVehicle = [];
-
-        foreach ($availableVehicles as $vehicle) {
-            $allVehicles[] = $vehicle;
-            $name = $vehicle->nama_kendaraan;
-
-            // Tambahkan ID mitra ke array mitra unik untuk kendaraan ini
-            if (!isset($mitraPerVehicle[$name])) {
-                $mitraPerVehicle[$name] = [];
-            }
-            if (!in_array($vehicle->id_mitra, $mitraPerVehicle[$name])) {
-                $mitraPerVehicle[$name][] = $vehicle->id_mitra;
-            }
-
-            if (!isset($groupedVehicles[$name]) || $vehicle->harga_sewa_perhari < $groupedVehicles[$name]->harga_sewa_perhari) {
-                $groupedVehicles[$name] = $vehicle;
-            }
-        }
-
-        // Update jumlah penyedia (mitra) untuk setiap kendaraan
-        foreach ($groupedVehicles as $name => &$vehicle) {
-            $vehicle->total_options = count($mitraPerVehicle[$name]);
-        }
-
-        // Kode untuk selected vehicle dan related vehicles...
-        $selectedVehicle = null;
-        $relatedVehicles = [];
-        $groupedByMitra = [];
-
-        if ($request->has('selected_vehicle')) {
-            $selectedName = $request->input('selected_vehicle');
-
-            // Group vehicles by mitra
-            foreach ($allVehicles as $vehicle) {
-                if ($vehicle->nama_kendaraan === $selectedName) {
-                    $mitraId = $vehicle->id_mitra;
-
-                    // Only add the first vehicle per mitra
-                    if (!isset($groupedByMitra[$mitraId])) {
-                        $groupedByMitra[$mitraId] = $vehicle;
-                        $relatedVehicles[] = $vehicle;
-                    }
-                }
-            }
-
-            // Sort by price
-            usort($relatedVehicles, function ($a, $b) {
-                return $a->harga_sewa_perhari <=> $b->harga_sewa_perhari;
-            });
-        }
-
-        return view('search', [
-            'groupedVehicles' => array_values($groupedVehicles),
-            'allVehicles' => $allVehicles,
-            'selectedVehicle' => $request->input('selected_vehicle') ?? null,
-            'relatedVehicles' => $relatedVehicles,
-            'searchParams' => [
-                'tipe_rental' => $request->tipe_rental,
-                'lokasi' => $lokasi,
-                'tanggal_mulai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('tanggal_mulai') : $request->input('tanggal_mulai_sopir'),
-                'waktu_mulai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('waktu_mulai') : $request->input('waktu_mulai_sopir'),
-                'tanggal_selesai' => $request->tipe_rental === 'tanpa_sopir' ? $request->input('tanggal_selesai') : null,
-                'waktu_selesai' => $endDateTime->format('H:i'),
-                'start_date_formatted' => $startDateTime->format('d M Y, H:i'),
-                'end_date_formatted' => $endDateTime->format('d M Y, H:i'),
-                'durasi' => $durasi,
-            ],
-            'driver_fee' => $driverFee,
-        ]);
     }
 }

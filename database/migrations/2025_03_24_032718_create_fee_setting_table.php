@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('fee_setting', function (Blueprint $table) {
             $table->uuid('id_fee')->primary();
+            $table->enum('jenis_fee', ['persentase', 'flat']);
             $table->string('nama_fee', 100);
             $table->decimal('nilai_fee', 10, 2);
             $table->text('deskripsi')->nullable();

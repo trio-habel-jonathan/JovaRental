@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('id_detail_pemesanan');
             $table->string('nama_pengemudi', 255);
             $table->string('no_telepon', 20);
-
+            $table->timestamps();
             $table->foreign('id_detail_pemesanan')->references('id_detail')->on('detail_pemesanan')->onDelete('cascade');
         });
     }

@@ -2,7 +2,6 @@
     <div class="w-full lg:max-w-4xl md:max-w-2xl mx-auto mt-8 px-5">
         <!-- Progress Bar -->
         <div class="relative">
-            
             <div class="absolute top-5 w-full h-1.5 bg-white shadow-sm rounded-full"></div>
             <div class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full w-0"></div>
             <div class="flex justify-between relative">
@@ -29,7 +28,8 @@
     <div class="flex flex-col sm:flex-row w-full min-h-screen gap-4 p-4 mt-8">
         <!-- Form Section -->
         <div class="order-1 sm:w-[65%] w-full rounded-md bg-white p-6 md:p-8 rounded-tl-2xl rounded-bl-2xl shadow-lg">
-            <form id="rentalForm" action="{{ route('review', ['id_units' => implode(',', $units->pluck('id_unit')->toArray())]) }}" method="POST">                @csrf
+            <form id="rentalForm" action="{{ route('process.detail') }}" method="POST">
+                @csrf
                 <!-- Hidden Fields -->
                 @foreach ($units as $unit)
                     <!-- Debug jumlah kendaraan -->
@@ -39,8 +39,8 @@
                     <input type="hidden" name="id_units[]" value="{{ $unit->id_unit }}">
                     <input type="hidden" name="tanggal_mulai[{{ $unit->id_unit }}]" value="{{ isset($unit->startDateTime) ? $unit->startDateTime->format('Y-m-d H:i:s') : now()->format('Y-m-d H:i:s') }}">
                     <input type="hidden" name="tanggal_kembali[{{ $unit->id_unit }}]" value="{{ isset($unit->endDateTime) ? $unit->endDateTime->format('Y-m-d H:i:s') : now()->addDay()->format('Y-m-d H:i:s') }}">
+                    <input type="hidden" name="tipe_rental[{{ $unit->id_unit }}]" value="{{ $unit->tipe_rental }}">
                 @endforeach
-                <input type="hidden" name="tipe_rental" value="{{ $tipe_rental }}">
 
                 <!-- Data Pemesan -->
                 <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
@@ -90,7 +90,7 @@
                 <!-- Per Kendaraan -->
                 @foreach ($units as $unit)
                     <div class="mb-8 border-b pb-6">
-                        <h2 class="text-xl font-bold text-gray-800 mb-4">{{ $unit->nama_kendaraan }}</h2>
+                        <h2 class="text-xl font-bold text-gray-800 mb-4">{{ $unit->nama_kendaraan }} ({{ $unit->tipe_rental === 'dengan_sopir' ? 'Dengan Sopir' : 'Tanpa Sopir' }})</h2>
 
                         <!-- Lokasi Pengambilan -->
                         <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
@@ -125,7 +125,11 @@
                                 <label class="flex items-center">
                                     <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengambilan', '{{ $unit->id_unit }}')">
                                     Lokasi Lain:
-                                    <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" placeholder="Masukkan alamat" disabled>
+                                    <div class="relative w-full ml-2">
+                                        <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg" placeholder="Cari lokasi" disabled>
+                                        <input type="hidden" name="lat_pengambilan[{{ $unit->id_unit }}]" id="lat_pengambilan_{{ $unit->id_unit }}">
+                                        <input type="hidden" name="long_pengambilan[{{ $unit->id_unit }}]" id="long_pengambilan_{{ $unit->id_unit }}">
+                                    </div>
                                 </label>
                             </div>
                         </div>
@@ -169,7 +173,7 @@
                         </div>
 
                         <!-- Data Pengemudi (hanya untuk tanpa sopir) -->
-                        @if ($tipe_rental == 'tanpa_sopir')
+                        @if ($unit->tipe_rental == 'tanpa_sopir')
                             <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
                                 <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -191,7 +195,6 @@
                                             <input type="tel" name="driver_telepon[{{ $unit->id_unit }}]" id="driver_telepon_{{ $unit->id_unit }}" class="w-full p-3 pl-12 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="8123456789" required pattern="[0-9]{9,12}">
                                         </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                         @endif
@@ -200,21 +203,27 @@
 
                 <!-- Buttons -->
                 <div class="flex justify-between mt-6">
-                    <a href="{{ route('search', [
-                        'tipe_rental' => $tipe_rental,
-                        'lokasi' => $lokasi,
-                        'tanggal_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : now()->format('Y-m-d'),
-                        'waktu_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : now()->format('H:i'),
-                        'tanggal_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('Y-m-d') : now()->addDay()->format('Y-m-d'),
-                        'waktu_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('H:i') : now()->addDay()->format('H:i'),
-                        'from_detail' => 1,
-                    ]) }}"
-                        class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-                        Tambah Kendaraan
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
+                  <a href="{{ route('search', [
+    'from_detail' => 1,
+    'lokasi_sopir' => $lokasi,
+    'lokasi' => $lokasi,
+    'tanggal_mulai_sopir' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : null,
+    'waktu_mulai_sopir' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : null,
+    'durasi' => isset($units->first()->startDateTime, $units->first()->endDateTime) 
+        ? max(1, ceil($units->first()->startDateTime->diffInDays($units->first()->endDateTime) + 1)) 
+        : null,
+    'tanggal_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : null,
+    'waktu_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : null,
+    'tanggal_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('Y-m-d') : null,
+    'waktu_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('H:i') : null,
+    'tipe_rental' => $units->first()->tipe_rental, // Gunakan tipe_rental dari unit pertama
+]) }}"
+    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+    Tambah Kendaraan
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+    </svg>
+</a>
                     <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         Lanjutkan
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -246,12 +255,6 @@
                     $endDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $endDate);
                     $duration = $startDateTime->diffInDays($endDateTime) + 1;
                     $totalCost = 0;
-                    $driverFee = $tipe_rental === 'dengan_sopir'
-                        ? (\Illuminate\Support\Facades\DB::table('fee_setting')
-                            ->where('nama_fee', 'biaya_sopir')
-                            ->where('is_active', 1)
-                            ->value('nilai_fee') ?? 0)
-                        : 0;
                 @endphp
 
                 <div class="mb-8 border-b pb-6">
@@ -282,6 +285,14 @@
 
                     <!-- Vehicle List -->
                     @foreach ($unitGroup as $unit)
+                        @php
+                            $driverFee = $unit->tipe_rental === 'dengan_sopir'
+                                ? (\Illuminate\Support\Facades\DB::table('fee_setting')
+                                    ->where('nama_fee', 'biaya_sopir')
+                                    ->where('is_active', 1)
+                                    ->value('nilai_fee') ?? 0)
+                                : 0;
+                        @endphp
                         <div class="mb-6">
                             <!-- Vehicle Image -->
                             <div class="h-48 bg-gray-200 relative mb-6 rounded-lg overflow-hidden shadow-md">
@@ -373,7 +384,7 @@
 
                             <!-- Hitung biaya per kendaraan -->
                             @php
-                                $unitCost = $tipe_rental === 'tanpa_sopir'
+                                $unitCost = $unit->tipe_rental === 'tanpa_sopir'
                                     ? $unit->harga_sewa_perhari * $duration
                                     : ($unit->harga_sewa_perhari + $driverFee) * $duration;
                                 $totalCost += $unitCost;
@@ -386,16 +397,40 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Harga</h3>
                         <div class="p-4 bg-purple-50 rounded-lg shadow-sm">
                             <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
+                                <div class="                            flex items-center gap-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2m0 0c-1.657 0-3 .895-3 2s1.343 2 3 2m-6 0V5m12 14v-4" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
-                                    <p class="text-lg font-semibold text-gray-800">Rp {{ number_format($totalCost, 0, ',', '.') }}</p>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Subtotal Kendaraan ({{ count($unitGroup) }} Kendaraan)</p>
+                                        <p class="text-sm text-gray-600">Rp {{ number_format($totalCost, 0, ',', '.') }}</p>
+                                    </div>
                                 </div>
                             </div>
-                            @if ($tipe_rental == 'dengan_sopir')
-                                <p class="text-sm text-gray-600 mt-2">Termasuk biaya sopir Rp {{ number_format($driverFee, 0, ',', '.') }}/hari per kendaraan</p>
+                            @if ($unit->tipe_rental === 'dengan_sopir')
+                                <div class="flex items-center justify-between mt-3">
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Biaya Sopir</p>
+                                            <p class="text-sm text-gray-600">Rp {{ number_format($driverFee * $duration, 0, ',', '.') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Biaya Pengantaran</p>
+                                        <p class="text-sm text-gray-600">Rp 15,000</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -403,93 +438,227 @@
         </div>
     </div>
 
-    <!-- JavaScript untuk mengontrol dropdown dan validasi -->
+    <!-- JavaScript untuk toggle dropdown -->
     <script>
         function toggleDropdown(type, unitId) {
             const kantorPengambilan = document.getElementById(`alamat_kantor_pengambilan_${unitId}`);
-            const lainPengambilan = document.getElementById(`lokasi_pengambilan_lain_${unitId}`);
+            const lokasiPengambilanLain = document.getElementById(`lokasi_pengambilan_lain_${unitId}`);
             const kantorPengembalian = document.getElementById(`alamat_kantor_pengembalian_${unitId}`);
-            const lainPengembalian = document.getElementById(`lokasi_pengembalian_lain_${unitId}`);
-            const mitraAddress = document.getElementById(`selected-mitra-address-${unitId}`);
+            const lokasiPengembalianLain = document.getElementById(`lokasi_pengembalian_lain_${unitId}`);
 
             if (type === 'pengambilan') {
-                if (document.querySelector(`input[name="lokasi_pengambilan[${unitId}]"][value="kantor_rental"]`).checked) {
-                    if (kantorPengambilan) {
-                        kantorPengambilan.disabled = false;
-                        kantorPengambilan.addEventListener('change', () => {
-                            const selectedOption = kantorPengambilan.options[kantorPengambilan.selectedIndex];
-                            mitraAddress.textContent = selectedOption.text || 'Pilih alamat dari dropdown';
-                        });
-                    }
-                    if (lainPengambilan) {
-                        lainPengambilan.disabled = true;
-                        lainPengambilan.value = '';
-                    }
+                const pengambilanKantor = document.querySelector(`input[name="lokasi_pengambilan[${unitId}]"][value="kantor_rental"]`);
+                if (pengambilanKantor.checked) {
+                    kantorPengambilan.disabled = false;
+                    kantorPengambilan.required = true;
+                    lokasiPengambilanLain.disabled = true;
+                    lokasiPengambilanLain.required = false;
+                    lokasiPengambilanLain.value = '';
                 } else {
-                    if (kantorPengambilan) {
-                        kantorPengambilan.disabled = true;
-                        kantorPengambilan.value = '';
-                    }
-                    if (lainPengambilan) {
-                        lainPengambilan.disabled = false;
-                        lainPengambilan.addEventListener('input', () => {
-                            mitraAddress.textContent = lainPengambilan.value || 'Masukkan alamat';
-                        });
-                    }
+                    kantorPengambilan.disabled = true;
+                    kantorPengambilan.required = false;
+                    kantorPengambilan.value = '';
+                    lokasiPengambilanLain.disabled = false;
+                    lokasiPengambilanLain.required = true;
                 }
             } else if (type === 'pengembalian') {
-                if (document.querySelector(`input[name="lokasi_pengembalian[${unitId}]"][value="kantor_rental"]`).checked) {
-                    if (kantorPengembalian) kantorPengembalian.disabled = false;
-                    if (lainPengembalian) {
-                        lainPengembalian.disabled = true;
-                        lainPengembalian.value = '';
-                    }
+                const pengembalianKantor = document.querySelector(`input[name="lokasi_pengembalian[${unitId}]"][value="kantor_rental"]`);
+                if (pengembalianKantor.checked) {
+                    kantorPengembalian.disabled = false;
+                    kantorPengembalian.required = true;
+                    lokasiPengembalianLain.disabled = true;
+                    lokasiPengembalianLain.required = false;
+                    lokasiPengembalianLain.value = '';
                 } else {
-                    if (kantorPengembalian) {
-                        kantorPengembalian.disabled = true;
-                        kantorPengembalian.value = '';
-                    }
-                    if (lainPengembalian) lainPengembalian.disabled = false;
+                    kantorPengembalian.disabled = true;
+                    kantorPengembalian.required = false;
+                    kantorPengembalian.value = '';
+                    lokasiPengembalianLain.disabled = false;
+                    lokasiPengembalianLain.required = true;
                 }
             }
         }
 
-        // Validasi form sebelum submit
-        document.getElementById('rentalForm').addEventListener('submit', function(e) {
-            @foreach ($units as $unit)
-                const kantorPengambilan{{ $unit->id_unit }} = document.getElementById('alamat_kantor_pengambilan_{{ $unit->id_unit }}');
-                const lainPengambilan{{ $unit->id_unit }} = document.getElementById('lokasi_pengambilan_lain_{{ $unit->id_unit }}');
-                const kantorPengembalian{{ $unit->id_unit }} = document.getElementById('alamat_kantor_pengembalian_{{ $unit->id_unit }}');
-                const lainPengembalian{{ $unit->id_unit }} = document.getElementById('lokasi_pengembalian_lain_{{ $unit->id_unit }}');
-
-                if (document.querySelector(`input[name="lokasi_pengambilan[{{ $unit->id_unit }}]"][value="kantor_rental"]`).checked && kantorPengambilan{{ $unit->id_unit }}.value === '') {
-                    e.preventDefault();
-                    alert('Pilih alamat kantor pengambilan untuk kendaraan {{ $unit->nama_kendaraan }}!');
-                    return;
-                }
-                if (document.querySelector(`input[name="lokasi_pengambilan[{{ $unit->id_unit }}]"][value="lokasi_lain"]`).checked && lainPengambilan{{ $unit->id_unit }}.value.trim() === '') {
-                    e.preventDefault();
-                    alert('Masukkan alamat pengambilan untuk kendaraan {{ $unit->nama_kendaraan }}!');
-                    return;
-                }
-                if (document.querySelector(`input[name="lokasi_pengembalian[{{ $unit->id_unit }}]"][value="kantor_rental"]`).checked && kantorPengembalian{{ $unit->id_unit }}.value === '') {
-                    e.preventDefault();
-                    alert('Pilih alamat kantor pengembalian untuk kendaraan {{ $unit->nama_kendaraan }}!');
-                    return;
-                }
-                if (document.querySelector(`input[name="lokasi_pengembalian[{{ $unit->id_unit }}]"][value="lokasi_lain"]`).checked && lainPengembalian{{ $unit->id_unit }}.value.trim() === '') {
-                    e.preventDefault();
-                    alert('Masukkan alamat pengembalian untuk kendaraan {{ $unit->nama_kendaraan }}!');
-                    return;
-                }
-            @endforeach
-        });
-
-        // Panggil fungsi saat halaman dimuat untuk mengatur status awal
-        document.addEventListener('DOMContentLoaded', () => {
+        // Panggil fungsi toggleDropdown saat halaman dimuat untuk mengatur status awal
+        document.addEventListener('DOMContentLoaded', function () {
             @foreach ($units as $unit)
                 toggleDropdown('pengambilan', '{{ $unit->id_unit }}');
                 toggleDropdown('pengembalian', '{{ $unit->id_unit }}');
+            @endforeach
+        });
+    </script>
+    <script>
+        // Your Geoapify API Key
+        const geoapifyApiKey = '2640ad08a11e4cbea8864b3a77d14206';
+        
+        // Function to initialize autocomplete for an input field
+        function initializeAutocomplete(inputId, latFieldId, lngFieldId) {
+            const input = document.getElementById(inputId);
+            if (!input) return;
+            
+            let timeout = null;
+            let currentSuggestions = [];
+            
+            // Create container for suggestions
+            const suggestionsContainer = document.createElement('div');
+            suggestionsContainer.className = 'absolute z-50 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto hidden';
+            input.parentNode.style.position = 'relative';
+            input.parentNode.appendChild(suggestionsContainer);
+            
+            // Create hidden fields for latitude and longitude if they don't exist
+            if (!document.getElementById(latFieldId)) {
+                const latField = document.createElement('input');
+                latField.type = 'hidden';
+                latField.id = latFieldId;
+                latField.name = latFieldId;
+                input.parentNode.appendChild(latField);
+            }
+            
+            if (!document.getElementById(lngFieldId)) {
+                const lngField = document.createElement('input');
+                lngField.type = 'hidden';
+                lngField.id = lngFieldId;
+                lngField.name = lngFieldId;
+                input.parentNode.appendChild(lngField);
+            }
+            
+            // Add event listener for input changes
+            input.addEventListener('input', function() {
+                const query = this.value.trim();
+                
+                // Clear previous timeout
+                if (timeout) {
+                    clearTimeout(timeout);
+                }
+                
+                // Clear suggestions if query is empty
+                if (query.length < 3) {
+                    suggestionsContainer.innerHTML = '';
+                    suggestionsContainer.classList.add('hidden');
+                    return;
+                }
+                
+                // Set timeout to avoid making too many requests while typing
+                timeout = setTimeout(() => {
+                    fetchSuggestions(query);
+                }, 300);
+            });
+            
+            // Function to fetch suggestions from Geoapify API
+            async function fetchSuggestions(query) {
+                try {
+                    const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&format=json&apiKey=${geoapifyApiKey}`);
+                    const data = await response.json();
+                    
+                    if (data.results && data.results.length > 0) {
+                        currentSuggestions = data.results;
+                        renderSuggestions(data.results);
+                    } else {
+                        suggestionsContainer.innerHTML = '<div class="p-2 text-gray-500">No results found</div>';
+                        suggestionsContainer.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error("Error fetching address suggestions:", error);
+                }
+            }
+            
+            // Function to render suggestion list
+            function renderSuggestions(suggestions) {
+                suggestionsContainer.innerHTML = '';
+                
+                suggestions.forEach((suggestion, index) => {
+                    const suggestionItem = document.createElement('div');
+                    suggestionItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+                    suggestionItem.innerHTML = formatAddress(suggestion);
+                    
+                    suggestionItem.addEventListener('click', () => {
+                        selectSuggestion(suggestion);
+                    });
+                    
+                    suggestionsContainer.appendChild(suggestionItem);
+                });
+                
+                suggestionsContainer.classList.remove('hidden');
+            }
+            
+            // Format address for display
+            function formatAddress(result) {
+                const parts = [];
+                
+                if (result.address_line1) parts.push(result.address_line1);
+                if (result.address_line2) parts.push(result.address_line2);
+                
+                return parts.join(', ');
+            }
+            
+            // Handle suggestion selection
+            function selectSuggestion(suggestion) {
+                input.value = [suggestion.address_line1, suggestion.address_line2].filter(Boolean).join(', ');
+                
+                // Store latitude and longitude
+                document.getElementById(latFieldId).value = suggestion.lat || 0;
+                document.getElementById(lngFieldId).value = suggestion.lon || 0;
+                
+                // Hide suggestions
+                suggestionsContainer.innerHTML = '';
+                suggestionsContainer.classList.add('hidden');
+            }
+            
+            // Close suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (e.target !== input && e.target !== suggestionsContainer) {
+                    suggestionsContainer.classList.add('hidden');
+                }
+            });
+        }
+        
+        // Initialize autocomplete for all "Lokasi Lain" fields when document is loaded
+        document.addEventListener('DOMContentLoaded', function () {
+            @foreach ($units as $unit)
+                // Create event listeners for radio buttons
+                const pengambilanRadios = document.querySelectorAll(`input[name="lokasi_pengambilan[{{ $unit->id_unit }}]"]`);
+                pengambilanRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (this.value === 'lokasi_lain') {
+                            const inputId = `lokasi_pengambilan_lain_{{ $unit->id_unit }}`;
+                            const latFieldId = `lat_pengambilan_{{ $unit->id_unit }}`;
+                            const lngFieldId = `long_pengambilan_{{ $unit->id_unit }}`;
+                            
+                            initializeAutocomplete(inputId, latFieldId, lngFieldId);
+                        }
+                    });
+                    
+                    // Initialize for already selected "lokasi_lain" option
+                    if (radio.value === 'lokasi_lain' && radio.checked) {
+                        const inputId = `lokasi_pengambilan_lain_{{ $unit->id_unit }}`;
+                        const latFieldId = `lat_pengambilan_{{ $unit->id_unit }}`;
+                        const lngFieldId = `long_pengambilan_{{ $unit->id_unit }}`;
+                        
+                        initializeAutocomplete(inputId, latFieldId, lngFieldId);
+                    }
+                });
+                
+                const pengembalianRadios = document.querySelectorAll(`input[name="lokasi_pengembalian[{{ $unit->id_unit }}]"]`);
+                pengembalianRadios.forEach(radio => {
+                    radio.addEventListener('change', function() {
+                        if (this.value === 'lokasi_lain') {
+                            const inputId = `lokasi_pengembalian_lain_{{ $unit->id_unit }}`;
+                            const latFieldId = `lat_pengembalian_{{ $unit->id_unit }}`;
+                            const lngFieldId = `long_pengembalian_{{ $unit->id_unit }}`;
+                            
+                            initializeAutocomplete(inputId, latFieldId, lngFieldId);
+                        }
+                    });
+                    
+                    // Initialize for already selected "lokasi_lain" option
+                    if (radio.value === 'lokasi_lain' && radio.checked) {
+                        const inputId = `lokasi_pengembalian_lain_{{ $unit->id_unit }}`;
+                        const latFieldId = `lat_pengembalian_{{ $unit->id_unit }}`;
+                        const lngFieldId = `long_pengembalian_{{ $unit->id_unit }}`;
+                        
+                        initializeAutocomplete(inputId, latFieldId, lngFieldId);
+                    }
+                });
             @endforeach
         });
     </script>
