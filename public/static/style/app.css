@@ -49,29 +49,32 @@
     pointer-events: none;
 }
 
-/* width */
+/* Scrollbar container */
 .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-    height: 5px;
+    width: 12px;
+    height: 10px; /* for horizontal scrollbars */
 }
 
-/* Track */
+/* Scrollbar track (the background) */
 .custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    /* Light background */
+    background: #f4f5f6; /* light background */
     border-radius: 10px;
 }
 
-/* Handle */
+/* Scrollbar thumb (the draggable thing) */
 .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #705fb1;
-    /* Your chosen color */
     border-radius: 10px;
+    border: 3px solid transparent; /* creates spacing inside the track */
+    background-clip: content-box; /* makes the border spacing visible */
 }
 
-/* Handle on hover */
+/* Scrollbar thumb on hover */
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
     background: #5a4a91;
+    border-radius: 10px;
+    border: 3px solid transparent; /* creates spacing inside the track */
+    background-clip: content-box; /* makes the border spacing visible */
 }
 
 /* Animation classes */
