@@ -65,7 +65,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href=""
+                        <a href="{{route('admin.metodePembayaran.index')}}"
                             class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
