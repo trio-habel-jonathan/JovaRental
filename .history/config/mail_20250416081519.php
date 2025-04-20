@@ -2,11 +2,6 @@
 
 return [
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'your-authenticated-email@yourdomain.com'),
-        'name' => env('MAIL_FROM_NAME', 'Your App Name'),
-    ],
-
     /*
     |--------------------------------------------------------------------------
     | Default Mailer
@@ -113,5 +108,9 @@ return [
     |
     */
 
+    'from' => [
+        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+        'name' => env('MAIL_FROM_NAME', 'Example'),
+    ],
 
 ];

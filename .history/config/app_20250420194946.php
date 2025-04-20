@@ -12,8 +12,8 @@ return [
     | other UI elements where an application name needs to be displayed.
     |
     */
-
-    'support_email' => env('SUPPORT_EMAIL', '//@gmail.com'),
+    
+    'support_email' => env('SUPPORT_EMAIL', 'default@example.com'),
     'name' => env('APP_NAME', 'Laravel'),
 
     /*

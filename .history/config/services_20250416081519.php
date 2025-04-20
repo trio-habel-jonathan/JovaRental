@@ -14,11 +14,6 @@ return [
     |
     */
 
-    'mailjet' => [
-        'api_key' => env('MAILJET_API_KEY'),
-        'secret_key' => env('MAILJET_SECRET_KEY'),
-    ],
-
     'google' => [
     'client_id' => env('GOOGLE_CLIENT_ID'),
     'client_secret' => env('GOOGLE_CLIENT_SECRET'),

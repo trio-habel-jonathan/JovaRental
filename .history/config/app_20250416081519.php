@@ -13,7 +13,6 @@ return [
     |
     */
 
-    'support_email' => env('SUPPORT_EMAIL', '//@gmail.com'),
     'name' => env('APP_NAME', 'Laravel'),
 
     /*

@@ -1,4 +1,4 @@
-<x-user-layout title="Contact Us">
+<x-user-layout title="Home">
     <section id="contactfrom">
         <div class="max-w-[1600px] mx-auto w-full p-6 lg:p-12 flex flex-col justify-center items-center">
             <div class="w-full mb-4 lg:w-1/2 flex flex-col justify-center items-start lg:items-center space-y-4">
@@ -10,57 +10,34 @@
                     jangan ragu untuk
                     menghubungi tim support kami. Kami siap membantu Anda dengan cepat dan profesional!</p>
             </div>
-            <!-- Display success or error messages -->
-            @if (session('success'))
-                <div class="w-full lg:w-3/4 p-4 mb-4 text-green-700 bg-green-100 rounded-md">
-                    {{ session('success') }}
-                </div>
-            @endif
-            @if (session('error'))
-                <div class="w-full lg:w-3/4 p-4 mb-4 text-red-700 bg-red-100 rounded-md">
-                    {{ session('error') }}
-                </div>
-            @endif
-            <form action="{{ route('send.email') }}" method="POST" data-aos="fade-up" data-aos-delay="450"
+            <form action="" data-aos="fade-up" data-aos-delay="450"
                 class="p-6 w-full lg:w-3/4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 rounded-md shadow-lg bg-white">
-                @csrf
                 <div>
                     <label class="font-semibold text-primary" for="name">Name</label>
-                    <input type="text" id="name" name="name" value="{{ old('name') }}"
+                    <input type="text" id="name"
                         class="p-2 w-full border-2 shadow-md border-gray-300 rounded-md focus:outline-none transition-all duration-300 ease-in-out hover:scale-105 focus:scale-105"
-                        placeholder="Type your name...">
-                    @error('name')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+                        placeholder="Type your email...">
                 </div>
                 <div>
                     <label class="font-semibold text-primary" for="email">Email</label>
-                    <input type="email" id="email" name="email" value="{{ old('email') }}"
+                    <input type="text" id="email"
                         class="p-2 w-full border-2 shadow-md border-gray-300 rounded-md focus:outline-none transition-all duration-300 ease-in-out hover:scale-105 focus:scale-105"
                         placeholder="Type your email...">
-                    @error('email')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
                 </div>
                 <div>
                     <label class="font-semibold text-primary" for="no_hp">Phone Number</label>
-                    <input type="text" id="no_hp" name="no_hp" value="{{ old('no_hp') }}"
+                    <input type="text" id="no_hp"
                         class="p-2 w-full border-2 shadow-md border-gray-300 rounded-md focus:outline-none transition-all duration-300 ease-in-out hover:scale-105 focus:scale-105"
                         placeholder="Type your phone number...">
-                    @error('no_hp')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
                 </div>
+
                 <div class="col-span-1 md:col-span-2 lg:col-span-3">
                     <label class="font-semibold text-primary" for="messages">Messages</label>
-                    <textarea name="messages" id="messages" class="p-2 h-56 w-full border-2 border-gray-300 rounded-md focus:outline-none"
-                        placeholder="Type your message for us">{{ old('messages') }}</textarea>
-                    @error('messages')
-                        <span class="text-red-500 text-sm">{{ $message }}</span>
-                    @enderror
+                    <textarea name="" id="messages" class="p-2 h-56 w-full border-2 border-gray-300 rounded-md focus:outline-none"
+                        id="" placeholder="Type your massage for us"></textarea>
                 </div>
                 <div>
-                    <button type="submit"
+                    <button
                         class="bg-primary px-6 py-2 text-white font-semibold uppercase rounded-md shadow-md transition-all duration-150 ease-in-out hover:scale-105">
                         Send
                     </button>
@@ -78,6 +55,7 @@
                 <p data-aos="fade-up" class="mt-4 text-gray-600 max-w-2xl mx-auto">Lokasi kantor
                     pusat kami</p>
             </div>
+
             <div data-aos="fade-right" data-aos-delay="150" class="bg-white w-full lg:w-3/4 rounded-2xl shadow-xl overflow-hidden">
                 <div class="aspect-w-16 aspect-h-9 w-full">
                     <iframe class="w-full h-[500px] border-0"
@@ -85,6 +63,7 @@
                         allowfullscreen="" loading="lazy" aria-label="PT. Pundi Mas Berjaya location on Google Maps">
                     </iframe>
                 </div>
+
                 <div class="p-8 sm:flex sm:items-center sm:justify-between">
                     <div class="mb-4 sm:mb-0">
                         <h3 class="text-xl font-semibold text-gray-900">PT. Pundi Mas Berjaya</h3>

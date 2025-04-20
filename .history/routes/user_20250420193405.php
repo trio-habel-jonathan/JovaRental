@@ -3,8 +3,7 @@
 use App\Http\Controllers\Auth\PageController;
 use App\Http\Controllers\UserPageController;
 use App\Http\Controllers\SearchController;
-use App\Http\Controllers\PemesananController;
-use App\Http\Controllers\EmailController;
+use App\Http\Controllers\PemesananController;;
 use Illuminate\Support\Facades\Route;
 
 Route::get("/daftar-mitra", [UserPageController::class, "daftarMitra"])->name("daftarMitra");
@@ -18,8 +17,7 @@ Route::post('/pemesanan/add-unit', [SearchController::class, 'addUnit'])->name  
 
 
 Route::middleware(['VerifiedEntity'])->group(function () {
-    Route::get('/contact', [EmailController::class, 'showContactForm'])->name('contact.form');
-    Route::post('/send-email', [EmailController::class, 'sendEmail'])->name('send.email');
+    EmailController
     Route::get("/", [UserPageController::class, "home"])->name("home");
     Route::get("/about", [UserPageController::class, "about"])->name("about");
     Route::get("/contact-us", [UserPageController::class, "contactus"])->name("contactus");
