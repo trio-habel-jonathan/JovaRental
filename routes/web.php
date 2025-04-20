@@ -12,6 +12,7 @@ Route::middleware("guest")->group(function () {
     Route::get('login/google/callback', [GoogleController::class, 'handleGoogleCallback']);
     Route::post('/login-action', [AuthController::class, 'login'])->name('login-action');
     Route::post('/register-action', [AuthController::class, 'register'])->name('register-action');
+    
 });
 
 Route::middleware("auth")->group(function () {

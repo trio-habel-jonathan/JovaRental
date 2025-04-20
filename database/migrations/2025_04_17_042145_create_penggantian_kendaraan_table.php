@@ -14,16 +14,19 @@ return new class extends Migration
         Schema::create('penggantian_kendaraan', function (Blueprint $table) {
             $table->uuid('id_penggantian')->primary();
             $table->uuid('id_detail');
-            $table->uuid('id_kendaraan_lama');
-            $table->uuid('id_kendaraan_baru');
+            $table->uuid('id_unit_lama');
+            $table->uuid('id_unit_baru');
             $table->timestamp('tanggal_penggantian')->useCurrent();
             $table->text('alasan_penggantian');
             $table->enum('status_penggantian', ['pending', 'approved', 'completed', 'rejected'])->default('pending');
             $table->timestamps();
 
             $table->foreign('id_detail')->references('id_detail')->on('detail_pemesanan')->onDelete('cascade');
-            $table->foreign('id_kendaraan_lama')->references('id_kendaraan')->on('kendaraan')->onDelete('cascade');
-            $table->foreign('id_kendaraan_baru')->references('id_kendaraan')->on('kendaraan')->onDelete('cascade');
+            $table->foreign('id_unit_lama')->references('id_unit')->on('unit_kendaraan')->onDelete('cascade');
+            $table->foreign('id_unit_baru')->references('id_unit')->on('unit_kendaraan')->onDelete('cascade');
+
+
+
         });
     }
 

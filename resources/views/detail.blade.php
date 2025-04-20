@@ -92,85 +92,99 @@
                     <div class="mb-8 border-b pb-6">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">{{ $unit->nama_kendaraan }} ({{ $unit->tipe_rental === 'dengan_sopir' ? 'Dengan Sopir' : 'Tanpa Sopir' }})</h2>
 
-                        <!-- Lokasi Pengambilan -->
-                        <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </span>
-                            Lokasi Pengambilan
-                        </h3>
-                        <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                            <div class="flex flex-col gap-4">
-                                @if ($alamatMitra->isEmpty())
-                                    <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
-                                    <label class="flex items-center opacity-50">
-                                        <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" disabled class="mr-2">
-                                        Kantor Rental: Tidak Tersedia
-                                    </label>
-                                @else
-                                    <label class="flex items-center">
-                                        <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2" onclick="toggleDropdown('pengambilan', '{{ $unit->id_unit }}')">
-                                        Kantor Rental:
-                                        <select name="alamat_kantor_pengambilan[{{ $unit->id_unit }}]" id="alamat_kantor_pengambilan_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" required>
-                                            <option value="">Pilih Alamat Kantor Rental</option>
-                                            @foreach ($alamatMitra as $alamat)
-                                                <option value="{{ $alamat->id_alamat }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
-                                            @endforeach
-                                        </select>
-                                    </label>
-                                @endif
-                                <label class="flex items-center">
-                                    <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengambilan', '{{ $unit->id_unit }}')">
-                                    Lokasi Lain:
-                                    <div class="relative w-full ml-2">
-                                        <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg" placeholder="Cari lokasi" disabled>
-                                        <input type="hidden" name="lat_pengambilan[{{ $unit->id_unit }}]" id="lat_pengambilan_{{ $unit->id_unit }}">
-                                        <input type="hidden" name="long_pengambilan[{{ $unit->id_unit }}]" id="long_pengambilan_{{ $unit->id_unit }}">
-                                    </div>
-                                </label>
-                            </div>
-                        </div>
+                      <!-- Lokasi Pengambilan -->
+<h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+    </span>
+    Lokasi Pengambilan
+</h3>
+<div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+    <div class="flex flex-col gap-4">
+        <!-- Radio Button Kantor Rental -->
+        <label class="flex items-center cursor-pointer">
+            <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengambilan', '{{ $unit->id_unit }}')">
+            <span class="text-gray-700 font-medium">Kantor Rental</span>
+        </label>
+        <div id="kantor_pengambilan_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-40 opacity-100">
+            @if ($alamatMitra->isEmpty())
+                <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
+            @else
+                <select name="alamat_kantor_pengambilan[{{ $unit->id_unit }}]" id="alamat_kantor_pengambilan_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+                    <option value="">Pilih Alamat Kantor Rental</option>
+                    @foreach ($alamatMitra as $alamat)
+                        <option value="{{ $alamat->id_alamat }}" data-lat="{{ $alamat->latitude }}" data-long="{{ $alamat->longitude }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
+                    @endforeach
+                </select>
+            @endif
+            <div id="biaya_pengantaran_kantor_{{ $unit->id_unit }}" class="mt-2 text-sm text-green-600">Gratis</div>
+        </div>
 
-                        <!-- Lokasi Pengembalian -->
-                        <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                                </svg>
-                            </span>
-                            Lokasi Pengembalian
-                        </h3>
-                        <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                            <div class="flex flex-col gap-4">
-                                @if ($alamatMitra->isEmpty())
-                                    <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
-                                    <label class="flex items-center opacity-50">
-                                        <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" disabled class="mr-2">
-                                        Kantor Rental: Tidak Tersedia
-                                    </label>
-                                @else
-                                    <label class="flex items-center">
-                                        <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2" onclick="toggleDropdown('pengembalian', '{{ $unit->id_unit }}')">
-                                        Kantor Rental:
-                                        <select name="alamat_kantor_pengembalian[{{ $unit->id_unit }}]" id="alamat_kantor_pengembalian_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" required>
-                                            <option value="">Pilih Alamat Kantor Rental</option>
-                                            @foreach ($alamatMitra as $alamat)
-                                                <option value="{{ $alamat->id_alamat }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
-                                            @endforeach
-                                        </select>
-                                    </label>
-                                @endif
-                                <label class="flex items-center">
-                                    <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2" onclick="toggleDropdown('pengembalian', '{{ $unit->id_unit }}')">
-                                    Lokasi Lain:
-                                    <input type="text" name="lokasi_pengembalian_lain[{{ $unit->id_unit }}]" id="lokasi_pengembalian_lain_{{ $unit->id_unit }}" class="ml-2 w-full p-2 border border-gray-200 rounded-lg" placeholder="Masukkan alamat" disabled>
-                                </label>
-                            </div>
-                        </div>
+        <!-- Radio Button Lokasi Lain -->
+        <label class="flex items-center cursor-pointer">
+            <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengambilan', '{{ $unit->id_unit }}')">
+            <span class="text-gray-700 font-medium">Lokasi Lain</span>
+        </label>
+        <div id="lokasi_lain_pengambilan_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-0 opacity-0 overflow-hidden">
+            <div class="relative w-full">
+                <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" placeholder="Cari lokasi">
+                <input type="hidden" name="lat_pengambilan[{{ $unit->id_unit }}]" id="lat_pengambilan_{{ $unit->id_unit }}">
+                <input type="hidden" name="long_pengambilan[{{ $unit->id_unit }}]" id="long_pengambilan_{{ $unit->id_unit }}">
+            </div>
+            <div id="biaya_pengantaran_{{ $unit->id_unit }}" class="mt-2 text-sm text-gray-600"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Lokasi Pengembalian -->
+<h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+    </span>
+    Lokasi Pengembalian
+</h3>
+<div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+    <div class="flex flex-col gap-4">
+        <!-- Radio Button Kantor Rental -->
+        <label class="flex items-center cursor-pointer">
+            <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengembalian', '{{ $unit->id_unit }}')">
+            <span class="text-gray-700 font-medium">Kantor Rental</span>
+        </label>
+        <div id="kantor_pengembalian_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-40 opacity-100">
+            @if ($alamatMitra->isEmpty())
+                <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
+            @else
+                <select name="alamat_kantor_pengembalian[{{ $unit->id_unit }}]" id="alamat_kantor_pengembalian_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+                    <option value="">Pilih Alamat Kantor Rental</option>
+                    @foreach ($alamatMitra as $alamat)
+                        <option value="{{ $alamat->id_alamat }}" data-lat="{{ $alamat->latitude }}" data-long="{{ $alamat->longitude }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
+                    @endforeach
+                </select>
+            @endif
+            <div id="biaya_pengembalian_kantor_{{ $unit->id_unit }}" class="mt-2 text-sm text-green-600">Gratis</div>
+        </div>
+
+        <!-- Radio Button Lokasi Lain -->
+        <label class="flex items-center cursor-pointer">
+            <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengembalian', '{{ $unit->id_unit }}')">
+            <span class="text-gray-700 font-medium">Lokasi Lain</span>
+        </label>
+        <div id="lokasi_lain_pengembalian_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-0 opacity-0 overflow-hidden">
+            <div class="relative w-full">
+                <input type="text" name="lokasi_pengembalian_lain[{{ $unit->id_unit }}]" id="lokasi_pengembalian_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" placeholder="Cari lokasi">
+                <input type="hidden" name="lat_pengembalian[{{ $unit->id_unit }}]" id="lat_pengembalian_{{ $unit->id_unit }}">
+                <input type="hidden" name="long_pengembalian[{{ $unit->id_unit }}]" id="long_pengembalian_{{ $unit->id_unit }}">
+            </div>
+            <div id="biaya_pengembalian_{{ $unit->id_unit }}" class="mt-2 text-sm text-gray-600"></div>
+        </div>
+    </div>
+</div>
 
                         <!-- Data Pengemudi (hanya untuk tanpa sopir) -->
                         @if ($unit->tipe_rental == 'tanpa_sopir')
@@ -248,7 +262,7 @@
                 });
             @endphp
 
-            @foreach ($groupedUnits as $periode => $unitGroup)
+                @foreach ($groupedUnits as $periode => $unitGroup)
                 @php
                     [$startDate, $endDate] = explode('|', $periode);
                     $startDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $startDate);
@@ -397,7 +411,7 @@
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Harga</h3>
                         <div class="p-4 bg-purple-50 rounded-lg shadow-sm">
                             <div class="flex items-center justify-between">
-                                <div class="                            flex items-center gap-3">
+                                <div class="flex items-center gap-3">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
@@ -427,7 +441,11 @@
                                     </svg>
                                     <div>
                                         <p class="text-sm font-medium text-gray-700">Biaya Pengantaran</p>
-                                        <p class="text-sm text-gray-600">Rp 15,000</p>
+                                        <p class="text-sm text-gray-600">Rp 0</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Biaya Pengembalian</p>
+                                        <p class="text-sm text-gray-600">Rp 0</p>
                                     </div>
                                 </div>
                             </div>
@@ -438,227 +456,150 @@
         </div>
     </div>
 
-    <!-- JavaScript untuk toggle dropdown -->
-    <script>
-        function toggleDropdown(type, unitId) {
-            const kantorPengambilan = document.getElementById(`alamat_kantor_pengambilan_${unitId}`);
-            const lokasiPengambilanLain = document.getElementById(`lokasi_pengambilan_lain_${unitId}`);
-            const kantorPengembalian = document.getElementById(`alamat_kantor_pengembalian_${unitId}`);
-            const lokasiPengembalianLain = document.getElementById(`lokasi_pengembalian_lain_${unitId}`);
+   
 
+    <script>
+        // Fungsi untuk toggle animasi
+        function toggleLokasi(type, unitId) {
+            const kantorPengambilan = document.getElementById(`kantor_pengambilan_${unitId}`);
+            const lokasiLainPengambilan = document.getElementById(`lokasi_lain_pengambilan_${unitId}`);
+            const kantorPengembalian = document.getElementById(`kantor_pengembalian_${unitId}`);
+            const lokasiLainPengembalian = document.getElementById(`lokasi_lain_pengembalian_${unitId}`);
+    
             if (type === 'pengambilan') {
-                const pengambilanKantor = document.querySelector(`input[name="lokasi_pengambilan[${unitId}]"][value="kantor_rental"]`);
-                if (pengambilanKantor.checked) {
-                    kantorPengambilan.disabled = false;
-                    kantorPengambilan.required = true;
-                    lokasiPengambilanLain.disabled = true;
-                    lokasiPengambilanLain.required = false;
-                    lokasiPengambilanLain.value = '';
+                const isKantor = document.querySelector(`input[name="lokasi_pengambilan[${unitId}]"][value="kantor_rental"]`).checked;
+                if (isKantor) {
+                    kantorPengambilan.classList.remove('max-h-0', 'opacity-0');
+                    kantorPengambilan.classList.add('max-h-40', 'opacity-100');
+                    lokasiLainPengambilan.classList.remove('max-h-40', 'opacity-100');
+                    lokasiLainPengambilan.classList.add('max-h-0', 'opacity-0');
+                    document.getElementById(`lokasi_pengambilan_lain_${unitId}`).disabled = true;
+                    document.getElementById(`alamat_kantor_pengambilan_${unitId}`).disabled = false;
                 } else {
-                    kantorPengambilan.disabled = true;
-                    kantorPengambilan.required = false;
-                    kantorPengambilan.value = '';
-                    lokasiPengambilanLain.disabled = false;
-                    lokasiPengambilanLain.required = true;
+                    kantorPengambilan.classList.remove('max-h-40', 'opacity-100');
+                    kantorPengambilan.classList.add('max-h-0', 'opacity-0');
+                    lokasiLainPengambilan.classList.remove('max-h-0', 'opacity-0');
+                    lokasiLainPengambilan.classList.add('max-h-40', 'opacity-100');
+                    document.getElementById(`lokasi_pengambilan_lain_${unitId}`).disabled = false;
+                    document.getElementById(`alamat_kantor_pengambilan_${unitId}`).disabled = true;
                 }
             } else if (type === 'pengembalian') {
-                const pengembalianKantor = document.querySelector(`input[name="lokasi_pengembalian[${unitId}]"][value="kantor_rental"]`);
-                if (pengembalianKantor.checked) {
-                    kantorPengembalian.disabled = false;
-                    kantorPengembalian.required = true;
-                    lokasiPengembalianLain.disabled = true;
-                    lokasiPengembalianLain.required = false;
-                    lokasiPengembalianLain.value = '';
+                const isKantor = document.querySelector(`input[name="lokasi_pengembalian[${unitId}]"][value="kantor_rental"]`).checked;
+                if (isKantor) {
+                    kantorPengembalian.classList.remove('max-h-0', 'opacity-0');
+                    kantorPengembalian.classList.add('max-h-40', 'opacity-100');
+                    lokasiLainPengembalian.classList.remove('max-h-40', 'opacity-100');
+                    lokasiLainPengembalian.classList.add('max-h-0', 'opacity-0');
+                    document.getElementById(`lokasi_pengembalian_lain_${unitId}`).disabled = true;
+                    document.getElementById(`alamat_kantor_pengembalian_${unitId}`).disabled = false;
                 } else {
-                    kantorPengembalian.disabled = true;
-                    kantorPengembalian.required = false;
-                    kantorPengembalian.value = '';
-                    lokasiPengembalianLain.disabled = false;
-                    lokasiPengembalianLain.required = true;
+                    kantorPengembalian.classList.remove('max-h-40', 'opacity-100');
+                    kantorPengembalian.classList.add('max-h-0', 'opacity-0');
+                    lokasiLainPengembalian.classList.remove('max-h-0', 'opacity-0');
+                    lokasiLainPengembalian.classList.add('max-h-40', 'opacity-100');
+                    document.getElementById(`lokasi_pengembalian_lain_${unitId}`).disabled = false;
+                    document.getElementById(`alamat_kantor_pengembalian_${unitId}`).disabled = true;
                 }
             }
         }
-
-        // Panggil fungsi toggleDropdown saat halaman dimuat untuk mengatur status awal
-        document.addEventListener('DOMContentLoaded', function () {
-            @foreach ($units as $unit)
-                toggleDropdown('pengambilan', '{{ $unit->id_unit }}');
-                toggleDropdown('pengembalian', '{{ $unit->id_unit }}');
-            @endforeach
-        });
-    </script>
-    <script>
-        // Your Geoapify API Key
-        const geoapifyApiKey = '2640ad08a11e4cbea8864b3a77d14206';
-        
-        // Function to initialize autocomplete for an input field
-        function initializeAutocomplete(inputId, latFieldId, lngFieldId) {
+    
+        // Fungsi untuk menghitung jarak
+        function hitungJarak(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radius bumi dalam km
+            const dLat = deg2rad(lat2 - lat1);
+            const dLon = deg2rad(lon2 - lon1);
+            const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+                      Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            return Math.round(R * c * 100) / 100; // Jarak dalam km, bulatkan 2 desimal
+        }
+    
+        function deg2rad(deg) {
+            return deg * (Math.PI / 180);
+        }
+    
+        // Inisialisasi autocomplete dan perhitungan biaya
+        function initializeAutocomplete(inputId, latFieldId, lngFieldId, biayaElementId, tarifPerKm, latMitra, longMitra) {
             const input = document.getElementById(inputId);
             if (!input) return;
-            
-            let timeout = null;
-            let currentSuggestions = [];
-            
-            // Create container for suggestions
+    
             const suggestionsContainer = document.createElement('div');
             suggestionsContainer.className = 'absolute z-50 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto hidden';
             input.parentNode.style.position = 'relative';
             input.parentNode.appendChild(suggestionsContainer);
-            
-            // Create hidden fields for latitude and longitude if they don't exist
-            if (!document.getElementById(latFieldId)) {
-                const latField = document.createElement('input');
-                latField.type = 'hidden';
-                latField.id = latFieldId;
-                latField.name = latFieldId;
-                input.parentNode.appendChild(latField);
-            }
-            
-            if (!document.getElementById(lngFieldId)) {
-                const lngField = document.createElement('input');
-                lngField.type = 'hidden';
-                lngField.id = lngFieldId;
-                lngField.name = lngFieldId;
-                input.parentNode.appendChild(lngField);
-            }
-            
-            // Add event listener for input changes
+    
             input.addEventListener('input', function() {
                 const query = this.value.trim();
-                
-                // Clear previous timeout
-                if (timeout) {
-                    clearTimeout(timeout);
-                }
-                
-                // Clear suggestions if query is empty
                 if (query.length < 3) {
-                    suggestionsContainer.innerHTML = '';
                     suggestionsContainer.classList.add('hidden');
                     return;
                 }
-                
-                // Set timeout to avoid making too many requests while typing
-                timeout = setTimeout(() => {
-                    fetchSuggestions(query);
-                }, 300);
-            });
-            
-            // Function to fetch suggestions from Geoapify API
-            async function fetchSuggestions(query) {
-                try {
-                    const response = await fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&format=json&apiKey=${geoapifyApiKey}`);
-                    const data = await response.json();
-                    
-                    if (data.results && data.results.length > 0) {
-                        currentSuggestions = data.results;
-                        renderSuggestions(data.results);
-                    } else {
-                        suggestionsContainer.innerHTML = '<div class="p-2 text-gray-500">No results found</div>';
-                        suggestionsContainer.classList.remove('hidden');
-                    }
-                } catch (error) {
-                    console.error("Error fetching address suggestions:", error);
-                }
-            }
-            
-            // Function to render suggestion list
-            function renderSuggestions(suggestions) {
-                suggestionsContainer.innerHTML = '';
-                
-                suggestions.forEach((suggestion, index) => {
-                    const suggestionItem = document.createElement('div');
-                    suggestionItem.className = 'p-2 hover:bg-gray-100 cursor-pointer';
-                    suggestionItem.innerHTML = formatAddress(suggestion);
-                    
-                    suggestionItem.addEventListener('click', () => {
-                        selectSuggestion(suggestion);
+    
+                fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&format=json&apiKey=2640ad08a11e4cbea8864b3a77d14206`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.results && data.results.length > 0) {
+                            suggestionsContainer.innerHTML = '';
+                            data.results.forEach(result => {
+                                const item = document.createElement('div');
+                                item.className = 'p-2 hover:bg-gray-100 cursor-pointer';
+                                item.textContent = `${result.address_line1}, ${result.address_line2 || ''}`;
+                                item.addEventListener('click', () => {
+                                    input.value = item.textContent;
+                                    document.getElementById(latFieldId).value = result.lat;
+                                    document.getElementById(lngFieldId).value = result.lon;
+                                    suggestionsContainer.classList.add('hidden');
+    
+                                    // Hitung dan tampilkan biaya
+                                    const jarak = hitungJarak(latMitra, longMitra, result.lat, result.lon);
+                                    const biaya = jarak * tarifPerKm;
+                                    document.getElementById(biayaElementId).textContent = `Biaya: Rp ${biaya.toLocaleString('id-ID')}`;
+                                });
+                                suggestionsContainer.appendChild(item);
+                            });
+                            suggestionsContainer.classList.remove('hidden');
+                        }
                     });
-                    
-                    suggestionsContainer.appendChild(suggestionItem);
-                });
-                
-                suggestionsContainer.classList.remove('hidden');
-            }
-            
-            // Format address for display
-            function formatAddress(result) {
-                const parts = [];
-                
-                if (result.address_line1) parts.push(result.address_line1);
-                if (result.address_line2) parts.push(result.address_line2);
-                
-                return parts.join(', ');
-            }
-            
-            // Handle suggestion selection
-            function selectSuggestion(suggestion) {
-                input.value = [suggestion.address_line1, suggestion.address_line2].filter(Boolean).join(', ');
-                
-                // Store latitude and longitude
-                document.getElementById(latFieldId).value = suggestion.lat || 0;
-                document.getElementById(lngFieldId).value = suggestion.lon || 0;
-                
-                // Hide suggestions
-                suggestionsContainer.innerHTML = '';
-                suggestionsContainer.classList.add('hidden');
-            }
-            
-            // Close suggestions when clicking outside
-            document.addEventListener('click', function(e) {
-                if (e.target !== input && e.target !== suggestionsContainer) {
+            });
+    
+            document.addEventListener('click', (e) => {
+                if (!input.contains(e.target) && !suggestionsContainer.contains(e.target)) {
                     suggestionsContainer.classList.add('hidden');
                 }
             });
         }
-        
-        // Initialize autocomplete for all "Lokasi Lain" fields when document is loaded
+    
+        // Inisialisasi saat DOM dimuat
         document.addEventListener('DOMContentLoaded', function () {
             @foreach ($units as $unit)
-                // Create event listeners for radio buttons
-                const pengambilanRadios = document.querySelectorAll(`input[name="lokasi_pengambilan[{{ $unit->id_unit }}]"]`);
-                pengambilanRadios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (this.value === 'lokasi_lain') {
-                            const inputId = `lokasi_pengambilan_lain_{{ $unit->id_unit }}`;
-                            const latFieldId = `lat_pengambilan_{{ $unit->id_unit }}`;
-                            const lngFieldId = `long_pengambilan_{{ $unit->id_unit }}`;
-                            
-                            initializeAutocomplete(inputId, latFieldId, lngFieldId);
-                        }
-                    });
-                    
-                    // Initialize for already selected "lokasi_lain" option
-                    if (radio.value === 'lokasi_lain' && radio.checked) {
-                        const inputId = `lokasi_pengambilan_lain_{{ $unit->id_unit }}`;
-                        const latFieldId = `lat_pengambilan_{{ $unit->id_unit }}`;
-                        const lngFieldId = `long_pengambilan_{{ $unit->id_unit }}`;
-                        
-                        initializeAutocomplete(inputId, latFieldId, lngFieldId);
-                    }
-                });
-                
-                const pengembalianRadios = document.querySelectorAll(`input[name="lokasi_pengembalian[{{ $unit->id_unit }}]"]`);
-                pengembalianRadios.forEach(radio => {
-                    radio.addEventListener('change', function() {
-                        if (this.value === 'lokasi_lain') {
-                            const inputId = `lokasi_pengembalian_lain_{{ $unit->id_unit }}`;
-                            const latFieldId = `lat_pengembalian_{{ $unit->id_unit }}`;
-                            const lngFieldId = `long_pengembalian_{{ $unit->id_unit }}`;
-                            
-                            initializeAutocomplete(inputId, latFieldId, lngFieldId);
-                        }
-                    });
-                    
-                    // Initialize for already selected "lokasi_lain" option
-                    if (radio.value === 'lokasi_lain' && radio.checked) {
-                        const inputId = `lokasi_pengembalian_lain_{{ $unit->id_unit }}`;
-                        const latFieldId = `lat_pengembalian_{{ $unit->id_unit }}`;
-                        const lngFieldId = `long_pengembalian_{{ $unit->id_unit }}`;
-                        
-                        initializeAutocomplete(inputId, latFieldId, lngFieldId);
-                    }
-                });
+                toggleLokasi('pengambilan', '{{ $unit->id_unit }}');
+                toggleLokasi('pengembalian', '{{ $unit->id_unit }}');
+    
+                const tarifPerKm = {{ DB::table('fee_setting')->where('nama_fee', 'biaya_pengantaran')->value('nilai_fee') ?? 5000 }};
+                const tarifPengembalianPerKm = {{ DB::table('fee_setting')->where('nama_fee', 'biaya_pengembalian')->value('nilai_fee') ?? 5000 }};
+                const latMitra = {{ $alamatMitra->first()->latitude ?? 0 }};
+                const longMitra = {{ $alamatMitra->first()->longitude ?? 0 }};
+    
+                initializeAutocomplete(
+                    'lokasi_pengambilan_lain_{{ $unit->id_unit }}',
+                    'lat_pengambilan_{{ $unit->id_unit }}',
+                    'long_pengambilan_{{ $unit->id_unit }}',
+                    'biaya_pengantaran_{{ $unit->id_unit }}',
+                    tarifPerKm,
+                    latMitra,
+                    longMitra
+                );
+    
+                initializeAutocomplete(
+                    'lokasi_pengembalian_lain_{{ $unit->id_unit }}',
+                    'lat_pengembalian_{{ $unit->id_unit }}',
+                    'long_pengembalian_{{ $unit->id_unit }}',
+                    'biaya_pengembalian_{{ $unit->id_unit }}',
+                    tarifPengembalianPerKm,
+                    latMitra,
+                    longMitra
+                );
             @endforeach
         });
     </script>

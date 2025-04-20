@@ -96,7 +96,7 @@ class DetailPemesanan extends Model
     // Relasi ke PengemudiPemesanan (Setiap detail pemesanan bisa memiliki banyak pengemudi)
     public function pengemudiPemesanans()
     {
-        return $this->hasMany(PengemudiPemesanan::class, 'id_detail_pemesanan', 'id_detail');
+        return $this->hasMany(PengemudiPemesanan::class, 'id_detail', 'id_detail');
     }
 
     // Relasi ke PenggantianKendaraan (Setiap detail pemesanan bisa memiliki banyak penggantian kendaraan)

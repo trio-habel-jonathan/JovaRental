@@ -19,8 +19,8 @@ class PenggantianKendaraan extends Model
 
     protected $fillable = [
         'id_detail',
-        'id_kendaraan_lama',
-        'id_kendaraan_baru',
+        'id_unit_lama',
+        'id_unit_baru',
         'tanggal_penggantian',
         'alasan_penggantian',
         'status_penggantian',

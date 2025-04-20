@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('pengemudi_pemesanan', function (Blueprint $table) {
             $table->uuid('id_pengemudi')->primary();
-            $table->uuid('id_detail_pemesanan');
+            $table->uuid('id_detail');
             $table->string('nama_pengemudi', 255);
             $table->string('no_telepon', 20);
             $table->timestamps();
-            $table->foreign('id_detail_pemesanan')->references('id_detail')->on('detail_pemesanan')->onDelete('cascade');
+            $table->foreign('id_detail')->references('id_detail')->on('detail_pemesanan')->onDelete('cascade');
         });
     }
 

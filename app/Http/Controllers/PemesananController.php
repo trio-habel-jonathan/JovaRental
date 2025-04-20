@@ -377,7 +377,7 @@ class PemesananController extends Controller
                 if ($unitTipeRental === 'tanpa_sopir' && !empty($driver_nama[$unit->id_unit]) && !empty($driver_telepon[$unit->id_unit])) {
                     $pengemudiPemesanan = new PengemudiPemesanan();
                     $pengemudiPemesanan->id_pengemudi = Str::uuid()->toString();
-                    $pengemudiPemesanan->id_detail_pemesanan = $detailPemesanan->id_detail;
+                    $pengemudiPemesanan->id_detail = $detailPemesanan->id_detail;
                     $pengemudiPemesanan->nama_pengemudi = $driver_nama[$unit->id_unit];
                     $pengemudiPemesanan->no_telepon = $driver_telepon[$unit->id_unit];
                     $pengemudiPemesanan->save();
@@ -533,4 +533,7 @@ class PemesananController extends Controller
             return redirect()->route('detail')->with('error', 'Gagal memuat review: ' . $e->getMessage());
         }
     }
+
+   
 }
+

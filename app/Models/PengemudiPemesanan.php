@@ -18,7 +18,7 @@ class PengemudiPemesanan extends Model
     protected $keyType = 'string'; // UUID disimpan sebagai string
 
     protected $fillable = [
-        'id_detail_pemesanan',
+        'id_detail',
         'nama_pengemudi',
         'no_telepon',
     ];
