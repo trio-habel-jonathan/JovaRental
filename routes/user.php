@@ -36,7 +36,6 @@ Route::middleware(['VerifiedEntity'])->group(function () {
     Route::middleware("auth")->group(function () {
         Route::get("/profile", [UserPageController::class, "profile"])->name("profile");
         Route::get("/profile/history", [UserPageController::class, "history"])->name("history");
-        Route::get("/profile/history/detail", [UserPageController::class, "historyDetail"])->name("historyDetail");
         Route::get("/detail", [PemesananController::class, "detail"])->name("detail");
 
     });

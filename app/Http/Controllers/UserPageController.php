@@ -46,11 +46,6 @@ class UserPageController extends Controller
         
         return view("profile", compact('pemesanan'));
     }
-
-    public function historyDetail()
-    {
-        return view("profile");     
-    }
     public function settings()
     {
         $user = Auth::user();

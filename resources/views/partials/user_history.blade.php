@@ -18,10 +18,12 @@
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-3 sm:space-y-0">
-                <a href={{ route('historyDetail')}}
-                   class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-darkprimary text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
+                @foreach ($pemesanan as $item)
+                <a href="{{ route('review', ['id_pemesanan' => $item->id_pemesanan]) }}"
+                class="w-full sm:w-auto px-4 py-2 bg-primary hover:bg-darkprimary text-white rounded-lg text-sm transition-colors duration-300 flex items-center justify-center">
                     Detail Pemesanan
                 </a>
+                @endforeach
             </div>
         </div>
     </div>
