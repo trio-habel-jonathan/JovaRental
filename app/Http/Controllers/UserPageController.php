@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kendaraan;
+use App\Models\Pemesanan;
+use App\Models\EntitasPenyewa;
 use App\Models\Mitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserPageController extends Controller
 {
@@ -32,7 +36,20 @@ class UserPageController extends Controller
     }
     public function history()
     {
-        return view("profile");
+        $user = Auth::user();
+        
+        $entitasPenyewa = EntitasPenyewa::where('id_user', $user->id_user)->first();
+        
+        $pemesanan = $entitasPenyewa 
+            ? Pemesanan::where('id_entitas_penyewa', $entitasPenyewa->id_entitas_penyewa)->get()
+            : collect();
+        
+        return view("profile", compact('pemesanan'));
+    }
+
+    public function historyDetail()
+    {
+        return view("profile");     
     }
     public function settings()
     {
