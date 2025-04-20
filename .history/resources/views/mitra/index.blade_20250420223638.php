@@ -1,20 +1,17 @@
 <x-mitra-layout title="Dashboard">
     <div class="p-4 space-y-4">
         <div class="flex gap-4">
-            @for ($i = 0; $i < 4; $i++)
-            <div class="card w-fit bg-white rounded-md p-4 shadow-md">
+            @for ($i = 0; $i < 4; $i++) <div class="card w-fit bg-white rounded-md p-4 shadow-md">
                 <div class="flex items-center gap-2">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             d="M16 3.46776C17.4817 4.20411 18.5 5.73314 18.5 7.5C18.5 9.26686 17.4817 10.7959 16 11.5322M18 16.7664C19.5115 17.4503 20.8725 18.565 22 20M2 20C3.94649 17.5226 6.58918 16 9.5 16C12.4108 16 15.0535 17.5226 17 20M14 7.5C14 9.98528 11.9853 12 9.5 12C7.01472 12 5 9.98528 5 7.5C5 5.01472 7.01472 3 9.5 3C11.9853 3 14 5.01472 14 7.5Z"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    <p class="text-sm">Total Customers</p>
+                    <p class="text-sm">Total Custommers</p>
                 </div>
-                <div class="flex gap-4 items-end">
-                    <h6 class="font-bold text-3xl">
-                        {{$pemesanan_count}}
-                    </h6>
+                <div class="flex gap-4 items-end ">
+                    <h6 class="font-bold text-3xl">10.423</h6>
                     <div class="flex items-center gap-2 w-fit rounded-full text-green-500 p-0.5 px-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path
@@ -24,7 +21,7 @@
                         <p>6,2%</p>
                     </div>
                 </div>
-            </div>
+        </div>
         @endfor
     </div>
     <div class="w-full grid grid-cols-2 gap-4">
