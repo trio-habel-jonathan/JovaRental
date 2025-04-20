@@ -19,6 +19,7 @@ class MitraPageController extends Controller
         return view('mitra.notifications');
     }
 
+    use Illuminate\Support\Facades\Auth;
 
 public function indexMitraView()
 {

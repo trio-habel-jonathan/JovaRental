@@ -11,6 +11,4 @@ class MitraController extends Controller
     public function update(Request $request, Mitra $uuid) {
 
     }
-
-    
 }

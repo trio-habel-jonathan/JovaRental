@@ -13,7 +13,7 @@
                 </div>
                 <div class="flex gap-4 items-end">
                     <h6 class="font-bold text-3xl">
-                        {{$pemesanan_count}}
+                        {{ $mitra ? number_format($mitra->pemesanans->count(), 0, ',', '.') : '0' }}
                     </h6>
                     <div class="flex items-center gap-2 w-fit rounded-full text-green-500 p-0.5 px-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

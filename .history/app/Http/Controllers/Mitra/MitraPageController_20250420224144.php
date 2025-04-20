@@ -19,22 +19,18 @@ class MitraPageController extends Controller
         return view('mitra.notifications');
     }
 
-
-public function indexMitraView()
+    public function indexMitraView()
 {
     // Get the authenticated user
     $user = Auth::user();
 
-    // Access the mitra relationship to get the full Mitra record
-    $mitra = $user->mitra;
-
-    // Count all pemesanan rows related to the mitra
-    $pemesanan_count = $mitra ? $mitra->pemesanans()->count() : 0;
+    // Access the mitra relationship and select id_user
+    $mitra = $user->mitra()->select('id_user')->first();
+    $pemesanan_count = $mitra->pemesanans()->select('id_mitra')
 
     // Pass the data to the view
     return view('mitra.index', [
-        'mitra' => $mitra,
-        'pemesanan_count' => $pemesanan_count
+        'mitra' => $mitra
     ]);
 }
 
