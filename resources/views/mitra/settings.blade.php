@@ -1,50 +1,8 @@
 <x-mitra-layout title="Settings Mitra">
     <div class="flex items-start p-4 gap-4">
-        <div class="flex-[200px] space-y-4">
-            <div class="bg-white rounded-xl border border-gray-300 p-4">
-                <h1 class="montserrat-font text-xl font-semibold">Profile Mitra</h1>
-                <center>
-                    <div class="w-40 h-40 mt-4 relative mb-4">
-                        <div class="w-full h-full rounded-full bg-gradient-to-br from-primary to-darkprimary p-0.5">
-                            <div class="w-full h-full rounded-full bg-white p-0.5">
-                                <img class="w-full h-full object-cover rounded-full " draggable="false"
-                                    src="https://i.pinimg.com/736x/27/e0/74/27e074008b1d54fb474224de9102651b.jpg"
-                                    alt="">
-                            </div>
-                        </div>
-                        <button
-                            class="bg-gradient-to-br from-primary to-darkprimary absolute bottom-2 right-0 w-10 h-10 rounded-full p-2 text-white">
-                            <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M12 20H21M3.00003 20H4.67457C5.16376 20 5.40835 20 5.63852 19.9447C5.84259 19.8957 6.03768 19.8149 6.21663 19.7053C6.41846 19.5816 6.59141 19.4086 6.93732 19.0627L19.5001 6.49998C20.3285 5.67156 20.3285 4.32841 19.5001 3.49998C18.6716 2.67156 17.3285 2.67156 16.5001 3.49998L3.93729 16.0627C3.59139 16.4086 3.41843 16.5816 3.29475 16.7834C3.18509 16.9624 3.10428 17.1574 3.05529 17.3615C3.00003 17.5917 3.00003 17.8363 3.00003 18.3255V20Z"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" />
-                            </svg>
-                        </button>
-                    </div>
-                </center>
-                <div class="flex flex-wrap gap-2 justify-center">
-                    @if (Auth::user()->mitra->status_verifikasi)
-                        <span class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
-                            {{ Auth::user()->mitra->status_verifikasi == 'verified' ? 'bg-green-200 text-green-800' : '' }}
-                            {{ Auth::user()->mitra->status_verifikasi == 'pending' ? 'bg-yellow-200 text-yellow-800' : '' }}
-                            {{ Auth::user()->mitra->status_verifikasi == 'rejected' ? 'bg-red-200 text-red-800' : '' }}">
-                            {{ ucfirst(Auth::user()->mitra->status_verifikasi) }}
-                        </span>
-                    @endif
 
-                    <span class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
-                        {{ Auth::user()->mitra->tipe_mitra == 'individu' ? 'bg-blue-200 text-blue-800' : 'bg-orange-200 text-orange-800' }}">
-                        {{ Auth::user()->mitra->tipe_mitra == 'individu' ? 'Individu' : 'Perusahaan' }}
-                    </span>
-                    
-                </div>
-            </div>
-
-        </div>
         <div class="flex-[600px]">
-            <div class="bg-white rounded-xl border border-gray-300 p-4 ">
+            <div class="bg-white rounded-xl border border-gray-300 p-4 mb-5">
                 <p class="montserrat-font font-semibold text-xl">Quick Links</p>
                 <div class="flex items-cente gap-3 mt-2">
                     <div class="items-center flex flex-col">
@@ -77,85 +35,245 @@
                 </div>
             </div>
 
-            <div class="flex items-center justify-between mt-5">
+            <div class="flex items-center justify-between mb-5">
                 <p class=" montserrat-font font-semibold text-xl">Aksi</p>
 
                 <div class="flex items-center gap-2">
-                    <button class=" border border-purple-500 px-3 rounded-xl py-1 montserrat-font"
-                        onclick="window.location.href='{{route('mitra.indexEdit')}}'">Edit Profile</button>
-                    <button class=" border border-purple-500 px-3 rounded-xl py-1 montserrat-font"
+
+                    <button
+                        class="bg-primary text-white font-bold montserrat-font px-4 rounded-md py-1 montserrat-font  transition-all duration-300 ease-in-out hover:scale-110"
                         id="toggle-hidden">Hide</button>
                 </div>
             </div>
-
-            <div class="bg-white relative rounded-xl mt-4 overflow-hidden border border-gray-300">
+            <div class="relative">
                 <div class="bg-white-30 backdrop-blur-sm z-10 w-full h-full absolute top-0 left-0 rounded-xl hidden opacity-0 transition-opacity duration-300"
                     id="blur-hidden"></div>
-                <div class="p-5">
-                    <div class="flex gap-x-6 mb-6">
-                        <div class="w-full relative">
-                            <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama Pemilik</label>
-                            <input type="text" id="default-search"
-                                class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="{{Auth::user()->mitra->nama_pemilik}}">
-                        </div>
-                        <div class="w-full relative">
-                            <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama Mitra</label>
-                            <input type="text" id="default-search"
-                                class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="{{Auth::user()->mitra->nama_mitra}}">
+                <div class="bg-white flex rounded-xl border border-gray-300 p-6 mb-5">
+                    <div class="w-64">
+                        <h1 class="montserrat-font text-xl font-semibold">Profile Account</h1>
+                        <div class="flex items-center justify-center flex-col p-5">
+                            <div class="w-40 h-40 mt-4 relative mb-4">
+                                <div
+                                    class="w-full h-full rounded-full bg-gradient-to-br from-primary to-darkprimary p-0.5">
+                                    <div class="w-full h-full rounded-full bg-white p-0.5">
+                                        <img class="w-full h-full object-cover rounded-full " draggable="false"
+                                            src="https://i.pinimg.com/736x/27/e0/74/27e074008b1d54fb474224de9102651b.jpg"
+                                            alt="">
+                                    </div>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-br from-primary to-darkprimary absolute bottom-2 right-0 w-10 h-10 rounded-full p-2 text-white">
+                                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12 20H21M3.00003 20H4.67457C5.16376 20 5.40835 20 5.63852 19.9447C5.84259 19.8957 6.03768 19.8149 6.21663 19.7053C6.41846 19.5816 6.59141 19.4086 6.93732 19.0627L19.5001 6.49998C20.3285 5.67156 20.3285 4.32841 19.5001 3.49998C18.6716 2.67156 17.3285 2.67156 16.5001 3.49998L3.93729 16.0627C3.59139 16.4086 3.41843 16.5816 3.29475 16.7834C3.18509 16.9624 3.10428 17.1574 3.05529 17.3615C3.00003 17.5917 3.00003 17.8363 3.00003 18.3255V20Z"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                @if (Auth::user()->mitra->status_verifikasi)
+                                    <span
+                                        class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
+                                {{ Auth::user()->mitra->status_verifikasi == 'verified' ? 'bg-green-200 text-green-800' : '' }}
+                                {{ Auth::user()->mitra->status_verifikasi == 'pending' ? 'bg-yellow-200 text-yellow-800' : '' }}
+                                {{ Auth::user()->mitra->status_verifikasi == 'rejected' ? 'bg-red-200 text-red-800' : '' }}">
+                                        {{ ucfirst(Auth::user()->mitra->status_verifikasi) }}
+                                    </span>
+                                @endif
+                            </div>
                         </div>
                     </div>
-                    <div class="relative mb-6">
-                        <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nomor Identitas</label>
-                        <input type="text" id="default-search"
-                            class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                            readonly disabled value="{{Auth::user()->mitra->no_identitas}}">
-                    </div>
-                    <div class="flex gap-x-6 mb-6">
-                        <div class="w-full relative">
-                            <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Npwp</label>
-                            <input type="text" id="default-search"
-                                class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="{{Auth::user()->mitra->npwp}}">
-                        </div>
-                        <div class="w-full relative">
-                            <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Status</label>
-                            <input type="text" id="default-search"
-                                class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
-                                readonly disabled value="{{Auth::user()->mitra->status_verifikasi}}">
+
+                    <div class="flex-1 rounded-xl overflow-hidden">
+                        <h1 class="montserrat-font text-xl font-semibold">Account Infromations</h1>
+                        <div class="p-5 grid grid-cols-2 gap-6 plus-jakarta-sans-font ">
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama
+                                    Pemilik</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled value="{{ Auth::user()->email }}">
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama
+                                    Mitra</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled value="{{ Auth::user()->no_telepon }}">
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Password</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled>
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Confirm
+                                    Password</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled>
+                            </div>
+
+                            <div>
+                                <p class="font-semibold text-lg">Join As Mitra At</p>
+                                <p class="text-sm font-medium text-primary">
+                                    {{ date('D, d M Y - H:i', strtotime(auth()->user()->created_at)) }}</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">Mitra Updated At</p>
+                                <p class="text-sm font-medium text-primary">
+                                    {{ date('D, d M Y - H:i', strtotime(auth()->user()->updated_at)) }}</p>
+                            </div>
+                            <div class="col-span-2 flex items-center justify-end">
+                                <button
+                                    class="bg-primary text-white font-bold montserrat-font px-4 rounded-md py-1 montserrat-font  transition-all duration-300 ease-in-out hover:scale-110">Save
+                                    & Upadate</button>
+                            </div>
+                            <div class="col-span-2 border boder-gray-300 shadow-md rounded-md p-4">
+                                <p class="font-bold text-lg uppercase">Note</p>
+                                <p>Apabila Anda perlu memperbarui informasi profil mitra, silakan udah data account di
+                                    atas, lalu tekan <span class="font-bold">Save &
+                                        Update</span>. Apabila terjadi suatu masalah selama perubahan silahkan contact
+                                    kami melalui email.</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="bg-white flex rounded-xl border border-gray-300 p-6">
+                    <div class="w-64">
+                        <h1 class="montserrat-font text-xl font-semibold">Profile Mitra</h1>
+                        <div class="flex items-center justify-center flex-col p-5">
+                            <div class="w-40 h-40 mt-4 relative mb-4">
+                                <div
+                                    class="w-full h-full rounded-full bg-gradient-to-br from-primary to-darkprimary p-0.5">
+                                    <div class="w-full h-full rounded-full bg-white p-0.5">
+                                        <img class="w-full h-full object-cover rounded-full " draggable="false"
+                                            src="https://i.pinimg.com/736x/27/e0/74/27e074008b1d54fb474224de9102651b.jpg"
+                                            alt="">
+                                    </div>
+                                </div>
+                                <button
+                                    class="bg-gradient-to-br from-primary to-darkprimary absolute bottom-2 right-0 w-10 h-10 rounded-full p-2 text-white">
+                                    <svg width="100%" height="100%" viewBox="0 0 24 24" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M12 20H21M3.00003 20H4.67457C5.16376 20 5.40835 20 5.63852 19.9447C5.84259 19.8957 6.03768 19.8149 6.21663 19.7053C6.41846 19.5816 6.59141 19.4086 6.93732 19.0627L19.5001 6.49998C20.3285 5.67156 20.3285 4.32841 19.5001 3.49998C18.6716 2.67156 17.3285 2.67156 16.5001 3.49998L3.93729 16.0627C3.59139 16.4086 3.41843 16.5816 3.29475 16.7834C3.18509 16.9624 3.10428 17.1574 3.05529 17.3615C3.00003 17.5917 3.00003 17.8363 3.00003 18.3255V20Z"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="flex flex-wrap gap-2 justify-center">
+                                @if (Auth::user()->mitra->status_verifikasi)
+                                    <span
+                                        class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
+                            {{ Auth::user()->mitra->status_verifikasi == 'verified' ? 'bg-green-200 text-green-800' : '' }}
+                            {{ Auth::user()->mitra->status_verifikasi == 'pending' ? 'bg-yellow-200 text-yellow-800' : '' }}
+                            {{ Auth::user()->mitra->status_verifikasi == 'rejected' ? 'bg-red-200 text-red-800' : '' }}">
+                                        {{ ucfirst(Auth::user()->mitra->status_verifikasi) }}
+                                    </span>
+                                @endif
+
+                                <span
+                                    class="plus-jakarta-sans-font px-2 py-1 rounded-xl text-xs 
+                        {{ Auth::user()->mitra->tipe_mitra == 'individu' ? 'bg-blue-200 text-blue-800' : 'bg-orange-200 text-orange-800' }}">
+                                    {{ Auth::user()->mitra->tipe_mitra == 'individu' ? 'Individu' : 'Perusahaan' }}
+                                </span>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex-1 rounded-xl">
+                        <div class="w-full flex items-center justify-between">
+                            <h1 class="montserrat-font text-xl font-semibold">Mitra Infromations</h1>
+                            <button
+                                class="bg-transparent border border-primary text-primary transition-all duration-300 ease-in-out hover:scale-110 hover:bg-primary hover:text-white font-bold montserrat-font px-4 rounded-md py-1"
+                                onclick="window.location.href='{{ route('mitra.indexEdit') }}'">Edit Profile</button>
+                        </div>
+                        <div class="p-5 grid grid-cols-2 gap-6 plus-jakarta-sans-font ">
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama
+                                    Pemilik</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled value="{{ Auth::user()->mitra->nama_pemilik }}">
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nama
+                                    Mitra</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled value="{{ Auth::user()->mitra->nama_mitra }}">
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Nomor
+                                    Identitas</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled value="{{ Auth::user()->mitra->no_identitas }}">
+                            </div>
+                            <div>
+                                <label class="flex items-center mb-2 text-gray-600 text-sm font-medium">Npwp</label>
+                                <input type="text" id="default-search"
+                                    class="block w-full h-11 px-5 py-2.5 bg-white leading-7 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none"
+                                    readonly disabled value="{{ Auth::user()->mitra->npwp }}">
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">Join As Mitra At</p>
+                                <p class="text-sm font-medium text-primary">
+                                    {{ date('D, d M Y - H:i', strtotime(auth()->user()->mitra->created_at)) }}</p>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-lg">Mitra Updated At</p>
+                                <p class="text-sm font-medium text-primary">
+                                    {{ date('D, d M Y - H:i', strtotime(auth()->user()->mitra->updated_at)) }}</p>
+                            </div>
+                            <div class="col-span-2 border boder-gray-300 shadow-md rounded-md p-4">
+                                <p class="font-bold text-lg uppercase">Note</p>
+                                <p>Apabila Anda perlu memperbarui informasi profil mitra, silakan klik tombol <span
+                                        class="font-bold">Edit Profil</span> di atas,
+                                    lakukan penyesuaian data yang diperlukan, lalu ajukan perubahan untuk diproses lebih
+                                    lanjut oleh tim kami. Terima kasih atas perhatian dan kerja sama Anda.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <script>
                 const hiddenBtn = document.getElementById("toggle-hidden");
-            const layerHidden = document.getElementById("blur-hidden");
+                const layerHidden = document.getElementById("blur-hidden");
 
-             if (localStorage.getItem("isHidden") === "true") {
-                layerHidden.classList.remove("opacity-0");
-                layerHidden.classList.remove("hidden");
-                hiddenBtn.textContent = "Show";
-            }
-
-            hiddenBtn.addEventListener("click", () => {
-                if (layerHidden.classList.contains("hidden")) {
+                if (localStorage.getItem("isHidden") === "true") {
+                    layerHidden.classList.remove("opacity-0");
                     layerHidden.classList.remove("hidden");
-                    setTimeout(() => {
-                        layerHidden.classList.remove("opacity-0");
-                    }, 10); // Small delay to ensure transition works
                     hiddenBtn.textContent = "Show";
-                    localStorage.setItem("isHidden", "true");
-                } else {
-                    layerHidden.classList.add("opacity-0");
-                    layerHidden.addEventListener("transitionend", () => {
-                        layerHidden.classList.add("hidden");
-                    }, { once: true });
-                    hiddenBtn.textContent = "Hide";
-                    localStorage.setItem("isHidden", "false");
                 }
-            });
+
+                hiddenBtn.addEventListener("click", () => {
+                    if (layerHidden.classList.contains("hidden")) {
+                        layerHidden.classList.remove("hidden");
+                        setTimeout(() => {
+                            layerHidden.classList.remove("opacity-0");
+                        }, 10); // Small delay to ensure transition works
+                        hiddenBtn.textContent = "Show";
+                        localStorage.setItem("isHidden", "true");
+                    } else {
+                        layerHidden.classList.add("opacity-0");
+                        layerHidden.addEventListener("transitionend", () => {
+                            layerHidden.classList.add("hidden");
+                        }, {
+                            once: true
+                        });
+                        hiddenBtn.textContent = "Hide";
+                        localStorage.setItem("isHidden", "false");
+                    }
+                });
             </script>
         </div>
 </x-mitra-layout>
