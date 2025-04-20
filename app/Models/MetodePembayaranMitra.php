@@ -17,6 +17,8 @@ class MetodePembayaranMitra extends Model
     public $incrementing = false; // UUID tidak auto-increment
     protected $keyType = 'string'; // UUID disimpan sebagai string
 
+    public $timestamps = false;
+
     protected $fillable = [
         'nama_metode',
         'deskripsi',
