@@ -124,6 +124,8 @@
                         class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pengeluaran</a>
                     <a href="{{route ('mitra.keuangan.pemasukan')}}"
                         class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Pendapatan</a>
+                        <a href="{{route ('mitra.metodePembayaran.index')}}"
+                        class="block py-2 text-sm text-gray-600 hover:text-indigo-600">Metode Pembayaran</a>
                 </div>
             </div>
 
