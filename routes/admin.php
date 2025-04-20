@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
 use App\Http\Controllers\Admin\{JenisKendaraanController,PengajuanKemitraanController};
 use App\Http\Controllers\Admin\KategoriKendaraanController;
+use App\Http\Controllers\MetodePembayaranPlatformController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -47,5 +48,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::delete('/kategori-hapus', [KategoriKendaraanController::class, 'destroy'])->name('kategori.destroy');
         Route::delete('/jenis-hapus', [JenisKendaraanController::class, 'destroy'])->name('jenis.destroy');
+    });
+
+    Route::prefix("metode-pembayaran")->name('metodePembayaran.')->group(function(){
+        Route::get("/", [MetodePembayaranPlatformController::class, "index"])->name('index');
+        Route::get("/create", [MetodePembayaranPlatformController::class, "create"])->name('create');
+        Route::post("/", [MetodePembayaranPlatformController::class, "store"])->name('store');
+        Route::get("/{id}/edit", [MetodePembayaranPlatformController::class, "edit"])->name('edit');
+        Route::put("/{id}", [MetodePembayaranPlatformController::class, "update"])->name('update');
+        Route::delete("/{id}", [MetodePembayaranPlatformController::class, "destroy"])->name('destroy');
     });
 });
