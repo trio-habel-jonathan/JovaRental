@@ -82,12 +82,10 @@ class Kendaraan extends Model
     {
         return $this->hasMany(PenggantianKendaraan::class, 'id_kendaraan_baru', 'id_kendaraan');
     }
-    
 
-    public function KendaraanToUnitKendaraan()
+    // Relasi ke UnitKendaraan (Setiap kendaraan bisa memiliki banyak unit kendaraan)
+    public function unitKendaraans()
     {
         return $this->hasMany(UnitKendaraan::class, 'id_kendaraan', 'id_kendaraan');
     }
-
-    
 }

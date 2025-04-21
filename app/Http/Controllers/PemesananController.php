@@ -12,6 +12,8 @@ use App\Models\UnitKendaraan;
 use App\Models\DetailPemesanan;
 use App\Models\Pemesanan;
 use App\Models\PengemudiPemesanan;
+use App\Models\MetodePembayaranPlatform;
+use App\Models\Pembayaran;
 use App\Models\Sopir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -431,7 +433,7 @@ class PemesananController extends Controller
         try {
             $pemesanan = Pemesanan::with([
                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                'detailPemesanan.pengemudiPemesanans',
+                'detailPemesanan.pengemudiPemesanan',
                 'entitasPenyewa.user'
             ])->where('id_pemesanan', $id_pemesanan)->first();
 
@@ -471,7 +473,7 @@ class PemesananController extends Controller
                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
 
                 // Ambil data pengemudi
-                $pengemudi = $detail->pengemudiPemesanans->first();
+                $pengemudi = $detail->pengemudiPemesanan->first();
                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
 
@@ -563,7 +565,7 @@ class PemesananController extends Controller
              // Fetch the booking details
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                 'detailPemesanan.pengemudiPemesanans',
+                 'detailPemesanan.pengemudiPemesanan',
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
      
@@ -607,7 +609,7 @@ class PemesananController extends Controller
                  $duration = $startDateTime->diffInDays($endDateTime) + 1;
      
                  // Fetch driver data
-                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $pengemudi = $detail->pengemudiPemesanan->first();
                  $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                  $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
      
@@ -685,7 +687,7 @@ class PemesananController extends Controller
              // Ambil pemesanan
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                 'detailPemesanan.pengemudiPemesanans',
+                 'detailPemesanan.pengemudiPemesanan',
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
      
@@ -746,7 +748,7 @@ class PemesananController extends Controller
      
                  $duration = $startDateTime->diffInDays($endDateTime) + 1;
      
-                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $pengemudi = $detail->pengemudiPemesanan->first();
                  $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                  $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
      
@@ -831,7 +833,7 @@ class PemesananController extends Controller
              // Ambil pemesanan
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                 'detailPemesanan.pengemudiPemesanans',
+                 'detailPemesanan.pengemudiPemesanan',
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
      
@@ -880,7 +882,7 @@ class PemesananController extends Controller
      
                  $duration = $startDateTime->diffInDays($endDateTime) + 1;
      
-                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $pengemudi = $detail->pengemudiPemesanan->first();
                  $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                  $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
      
@@ -1060,7 +1062,7 @@ class PemesananController extends Controller
              // Ambil pemesanan
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                 'detailPemesanan.pengemudiPemesanans',
+                 'detailPemesanan.pengemudiPemesanan',
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
      
@@ -1117,7 +1119,7 @@ class PemesananController extends Controller
      
                  $duration = $startDateTime->diffInDays($endDateTime) + 1;
      
-                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $pengemudi = $detail->pengemudiPemesanan->first();
                  $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                  $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
      
