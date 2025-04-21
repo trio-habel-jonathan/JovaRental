@@ -15,6 +15,17 @@ Route::get('/remove-unit/{id_unit}', [PemesananController::class, 'removeUnit'])
 Route::get('/pemesanan/review/{id_pemesanan}', [PemesananController::class, 'review'])->name('review');
 Route::post('/pemesanan/process', [PemesananController::class, 'processDetail'])->name('process.detail');
 Route::post('/pemesanan/add-unit', [SearchController::class, 'addUnit'])->name  ('pemesanan.add-unit');
+    
+// Route untuk menampilkan form upload (GET)
+Route::get('/pemesanan/{id_pemesanan}/pembayaran/upload', [PemesananController::class, 'uploadBuktiPembayaran'])->name('pembayaran.upload');
+
+// Route untuk menyimpan bukti pembayaran (POST)
+Route::post('/pemesanan/{id_pemesanan}/pembayaran/store', [PemesananController::class, 'storeBuktiPembayaran'])->name('pembayaran.store');
+
+// Route lain tetap sama
+Route::get('/pembayaran/{id_pemesanan}', [PemesananController::class, 'pembayaran'])->name('pembayaran');
+Route::post('/pembayaran/{id_pemesanan}/proses', [PemesananController::class, 'prosesPembayaran'])->name('pembayaran.proses');
+Route::get('/pemesanan/{id_pemesanan}/pembayaran/success', [PemesananController::class, 'pembayaranSuccess'])->name('pembayaran.success');
 
 
 Route::middleware(['VerifiedEntity'])->group(function () {
@@ -26,11 +37,11 @@ Route::middleware(['VerifiedEntity'])->group(function () {
     Route::get("/daftar-kendaraan", [UserPageController::class, "daftarKendaraan"])->name("daftarKendaraan");
     Route::get("/daftar-kendaraan/pesan", [UserPageController::class, "pesanKendaraan"])->name("pesanKendaraan");
     Route::get("/pemesanan", [UserPageController::class, "pemesanan"])->name("pemesanan");
-    // Route::get("/pemesanan/review", [UserPageController::class, "review"])->name("review");
-    Route::get("/pemesanan/review/pembayaran", [UserPageController::class, "pembayaran"])->name("pembayaran");
-    Route::get("/pemesanan/review/pembayaran/petunjuk-pembayaran-transfer", [UserPageController::class, "petunjukPembayaranTransfer"])->name("petunjukPembayaranTransfer");
-    Route::get("/pemesanan/review/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");
-    Route::get("/pemesanan/review/pembayaran/bukti-penyewaan-kendaraan", [UserPageController::class, "buktiPenyewaanKendaraan"])->name("buktiPenyewaanKendaraan");
+    // Route::get("/pemesanan/review2", [UserPageController::class, "review2"])->name("review");
+    // Route::get("/pemesanan/review2/pembayaran", [UserPageController::class, "pembayaran"])->name("pembayaran");
+    // Route::get("/pemesanan/review2/pembayaran/petunjuk-pembayaran-transfer", [UserPageController::class, "petunjukPembayaranTransfer"])->name("petunjukPembayaranTransfer");
+    // Route::get("/pemesanan/review2/pembayaran/bukti-pembayaran", [UserPageController::class, "buktiPembayaran"])->name("buktiPembayaran");
+    // Route::get("/pemesanan/review2/pembayaran/bukti-penyewaan-kendaraan", [UserPageController::class, "buktiPenyewaanKendaraan"])->name("buktiPenyewaanKendaraan");
 
 
     Route::middleware("auth")->group(function () {

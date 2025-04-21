@@ -391,7 +391,7 @@
                 </div>
                 <!-- Tombol -->
                 <div class="flex justify-between mt-6">
-                    <a href="#"
+                    <a href="{{ route('pembayaran', ['id_pemesanan' =>$pemesanan->id_pemesanan]) }}"
                         class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         Lanjutkan
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
