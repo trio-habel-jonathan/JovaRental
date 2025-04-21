@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kendaraan;
 use App\Models\Pemesanan;
 use App\Models\EntitasPenyewa;
+use App\Models\User;
 use App\Models\Mitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,9 +32,15 @@ class UserPageController extends Controller
 
     public function profile()
     {
-        $user = Auth::user();
-        return view("profile", compact('user'));
+        $user = auth()->user();
+        $entitas = EntitasPenyewa::where('id_user', $user->id_user)->first();
+
+        return view('profile', [
+            'user' => $user,
+            'entitas' => $entitas
+        ]);
     }
+
     public function history()
     {
         $user = Auth::user();
