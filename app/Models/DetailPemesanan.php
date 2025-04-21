@@ -64,7 +64,7 @@ class DetailPemesanan extends Model
         });
     }
 
-   
+
 
 
     public function pemesanan()
@@ -94,9 +94,9 @@ class DetailPemesanan extends Model
     }
 
     // Relasi ke PengemudiPemesanan (Setiap detail pemesanan bisa memiliki banyak pengemudi)
-    public function pengemudiPemesanans()
+    public function pengemudiPemesanan()
     {
-        return $this->hasMany(PengemudiPemesanan::class, 'id_detail', 'id_detail');
+        return $this->belongsTo(PengemudiPemesanan::class, 'id_detail', 'id_detail');
     }
 
     // Relasi ke PenggantianKendaraan (Setiap detail pemesanan bisa memiliki banyak penggantian kendaraan)
@@ -105,7 +105,7 @@ class DetailPemesanan extends Model
         return $this->hasMany(PenggantianKendaraan::class, 'id_detail', 'id_detail');
     }
 
-   public function detailFeePembayarans()
+    public function detailFeePembayarans()
     {
         return $this->hasMany(detailFeePembayaran::class, 'id_detail', 'id_detail');
     }

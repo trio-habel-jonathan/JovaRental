@@ -12,6 +12,7 @@ use App\Models\UnitKendaraan;
 use App\Models\DetailPemesanan;
 use App\Models\Pemesanan;
 use App\Models\PengemudiPemesanan;
+use App\Models\Sopir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -533,5 +534,22 @@ class PemesananController extends Controller
             return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Gagal memuat review: ' . $e->getMessage()]);
         }
     }
-}
 
+    public function pilihSopir(Request $request)
+    {
+        $request->validate([
+            'id_detail' => 'required',
+            'id_sopir' => 'required',
+        ]);
+
+        $detailpemesanan = DetailPemesanan::find($request->id_detail);
+        $detailpemesanan->id_sopir = $request->id_sopir;
+        $detailpemesanan->save();
+
+        $sopir = Sopir::find($request->id_sopir);
+        $sopir->status = 'bertugas';
+        $sopir->save();
+
+        return redirect()->back();
+    }
+}
