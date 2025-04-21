@@ -21,12 +21,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminPageController::class, 'userView'])->name('userView');
         Route::get('/add', [AdminPageController::class, 'adduserView'])->name('adduserView');
         Route::get('/edit/{id_user}', [AdminPageController::class, 'edituserView'])->name('edituserView');
+  
+        Route::post('store', [UserController::class, 'store'])->name('store');
+        Route::put('update/{id_user}', [UserController::class, 'update'])->name('update');
+        Route::delete('{id_user}/delete', [UserController::class, 'destroy'])->name('destroy');
     });
 
 
-    Route::post('/users/store', [UserController::class, 'store'])->name('users.store');
-    Route::put('user/update/{id_user}', [UserController::class, 'update'])->name('user.update');
-    Route::delete('/users', [UserController::class, 'destroy'])->name('user.destroy');
 
 
     Route::prefix('mitra')->name('mitra.')->group(function () {

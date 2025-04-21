@@ -12,6 +12,7 @@ use App\Models\UnitKendaraan;
 use App\Models\DetailPemesanan;
 use App\Models\Pemesanan;
 use App\Models\PengemudiPemesanan;
+use App\Models\Sopir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,7 @@ class PemesananController extends Controller
         // Validasi parameter
         if (!$id_unit || !$tipe_rental || !$start_date || !$end_date || !$lokasi) {
             \Log::error('Missing required query parameters', $request->query());
-            return redirect()->route('search')->with('error', 'Parameter tidak lengkap.');
+            return redirect()->route('search')->with(['type' => 'error', 'Parameter tidak lengkap.']);
         }
 
         // Validasi format tanggal
@@ -40,7 +41,7 @@ class PemesananController extends Controller
             $endDateTime = Carbon::createFromFormat('d M Y, H:i', $end_date);
         } catch (\Exception $e) {
             \Log::error('Invalid date format: ' . $e->getMessage(), ['start_date' => $start_date, 'end_date' => $end_date]);
-            return redirect()->route('search')->with('error', 'Format tanggal tidak valid.');
+            return redirect()->route('search')->with(['type' => 'error', 'Format tanggal tidak valid.']);
         }
 
         if (!$id_unit) {
@@ -51,7 +52,7 @@ class PemesananController extends Controller
                 'waktu_mulai' => $startDateTime->format('H:i'),
                 'tanggal_selesai' => $endDateTime->format('Y-m-d'),
                 'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with('error', 'Kendaraan tidak valid.');
+            ])->with(['type' => 'error', 'Kendaraan tidak valid.']);
         }
 
         $selectedUnits = $request->session()->get('selected_units', []);
@@ -77,7 +78,7 @@ class PemesananController extends Controller
                 'waktu_mulai' => $startDateTime->format('H:i'),
                 'tanggal_selesai' => $endDateTime->format('Y-m-d'),
                 'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with('error', 'Tidak ada kendaraan yang dipilih.');
+            ])->with(['type' => 'error', 'message' => 'Tidak ada kendaraan yang dipilih.']);
         }
 
         $units = DB::table('unit_kendaraan')
@@ -95,7 +96,7 @@ class PemesananController extends Controller
                 'waktu_mulai' => $startDateTime->format('H:i'),
                 'tanggal_selesai' => $endDateTime->format('Y-m-d'),
                 'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with('error', 'Tidak ada kendaraan yang dipilih.');
+            ])->with(['type' => 'error', 'message' => 'Tidak ada kendaraan yang dipilih.']);
         }
 
         foreach ($units as $unit) {
@@ -151,7 +152,7 @@ class PemesananController extends Controller
             cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return round($angle * $earthRadius, 2); // Bulatkan ke 2 desimal
     }
-    
+
     public function processDetail(Request $request)
     {
         \Log::info('Input processDetail:', $request->all());
@@ -231,7 +232,7 @@ class PemesananController extends Controller
 
         if ($units->isEmpty()) {
             \Log::error('No units found for id_units:', $id_units);
-            return redirect()->route('search')->with('error', 'Kendaraan tidak ditemukan.');
+            return redirect()->route('search')->with(['error', 'Kendaraan tidak ditemukan.']);
         }
 
         // Ambil tarif dari fee_setting
@@ -419,7 +420,7 @@ class PemesananController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in processDetail: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal menyimpan pemesanan: ' . $e->getMessage());
+            return redirect()->back()->with(['type' => 'error', 'message' => 'Gagal menyimpan pemesanan: ' . $e->getMessage()]);
         }
     }
 
@@ -433,27 +434,27 @@ class PemesananController extends Controller
                 'detailPemesanan.pengemudiPemesanans',
                 'entitasPenyewa.user'
             ])->where('id_pemesanan', $id_pemesanan)->first();
-    
+
             if (!$pemesanan) {
                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
-                return redirect()->route('detail')->with('error', 'Pemesanan tidak ditemukan.');
+                return redirect()->route('detail')->with(['type' => 'error', 'Pemesanan tidak ditemukan.']);
             }
-    
+
             \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
-    
+
             $user = Auth::user();
             $entitasPenyewa = $pemesanan->entitasPenyewa;
-    
+
             // Siapkan data untuk view sebagai Collection
             $rentalDetails = collect([]);
             foreach ($pemesanan->detailPemesanan as $detail) {
                 $unit = $detail->unitKendaraan;
                 $kendaraan = $unit->kendaraan;
                 $mitra = $kendaraan->mitra;
-    
+
                 // Ambil alamat mitra
                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
-    
+
                 try {
                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
@@ -466,19 +467,19 @@ class PemesananController extends Controller
                     $startDateTime = Carbon::now();
                     $endDateTime = Carbon::now()->addDay();
                 }
-    
+
                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
-    
+
                 // Ambil data pengemudi
                 $pengemudi = $detail->pengemudiPemesanans->first();
                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
-    
+
                 // Format lokasi pengambilan
                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
                     : $detail->lokasi_pengambilan;
-    
+
                 // Format lokasi pengembalian
                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian; // Use raw value from database for custom locations
                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
@@ -488,7 +489,7 @@ class PemesananController extends Controller
                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
                     }
                 }
-    
+
                 $rentalDetails->put($unit->id_unit, [
                     'unit' => (object) [
                         'id_unit' => $unit->id_unit,
@@ -524,16 +525,31 @@ class PemesananController extends Controller
                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
                 ]);
             }
-    
+
             \Log::info('RentalDetails created: ', $rentalDetails->toArray());
-    
+
             return view('review', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan'));
         } catch (\Exception $e) {
             \Log::error('Error in review: ' . $e->getMessage());
-            return redirect()->route('detail')->with('error', 'Gagal memuat review: ' . $e->getMessage());
+            return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Gagal memuat review: ' . $e->getMessage()]);
         }
     }
 
-   
-}
+    public function pilihSopir(Request $request)
+    {
+        $request->validate([
+            'id_detail' => 'required',
+            'id_sopir' => 'required',
+        ]);
 
+        $detailpemesanan = DetailPemesanan::find($request->id_detail);
+        $detailpemesanan->id_sopir = $request->id_sopir;
+        $detailpemesanan->save();
+
+        $sopir = Sopir::find($request->id_sopir);
+        $sopir->status = 'bertugas';
+        $sopir->save();
+
+        return redirect()->back();
+    }
+}

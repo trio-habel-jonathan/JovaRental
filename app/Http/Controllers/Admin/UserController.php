@@ -16,15 +16,16 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6',
+            'password' => 'required|min:6|confirmed',
             'no_telepon' => 'required|min:10|max:15',
-            'role' => 'required|in:admin,penyewa,mitra',
+            'role' => 'required|in:penyewa,admin,mitra',
+            'verified' => 'required|boolean',
             'foto_profil' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         ]);
 
-        $data = $request->all();
+        $data = $request->except(['password', 'password_confirmation', 'foto_profil']);
         $data['password'] = Hash::make($request->password);
-        $data['id_user'] = Str::uuid()->toString(); // Manually generate UUID
+        $data['id_user'] = Str::uuid()->toString(); // Generate UUID
 
         // Handle file upload for profile picture
         if ($request->hasFile('foto_profil')) {

@@ -8,6 +8,7 @@ use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
 use App\Http\Controllers\Mitra\MitraController;
 use App\Http\Controllers\Mitra\UnitKendaraanController;
+use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\SupirController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,14 +49,15 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
 
         Route::post('/create-action', [SupirController::class, 'store'])->name('store');
         Route::delete('/delete-action', [SupirController::class, 'destroy'])->name('destroy');
-        Route::put('/update-action', [SupirController::class, 'update'])->name('update');
+        Route::put('/update-action/{uuid}', [SupirController::class, 'update'])->name('update');
     });
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {
         Route::get('/', [MitraPageController::class, 'pesananmitraView'])->name('pesananmitraView');
         Route::get('/details/{uuid}', [MitraPageController::class, 'pesanandetailView'])->name('pesanandetailView');
-        Route::get('/create', [PesananController::class, 'tambahpesanan'])->name('tambahpesananView');
-        Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
+        // Route::get('/create', [PesananController::class, 'tambahpesanan'])->name('tambahpesananView');
+        // Route::get('/edit', [PesananController::class, 'editpesanan'])->name('editpesananView');
+        Route::put('/update/pilih-sopir', [PemesananController::class, 'pilihSopir'])->name('pilihSopir');
     });
 
     Route::prefix("/alamat")->name('alamat.')->group(function () {
