@@ -48,7 +48,7 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
 
         Route::post('/create-action', [SupirController::class, 'store'])->name('store');
         Route::delete('/delete-action', [SupirController::class, 'destroy'])->name('destroy');
-        Route::put('/update-action', [SupirController::class, 'update'])->name('update');
+        Route::put('/update-action/{uuid}', [SupirController::class, 'update'])->name('update');
     });
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {

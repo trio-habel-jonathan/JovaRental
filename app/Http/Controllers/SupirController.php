@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Sopir;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SupirController extends Controller
 {
     public function store(Request $request)
     {
+        $request->merge(['id_mitra' => Auth::user()->mitra->id_mitra]);
         $request->validate([
             'id_mitra' => 'required|uuid|exists:mitra,id_mitra',
             'nama_sopir' => 'required|string|max:100',
@@ -26,14 +28,14 @@ class SupirController extends Controller
 
     public function update(Request $request, Sopir $uuid)
     {
+        $request->merge(['id_mitra' => Auth::user()->mitra->id_mitra]);
         $request->validate([
-            'id_mitra' => 'required|uuid|exists:mitra,id_mitra',
+            'id_mitra' => 'required|exists:mitra,id_mitra',
             'nama_sopir' => 'required|string|max:100',
             'no_identitas' => 'required|string|max:255',
             'no_telepon' => 'required|string|max:15',
             'alamat' => 'required|string|max:255',
             'status' => 'required|in:tersedia,bertugas',
-            'is_active' => 'required|boolean',
         ]);
 
         $uuid->update($request->only(['id_mitra', 'nama_sopir', 'no_identitas', 'no_telepon', 'alamat', 'status', 'is_active']));
