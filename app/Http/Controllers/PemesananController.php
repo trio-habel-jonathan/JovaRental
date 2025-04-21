@@ -12,6 +12,7 @@ use App\Models\UnitKendaraan;
 use App\Models\DetailPemesanan;
 use App\Models\Pemesanan;
 use App\Models\PengemudiPemesanan;
+use App\Models\Sopir;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -151,7 +152,7 @@ class PemesananController extends Controller
             cos($latFrom) * cos($latTo) * pow(sin($lonDelta / 2), 2)));
         return round($angle * $earthRadius, 2); // Bulatkan ke 2 desimal
     }
-    
+
     public function processDetail(Request $request)
     {
         \Log::info('Input processDetail:', $request->all());
@@ -433,27 +434,27 @@ class PemesananController extends Controller
                 'detailPemesanan.pengemudiPemesanans',
                 'entitasPenyewa.user'
             ])->where('id_pemesanan', $id_pemesanan)->first();
-    
+
             if (!$pemesanan) {
                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
                 return redirect()->route('detail')->with('error', 'Pemesanan tidak ditemukan.');
             }
-    
+
             \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
-    
+
             $user = Auth::user();
             $entitasPenyewa = $pemesanan->entitasPenyewa;
-    
+
             // Siapkan data untuk view sebagai Collection
             $rentalDetails = collect([]);
             foreach ($pemesanan->detailPemesanan as $detail) {
                 $unit = $detail->unitKendaraan;
                 $kendaraan = $unit->kendaraan;
                 $mitra = $kendaraan->mitra;
-    
+
                 // Ambil alamat mitra
                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
-    
+
                 try {
                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
@@ -466,19 +467,19 @@ class PemesananController extends Controller
                     $startDateTime = Carbon::now();
                     $endDateTime = Carbon::now()->addDay();
                 }
-    
+
                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
-    
+
                 // Ambil data pengemudi
                 $pengemudi = $detail->pengemudiPemesanans->first();
                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
-    
+
                 // Format lokasi pengambilan
                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
                     : $detail->lokasi_pengambilan;
-    
+
                 // Format lokasi pengembalian
                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian; // Use raw value from database for custom locations
                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
@@ -488,7 +489,7 @@ class PemesananController extends Controller
                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
                     }
                 }
-    
+
                 $rentalDetails->put($unit->id_unit, [
                     'unit' => (object) [
                         'id_unit' => $unit->id_unit,
@@ -524,9 +525,9 @@ class PemesananController extends Controller
                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
                 ]);
             }
-    
+
             \Log::info('RentalDetails created: ', $rentalDetails->toArray());
-    
+
             return view('review', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan'));
         } catch (\Exception $e) {
             \Log::error('Error in review: ' . $e->getMessage());
@@ -534,6 +535,21 @@ class PemesananController extends Controller
         }
     }
 
-   
-}
+    public function pilihSopir(Request $request)
+    {
+        $request->validate([
+            'id_detail' => 'required',
+            'id_sopir' => 'required',
+        ]);
 
+        $detailpemesanan = DetailPemesanan::find($request->id_detail);
+        $detailpemesanan->id_sopir = $request->id_sopir;
+        $detailpemesanan->save();
+
+        $sopir = Sopir::find($request->id_sopir);
+        $sopir->status = 'bertugas';
+        $sopir->save();
+
+        return redirect()->back();
+    }
+}
