@@ -32,7 +32,7 @@ class PemesananController extends Controller
         // Validasi parameter
         if (!$id_unit || !$tipe_rental || !$start_date || !$end_date || !$lokasi) {
             \Log::error('Missing required query parameters', $request->query());
-            return redirect()->route('search')->with('error', 'Parameter tidak lengkap.');
+            return redirect()->route('search')->with(['type' => 'error', 'Parameter tidak lengkap.']);
         }
 
         // Validasi format tanggal
@@ -41,7 +41,7 @@ class PemesananController extends Controller
             $endDateTime = Carbon::createFromFormat('d M Y, H:i', $end_date);
         } catch (\Exception $e) {
             \Log::error('Invalid date format: ' . $e->getMessage(), ['start_date' => $start_date, 'end_date' => $end_date]);
-            return redirect()->route('search')->with('error', 'Format tanggal tidak valid.');
+            return redirect()->route('search')->with(['type' => 'error', 'Format tanggal tidak valid.']);
         }
 
         if (!$id_unit) {
@@ -52,7 +52,7 @@ class PemesananController extends Controller
                 'waktu_mulai' => $startDateTime->format('H:i'),
                 'tanggal_selesai' => $endDateTime->format('Y-m-d'),
                 'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with('error', 'Kendaraan tidak valid.');
+            ])->with(['type' => 'error', 'Kendaraan tidak valid.']);
         }
 
         $selectedUnits = $request->session()->get('selected_units', []);
@@ -78,7 +78,7 @@ class PemesananController extends Controller
                 'waktu_mulai' => $startDateTime->format('H:i'),
                 'tanggal_selesai' => $endDateTime->format('Y-m-d'),
                 'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with('error', 'Tidak ada kendaraan yang dipilih.');
+            ])->with(['type' => 'error', 'message' => 'Tidak ada kendaraan yang dipilih.']);
         }
 
         $units = DB::table('unit_kendaraan')
@@ -96,7 +96,7 @@ class PemesananController extends Controller
                 'waktu_mulai' => $startDateTime->format('H:i'),
                 'tanggal_selesai' => $endDateTime->format('Y-m-d'),
                 'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with('error', 'Tidak ada kendaraan yang dipilih.');
+            ])->with(['type' => 'error', 'message' => 'Tidak ada kendaraan yang dipilih.']);
         }
 
         foreach ($units as $unit) {
@@ -232,7 +232,7 @@ class PemesananController extends Controller
 
         if ($units->isEmpty()) {
             \Log::error('No units found for id_units:', $id_units);
-            return redirect()->route('search')->with('error', 'Kendaraan tidak ditemukan.');
+            return redirect()->route('search')->with(['error', 'Kendaraan tidak ditemukan.']);
         }
 
         // Ambil tarif dari fee_setting
@@ -420,7 +420,7 @@ class PemesananController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             \Log::error('Error in processDetail: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Gagal menyimpan pemesanan: ' . $e->getMessage());
+            return redirect()->back()->with(['type' => 'error', 'message' => 'Gagal menyimpan pemesanan: ' . $e->getMessage()]);
         }
     }
 
@@ -437,7 +437,7 @@ class PemesananController extends Controller
 
             if (!$pemesanan) {
                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
-                return redirect()->route('detail')->with('error', 'Pemesanan tidak ditemukan.');
+                return redirect()->route('detail')->with(['type' => 'error', 'Pemesanan tidak ditemukan.']);
             }
 
             \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
@@ -531,7 +531,7 @@ class PemesananController extends Controller
             return view('review', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan'));
         } catch (\Exception $e) {
             \Log::error('Error in review: ' . $e->getMessage());
-            return redirect()->route('detail')->with('error', 'Gagal memuat review: ' . $e->getMessage());
+            return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Gagal memuat review: ' . $e->getMessage()]);
         }
     }
 

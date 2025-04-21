@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Mitra\AlamatMitraController;
 use App\Http\Controllers\Mitra\KendaraanController;
+use App\Http\Controllers\mitra\MetodePembayaranMitraController;
 use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
@@ -48,7 +49,7 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
 
         Route::post('/create-action', [SupirController::class, 'store'])->name('store');
         Route::delete('/delete-action', [SupirController::class, 'destroy'])->name('destroy');
-        Route::put('/update-action', [SupirController::class, 'update'])->name('update');
+        Route::put('/update-action/{uuid}', [SupirController::class, 'update'])->name('update');
     });
 
     Route::prefix('pesanan')->name('pesanan.')->group(function () {
@@ -66,5 +67,14 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::post('/create', [AlamatMitraController::class, 'store'])->name('MitraStore');
         Route::put('/{alamatMitra}/update', [AlamatMitraController::class, 'update'])->name('MitraUpdate');
         Route::delete('/{uuid}/destroy/', [AlamatMitraController::class, 'destroy'])->name('MitraDestroy');
+    });
+
+    Route::prefix("metode-pembayaran")->name('metodePembayaran.')->group(function(){
+        Route::get("/", [MetodePembayaranMitraController::class, "index"])->name('index');
+        Route::get("/create", [MetodePembayaranMitraController::class, "create"])->name('create');
+        Route::post("/create", [MetodePembayaranMitraController::class, "store"])->name('store');
+        Route::get("/{uuid}/edit", [MetodePembayaranMitraController::class, "edit"])->name('edit');
+        Route::put("/{uuid}/update", [MetodePembayaranMitraController::class, "update"])->name('update');
+        Route::delete("/{uuid}/destroy", [MetodePembayaranMitraController::class, "destroy"])->name('destroy');
     });
 });
