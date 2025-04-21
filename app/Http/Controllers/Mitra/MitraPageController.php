@@ -86,7 +86,7 @@ public function indexMitraView()
         $biayaSopir = $pemesanan->detailPemesanan->sum('biaya_sopir');
 
         // Hitung total pembayaran
-        $totalBayar = $pemesanan->sum('total_harga');
+        $totalBayar = $pemesanan->total_harga;
         $sopir = Sopir::all();
 
         return view('mitra.pesanan.details', compact(
