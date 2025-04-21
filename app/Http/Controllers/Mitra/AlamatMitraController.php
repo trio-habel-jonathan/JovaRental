@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mitra;
 
 use App\Http\Controllers\Controller;
 use App\Models\AlamatMitra;
+use App\Models\Mitra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -11,7 +12,10 @@ class AlamatMitraController extends Controller
 {
     public function index()
     {
-        $alamatMitra = AlamatMitra::all();
+        $user = Auth::User();
+        $mitra = Mitra::where('id_user', $user->id_user)->first();
+
+        $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->get();
         return view('mitra.alamat.index', compact('alamatMitra'));
     }
 

@@ -535,6 +535,7 @@ class PemesananController extends Controller
         }
     }
 
+
     public function pilihSopir(Request $request)
     {
         $request->validate([
@@ -552,4 +553,636 @@ class PemesananController extends Controller
 
         return redirect()->back();
     }
+
+     // PEMBAYARAN
+
+     public function pembayaran(Request $request, $id_pemesanan)
+     {
+         \Log::info('Payment method called with id_pemesanan: ' . $id_pemesanan);
+         try {
+             // Fetch the booking details
+             $pemesanan = Pemesanan::with([
+                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
+                 'detailPemesanan.pengemudiPemesanans',
+                 'entitasPenyewa.user'
+             ])->where('id_pemesanan', $id_pemesanan)->first();
+     
+             if (!$pemesanan) {
+                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                 return redirect()->route('detail')->with('error', 'Pemesanan tidak ditemukan.');
+             }
+     
+             \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
+     
+             $user = Auth::user();
+             $entitasPenyewa = $pemesanan->entitasPenyewa;
+     
+             // Fetch active metode pembayaran
+             $paymentMethods = MetodePembayaranPlatform::where('is_active', 1)->get();
+     
+             // menyiapkan detail rental untuk ditampilkan di halaman pembayaran
+     
+             $rentalDetails = collect([]);
+             foreach ($pemesanan->detailPemesanan as $detail) {
+                 $unit = $detail->unitKendaraan;
+                 $kendaraan = $unit->kendaraan;
+                 $mitra = $kendaraan->mitra;
+     
+                 // Fetch partner address
+                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
+     
+                 try {
+                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
+                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
+                 } catch (\Exception $e) {
+                     \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                         'id_detail' => $detail->id_detail,
+                         'tanggal_mulai' => $detail->tanggal_mulai,
+                         'tanggal_kembali' => $detail->tanggal_kembali
+                     ]);
+                     $startDateTime = Carbon::now();
+                     $endDateTime = Carbon::now()->addDay();
+                 }
+     
+                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
+     
+                 // Fetch driver data
+                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
+                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
+     
+                 // Format pickup location
+                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
+                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
+                     : $detail->lokasi_pengambilan;
+     
+                 // Format return location
+                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
+                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
+                     $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
+                     if ($alamatMitraPengembalian) {
+                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
+                     }
+                 }
+     
+                 $rentalDetails->put($unit->id_unit, [
+                     'unit' => (object) [
+                         'id_unit' => $unit->id_unit,
+                         'nama_kendaraan' => $kendaraan->nama_kendaraan,
+                         'fotos' => $kendaraan->fotos,
+                         'transmisi' => $kendaraan->transmisi,
+                         'jumlah_kursi' => $kendaraan->jumlah_kursi,
+                         'tahun_produksi' => $kendaraan->tahun_produksi,
+                         'harga_sewa_perhari' => $kendaraan->harga_sewa_perhari,
+                         'nama_mitra' => $mitra->nama_mitra,
+                         'foto_mitra' => $mitra->foto_mitra,
+                         'kota_mitra' => $mitra->kota_mitra ?? 'Unknown',
+                         'alamat_mitra' => $alamatMitra ? (object) [
+                             'alamat' => $alamatMitra->alamat,
+                             'kota' => $alamatMitra->kota,
+                             'kecamatan' => $alamatMitra->kecamatan,
+                             'provinsi' => $alamatMitra->provinsi,
+                         ] : null,
+                     ],
+                     'startDateTime' => $startDateTime,
+                     'endDateTime' => $endDateTime,
+                     'duration' => $duration,
+                     'unitCost' => $detail->subtotal_harga,
+                     'driverFee' => $detail->biaya_sopir,
+                     'deliveryFee' => $detail->biaya_pengantaran,
+                     'returnFee' => $detail->biaya_pengembalian,
+                     'lokasi_pengambilan' => $formattedLokasiPengambilan,
+                     'lokasi_pengembalian' => $formattedLokasiPengembalian,
+                     'driver_nama' => $driverNama,
+                     'driver_telepon' => $driverTelepon,
+                     'perwakilan_penyewa' => $pemesanan->perwakilan_penyewa,
+                     'kontak_perwakilan' => $pemesanan->kontak_perwakilan,
+                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
+                 ]);
+             }
+     
+             \Log::info('RentalDetails created: ', $rentalDetails->toArray());
+     
+             return view('pembayaran', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan', 'paymentMethods'));
+         } catch (\Exception $e) {
+             \Log::error('Error in payment: ' . $e->getMessage());
+             return redirect()->route('review', ['id_pemesanan' => $id_pemesanan])->with('error', 'Gagal memuat halaman pembayaran: ' . $e->getMessage());
+         }
+     }
+     
+     public function prosesPembayaran(Request $request, $id_pemesanan)
+     {
+         \Log::info('Process payment called with id_pemesanan: ' . $id_pemesanan);
+         try {
+             // Validasi input
+             $request->validate([
+                 'payment_method' => 'required|exists:metode_pembayaran_platform,id_metode_pembayaran_platform',
+             ], [
+                 'payment_method.required' => 'Harap pilih metode pembayaran.',
+                 'payment_method.exists' => 'Metode pembayaran tidak valid.',
+             ]);
+     
+             // Ambil pemesanan
+             $pemesanan = Pemesanan::with([
+                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
+                 'detailPemesanan.pengemudiPemesanans',
+                 'entitasPenyewa.user'
+             ])->where('id_pemesanan', $id_pemesanan)->first();
+     
+             if (!$pemesanan) {
+                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Pemesanan tidak ditemukan.');
+             }
+     
+             // Ambil entitas penyewa
+             $entitasPenyewa = $pemesanan->entitasPenyewa;
+             if (!$entitasPenyewa) {
+                 \Log::error('Entitas penyewa not found for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Data entitas penyewa tidak ditemukan.');
+             }
+     
+             // Ambil user
+             $user = Auth::user();
+             if (!$user) {
+                 \Log::error('User not authenticated for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
+             }
+     
+             // Ambil metode pembayaran
+             $paymentMethod = MetodePembayaranPlatform::where('id_metode_pembayaran_platform', $request->payment_method)
+                 ->where('is_active', 1)
+                 ->first();
+     
+             if (!$paymentMethod) {
+                 \Log::error('Payment method not found or inactive: ' . $request->payment_method);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Metode pembayaran tidak valid.');
+             }
+     
+             // Siapkan rentalDetails
+             $rentalDetails = collect([]);
+             $totalAll = 0;
+             foreach ($pemesanan->detailPemesanan as $detail) {
+                 $unit = $detail->unitKendaraan;
+                 $kendaraan = $unit->kendaraan;
+                 $mitra = $kendaraan->mitra;
+     
+                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
+     
+                 try {
+                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
+                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
+                 } catch (\Exception $e) {
+                     \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                         'id_detail' => $detail->id_detail,
+                         'tanggal_mulai' => $detail->tanggal_mulai,
+                         'tanggal_kembali' => $detail->tanggal_kembali
+                     ]);
+                     $startDateTime = Carbon::now();
+                     $endDateTime = Carbon::now()->addDay();
+                 }
+     
+                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
+     
+                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
+                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
+     
+                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
+                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
+                     : $detail->lokasi_pengambilan;
+     
+                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
+                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
+                     $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
+                     if ($alamatMitraPengembalian) {
+                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
+                     }
+                 }
+     
+                 $subtotal = $detail->subtotal_harga + ($detail->tipe_penggunaan_sopir === 'dengan_sopir' ? $detail->biaya_sopir : 0) + $detail->biaya_pengantaran + $detail->biaya_pengembalian;
+                 $totalAll += $subtotal;
+     
+                 $rentalDetails->put($unit->id_unit, [
+                     'unit' => (object) [
+                         'id_unit' => $unit->id_unit,
+                         'nama_kendaraan' => $kendaraan->nama_kendaraan,
+                         'fotos' => $kendaraan->fotos,
+                         'transmisi' => $kendaraan->transmisi,
+                         'jumlah_kursi' => $kendaraan->jumlah_kursi,
+                         'tahun_produksi' => $kendaraan->tahun_produksi,
+                         'harga_sewa_perhari' => $kendaraan->harga_sewa_perhari,
+                         'nama_mitra' => $mitra->nama_mitra,
+                         'foto_mitra' => $mitra->foto_mitra,
+                         'kota_mitra' => $mitra->kota_mitra ?? 'Unknown',
+                         'alamat_mitra' => $alamatMitra ? (object) [
+                             'alamat' => $alamatMitra->alamat,
+                             'kota' => $alamatMitra->kota,
+                             'kecamatan' => $alamatMitra->kecamatan,
+                             'provinsi' => $alamatMitra->provinsi,
+                         ] : null,
+                     ],
+                     'startDateTime' => $startDateTime,
+                     'endDateTime' => $endDateTime,
+                     'duration' => $duration,
+                     'unitCost' => $detail->subtotal_harga,
+                     'driverFee' => $detail->biaya_sopir,
+                     'deliveryFee' => $detail->biaya_pengantaran,
+                     'returnFee' => $detail->biaya_pengembalian,
+                     'lokasi_pengambilan' => $formattedLokasiPengambilan,
+                     'lokasi_pengembalian' => $formattedLokasiPengembalian,
+                     'driver_nama' => $driverNama,
+                     'driver_telepon' => $driverTelepon,
+                     'perwakilan_penyewa' => $pemesanan->perwakilan_penyewa,
+                     'kontak_perwakilan' => $pemesanan->kontak_perwakilan,
+                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
+                 ]);
+             }
+     
+             $deadline = Carbon::now()->addHours(24);
+     
+             \Log::info('RentalDetails created: ', $rentalDetails->toArray());
+     
+             // Simpan payment_method di session untuk digunakan di storeBuktiPembayaran
+             $request->session()->put('payment_method', $request->payment_method);
+     
+             return view('petunjukPembayaranTransfer', compact(
+                 'rentalDetails',
+                 'entitasPenyewa',
+                 'user',
+                 'pemesanan',
+                 'paymentMethod',
+                 'deadline',
+                 'totalAll'
+             ));
+         } catch (\Exception $e) {
+             \Log::error('Error in processPayment: ' . $e->getMessage());
+             return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                 ->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
+         }
+     }
+     public function uploadBuktiPembayaran(Request $request, $id_pemesanan)
+     {
+         \Log::info('uploadBuktiPembayaran called with id_pemesanan: ' . $id_pemesanan);
+     
+         try {
+             // Ambil pemesanan
+             $pemesanan = Pemesanan::with([
+                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
+                 'detailPemesanan.pengemudiPemesanans',
+                 'entitasPenyewa.user'
+             ])->where('id_pemesanan', $id_pemesanan)->first();
+     
+             if (!$pemesanan) {
+                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Pemesanan tidak ditemukan.');
+             }
+     
+             // Ambil entitas penyewa
+             $entitasPenyewa = $pemesanan->entitasPenyewa;
+             if (!$entitasPenyewa) {
+                 \Log::error('Entitas penyewa not found for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Data entitas penyewa tidak ditemukan.');
+             }
+     
+             // Ambil user
+             $user = Auth::user();
+             if (!$user) {
+                 \Log::error('User not authenticated for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
+             }
+     
+             // Siapkan rentalDetails untuk view
+             $rentalDetails = collect([]);
+             foreach ($pemesanan->detailPemesanan as $detail) {
+                 $unit = $detail->unitKendaraan;
+                 $kendaraan = $unit->kendaraan;
+                 $mitra = $kendaraan->mitra;
+     
+                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
+     
+                 try {
+                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
+                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
+                 } catch (\Exception $e) {
+                     \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                         'id_detail' => $detail->id_detail,
+                         'tanggal_mulai' => $detail->tanggal_mulai,
+                         'tanggal_kembali' => $detail->tanggal_kembali
+                     ]);
+                     $startDateTime = Carbon::now();
+                     $endDateTime = Carbon::now()->addDay();
+                 }
+     
+                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
+     
+                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
+                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
+     
+                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
+                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
+                     : $detail->lokasi_pengambilan;
+     
+                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
+                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
+                     $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
+                     if ($alamatMitraPengembalian) {
+                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
+                     }
+                 }
+     
+                 $rentalDetails->put($unit->id_unit, [
+                     'unit' => (object) [
+                         'id_unit' => $unit->id_unit,
+                         'nama_kendaraan' => $kendaraan->nama_kendaraan,
+                         'fotos' => $kendaraan->fotos,
+                         'transmisi' => $kendaraan->transmisi,
+                         'jumlah_kursi' => $kendaraan->jumlah_kursi,
+                         'tahun_produksi' => $kendaraan->tahun_produksi,
+                         'harga_sewa_perhari' => $kendaraan->harga_sewa_perhari,
+                         'nama_mitra' => $mitra->nama_mitra,
+                         'foto_mitra' => $mitra->foto_mitra,
+                         'kota_mitra' => $mitra->kota_mitra ?? 'Unknown',
+                         'alamat_mitra' => $alamatMitra ? (object) [
+                             'alamat' => $alamatMitra->alamat,
+                             'kota' => $alamatMitra->kota,
+                             'kecamatan' => $alamatMitra->kecamatan,
+                             'provinsi' => $alamatMitra->provinsi,
+                         ] : null,
+                     ],
+                     'startDateTime' => $startDateTime,
+                     'endDateTime' => $endDateTime,
+                     'duration' => $duration,
+                     'unitCost' => $detail->subtotal_harga,
+                     'driverFee' => $detail->biaya_sopir,
+                     'deliveryFee' => $detail->biaya_pengantaran,
+                     'returnFee' => $detail->biaya_pengembalian,
+                     'lokasi_pengambilan' => $formattedLokasiPengambilan,
+                     'lokasi_pengembalian' => $formattedLokasiPengembalian,
+                     'driver_nama' => $driverNama,
+                     'driver_telepon' => $driverTelepon,
+                     'perwakilan_penyewa' => $pemesanan->perwakilan_penyewa,
+                     'kontak_perwakilan' => $pemesanan->kontak_perwakilan,
+                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
+                 ]);
+             }
+     
+             return view('buktiPembayaran', compact(
+                 'rentalDetails',
+                 'entitasPenyewa',
+                 'user',
+                 'pemesanan'
+             ));
+         } catch (\Exception $e) {
+             \Log::error('Error in uploadBuktiPembayaran: ' . $e->getMessage());
+             return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                 ->with('error', 'Gagal memproses: ' . $e->getMessage());
+         }
+     }
+     public function storeBuktiPembayaran(Request $request, $id_pemesanan)
+     {
+         \Log::info('storeBuktiPembayaran called with id_pemesanan: ' . $id_pemesanan);
+     
+         try {
+             // Validasi file
+             $request->validate([
+                 'bukti_pembayaran' => 'required|image|mimes:jpeg,png,jpg|max:5120', // Maks 5MB
+             ], [
+                 'bukti_pembayaran.required' => 'Harap unggah bukti pembayaran.',
+                 'bukti_pembayaran.image' => 'File harus berupa gambar.',
+                 'bukti_pembayaran.mimes' => 'Format file harus JPG, PNG, atau JPEG.',
+                 'bukti_pembayaran.max' => 'Ukuran file maksimal 5MB.',
+             ]);
+     
+             // Ambil pemesanan
+             $pemesanan = Pemesanan::find($id_pemesanan);
+             if (!$pemesanan) {
+                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Pemesanan tidak ditemukan.');
+             }
+     
+             // Ambil entitas penyewa
+             $entitasPenyewa = EntitasPenyewa::where('id_entitas_penyewa', $pemesanan->id_entitas_penyewa)->first();
+             if (!$entitasPenyewa) {
+                 \Log::error('Entitas penyewa not found for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Data entitas penyewa tidak ditemukan.');
+             }
+     
+             // Ambil user
+             $user = Auth::user();
+             if (!$user) {
+                 \Log::error('User not authenticated for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
+             }
+     
+             // Ambil payment_method dari session
+             $paymentMethodId = $request->session()->get('payment_method');
+             if (!$paymentMethodId) {
+                 \Log::error('Payment method not found in session for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Sesi metode pembayaran telah kadaluwarsa. Silakan pilih ulang.');
+             }
+     
+             // Validasi metode pembayaran
+             $paymentMethod = MetodePembayaranPlatform::where('id_metode_pembayaran_platform', $paymentMethodId)
+                 ->where('is_active', 1)
+                 ->first();
+             if (!$paymentMethod) {
+                 \Log::error('Payment method not found or inactive: ' . $paymentMethodId);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Metode pembayaran tidak valid.');
+             }
+     
+             DB::beginTransaction();
+     
+             // Cek apakah pembayaran sudah ada
+             $pembayaran = Pembayaran::where('id_pemesanan', $id_pemesanan)->first();
+             if (!$pembayaran) {
+                 // Buat pembayaran baru
+                 $pembayaran = new Pembayaran();
+                 $pembayaran->id_pembayaran = Str::uuid()->toString();
+                 $pembayaran->id_pemesanan = $id_pemesanan;
+                 $pembayaran->id_metode_pembayaran_platform = $paymentMethod->id_metode_pembayaran_platform;
+                 $pembayaran->total_bayar = $pemesanan->total_harga;
+                 $pembayaran->status_pembayaran = 'pending';
+                 $pembayaran->tanggal_pembayaran = now();
+             }
+     
+             // Simpan file bukti pembayaran
+             if ($request->hasFile('bukti_pembayaran')) {
+                 $file = $request->file('bukti_pembayaran');
+                 $filename = 'bukti_' . $pembayaran->id_pembayaran . '_' . time() . '.' . $file->getClientOriginalExtension();
+                 $path = $file->storeAs('bukti_pembayaran', $filename, 'public');
+                 $pembayaran->bukti_pembayaran = $path;
+                 $pembayaran->save();
+     
+                 \Log::info('Bukti pembayaran uploaded: ', ['path' => $path]);
+             } else {
+                 \Log::error('No file uploaded for bukti_pembayaran');
+                 DB::rollBack();
+                 return redirect()->route('pembayaran.upload', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Harap unggah file bukti pembayaran.');
+             }
+     
+             DB::commit();
+     
+             // Hapus payment_method dari session
+             $request->session()->forget('payment_method');
+     
+             // Redirect ke halaman sukses
+             \Log::info('Redirecting to pembayaran.success for id_pemesanan: ' . $id_pemesanan);
+             return redirect()->route('pembayaran.success', ['id_pemesanan' => $id_pemesanan])
+                 ->with('success', 'Bukti pembayaran berhasil diunggah. Menunggu verifikasi.');
+         } catch (\Illuminate\Validation\ValidationException $e) {
+             \Log::error('Validation failed in storeBuktiPembayaran: ', $e->errors());
+             return redirect()->route('pembayaran.upload', ['id_pemesanan' => $id_pemesanan])
+                 ->withErrors($e->errors())
+                 ->withInput();
+         } catch (\Exception $e) {
+             DB::rollBack();
+             \Log::error('Error in storeBuktiPembayaran: ' . $e->getMessage());
+             return redirect()->route('pembayaran.upload', ['id_pemesanan' => $id_pemesanan])
+                 ->with('error', 'Gagal mengunggah bukti pembayaran: ' . $e->getMessage());
+         }
+     }
+     
+     public function pembayaranSuccess(Request $request, $id_pemesanan)
+     {
+         \Log::info('pembayaranSuccess called with id_pemesanan: ' . $id_pemesanan);
+         try {
+             // Ambil pemesanan
+             $pemesanan = Pemesanan::with([
+                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
+                 'detailPemesanan.pengemudiPemesanans',
+                 'entitasPenyewa.user'
+             ])->where('id_pemesanan', $id_pemesanan)->first();
+     
+             if (!$pemesanan) {
+                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Pemesanan tidak ditemukan.');
+             }
+     
+             // Ambil entitas penyewa
+             $entitasPenyewa = $pemesanan->entitasPenyewa;
+             if (!$entitasPenyewa) {
+                 \Log::error('Entitas penyewa not found for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Data entitas penyewa tidak ditemukan.');
+             }
+     
+             // Ambil user
+             $user = Auth::user();
+             if (!$user) {
+                 \Log::error('User not authenticated for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
+             }
+     
+             // Ambil data pembayaran
+             $pembayaran = Pembayaran::where('id_pemesanan', $id_pemesanan)->first();
+             if (!$pembayaran) {
+                 \Log::error('Pembayaran not found for pemesanan: ' . $id_pemesanan);
+                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                     ->with('error', 'Data pembayaran tidak ditemukan.');
+             }
+     
+             // Siapkan rentalDetails
+             $rentalDetails = collect([]);
+             foreach ($pemesanan->detailPemesanan as $detail) {
+                 $unit = $detail->unitKendaraan;
+                 $kendaraan = $unit->kendaraan;
+                 $mitra = $kendaraan->mitra;
+     
+                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
+     
+                 try {
+                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
+                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
+                 } catch (\Exception $e) {
+                     \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                         'id_detail' => $detail->id_detail,
+                         'tanggal_mulai' => $detail->tanggal_mulai,
+                         'tanggal_kembali' => $detail->tanggal_kembali
+                     ]);
+                     $startDateTime = Carbon::now();
+                     $endDateTime = Carbon::now()->addDay();
+                 }
+     
+                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
+     
+                 $pengemudi = $detail->pengemudiPemesanans->first();
+                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
+                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
+     
+                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
+                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
+                     : $detail->lokasi_pengambilan;
+     
+                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
+                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
+                     $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
+                     if ($alamatMitraPengembalian) {
+                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
+                     }
+                 }
+     
+                 $rentalDetails->put($unit->id_unit, [
+                     'unit' => (object) [
+                         'id_unit' => $unit->id_unit,
+                         'nama_kendaraan' => $kendaraan->nama_kendaraan,
+                         'fotos' => $kendaraan->fotos,
+                         'transmisi' => $kendaraan->transmisi,
+                         'jumlah_kursi' => $kendaraan->jumlah_kursi,
+                         'tahun_produksi' => $kendaraan->tahun_produksi,
+                         'harga_sewa_perhari' => $kendaraan->harga_sewa_perhari,
+                         'nama_mitra' => $mitra->nama_mitra,
+                         'foto_mitra' => $mitra->foto_mitra,
+                         'kota_mitra' => $mitra->kota_mitra ?? 'Unknown',
+                         'alamat_mitra' => $alamatMitra ? (object) [
+                             'alamat' => $alamatMitra->alamat,
+                             'kota' => $alamatMitra->kota,
+                             'kecamatan' => $alamatMitra->kecamatan,
+                             'provinsi' => $alamatMitra->provinsi,
+                         ] : null,
+                     ],
+                     'startDateTime' => $startDateTime,
+                     'endDateTime' => $endDateTime,
+                     'duration' => $duration,
+                     'unitCost' => $detail->subtotal_harga,
+                     'driverFee' => $detail->biaya_sopir,
+                     'deliveryFee' => $detail->biaya_pengantaran,
+                     'returnFee' => $detail->biaya_pengembalian,
+                     'lokasi_pengambilan' => $formattedLokasiPengambilan,
+                     'lokasi_pengembalian' => $formattedLokasiPengembalian,
+                     'driver_nama' => $driverNama,
+                     'driver_telepon' => $driverTelepon,
+                     'perwakilan_penyewa' => $pemesanan->perwakilan_penyewa,
+                     'kontak_perwakilan' => $pemesanan->kontak_perwakilan,
+                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
+                 ]);
+             }
+     
+             // Log untuk debugging
+             \Log::info('Pembayaran data:', ['pembayaran' => $pembayaran ? $pembayaran->toArray() : null]);
+             \Log::info('Rendering pembayaranSuccess with data', [
+                 'pemesanan_id' => $pemesanan->id_pemesanan,
+                 'pembayaran_id' => $pembayaran->id_pembayaran
+             ]);
+     
+             // Kembalikan view dengan semua variabel
+             return view('pembayaranSuccess', compact('pemesanan', 'entitasPenyewa', 'user', 'pembayaran', 'rentalDetails'));
+         } catch (\Exception $e) {
+             \Log::error('Error in pembayaranSuccess: ' . $e->getMessage());
+             return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                 ->with('error', 'Gagal memproses halaman sukses: ' . $e->getMessage());
+         }
+     }
+        
 }

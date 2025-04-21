@@ -86,9 +86,9 @@ class UserPageController extends Controller
         return view("pesanKendaraan");
     }
 
-    public function review()
+    public function review2()
     {
-        return view("review");
+        return view("review2");
     }
     public function pembayaran()
     {

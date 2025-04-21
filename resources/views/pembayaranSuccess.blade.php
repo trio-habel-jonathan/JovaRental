@@ -1,13 +1,13 @@
-<x-user-layout title="Bukti Pembayaran">
+<x-user-layout title="Pembayaran Berhasil">
     <div class="w-full lg:max-w-4xl md:max-w-2xl mx-auto mt-8 px-5">
         <!-- Progress Bar -->
         <div class="relative">
             <!-- Background Line -->
             <div class="absolute top-5 w-full h-1.5 bg-white shadow-sm rounded-full"></div>
 
-            <!-- Progress Line (66% untuk langkah Bayar) -->
+            <!-- Progress Line (100% untuk langkah Selesai) -->
             <div
-                class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-primary to-indigo-600 rounded-full w-[66%]">
+                class="progress-line absolute top-5 h-1.5 bg-gradient-to-r from-primary to-indigo-600 rounded-full w-full">
             </div>
 
             <!-- Steps -->
@@ -40,91 +40,53 @@
                 </div>
 
                 <!-- Step 4: Selesai -->
-                <div class="step flex flex-col items-center">
+                <div class="step active-step flex flex-col items-center">
                     <div
-                        class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-gray-100 text-gray-500 font-bold shadow-md border-4 border-white text-sm transition-all duration-300">
+                        class="step-icon w-10 h-10 rounded-full flex items-center justify-center bg-primary text-white font-bold shadow-md border-4 border-white text-sm transition-all duration-300">
                         4
                     </div>
-                    <div class="mt-3 text-sm font-medium text-gray-500">Selesai</div>
+                    <div class="mt-3 text-sm font-semibold text-primary">Selesai</div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="flex flex-col sm:flex-row w-full min-h-screen gap-4 p-4 mt-8">
-        <!-- Sisi Kiri (Form Section) -->
+        <!-- Sisi Kiri (Success Message) -->
         <div
             class="order-1 sm:order-1 sm:w-[65%] w-full h-fit bg-white p-6 md:p-8 rounded-tl-2xl rounded-bl-2xl shadow-lg">
             <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
-                <span class="bg-primary/20 text-primary p-2 rounded-lg mr-3">
+                <span class="bg-green-100 text-green-600 p-2 rounded-lg mr-3">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3 10h18M7 15h2m2 0h6M4 6h16a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V8a2 2 0 012-2z" />
+                            d="M5 13l4 4L19 7" />
                     </svg>
                 </span>
-                Bukti Pembayaran
+                Pembayaran Berhasil
             </h1>
-            <h2 class="text-xl font-bold mb-4 text-gray-800 flex items-center">
-                Unggah Bukti Pembayaran
-            </h2>
             <div
-                class="p-6 bg-gradient-to-r from-indigo-100 to-indigo-50 rounded-2xl transition-all mb-6 border border-primary">
-                <div class="border-l-4 border-primary pl-4">
-                    <p class="text-gray-600 font-medium mb-1">Pemesanan anda sedang di tahap:</p>
-                    <p class="text-primary font-semibold text-lg">Menunggu Bukti Pembayaran Anda</p>
+                class="p-6 bg-gradient-to-r from-green-100 to-green-50 rounded-2xl transition-all mb-6 border border-green-200">
+                <div class="border-l-4 border-green-500 pl-4">
+                    <p class="text-gray-600 font-medium mb-1">Status Pemesanan Anda:</p>
+                    <p class="text-green-600 font-semibold text-lg">Bukti Pembayaran Diterima, Menunggu Verifikasi</p>
                 </div>
             </div>
 
             <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-                <div class="border-gray-200">
-                    <div class="space-y-3">
-                        <form action="{{ route('pembayaran.store', ['id_pemesanan' => $pemesanan->id_pemesanan]) }}"
-                            method="POST" enctype="multipart/form-data" id="upload-form">
-                            @csrf
-                            <div class="flex flex-col items-center p-12 border border-dashed border-gray-300 rounded-lg">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="text-primary mb-2">
-                                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                    <polyline points="17 8 12 3 7 8"></polyline>
-                                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                                </svg>
-                                <h3 class="text-lg font-medium text-gray-700 mb-1">Unggah Bukti Pembayaran Anda Untuk
-                                    Mempercepat Proses Verifikasi Anda</h3>
-                                <p class="text-sm text-gray-500 mb-4">Anda bisa mengunggah hingga 5 MB dengan format JPG,
-                                    PNG atau JPEG</p>
-            
-                                <label for="file-upload"
-                                    class="cursor-pointer bg-primary hover:bg-purple-700 text-white py-2 px-4 rounded-md transition-colors">
-                                    Unggah Bukti Pembayaran
-                                    <input id="file-upload" name="bukti_pembayaran" type="file"
-                                        accept="image/png, image/jpeg, image/jpg" class="hidden"
-                                        onchange="previewImage(event)" />
-                                </label>
-            
-                                <!-- Tempat Menampilkan Preview Gambar -->
-                                <div id="preview-container" class="mt-4">
-                                    @error('bukti_pembayaran')
-                                        <p class="text-red-500 text-sm">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="flex justify-end mt-6">
-                                <button type="submit" id="submit-button"
-                                    class="bg-primary hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                                    disabled>
-                                    Lanjutkan
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                <p class="text-gray-600 mb-4">Terima kasih telah mengunggah bukti pembayaran. Tim kami akan memverifikasi dalam waktu 1x24 jam.</p>
+                <p class="text-gray-600">Anda akan menerima notifikasi setelah pembayaran diverifikasi.</p>
+                <div class="mt-6 flex justify-end">
+                    <a href="{{ route('home') }}"
+                        class="bg-primary hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                        Kembali ke Dashboard
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z"
+                                clip-rule="evenodd" />
+                        </svg>
+                    </a>
                 </div>
             </div>
         </div>
@@ -139,15 +101,15 @@
 
             @php
                 $groupedUnits = $rentalDetails->groupBy(function ($detail) {
-                    return $detail['startDateTime']->format('Y-m-d H:i') . '|' . $detail['endDateTime']->format('Y-m-d H:i');
+                    return $detail['startDateTime'] . '|' . $detail['endDateTime'];
                 });
             @endphp
 
             @foreach ($groupedUnits as $periode => $unitGroup)
                 @php
                     [$startDate, $endDate] = explode('|', $periode);
-                    $startDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $startDate);
-                    $endDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $endDate);
+                    $startDateTime = \Carbon\Carbon::parse($startDate);
+                    $endDateTime = \Carbon\Carbon::parse($endDate);
                 @endphp
 
                 <div
@@ -278,31 +240,20 @@
                     </div>
                 </div>
             @endforeach
+
+            <!-- Tambahan Detail Pembayaran -->
+            <div
+                class="rounded-xl p-6 space-y-4 text-gray-800 border border-gray-100 mt-4 hover:shadow-lg transition-all">
+                <h3 class="text-lg font-bold text-gray-800">Detail Pembayaran</h3>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Total Bayar</span>
+                    <span class="font-semibold">{{ number_format($pembayaran->total_bayar, 2, ',', '.') }}</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Status Pembayaran</span>
+                    <span class="text-green-600 font-semibold">{{ ucfirst($pembayaran->status_pembayaran) }}</span>
+                </div>
+            </div>
         </div>
     </div>
-
-<!-- JavaScript untuk Preview Gambar dan Enable Button -->
-<script>
-    function previewImage(event) {
-        const previewContainer = document.getElementById('preview-container');
-        const submitButton = document.getElementById('submit-button');
-        previewContainer.innerHTML = ''; // Kosongkan preview sebelumnya
-
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.className = 'max-w-full h-auto rounded-lg';
-                img.style.maxHeight = '200px';
-                previewContainer.appendChild(img);
-                submitButton.disabled = false; // Enable button saat file dipilih
-            };
-            reader.readAsDataURL(file);
-        } else {
-            submitButton.disabled = true; // Disable button jika file dihapus
-        }
-    }
-</script>
 </x-user-layout>
