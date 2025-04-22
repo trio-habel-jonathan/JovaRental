@@ -269,6 +269,25 @@
                             </div>
                         </div>
 
+                        <div class="flex items-start gap-3">
+                            <div class="mt-1 bg-purple-100 p-1.5 rounded-md">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-purple-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-700">Durasi Sewa</h4>
+                                <p class="text-gray-600">
+                                    {{ $unitGroup->first()['rentalDays'] }} hari
+                                    @if ($unitGroup->first()['extraHours'] > 0)
+                                        + {{ $unitGroup->first()['extraHours'] }} jam ekstra
+                                    @endif
+                                </p>
+                            </div>
+                        </div>
+
                         <div class="border-t border-gray-100 pt-4 mt-2">
                             <div class="text-center mb-1">
                                 <span class="font-bold text-lg">{{ $entitasPenyewa->nama_entitas }}</span>
@@ -289,7 +308,12 @@
                                     $totalAll += $subtotal;
                                 @endphp
                                 <div class="flex justify-between text-sm mb-2">
-                                    <span class="text-gray-600">{{ $detail['unit']->nama_kendaraan }} x {{ $detail['duration'] }} hari</span>
+                                    <span class="text-gray-600">
+                                        {{ $detail['unit']->nama_kendaraan }} x {{ $detail['rentalDays'] }} hari
+                                        @if ($detail['extraHours'] > 0)
+                                            + {{ $detail['extraHours'] }} jam ekstra
+                                        @endif
+                                    </span>
                                     <span class="font-medium">Rp {{ number_format($unitCost, 0, ',', '.') }}</span>
                                 </div>
                                 @if ($deliveryFee > 0)

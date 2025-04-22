@@ -12,29 +12,38 @@ use Illuminate\Support\Facades\DB;
 
 class SearchController extends Controller
 {
+  
+
     public function search(Request $request)
     {
-        // Log parameter yang diterima untuk debugging
         \Log::info('Search request parameters:', $request->all());
-
-        // Reset session hanya jika bukan dari halaman detail dan bukan tambah unit
+    
         if (!$request->has('from_detail')) {
             $request->session()->forget(['selected_units', 'selected_mitra_id']);
         }
-
-        // Validasi tipe rental untuk unit baru
+    
         $request->validate([
             'tipe_rental' => 'required|in:tanpa_sopir,dengan_sopir',
         ]);
-
-        // Inisialisasi variabel
+    
         $lokasi = null;
         $startDateTime = null;
         $endDateTime = null;
         $durasi = null;
-        $newTipeRental = $request->tipe_rental; // Tipe rental untuk unit baru
-
-        // Validasi dan pengolahan parameter berdasarkan tipe rental untuk unit baru
+        $rentalDays = 0;
+        $extraHours = 0;
+        $newTipeRental = $request->tipe_rental;
+    
+        // Ambil biaya dari fee_setting
+        $driverFee = DB::table('fee_setting')
+            ->where('nama_fee', 'biaya_sopir')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0;
+        $extraHourFee = DB::table('fee_setting')
+            ->where('nama_fee', 'biaya_jam_ekstra')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0;
+    
         if ($newTipeRental === 'tanpa_sopir') {
             $request->validate([
                 'lokasi' => 'required|string',
@@ -43,10 +52,29 @@ class SearchController extends Controller
                 'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
                 'waktu_selesai' => 'required',
             ]);
-
+    
             $lokasi = $request->input('lokasi');
             $startDateTime = Carbon::parse($request->input('tanggal_mulai') . ' ' . $request->input('waktu_mulai'));
             $endDateTime = Carbon::parse($request->input('tanggal_selesai') . ' ' . $request->input('waktu_selesai'));
+    
+            // Hitung total jam sewa
+            $totalHours = $startDateTime->diffInHours($endDateTime);
+            // Hitung jumlah hari penuh (floor untuk hari penuh)
+            $rentalDays = floor($totalHours / 24);
+            // Hitung sisa jam sebagai extra hours
+            $extraHours = $totalHours % 24;
+    
+            // Jika extra hours lebih dari 0, tambahkan 1 hari jika extra hours >= 12 jam
+            // atau biarkan sebagai extra hours jika kurang
+            if ($extraHours > 0) {
+                if ($extraHours >= 12) {
+                    $rentalDays += 1;
+                    $extraHours = 0;
+                }
+            }
+    
+            // Pastikan minimal 1 hari
+            $rentalDays = max(1, $rentalDays);
         } else {
             $request->validate([
                 'lokasi_sopir' => 'required|string',
@@ -54,30 +82,27 @@ class SearchController extends Controller
                 'waktu_mulai_sopir' => 'required',
                 'durasi' => 'required|numeric|min:1',
             ]);
-
+    
             $lokasi = $request->input('lokasi_sopir');
             $startDateTime = Carbon::parse($request->input('tanggal_mulai_sopir') . ' ' . $request->input('waktu_mulai_sopir'));
             $durasi = (int) ceil($request->input('durasi'));
-            $endDateTime = ($durasi === 1)
-                ? Carbon::parse($request->input('tanggal_mulai_sopir'))->setTime(23, 59)
-                : Carbon::parse($request->input('tanggal_mulai_sopir'))->addDays($durasi - 1)->setTime(23, 59);
+            // End time = start time + (durasi * 12 jam)
+            $endDateTime = $startDateTime->copy()->addHours($durasi * 12);
+    
+            // Hitung total jam sewa
+            $totalHours = $startDateTime->diffInHours($endDateTime);
+            // Hitung jumlah hari (12 jam per hari)
+            $rentalDays = floor($totalHours / 12);
+            $extraHours = $totalHours % 12;
+            // Pastikan minimal 1 hari
+            $rentalDays = max(1, $rentalDays);
         }
-
-        // Ambil biaya sopir
-        $driverFee = DB::table('fee_setting')
-            ->where('nama_fee', 'biaya_sopir')
-            ->where('is_active', 1)
-            ->value('nilai_fee') ?? 0;
-
-        // Ambil unit yang sudah dipilih dari sesi
+    
         $selectedUnits = $request->session()->get('selected_units', []);
         $selectedUnitIds = array_keys($selectedUnits);
-
-        // Ambil ID mitra yang sudah dipilih dari sesi
         $selectedMitraId = $request->session()->get('selected_mitra_id');
         \Log::info('selected_mitra_id in session:', ['selected_mitra_id' => $selectedMitraId]);
-
-        // Query ketersediaan kendaraan
+    
         $query = DB::table('kendaraan')
             ->select(
                 'kendaraan.*',
@@ -108,72 +133,62 @@ class SearchController extends Controller
                     ->orWhere('alamat_mitra.kecamatan', 'LIKE', "%$lokasi%")
                     ->orWhere('alamat_mitra.provinsi', 'LIKE', "%$lokasi%");
             });
-
-        // Jika from_detail ada dan selected_mitra_id tersedia, filter berdasarkan id_mitra
+    
         if ($request->has('from_detail') && $selectedMitraId) {
             $query->where('kendaraan.id_mitra', $selectedMitraId);
         }
-
+    
         $availableVehicles = $query->get();
-
-        // Kelompokkan kendaraan berdasarkan nama
+    
         $groupedVehicles = [];
         $allVehicles = [];
         $mitraPerVehicle = [];
-
+    
         foreach ($availableVehicles as $vehicle) {
             $allVehicles[] = $vehicle;
             $name = $vehicle->nama_kendaraan;
-
-            // Tambahkan ID mitra ke array mitra unik untuk kendaraan ini
+    
             if (!isset($mitraPerVehicle[$name])) {
                 $mitraPerVehicle[$name] = [];
             }
             if (!in_array($vehicle->id_mitra, $mitraPerVehicle[$name])) {
                 $mitraPerVehicle[$name][] = $vehicle->id_mitra;
             }
-
-            // Simpan kendaraan dengan harga terendah untuk setiap nama kendaraan
+    
             if (!isset($groupedVehicles[$name]) || $vehicle->harga_sewa_perhari < $groupedVehicles[$name]->harga_sewa_perhari) {
                 $groupedVehicles[$name] = $vehicle;
             }
         }
-
-        // Update jumlah penyedia (mitra) untuk setiap kendaraan
+    
         foreach ($groupedVehicles as $name => &$vehicle) {
             $vehicle->total_options = count($mitraPerVehicle[$name]);
         }
-
-        // Logika untuk kendaraan yang dipilih dan kendaraan terkait
+    
         $selectedVehicle = null;
         $relatedVehicles = [];
         $groupedByMitra = [];
-
+    
         if ($request->has('selected_vehicle')) {
             $selectedName = $request->input('selected_vehicle');
-
-            // Kelompokkan kendaraan berdasarkan mitra
+    
             foreach ($allVehicles as $vehicle) {
                 if ($vehicle->nama_kendaraan === $selectedName) {
                     $mitraId = $vehicle->id_mitra;
-
-                    // Hanya tambahkan kendaraan pertama per mitra
+    
                     if (!isset($groupedByMitra[$mitraId])) {
                         $groupedByMitra[$mitraId] = $vehicle;
                         $relatedVehicles[] = $vehicle;
                     }
                 }
             }
-
-            // Urutkan berdasarkan harga
+    
             usort($relatedVehicles, function ($a, $b) {
                 return $a->harga_sewa_perhari <=> $b->harga_sewa_perhari;
             });
         }
-
-        // Siapkan parameter untuk view
+    
         $searchParams = [
-            'tipe_rental' => $newTipeRental, // Tipe rental untuk pencarian baru
+            'tipe_rental' => $newTipeRental,
             'lokasi' => $lokasi,
             'tanggal_mulai' => $newTipeRental === 'tanpa_sopir' ? $request->input('tanggal_mulai') : $request->input('tanggal_mulai_sopir'),
             'waktu_mulai' => $newTipeRental === 'tanpa_sopir' ? $request->input('waktu_mulai') : $request->input('waktu_mulai_sopir'),
@@ -182,8 +197,11 @@ class SearchController extends Controller
             'start_date_formatted' => $startDateTime->format('d M Y, H:i'),
             'end_date_formatted' => $endDateTime->format('d M Y, H:i'),
             'durasi' => $durasi,
+            'rentalDays' => $rentalDays,
+            'extraHours' => $extraHours,
+            'extraHourFee' => $extraHourFee,
         ];
-
+    
         return view('search', [
             'groupedVehicles' => array_values($groupedVehicles),
             'allVehicles' => $allVehicles,
@@ -191,7 +209,7 @@ class SearchController extends Controller
             'relatedVehicles' => $relatedVehicles,
             'searchParams' => $searchParams,
             'driver_fee' => $driverFee,
-            'selected_units' => $selectedUnits, // Kirim selected_units ke view
+            'selected_units' => $selectedUnits,
         ]);
     }
 

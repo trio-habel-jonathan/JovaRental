@@ -92,99 +92,99 @@
                     <div class="mb-8 border-b pb-6">
                         <h2 class="text-xl font-bold text-gray-800 mb-4">{{ $unit->nama_kendaraan }} ({{ $unit->tipe_rental === 'dengan_sopir' ? 'Dengan Sopir' : 'Tanpa Sopir' }})</h2>
 
-                      <!-- Lokasi Pengambilan -->
-<h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-    </span>
-    Lokasi Pengambilan
-</h3>
-<div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-    <div class="flex flex-col gap-4">
-        <!-- Radio Button Kantor Rental -->
-        <label class="flex items-center cursor-pointer">
-            <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengambilan', '{{ $unit->id_unit }}')">
-            <span class="text-gray-700 font-medium">Kantor Rental</span>
-        </label>
-        <div id="kantor_pengambilan_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-40 opacity-100">
-            @if ($alamatMitra->isEmpty())
-                <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
-            @else
-                <select name="alamat_kantor_pengambilan[{{ $unit->id_unit }}]" id="alamat_kantor_pengambilan_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                    <option value="">Pilih Alamat Kantor Rental</option>
-                    @foreach ($alamatMitra as $alamat)
-                        <option value="{{ $alamat->id_alamat }}" data-lat="{{ $alamat->latitude }}" data-long="{{ $alamat->longitude }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
-                    @endforeach
-                </select>
-            @endif
-            <div id="biaya_pengantaran_kantor_{{ $unit->id_unit }}" class="mt-2 text-sm text-green-600">Gratis</div>
-        </div>
+                        <!-- Lokasi Pengambilan -->
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </span>
+                            Lokasi Pengambilan
+                        </h3>
+                        <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                            <div class="flex flex-col gap-4">
+                                <!-- Radio Button Kantor Rental -->
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengambilan', '{{ $unit->id_unit }}')">
+                                    <span class="text-gray-700 font-medium">Kantor Rental</span>
+                                </label>
+                                <div id="kantor_pengambilan_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-40 opacity-100">
+                                    @if ($alamatMitra->isEmpty())
+                                        <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
+                                    @else
+                                        <select name="alamat_kantor_pengambilan[{{ $unit->id_unit }}]" id="alamat_kantor_pengambilan_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+                                            <option value="">Pilih Alamat Kantor Rental</option>
+                                            @foreach ($alamatMitra as $alamat)
+                                                <option value="{{ $alamat->id_alamat }}" data-lat="{{ $alamat->latitude }}" data-long="{{ $alamat->longitude }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                    <div id="biaya_pengantaran_kantor_{{ $unit->id_unit }}" class="mt-2 text-sm text-green-600">Gratis</div>
+                                </div>
 
-        <!-- Radio Button Lokasi Lain -->
-        <label class="flex items-center cursor-pointer">
-            <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengambilan', '{{ $unit->id_unit }}')">
-            <span class="text-gray-700 font-medium">Lokasi Lain</span>
-        </label>
-        <div id="lokasi_lain_pengambilan_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-0 opacity-0 overflow-hidden">
-            <div class="relative w-full">
-                <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" placeholder="Cari lokasi">
-                <input type="hidden" name="lat_pengambilan[{{ $unit->id_unit }}]" id="lat_pengambilan_{{ $unit->id_unit }}">
-                <input type="hidden" name="long_pengambilan[{{ $unit->id_unit }}]" id="long_pengambilan_{{ $unit->id_unit }}">
-            </div>
-            <div id="biaya_pengantaran_{{ $unit->id_unit }}" class="mt-2 text-sm text-gray-600"></div>
-        </div>
-    </div>
-</div>
+                                <!-- Radio Button Lokasi Lain -->
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="lokasi_pengambilan[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengambilan', '{{ $unit->id_unit }}')">
+                                    <span class="text-gray-700 font-medium">Lokasi Lain</span>
+                                </label>
+                                <div id="lokasi_lain_pengambilan_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-0 opacity-0 overflow-hidden">
+                                    <div class="relative w-full">
+                                        <input type="text" name="lokasi_pengambilan_lain[{{ $unit->id_unit }}]" id="lokasi_pengambilan_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" placeholder="Cari lokasi">
+                                        <input type="hidden" name="lat_pengambilan[{{ $unit->id_unit }}]" id="lat_pengambilan_{{ $unit->id_unit }}">
+                                        <input type="hidden" name="long_pengambilan[{{ $unit->id_unit }}]" id="long_pengambilan_{{ $unit->id_unit }}">
+                                    </div>
+                                    <div id="biaya_pengantaran_{{ $unit->id_unit }}" class="mt-2 text-sm text-gray-600"></div>
+                                </div>
+                            </div>
+                        </div>
 
-<!-- Lokasi Pengembalian -->
-<h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
-    <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-    </span>
-    Lokasi Pengembalian
-</h3>
-<div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
-    <div class="flex flex-col gap-4">
-        <!-- Radio Button Kantor Rental -->
-        <label class="flex items-center cursor-pointer">
-            <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengembalian', '{{ $unit->id_unit }}')">
-            <span class="text-gray-700 font-medium">Kantor Rental</span>
-        </label>
-        <div id="kantor_pengembalian_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-40 opacity-100">
-            @if ($alamatMitra->isEmpty())
-                <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
-            @else
-                <select name="alamat_kantor_pengembalian[{{ $unit->id_unit }}]" id="alamat_kantor_pengembalian_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
-                    <option value="">Pilih Alamat Kantor Rental</option>
-                    @foreach ($alamatMitra as $alamat)
-                        <option value="{{ $alamat->id_alamat }}" data-lat="{{ $alamat->latitude }}" data-long="{{ $alamat->longitude }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
-                    @endforeach
-                </select>
-            @endif
-            <div id="biaya_pengembalian_kantor_{{ $unit->id_unit }}" class="mt-2 text-sm text-green-600">Gratis</div>
-        </div>
+                        <!-- Lokasi Pengembalian -->
+                        <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center">
+                            <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                            </span>
+                            Lokasi Pengembalian
+                        </h3>
+                        <div class="p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all mb-6 border border-gray-100">
+                            <div class="flex flex-col gap-4">
+                                <!-- Radio Button Kantor Rental -->
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="kantor_rental" checked class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengembalian', '{{ $unit->id_unit }}')">
+                                    <span class="text-gray-700 font-medium">Kantor Rental</span>
+                                </label>
+                                <div id="kantor_pengembalian_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-40 opacity-100">
+                                    @if ($alamatMitra->isEmpty())
+                                        <p class="text-red-500 text-sm">Tidak ada kantor rental di kota ini.</p>
+                                    @else
+                                        <select name="alamat_kantor_pengembalian[{{ $unit->id_unit }}]" id="alamat_kantor_pengembalian_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" required>
+                                            <option value="">Pilih Alamat Kantor Rental</option>
+                                            @foreach ($alamatMitra as $alamat)
+                                                <option value="{{ $alamat->id_alamat }}" data-lat="{{ $alamat->latitude }}" data-long="{{ $alamat->longitude }}">{{ $alamat->alamat }}, {{ $alamat->kota }}, {{ $alamat->kecamatan }}, {{ $alamat->provinsi }}</option>
+                                            @endforeach
+                                        </select>
+                                    @endif
+                                    <div id="biaya_pengembalian_kantor_{{ $unit->id_unit }}" class="mt-2 text-sm text-green-600">Gratis</div>
+                                </div>
 
-        <!-- Radio Button Lokasi Lain -->
-        <label class="flex items-center cursor-pointer">
-            <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengembalian', '{{ $unit->id_unit }}')">
-            <span class="text-gray-700 font-medium">Lokasi Lain</span>
-        </label>
-        <div id="lokasi_lain_pengembalian_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-0 opacity-0 overflow-hidden">
-            <div class="relative w-full">
-                <input type="text" name="lokasi_pengembalian_lain[{{ $unit->id_unit }}]" id="lokasi_pengembalian_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" placeholder="Cari lokasi">
-                <input type="hidden" name="lat_pengembalian[{{ $unit->id_unit }}]" id="lat_pengembalian_{{ $unit->id_unit }}">
-                <input type="hidden" name="long_pengembalian[{{ $unit->id_unit }}]" id="long_pengembalian_{{ $unit->id_unit }}">
-            </div>
-            <div id="biaya_pengembalian_{{ $unit->id_unit }}" class="mt-2 text-sm text-gray-600"></div>
-        </div>
-    </div>
-</div>
+                                <!-- Radio Button Lokasi Lain -->
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="radio" name="lokasi_pengembalian[{{ $unit->id_unit }}]" value="lokasi_lain" class="mr-2 text-purple-600 focus:ring-purple-500" onclick="toggleLokasi('pengembalian', '{{ $unit->id_unit }}')">
+                                    <span class="text-gray-700 font-medium">Lokasi Lain</span>
+                                </label>
+                                <div id="lokasi_lain_pengembalian_{{ $unit->id_unit }}" class="ml-6 transition-all duration-300 ease-in-out max-h-0 opacity-0 overflow-hidden">
+                                    <div class="relative w-full">
+                                        <input type="text" name="lokasi_pengembalian_lain[{{ $unit->id_unit }}]" id="lokasi_pengembalian_lain_{{ $unit->id_unit }}" class="w-full p-2 border border-gray-200 rounded-lg focus:ring-purple-500 focus:border-purple-500" placeholder="Cari lokasi">
+                                        <input type="hidden" name="lat_pengembalian[{{ $unit->id_unit }}]" id="lat_pengembalian_{{ $unit->id_unit }}">
+                                        <input type="hidden" name="long_pengembalian[{{ $unit->id_unit }}]" id="long_pengembalian_{{ $unit->id_unit }}">
+                                    </div>
+                                    <div id="biaya_pengembalian_{{ $unit->id_unit }}" class="mt-2 text-sm text-gray-600"></div>
+                                </div>
+                            </div>
+                        </div>
 
                         <!-- Data Pengemudi (hanya untuk tanpa sopir) -->
                         @if ($unit->tipe_rental == 'tanpa_sopir')
@@ -217,27 +217,27 @@
 
                 <!-- Buttons -->
                 <div class="flex justify-between mt-6">
-                  <a href="{{ route('search', [
-    'from_detail' => 1,
-    'lokasi_sopir' => $lokasi,
-    'lokasi' => $lokasi,
-    'tanggal_mulai_sopir' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : null,
-    'waktu_mulai_sopir' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : null,
-    'durasi' => isset($units->first()->startDateTime, $units->first()->endDateTime) 
-        ? max(1, ceil($units->first()->startDateTime->diffInDays($units->first()->endDateTime) + 1)) 
-        : null,
-    'tanggal_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : null,
-    'waktu_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : null,
-    'tanggal_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('Y-m-d') : null,
-    'waktu_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('H:i') : null,
-    'tipe_rental' => $units->first()->tipe_rental, // Gunakan tipe_rental dari unit pertama
-]) }}"
-    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
-    Tambah Kendaraan
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
-    </svg>
-</a>
+                    <a href="{{ route('search', [
+                        'from_detail' => 1,
+                        'lokasi_sopir' => $lokasi,
+                        'lokasi' => $lokasi,
+                        'tanggal_mulai_sopir' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : null,
+                        'waktu_mulai_sopir' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : null,
+                        'durasi' => isset($units->first()->startDateTime, $units->first()->endDateTime) 
+                            ? max(1, ceil($units->first()->startDateTime->diffInDays($units->first()->endDateTime) + 1)) 
+                            : null,
+                        'tanggal_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('Y-m-d') : null,
+                        'waktu_mulai' => isset($units->first()->startDateTime) ? $units->first()->startDateTime->format('H:i') : null,
+                        'tanggal_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('Y-m-d') : null,
+                        'waktu_selesai' => isset($units->first()->endDateTime) ? $units->first()->endDateTime->format('H:i') : null,
+                        'tipe_rental' => $units->first()->tipe_rental,
+                    ]) }}"
+                    class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
+                        Tambah Kendaraan
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
                     <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         Lanjutkan
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -260,15 +260,36 @@
                     return (isset($unit->startDateTime) ? $unit->startDateTime->format('Y-m-d H:i') : now()->format('Y-m-d H:i')) . '|' .
                            (isset($unit->endDateTime) ? $unit->endDateTime->format('Y-m-d H:i') : now()->addDay()->format('Y-m-d H:i'));
                 });
+                $extraHourFee = DB::table('fee_setting')->where('nama_fee', 'biaya_jam_ekstra')->where('is_active', 1)->value('nilai_fee') ?? 0;
+                $biayaSopirPerHari = DB::table('fee_setting')->where('nama_fee', 'biaya_sopir')->where('is_active', 1)->value('nilai_fee') ?? 120000;
             @endphp
 
-                @foreach ($groupedUnits as $periode => $unitGroup)
+            @foreach ($groupedUnits as $periode => $unitGroup)
                 @php
                     [$startDate, $endDate] = explode('|', $periode);
                     $startDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $startDate);
                     $endDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $endDate);
-                    $duration = $startDateTime->diffInDays($endDateTime) + 1;
                     $totalCost = 0;
+
+                    // Hitung durasi untuk periode ini
+                    $totalHours = $startDateTime->diffInHours($endDateTime);
+                    $rentalDays = 0;
+                    $extraHours = 0;
+                    $tipeRental = $unitGroup->first()->tipe_rental;
+
+                    if ($tipeRental === 'tanpa_sopir') {
+                        $rentalDays = floor($totalHours / 24);
+                        $extraHours = $totalHours % 24;
+                        if ($extraHours >= 12) {
+                            $rentalDays += 1;
+                            $extraHours = 0;
+                        }
+                        $rentalDays = max(1, $rentalDays);
+                    } else {
+                        $rentalDays = floor($totalHours / 12);
+                        $extraHours = $totalHours % 12;
+                        $rentalDays = max(1, $rentalDays);
+                    }
                 @endphp
 
                 <div class="mb-8 border-b pb-6">
@@ -294,18 +315,30 @@
                                     <p class="text-sm text-gray-600">{{ $endDateTime->format('D, d M Y') }} • {{ $endDateTime->format('H:i') }} WIB</p>
                                 </div>
                             </div>
+                            <div class="flex items-center gap-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                <div>
+                                    <p class="text-sm font-medium text-gray-700">Durasi Sewa</p>
+                                    <p class="text-sm text-gray-600">{{ $rentalDays }} hari @if($extraHours > 0) + {{ $extraHours }} jam ekstra @endif</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Vehicle List -->
                     @foreach ($unitGroup as $unit)
                         @php
-                            $driverFee = $unit->tipe_rental === 'dengan_sopir'
-                                ? (\Illuminate\Support\Facades\DB::table('fee_setting')
-                                    ->where('nama_fee', 'biaya_sopir')
-                                    ->where('is_active', 1)
-                                    ->value('nilai_fee') ?? 0)
-                                : 0;
+                            // Hitung biaya per kendaraan
+                            if ($tipeRental === 'tanpa_sopir') {
+                                $unitCost = ($rentalDays * $unit->harga_sewa_perhari) + ($extraHours * $extraHourFee);
+                                $driverFee = 0;
+                            } else {
+                                $unitCost = $rentalDays * $unit->harga_sewa_perhari;
+                                $driverFee = $rentalDays * $biayaSopirPerHari;
+                            }
+                            $totalCost += ($unitCost + $driverFee);
                         @endphp
                         <div class="mb-6">
                             <!-- Vehicle Image -->
@@ -395,14 +428,6 @@
                             <div class="flex justify-end mt-4">
                                 <a href="{{ route('remove-unit', ['id_unit' => $unit->id_unit]) }}" class="text-red-600 hover:text-red-800 font-medium">Hapus</a>
                             </div>
-
-                            <!-- Hitung biaya per kendaraan -->
-                            @php
-                                $unitCost = $unit->tipe_rental === 'tanpa_sopir'
-                                    ? $unit->harga_sewa_perhari * $duration
-                                    : ($unit->harga_sewa_perhari + $driverFee) * $duration;
-                                $totalCost += $unitCost;
-                            @endphp
                         </div>
                     @endforeach
 
@@ -421,15 +446,28 @@
                                     </div>
                                 </div>
                             </div>
-                            @if ($unit->tipe_rental === 'dengan_sopir')
+                            @if ($tipeRental === 'dengan_sopir')
                                 <div class="flex items-center justify-between mt-3">
                                     <div class="flex items-center gap-3">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
                                         <div>
-                                            <p class="text-sm font-medium text-gray-700">Biaya Sopir</p>
-                                            <p class="text-sm text-gray-600">Rp {{ number_format($driverFee * $duration, 0, ',', '.') }}</p>
+                                            <p class="text-sm font-medium text-gray-700">Biaya Sopir ({{ $rentalDays }} hari)</p>
+                                            <p class="text-sm text-gray-600">Rp {{ number_format($driverFee, 0, ',', '.') }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                            @if ($extraHours > 0 && $tipeRental === 'tanpa_sopir')
+                                <div class="flex items-center justify-between mt-3">
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-medium text-gray-700">Biaya Jam Ekstra ({{ $extraHours }} jam)</p>
+                                            <p class="text-sm text-gray-600">Rp {{ number_format($extraHours * $extraHourFee, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -443,6 +481,13 @@
                                         <p class="text-sm font-medium text-gray-700">Biaya Pengantaran</p>
                                         <p class="text-sm text-gray-600">Rp 0</p>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
                                     <div>
                                         <p class="text-sm font-medium text-gray-700">Biaya Pengembalian</p>
                                         <p class="text-sm text-gray-600">Rp 0</p>
@@ -456,8 +501,6 @@
         </div>
     </div>
 
-   
-
     <script>
         // Fungsi untuk toggle animasi
         function toggleLokasi(type, unitId) {
@@ -465,7 +508,7 @@
             const lokasiLainPengambilan = document.getElementById(`lokasi_lain_pengambilan_${unitId}`);
             const kantorPengembalian = document.getElementById(`kantor_pengembalian_${unitId}`);
             const lokasiLainPengembalian = document.getElementById(`lokasi_lain_pengembalian_${unitId}`);
-    
+
             if (type === 'pengambilan') {
                 const isKantor = document.querySelector(`input[name="lokasi_pengambilan[${unitId}]"][value="kantor_rental"]`).checked;
                 if (isKantor) {
@@ -502,7 +545,7 @@
                 }
             }
         }
-    
+
         // Fungsi untuk menghitung jarak
         function hitungJarak(lat1, lon1, lat2, lon2) {
             const R = 6371; // Radius bumi dalam km
@@ -514,28 +557,28 @@
             const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             return Math.round(R * c * 100) / 100; // Jarak dalam km, bulatkan 2 desimal
         }
-    
+
         function deg2rad(deg) {
             return deg * (Math.PI / 180);
         }
-    
+
         // Inisialisasi autocomplete dan perhitungan biaya
         function initializeAutocomplete(inputId, latFieldId, lngFieldId, biayaElementId, tarifPerKm, latMitra, longMitra) {
             const input = document.getElementById(inputId);
             if (!input) return;
-    
+
             const suggestionsContainer = document.createElement('div');
             suggestionsContainer.className = 'absolute z-50 w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 max-h-60 overflow-y-auto hidden';
             input.parentNode.style.position = 'relative';
             input.parentNode.appendChild(suggestionsContainer);
-    
+
             input.addEventListener('input', function() {
                 const query = this.value.trim();
                 if (query.length < 3) {
                     suggestionsContainer.classList.add('hidden');
                     return;
                 }
-    
+
                 fetch(`https://api.geoapify.com/v1/geocode/autocomplete?text=${encodeURIComponent(query)}&limit=5&format=json&apiKey=2640ad08a11e4cbea8864b3a77d14206`)
                     .then(response => response.json())
                     .then(data => {
@@ -550,7 +593,7 @@
                                     document.getElementById(latFieldId).value = result.lat;
                                     document.getElementById(lngFieldId).value = result.lon;
                                     suggestionsContainer.classList.add('hidden');
-    
+
                                     // Hitung dan tampilkan biaya
                                     const jarak = hitungJarak(latMitra, longMitra, result.lat, result.lon);
                                     const biaya = jarak * tarifPerKm;
@@ -562,25 +605,25 @@
                         }
                     });
             });
-    
+
             document.addEventListener('click', (e) => {
                 if (!input.contains(e.target) && !suggestionsContainer.contains(e.target)) {
                     suggestionsContainer.classList.add('hidden');
                 }
             });
         }
-    
+
         // Inisialisasi saat DOM dimuat
         document.addEventListener('DOMContentLoaded', function () {
             @foreach ($units as $unit)
                 toggleLokasi('pengambilan', '{{ $unit->id_unit }}');
                 toggleLokasi('pengembalian', '{{ $unit->id_unit }}');
-    
+
                 const tarifPerKm = {{ DB::table('fee_setting')->where('nama_fee', 'biaya_pengantaran')->value('nilai_fee') ?? 5000 }};
                 const tarifPengembalianPerKm = {{ DB::table('fee_setting')->where('nama_fee', 'biaya_pengembalian')->value('nilai_fee') ?? 5000 }};
                 const latMitra = {{ $alamatMitra->first()->latitude ?? 0 }};
                 const longMitra = {{ $alamatMitra->first()->longitude ?? 0 }};
-    
+
                 initializeAutocomplete(
                     'lokasi_pengambilan_lain_{{ $unit->id_unit }}',
                     'lat_pengambilan_{{ $unit->id_unit }}',
@@ -590,7 +633,7 @@
                     latMitra,
                     longMitra
                 );
-    
+
                 initializeAutocomplete(
                     'lokasi_pengembalian_lain_{{ $unit->id_unit }}',
                     'lat_pengembalian_{{ $unit->id_unit }}',
