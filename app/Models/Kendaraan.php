@@ -88,4 +88,12 @@ class Kendaraan extends Model
     {
         return $this->hasMany(UnitKendaraan::class, 'id_kendaraan', 'id_kendaraan');
     }
+    
+
+    public function KendaraanToUnitKendaraan()
+    {
+        return $this->hasMany(UnitKendaraan::class, 'id_kendaraan', 'id_kendaraan');
+    }
+
+    
 }

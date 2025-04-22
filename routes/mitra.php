@@ -7,16 +7,23 @@ use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
 use App\Http\Controllers\Mitra\MitraController;
+use App\Http\Controllers\Mitra\WithdrawalMitraController;
 use App\Http\Controllers\Mitra\UnitKendaraanController;
 use App\Http\Controllers\PemesananController;
 use App\Http\Controllers\SupirController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])->group(function () {
+    Route::get('/pengembalian/create/{id_unit}', [KendaraanController::class, 'PengembalianKendaraanView'])->name('pengembalian.create');
+    Route::post('/pengembalian/store/{id_unit}', [KendaraanController::class, 'storePengembalian'])->name('pengembalian.store');
+    
+    Route::get('/pengembalian-kendaraan', [KendaraanController::class,'pengembalianKendaraan'])->name('pengembalian-kendaraan');
     Route::get('/', [MitraPageController::class, 'indexMitraView'])->name('indexView'); // Pastikan rute memiliki nama ini
     Route::get('/edit', [MitraPageController::class, 'indexMitraEdit'])->name('indexEdit'); // Pastikan rute memiliki nama ini
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
     Route::get('/settingss', [MitraController::class, 'profile'])->name('settings'); // Pastikan rute memiliki nama ini
+
+    Route::get('/withdraw', [WithdrawalMitraController::class, 'withdrawPage'])->name('withdrawPage');
 
     Route::put("/settings/{mitra}", [MitraController::class, "update"])->name('settingUpdate');
 
