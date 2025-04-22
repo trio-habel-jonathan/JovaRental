@@ -219,7 +219,7 @@ class KendaraanController extends Controller
     public function storePengembalian(Request $request, $id_unit)
 {
     // Debugging: Dump the incoming request
-    dd($request->all());
+    dd($id_unit);
 
     // Validasi input
     $validated = $request->validate([

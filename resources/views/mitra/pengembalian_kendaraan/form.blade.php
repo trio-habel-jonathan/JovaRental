@@ -3,37 +3,52 @@
         @csrf
         
         <!-- Hidden Data -->
-        <input type="hidden" name="id_unit" value="{{ $kendaraan['id_unit'] }}">
-        <input type="hidden" name="id_pemesanan" value="{{ $kendaraan['id_pemesanan'] }}">
+        <input type="hidden" name="id_unit" value="{{ old('id_unit', $kendaraan['id_unit']) }}">
+        <input type="hidden" name="id_pemesanan" value="{{ old('id_pemesanan', $kendaraan['id_pemesanan']) }}">
     
         <!-- Kondisi Kendaraan -->
         <div class="mb-4">
             <label for="kondisi_kendaraan" class="block text-sm font-bold text-gray-700 mb-2">Kondisi Kendaraan</label>
-            <input type="text" name="kondisi_kendaraan" id="kondisi_kendaraan" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <input type="text" name="kondisi_kendaraan" id="kondisi_kendaraan" value="{{ old('kondisi_kendaraan') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('kondisi_kendaraan') border-red-500 @enderror" required>
+            @error('kondisi_kendaraan')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
         </div>
     
         <!-- Kilometer -->
         <div class="mb-4">
             <label for="kilometer" class="block text-sm font-bold text-gray-700 mb-2">Kilometer</label>
-            <input type="number" name="kilometer" id="kilometer" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <input type="number" name="kilometer" id="kilometer" value="{{ old('kilometer') }}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('kilometer') border-red-500 @enderror" required>
+            @error('kilometer')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
         </div>
     
         <!-- Foto Sebelum -->
         <div class="mb-4">
             <label for="foto_sebelum" class="block text-sm font-bold text-gray-700 mb-2">Foto Sebelum</label>
-            <input type="file" name="foto_sebelum" id="foto_sebelum" accept="image/*" class="block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer bg-gray-50 focus:outline-none">
+            <input type="file" name="foto_sebelum" id="foto_sebelum" accept="image/*" class="block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer bg-gray-50 focus:outline-none @error('foto_sebelum') border-red-500 @enderror">
+            @error('foto_sebelum')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
         </div>
     
         <!-- Foto Sesudah -->
         <div class="mb-4">
             <label for="foto_sesudah" class="block text-sm font-bold text-gray-700 mb-2">Foto Sesudah</label>
-            <input type="file" name="foto_sesudah" id="foto_sesudah" accept="image/*" class="block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer bg-gray-50 focus:outline-none">
+            <input type="file" name="foto_sesudah" id="foto_sesudah" accept="image/*" class="block w-full text-sm text-gray-700 border border-gray-300 rounded cursor-pointer bg-gray-50 focus:outline-none @error('foto_sesudah') border-red-500 @enderror">
+            @error('foto_sesudah')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
         </div>
     
         <!-- Catatan -->
         <div class="mb-4">
             <label for="catatan" class="block text-sm font-bold text-gray-700 mb-2">Catatan</label>
-            <textarea name="catatan" id="catatan" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            <textarea name="catatan" id="catatan" rows="3" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline @error('catatan') border-red-500 @enderror">{{ old('catatan') }}</textarea>
+            @error('catatan')
+                <p class="text-red-500 text-xs italic">{{ $message }}</p>
+            @enderror
         </div>
     
         <!-- Tombol Simpan -->
