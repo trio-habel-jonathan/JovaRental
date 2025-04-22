@@ -7,24 +7,49 @@ use App\Models\AlamatMitra;
 use App\Models\Kendaraan;
 use App\Models\UnitKendaraan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class UnitKendaraanController extends Controller
 {
     public function index(Request $request)
     {
-        $alamatMitra = AlamatMitra::all();
+        $user = Auth::user();
+        $mitra = $user->mitra; // Ambil mitra dari user yang login
+    
+        if (!$mitra) {
+            abort(403, 'Akun ini bukan mitra atau belum terdaftar sebagai mitra.');
+        }
+    
+        $alamatMitra = $mitra->alamatMitra; // Ambil alamat mitra dari mitra login
+    
         $query = $request->input('q');
         $unitKendaraan = UnitKendaraan::when($query, function ($queryBuilder) use ($query) {
             $queryBuilder->where('id_alamat_mitra', $query);
-        })->get();
+        })->whereIn('id_alamat_mitra', $alamatMitra->pluck('id_alamat'))->get();
+    
         return view('mitra.unit_kendaraan.index', compact('alamatMitra', 'unitKendaraan'));
     }
-
     public function edit($uuid)
     {
+        $user = Auth::user();
+        $mitra = $user->mitra;
+    
+        if (!$mitra) {
+            abort(404);
+        }
+    
         $unitKendaraan = UnitKendaraan::findOrFail($uuid);
+    
+        // Cek apakah unit ini dimiliki oleh mitra yang login
+        if (!$mitra->alamatMitra->pluck('id_alamat')->contains($unitKendaraan->id_alamat_mitra)) {
+            abort(404);
+        }
+    
         return view('mitra.unit_kendaraan.edit', compact('unitKendaraan'));
     }
+    
+    
 
     public function create(){
         $kendaraan = Kendaraan::all();
@@ -53,8 +78,22 @@ class UnitKendaraanController extends Controller
 
     public function destroy($uuid)
     {
+        $user = Auth::user();
+        $mitra = $user->mitra;
+    
+        if (!$mitra) {
+            abort(404);
+        }
+    
         $unitKendaraan = UnitKendaraan::findOrFail($uuid);
+    
+        if (!$mitra->alamatMitra->pluck('id_alamat')->contains($unitKendaraan->id_alamat_mitra)) {
+            abort(404);
+        }
+    
         $unitKendaraan->delete();
-        return redirect()->route('mitra.unitKendaraan.index')->with(['type' => 'success', 'message' => 'Unit kendaraan berhasi dihapus!']);
+    
+        return redirect()->route('mitra.unitKendaraan.index')->with(['type' => 'success', 'message' => 'Unit kendaraan berhasil dihapus!']);
     }
+    
 }
