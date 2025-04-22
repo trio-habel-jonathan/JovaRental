@@ -9,6 +9,7 @@ use App\Models\JenisKendaraan;
 use App\Models\KategoriKendaraan;
 use App\Models\Pengembalian;
 use App\Models\Mitra;
+use App\Models\Pemesanan;
 use Illuminate\Support\Facades\Auth;
 
 class KendaraanController extends Controller
@@ -149,89 +150,69 @@ class KendaraanController extends Controller
         return redirect()->back()->with(['type' => 'success', 'message' => 'Kendaraan Berhasil Dihapus']);
     }
 
-    
 
-    public function pengembalianKendaraan(){
+
+    public function pengembalianKendaraan()
+    {
         $userId = Auth::user()->id_user;
-    
+
         $mitra = \App\Models\Mitra::where('id_user', $userId)->first();
-    
+
         if (!$mitra) {
             return redirect()->back()->with('error', 'Mitra tidak ditemukan.');
         }
-    
-        $unitIds = [];
-        $kendaraanDetails = [];
-    
-        // Iterate through the kendaraan and unit relationships
-        foreach ($mitra->kendaraans as $kendaraan) {
-            foreach ($kendaraan->KendaraanToUnitKendaraan as $unitKendaraan) {
-                foreach ($unitKendaraan->UnitkendaraanToDetailPemesanan as $detailPemesanan) {
-                    $unitIds[] = $detailPemesanan->id_unit;
-                    
-                    // Retrieve the corresponding 'nama_kendaraan' if exists
-                    $kendaraanDetails[] = [
-                        'id_unit' => $detailPemesanan->id_unit,
-                        'nama_kendaraan' => $kendaraan->nama_kendaraan,
-                        'id_pemesanan' => $detailPemesanan->id_pemesanan
-                    ];
-                }
-            }
-        }
-    
+
+        $pesanan = Pemesanan::with(['detailPemesanan.unitKendaraan.kendaraan'])->where('id_mitra', $mitra->id_mitra)->get();
+
         // Return the view with the unit IDs and kendaraan details
-        return view('mitra.pengembalian_kendaraan.index', compact('kendaraanDetails'));
+        return view('mitra.pengembalian_kendaraan.index', compact('pesanan'));
     }
 
     public function PengembalianKendaraanView($id_unit)
     {
         $userId = Auth::user()->id_user;
-    
+
         // Find the Mitra associated with the authenticated user
         $mitra = \App\Models\Mitra::where('id_user', $userId)->first();
-    
+
         if (!$mitra) {
             return redirect()->back()->with('error', 'Mitra tidak ditemukan.');
         }
-    
+
         // Check if the unit exists in the Mitra's vehicles (kendaraans)
         $kendaraan = $mitra->kendaraans()->whereHas('KendaraanToUnitKendaraan', function ($query) use ($id_unit) {
             $query->whereHas('UnitkendaraanToDetailPemesanan', function ($query) use ($id_unit) {
                 $query->where('id_unit', $id_unit);
             });
         })->first();
-    
+
         if (!$kendaraan) {
             return redirect()->back()->with('error', 'Kendaraan tidak ditemukan untuk pengembalian.');
         }
-    
+
         // Fetch the unit details for the selected kendaraan
         $unitDetails = $kendaraan->KendaraanToUnitKendaraan->first()->UnitkendaraanToDetailPemesanan;
-    
+
         // Pass the relevant data to the view, including id_unit
         return view('mitra.pengembalian_kendaraan.form', compact('kendaraan', 'unitDetails', 'id_unit'));
     }
-    
 
-    
-
-    
     public function storePengembalian(Request $request, $id_unit)
-{
-    // Debugging: Dump the incoming request
-    dd($request->all());
+    {
+        // Debugging: Dump the incoming request
+        dd($request->all());
 
-    // Validasi input
-    $validated = $request->validate([
-        'id_unit' => 'required|string',
-        'id_pemesanan' => 'required|string',
-        'kondisi_kendaraan' => 'required|string',
-        'kilometer' => 'required|numeric',
-        'foto_sebelum' => 'nullable|image|mimes:jpg,jpeg,png|max:8048',
-        'foto_sesudah' => 'nullable|image|mimes:jpg,jpeg,png|max:8048',
-        'catatan' => 'nullable|string',
-    ]);
-    
-    // Handle the rest of your code...
-}    
+        // Validasi input
+        $validated = $request->validate([
+            'id_unit' => 'required|string',
+            'id_pemesanan' => 'required|string',
+            'kondisi_kendaraan' => 'required|string',
+            'kilometer' => 'required|numeric',
+            'foto_sebelum' => 'nullable|image|mimes:jpg,jpeg,png|max:8048',
+            'foto_sesudah' => 'nullable|image|mimes:jpg,jpeg,png|max:8048',
+            'catatan' => 'nullable|string',
+        ]);
+
+        // Handle the rest of your code...
+    }
 }
