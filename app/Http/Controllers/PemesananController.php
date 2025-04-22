@@ -440,7 +440,6 @@ class PemesananController extends Controller
                 $detailPemesanan->id_detail = Str::uuid()->toString();
                 $detailPemesanan->id_pemesanan = $pemesanan->id_pemesanan;
                 $detailPemesanan->id_unit = $unit->id_unit;
-                $detailPemesanan->id_unit_kendaraan = $unit->id_unit;
                 $detailPemesanan->id_sopir = $unitTipeRental === 'dengan_sopir' ? null : null;
                 $detailPemesanan->metode_pengantaran = $lokasi_pengambilan[$unit->id_unit] === 'kantor_rental' ? 'ambil_di_tempat' : 'diantar';
                 $detailPemesanan->tipe_penggunaan_sopir = $unitTipeRental;
@@ -542,30 +541,31 @@ class PemesananController extends Controller
         try {
             $pemesanan = Pemesanan::with([
                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                'detailPemesanan.pengemudiPemesanan',
+                'detailPemesanan.pengemudiPemesanan', // Hanya load buat "tanpa sopir"
+                'detailPemesanan.sopir', // Load sopir buat "dengan sopir"
                 'entitasPenyewa.user'
             ])->where('id_pemesanan', $id_pemesanan)->first();
-
+    
             if (!$pemesanan) {
                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
-                return redirect()->route('detail')->with(['type' => 'error', 'Pemesanan tidak ditemukan.']);
+                return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Pemesanan tidak ditemukan.']);
             }
-
+    
             \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
-
+    
             $user = Auth::user();
             $entitasPenyewa = $pemesanan->entitasPenyewa;
-
+    
             // Siapkan data untuk view sebagai Collection
             $rentalDetails = collect([]);
             foreach ($pemesanan->detailPemesanan as $detail) {
                 $unit = $detail->unitKendaraan;
                 $kendaraan = $unit->kendaraan;
                 $mitra = $kendaraan->mitra;
-
+    
                 // Ambil alamat mitra
                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
-
+    
                 try {
                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
@@ -578,29 +578,55 @@ class PemesananController extends Controller
                     $startDateTime = Carbon::now();
                     $endDateTime = Carbon::now()->addDay();
                 }
-
+    
                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
-
-                // Ambil data pengemudi
-                $pengemudi = $detail->pengemudiPemesanan->first();
-                $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
-                $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
-
-                // Format lokasi pengambilan
+    
+                // Inisialisasi variabel pengemudi
+                $driverNama = null;
+                $driverTelepon = null;
+    
+                // Cek tipe rental
+                if ($detail->tipe_penggunaan_sopir === 'dengan_sopir') {
+                    // Untuk "dengan sopir", cek apakah id_sopir sudah ada
+                    if ($detail->id_sopir && $detail->sopir) {
+                        $driverNama = $detail->sopir->nama_sopir; // Asumsi kolom di tabel sopir
+                        $driverTelepon = $detail->sopir->no_telepon;
+                        \Log::info('Sopir found for detail: ', [
+                            'id_detail' => $detail->id_detail,
+                            'sopir' => $detail->sopir->toArray()
+                        ]);
+                    } else {
+                        // Sopir belum dipilih
+                        \Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
+                    }
+                } else {
+                    // Untuk "tanpa sopir", cek relasi pengemudiPemesanan
+                    $pengemudi = $detail->pengemudiPemesanan ? $detail->pengemudiPemesanan->first() : null;
+                    if ($pengemudi) {
+                        $driverNama = $pengemudi->nama_pengemudi;
+                        $driverTelepon = $pengemudi->no_telepon;
+                        \Log::info('Pengemudi found for detail: ', [
+                            'id_detail' => $detail->id_detail,
+                            'pengemudi' => $pengemudi->toArray()
+                        ]);
+                    } else {
+                        \Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
+                    }
+                }
+    
+                // Format lokasi pengambilan dan pengembalian
                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
                     : $detail->lokasi_pengambilan;
-
-                // Format lokasi pengembalian
-                $formattedLokasiPengembalian = $detail->lokasi_pengembalian; // Use raw value from database for custom locations
+    
+                $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
-                    // Check if lokasi_pengembalian matches an AlamatMitra record
                     $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
                     if ($alamatMitraPengembalian) {
                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
                     }
                 }
-
+    
                 $rentalDetails->put($unit->id_unit, [
                     'unit' => (object) [
                         'id_unit' => $unit->id_unit,
@@ -636,16 +662,15 @@ class PemesananController extends Controller
                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
                 ]);
             }
-
+    
             \Log::info('RentalDetails created: ', $rentalDetails->toArray());
-
+    
             return view('review', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan'));
         } catch (\Exception $e) {
             \Log::error('Error in review: ' . $e->getMessage());
             return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Gagal memuat review: ' . $e->getMessage()]);
         }
     }
-
 
     public function pilihSopir(Request $request)
     {
@@ -671,36 +696,37 @@ class PemesananController extends Controller
      {
          Log::info('Payment method called with id_pemesanan: ' . $id_pemesanan);
          try {
-             // Ambil detail pemesanan
+             // Ambil detail pemesanan dengan relasi sopir
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
                  'detailPemesanan.pengemudiPemesanan',
+                 'detailPemesanan.sopir', // Tambahkan relasi sopir
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
- 
+     
              if (!$pemesanan) {
                  Log::error('Pemesanan not found for id: ' . $id_pemesanan);
                  return redirect()->route('detail')->with('error', 'Pemesanan tidak ditemukan.');
              }
- 
+     
              Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
- 
+     
              $user = Auth::user();
              $entitasPenyewa = $pemesanan->entitasPenyewa;
- 
+     
              // Ambil metode pembayaran aktif
              $paymentMethods = MetodePembayaranPlatform::where('is_active', 1)->get();
- 
+     
              // Siapkan detail rental
              $rentalDetails = collect([]);
              foreach ($pemesanan->detailPemesanan as $detail) {
                  $unit = $detail->unitKendaraan;
                  $kendaraan = $unit->kendaraan;
                  $mitra = $kendaraan->mitra;
- 
+     
                  // Ambil alamat mitra
                  $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
- 
+     
                  // Parse tanggal
                  try {
                      $startDateTime = Carbon::parse($detail->tanggal_mulai);
@@ -714,12 +740,12 @@ class PemesananController extends Controller
                      $startDateTime = Carbon::now();
                      $endDateTime = Carbon::now()->addDay();
                  }
- 
+     
                  // Hitung durasi sewa
                  $totalHours = $startDateTime->diffInHours($endDateTime);
                  $rentalDays = 0;
                  $extraHours = 0;
- 
+     
                  if ($detail->tipe_penggunaan_sopir === 'tanpa_sopir') {
                      $rentalDays = floor($totalHours / 24);
                      $extraHours = $totalHours % 24;
@@ -733,17 +759,43 @@ class PemesananController extends Controller
                      $extraHours = $totalHours % 12;
                      $rentalDays = max(1, $rentalDays);
                  }
- 
-                 // Ambil data pengemudi
-                 $pengemudi = $detail->pengemudiPemesanan->first();
-                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
-                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
- 
+     
+                 // Ambil data pengemudi berdasarkan tipe rental
+                 $driverNama = null;
+                 $driverTelepon = null;
+     
+                 if ($detail->tipe_penggunaan_sopir === 'dengan_sopir') {
+                     // Untuk dengan sopir, cek apakah id_sopir sudah ada
+                     if ($detail->id_sopir && $detail->sopir) {
+                         $driverNama = $detail->sopir->nama_sopir;
+                         $driverTelepon = $detail->sopir->no_telepon;
+                         Log::info('Sopir found for detail: ', [
+                             'id_detail' => $detail->id_detail,
+                             'sopir' => $detail->sopir->toArray()
+                         ]);
+                     } else {
+                         Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
+                     }
+                 } else {
+                     // Untuk tanpa sopir, cek relasi pengemudiPemesanan
+                     $pengemudi = $detail->pengemudiPemesanan ? $detail->pengemudiPemesanan->first() : null;
+                     if ($pengemudi) {
+                         $driverNama = $pengemudi->nama_pengemudi;
+                         $driverTelepon = $pengemudi->no_telepon;
+                         Log::info('Pengemudi found for detail: ', [
+                             'id_detail' => $detail->id_detail,
+                             'pengemudi' => $pengemudi->toArray()
+                         ]);
+                     } else {
+                         Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
+                     }
+                 }
+     
                  // Format lokasi pengambilan
                  $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                      ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
                      : $detail->lokasi_pengambilan;
- 
+     
                  // Format lokasi pengembalian
                  $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
                  if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
@@ -752,7 +804,7 @@ class PemesananController extends Controller
                          $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
                      }
                  }
- 
+     
                  $rentalDetails->put($unit->id_unit, [
                      'unit' => (object) [
                          'id_unit' => $unit->id_unit,
@@ -789,9 +841,9 @@ class PemesananController extends Controller
                      'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
                  ]);
              }
- 
+     
              Log::info('RentalDetails created: ', $rentalDetails->toArray());
- 
+     
              return view('pembayaran', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan', 'paymentMethods'));
          } catch (\Exception $e) {
              Log::error('Error in payment: ' . $e->getMessage());
@@ -816,6 +868,7 @@ class PemesananController extends Controller
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
                  'detailPemesanan.pengemudiPemesanan',
+                 'detailPemesanan.sopir', // Tambahkan relasi sopir
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
      
@@ -876,9 +929,34 @@ class PemesananController extends Controller
      
                  $duration = $startDateTime->diffInDays($endDateTime) + 1;
      
-                 $pengemudi = $detail->pengemudiPemesanan->first();
-                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
-                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
+                 // Ambil data pengemudi berdasarkan tipe rental
+                 $driverNama = null;
+                 $driverTelepon = null;
+     
+                 if ($detail->tipe_penggunaan_sopir === 'dengan_sopir') {
+                     if ($detail->id_sopir && $detail->sopir) {
+                         $driverNama = $detail->sopir->nama_sopir;
+                         $driverTelepon = $detail->sopir->no_telepon;
+                         Log::info('Sopir found for detail: ', [
+                             'id_detail' => $detail->id_detail,
+                             'sopir' => $detail->sopir->toArray()
+                         ]);
+                     } else {
+                         Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
+                     }
+                 } else {
+                     $pengemudi = $detail->pengemudiPemesanan ? $detail->pengemudiPemesanan->first() : null;
+                     if ($pengemudi) {
+                         $driverNama = $pengemudi->nama_pengemudi;
+                         $driverTelepon = $pengemudi->no_telepon;
+                         Log::info('Pengemudi found for detail: ', [
+                             'id_detail' => $detail->id_detail,
+                             'pengemudi' => $pengemudi->toArray()
+                         ]);
+                     } else {
+                         Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
+                     }
+                 }
      
                  $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                      ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
@@ -953,127 +1031,206 @@ class PemesananController extends Controller
                  ->with('error', 'Gagal memproses pembayaran: ' . $e->getMessage());
          }
      }
-     public function uploadBuktiPembayaran(Request $request, $id_pemesanan)
-     {
-         \Log::info('uploadBuktiPembayaran called with id_pemesanan: ' . $id_pemesanan);
-     
-         try {
-             // Ambil pemesanan
-             $pemesanan = Pemesanan::with([
-                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                 'detailPemesanan.pengemudiPemesanan',
-                 'entitasPenyewa.user'
-             ])->where('id_pemesanan', $id_pemesanan)->first();
-     
-             if (!$pemesanan) {
-                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
-                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
-                     ->with('error', 'Pemesanan tidak ditemukan.');
-             }
-     
-             // Ambil entitas penyewa
-             $entitasPenyewa = $pemesanan->entitasPenyewa;
-             if (!$entitasPenyewa) {
-                 \Log::error('Entitas penyewa not found for pemesanan: ' . $id_pemesanan);
-                 return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
-                     ->with('error', 'Data entitas penyewa tidak ditemukan.');
-             }
-     
-             // Ambil user
-             $user = Auth::user();
-             if (!$user) {
-                 \Log::error('User not authenticated for pemesanan: ' . $id_pemesanan);
-                 return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
-             }
-     
-             // Siapkan rentalDetails untuk view
-             $rentalDetails = collect([]);
-             foreach ($pemesanan->detailPemesanan as $detail) {
-                 $unit = $detail->unitKendaraan;
-                 $kendaraan = $unit->kendaraan;
-                 $mitra = $kendaraan->mitra;
-     
-                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
-     
-                 try {
-                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
-                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
-                 } catch (\Exception $e) {
-                     \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
-                         'id_detail' => $detail->id_detail,
-                         'tanggal_mulai' => $detail->tanggal_mulai,
-                         'tanggal_kembali' => $detail->tanggal_kembali
-                     ]);
-                     $startDateTime = Carbon::now();
-                     $endDateTime = Carbon::now()->addDay();
-                 }
-     
-                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
-     
-                 $pengemudi = $detail->pengemudiPemesanan->first();
-                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
-                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
-     
-                 $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
-                     ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
-                     : $detail->lokasi_pengambilan;
-     
-                 $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
-                 if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
-                     $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
-                     if ($alamatMitraPengembalian) {
-                         $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
-                     }
-                 }
-     
-                 $rentalDetails->put($unit->id_unit, [
-                     'unit' => (object) [
-                         'id_unit' => $unit->id_unit,
-                         'nama_kendaraan' => $kendaraan->nama_kendaraan,
-                         'fotos' => $kendaraan->fotos,
-                         'transmisi' => $kendaraan->transmisi,
-                         'jumlah_kursi' => $kendaraan->jumlah_kursi,
-                         'tahun_produksi' => $kendaraan->tahun_produksi,
-                         'harga_sewa_perhari' => $kendaraan->harga_sewa_perhari,
-                         'nama_mitra' => $mitra->nama_mitra,
-                         'foto_mitra' => $mitra->foto_mitra,
-                         'kota_mitra' => $mitra->kota_mitra ?? 'Unknown',
-                         'alamat_mitra' => $alamatMitra ? (object) [
-                             'alamat' => $alamatMitra->alamat,
-                             'kota' => $alamatMitra->kota,
-                             'kecamatan' => $alamatMitra->kecamatan,
-                             'provinsi' => $alamatMitra->provinsi,
-                         ] : null,
-                     ],
-                     'startDateTime' => $startDateTime,
-                     'endDateTime' => $endDateTime,
-                     'duration' => $duration,
-                     'unitCost' => $detail->subtotal_harga,
-                     'driverFee' => $detail->biaya_sopir,
-                     'deliveryFee' => $detail->biaya_pengantaran,
-                     'returnFee' => $detail->biaya_pengembalian,
-                     'lokasi_pengambilan' => $formattedLokasiPengambilan,
-                     'lokasi_pengembalian' => $formattedLokasiPengembalian,
-                     'driver_nama' => $driverNama,
-                     'driver_telepon' => $driverTelepon,
-                     'perwakilan_penyewa' => $pemesanan->perwakilan_penyewa,
-                     'kontak_perwakilan' => $pemesanan->kontak_perwakilan,
-                     'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
-                 ]);
-             }
-     
-             return view('buktiPembayaran', compact(
-                 'rentalDetails',
-                 'entitasPenyewa',
-                 'user',
-                 'pemesanan'
-             ));
-         } catch (\Exception $e) {
-             \Log::error('Error in uploadBuktiPembayaran: ' . $e->getMessage());
-             return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
-                 ->with('error', 'Gagal memproses: ' . $e->getMessage());
-         }
-     }
+
+   public function uploadBuktiPembayaran(Request $request, $id_pemesanan)
+{
+    \Log::info('Upload bukti pembayaran called with id_pemesanan: ' . $id_pemesanan);
+    try {
+        // Ambil pemesanan dengan relasi yang diperlukan
+        $pemesanan = Pemesanan::with([
+            'detailPemesanan.unitKendaraan.kendaraan.mitra',
+            'detailPemesanan.pengemudiPemesanan',
+            'detailPemesanan.sopir', // Tambahkan relasi sopir
+            'entitasPenyewa.user'
+        ])->where('id_pemesanan', $id_pemesanan)->first();
+
+        if (!$pemesanan) {
+            \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+            return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                ->with('error', 'Pemesanan tidak ditemukan.');
+        }
+
+        // Ambil user
+        $user = Auth::user();
+        if (!$user) {
+            \Log::error('User not authenticated for pemesanan: ' . $id_pemesanan);
+            return redirect()->route('login')->with('error', 'Harap login terlebih dahulu.');
+        }
+
+        // Ambil entitas penyewa
+        $entitasPenyewa = $pemesanan->entitasPenyewa;
+        if (!$entitasPenyewa) {
+            \Log::error('Entitas penyewa not found for pemesanan: ' . $id_pemesanan);
+            return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                ->with('error', 'Data entitas penyewa tidak ditemukan.');
+        }
+
+        // Ambil metode pembayaran dari query string atau session
+        $paymentMethodId = $request->query('payment_method') ?? $request->session()->get('payment_method');
+        $paymentMethod = MetodePembayaranPlatform::where('id_metode_pembayaran_platform', $paymentMethodId)
+            ->where('is_active', 1)
+            ->first();
+
+        if (!$paymentMethod) {
+            \Log::error('Payment method not found or inactive: ' . $paymentMethodId);
+            return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+                ->with('error', 'Metode pembayaran tidak valid.');
+        }
+
+        // Siapkan rentalDetails
+        $rentalDetails = collect([]);
+        $totalAll = 0;
+        foreach ($pemesanan->detailPemesanan as $detail) {
+            $unit = $detail->unitKendaraan;
+            $kendaraan = $unit->kendaraan;
+            $mitra = $kendaraan->mitra;
+
+            // Ambil alamat mitra
+            $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
+
+            // Parse tanggal
+            try {
+                $startDateTime = Carbon::parse($detail->tanggal_mulai);
+                $endDateTime = Carbon::parse($detail->tanggal_kembali);
+            } catch (\Exception $e) {
+                \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                    'id_detail' => $detail->id_detail,
+                    'tanggal_mulai' => $detail->tanggal_mulai,
+                    'tanggal_kembali' => $detail->tanggal_kembali
+                ]);
+                $startDateTime = Carbon::now();
+                $endDateTime = Carbon::now()->addDay();
+            }
+
+            // Hitung durasi sewa
+            $totalHours = $startDateTime->diffInHours($endDateTime);
+            $rentalDays = 0;
+            $extraHours = 0;
+
+            if ($detail->tipe_penggunaan_sopir === 'tanpa_sopir') {
+                $rentalDays = floor($totalHours / 24);
+                $extraHours = $totalHours % 24;
+                if ($extraHours >= 12) {
+                    $rentalDays += 1;
+                    $extraHours = 0;
+                }
+                $rentalDays = max(1, $rentalDays);
+            } else {
+                $rentalDays = floor($totalHours / 12);
+                $extraHours = $totalHours % 12;
+                $rentalDays = max(1, $rentalDays);
+            }
+
+            // Ambil data pengemudi berdasarkan tipe rental
+            $driverNama = null;
+            $driverTelepon = null;
+
+            if ($detail->tipe_penggunaan_sopir === 'dengan_sopir') {
+                // Untuk dengan sopir, cek apakah id_sopir sudah ada
+                if ($detail->id_sopir && $detail->sopir) {
+                    $driverNama = $detail->sopir->nama_sopir;
+                    $driverTelepon = $detail->sopir->no_telepon;
+                    \Log::info('Sopir found for detail: ', [
+                        'id_detail' => $detail->id_detail,
+                        'sopir' => $detail->sopir->toArray()
+                    ]);
+                } else {
+                    \Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
+                }
+            } else {
+                // Untuk tanpa sopir, cek relasi pengemudiPemesanan
+                $pengemudi = $detail->pengemudiPemesanan ? $detail->pengemudiPemesanan->first() : null;
+                if ($pengemudi) {
+                    $driverNama = $pengemudi->nama_pengemudi;
+                    $driverTelepon = $pengemudi->no_telepon;
+                    \Log::info('Pengemudi found for detail: ', [
+                        'id_detail' => $detail->id_detail,
+                        'pengemudi' => $pengemudi->toArray()
+                    ]);
+                } else {
+                    \Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
+                }
+            }
+
+            // Format lokasi pengambilan
+            $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
+                ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
+                : $detail->lokasi_pengambilan;
+
+            // Format lokasi pengembalian
+            $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
+            if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
+                $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
+                if ($alamatMitraPengembalian) {
+                    $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
+                }
+            }
+
+            // Hitung subtotal
+            $subtotal = $detail->subtotal_harga + 
+                        ($detail->tipe_penggunaan_sopir === 'dengan_sopir' ? $detail->biaya_sopir : 0) + 
+                        $detail->biaya_pengantaran + 
+                        $detail->biaya_pengembalian;
+            $totalAll += $subtotal;
+
+            $rentalDetails->put($unit->id_unit, [
+                'unit' => (object) [
+                    'id_unit' => $unit->id_unit,
+                    'nama_kendaraan' => $kendaraan->nama_kendaraan,
+                    'fotos' => $kendaraan->fotos,
+                    'transmisi' => $kendaraan->transmisi,
+                    'jumlah_kursi' => $kendaraan->jumlah_kursi,
+                    'tahun_produksi' => $kendaraan->tahun_produksi,
+                    'harga_sewa_perhari' => $kendaraan->harga_sewa_perhari,
+                    'nama_mitra' => $mitra->nama_mitra,
+                    'foto_mitra' => $mitra->foto_mitra,
+                    'kota_mitra' => $mitra->kota_mitra ?? 'Unknown',
+                    'alamat_mitra' => $alamatMitra ? (object) [
+                        'alamat' => $alamatMitra->alamat,
+                        'kota' => $alamatMitra->kota,
+                        'kecamatan' => $alamatMitra->kecamatan,
+                        'provinsi' => $alamatMitra->provinsi,
+                    ] : null,
+                ],
+                'startDateTime' => $startDateTime,
+                'endDateTime' => $endDateTime,
+                'rentalDays' => $rentalDays,
+                'extraHours' => $extraHours,
+                'unitCost' => $detail->subtotal_harga,
+                'driverFee' => $detail->biaya_sopir,
+                'deliveryFee' => $detail->biaya_pengantaran,
+                'returnFee' => $detail->biaya_pengembalian,
+                'lokasi_pengambilan' => $formattedLokasiPengambilan,
+                'lokasi_pengembalian' => $formattedLokasiPengembalian,
+                'driver_nama' => $driverNama,
+                'driver_telepon' => $driverTelepon,
+                'perwakilan_penyewa' => $pemesanan->perwakilan_penyewa,
+                'kontak_perwakilan' => $pemesanan->kontak_perwakilan,
+                'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
+            ]);
+        }
+
+        // Deadline untuk upload bukti pembayaran
+        $deadline = Carbon::now()->addHours(24);
+
+        \Log::info('RentalDetails created: ', $rentalDetails->toArray());
+
+        // Kembalikan view untuk upload bukti pembayaran
+        return view('buktiPembayaran', compact(
+            'rentalDetails',
+            'entitasPenyewa',
+            'user',
+            'pemesanan',
+            'paymentMethod',
+            'deadline',
+            'totalAll'
+        ));
+    } catch (\Exception $e) {
+        \Log::error('Error in uploadBuktiPembayaran: ' . $e->getMessage());
+        return redirect()->route('pembayaran', ['id_pemesanan' => $id_pemesanan])
+            ->with('error', 'Gagal memuat halaman upload bukti pembayaran: ' . $e->getMessage());
+    }
+}
      public function storeBuktiPembayaran(Request $request, $id_pemesanan)
      {
          \Log::info('storeBuktiPembayaran called with id_pemesanan: ' . $id_pemesanan);
@@ -1187,10 +1344,11 @@ class PemesananController extends Controller
      {
          \Log::info('pembayaranSuccess called with id_pemesanan: ' . $id_pemesanan);
          try {
-             // Ambil pemesanan
+             // Ambil pemesanan dengan relasi yang diperlukan
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
                  'detailPemesanan.pengemudiPemesanan',
+                 'detailPemesanan.sopir', // Tambahkan relasi sopir
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
      
@@ -1230,8 +1388,10 @@ class PemesananController extends Controller
                  $kendaraan = $unit->kendaraan;
                  $mitra = $kendaraan->mitra;
      
+                 // Ambil alamat mitra
                  $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
      
+                 // Parse tanggal
                  try {
                      $startDateTime = Carbon::parse($detail->tanggal_mulai);
                      $endDateTime = Carbon::parse($detail->tanggal_kembali);
@@ -1245,16 +1405,62 @@ class PemesananController extends Controller
                      $endDateTime = Carbon::now()->addDay();
                  }
      
-                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
+                 // Hitung durasi sewa
+                 $totalHours = $startDateTime->diffInHours($endDateTime);
+                 $rentalDays = 0;
+                 $extraHours = 0;
      
-                 $pengemudi = $detail->pengemudiPemesanan->first();
-                 $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
-                 $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
+                 if ($detail->tipe_penggunaan_sopir === 'tanpa_sopir') {
+                     $rentalDays = floor($totalHours / 24);
+                     $extraHours = $totalHours % 24;
+                     if ($extraHours >= 12) {
+                         $rentalDays += 1;
+                         $extraHours = 0;
+                     }
+                     $rentalDays = max(1, $rentalDays);
+                 } else {
+                     $rentalDays = floor($totalHours / 12);
+                     $extraHours = $totalHours % 12;
+                     $rentalDays = max(1, $rentalDays);
+                 }
      
+                 // Ambil data pengemudi berdasarkan tipe rental
+                 $driverNama = null;
+                 $driverTelepon = null;
+     
+                 if ($detail->tipe_penggunaan_sopir === 'dengan_sopir') {
+                     // Untuk dengan sopir, cek apakah id_sopir sudah ada
+                     if ($detail->id_sopir && $detail->sopir) {
+                         $driverNama = $detail->sopir->nama_sopir;
+                         $driverTelepon = $detail->sopir->no_telepon;
+                         \Log::info('Sopir found for detail: ', [
+                             'id_detail' => $detail->id_detail,
+                             'sopir' => $detail->sopir->toArray()
+                         ]);
+                     } else {
+                         \Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
+                     }
+                 } else {
+                     // Untuk tanpa sopir, cek relasi pengemudiPemesanan
+                     $pengemudi = $detail->pengemudiPemesanan ? $detail->pengemudiPemesanan->first() : null;
+                     if ($pengemudi) {
+                         $driverNama = $pengemudi->nama_pengemudi;
+                         $driverTelepon = $pengemudi->no_telepon;
+                         \Log::info('Pengemudi found for detail: ', [
+                             'id_detail' => $detail->id_detail,
+                             'pengemudi' => $pengemudi->toArray()
+                         ]);
+                     } else {
+                         \Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
+                     }
+                 }
+     
+                 // Format lokasi pengambilan
                  $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                      ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
                      : $detail->lokasi_pengambilan;
      
+                 // Format lokasi pengembalian
                  $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
                  if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
                      $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
@@ -1284,7 +1490,8 @@ class PemesananController extends Controller
                      ],
                      'startDateTime' => $startDateTime,
                      'endDateTime' => $endDateTime,
-                     'duration' => $duration,
+                     'rentalDays' => $rentalDays,
+                     'extraHours' => $extraHours,
                      'unitCost' => $detail->subtotal_harga,
                      'driverFee' => $detail->biaya_sopir,
                      'deliveryFee' => $detail->biaya_pengantaran,
@@ -1314,5 +1521,4 @@ class PemesananController extends Controller
                  ->with('error', 'Gagal memproses halaman sukses: ' . $e->getMessage());
          }
      }
-        
 }
