@@ -19,12 +19,15 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 
 class PemesananController extends Controller
 {
     public function detail(Request $request)
     {
+        // Ambil parameter dari query string
         $id_unit = $request->query('id_unit');
         $tipe_rental = $request->query('tipe_rental');
         $start_date = $request->query('start_date');
@@ -34,42 +37,51 @@ class PemesananController extends Controller
         // Validasi parameter
         if (!$id_unit || !$tipe_rental || !$start_date || !$end_date || !$lokasi) {
             \Log::error('Missing required query parameters', $request->query());
-            return redirect()->route('search')->with(['type' => 'error', 'Parameter tidak lengkap.']);
+            return redirect()->route('search')->with(['type' => 'error', 'message' => 'Parameter tidak lengkap.']);
+        }
+
+        // Validasi tipe_rental
+        if (!in_array($tipe_rental, ['tanpa_sopir', 'dengan_sopir'])) {
+            \Log::error('Invalid tipe_rental', ['tipe_rental' => $tipe_rental]);
+            return redirect()->route('search')->with(['type' => 'error', 'message' => 'Tipe rental tidak valid.']);
         }
 
         // Validasi format tanggal
         try {
             $startDateTime = Carbon::createFromFormat('d M Y, H:i', $start_date);
             $endDateTime = Carbon::createFromFormat('d M Y, H:i', $end_date);
+
+            // Pastikan endDateTime lebih besar dari startDateTime
+            if ($endDateTime->lte($startDateTime)) {
+                \Log::error('End date must be after start date', [
+                    'start_date' => $start_date,
+                    'end_date' => $end_date
+                ]);
+                return redirect()->route('search')->with(['type' => 'error', 'message' => 'Tanggal selesai harus setelah tanggal mulai.']);
+            }
         } catch (\Exception $e) {
-            \Log::error('Invalid date format: ' . $e->getMessage(), ['start_date' => $start_date, 'end_date' => $end_date]);
-            return redirect()->route('search')->with(['type' => 'error', 'Format tanggal tidak valid.']);
+            \Log::error('Invalid date format: ' . $e->getMessage(), [
+                'start_date' => $start_date,
+                'end_date' => $end_date
+            ]);
+            return redirect()->route('search')->with(['type' => 'error', 'message' => 'Format tanggal tidak valid.']);
         }
 
-        if (!$id_unit) {
-            return redirect()->route('search', [
-                'tipe_rental' => $tipe_rental,
-                'lokasi' => $lokasi,
-                'tanggal_mulai' => $startDateTime->format('Y-m-d'),
-                'waktu_mulai' => $startDateTime->format('H:i'),
-                'tanggal_selesai' => $endDateTime->format('Y-m-d'),
-                'waktu_selesai' => $endDateTime->format('H:i'),
-            ])->with(['type' => 'error', 'Kendaraan tidak valid.']);
-        }
+        // Ambil data kendaraan yang dipilih dari sesi
+        $selectedUnits = Session::get('selected_units', []);
 
-        $selectedUnits = $request->session()->get('selected_units', []);
-
-        // Simpan tipe_rental per unit di session
+        // Simpan unit baru ke sesi jika belum ada
         if (!isset($selectedUnits[$id_unit])) {
             $selectedUnits[$id_unit] = [
                 'id_unit' => $id_unit,
                 'start_date' => $start_date,
                 'end_date' => $end_date,
-                'tipe_rental' => $tipe_rental, // Simpan tipe_rental untuk unit ini
+                'tipe_rental' => $tipe_rental,
             ];
-            $request->session()->put('selected_units', $selectedUnits);
+            Session::put('selected_units', $selectedUnits);
         }
 
+        // Ambil ID unit dari sesi
         $unitIds = array_keys($selectedUnits);
 
         if (empty($unitIds)) {
@@ -83,11 +95,24 @@ class PemesananController extends Controller
             ])->with(['type' => 'error', 'message' => 'Tidak ada kendaraan yang dipilih.']);
         }
 
+        // Ambil data unit dari database
         $units = DB::table('unit_kendaraan')
             ->join('kendaraan', 'unit_kendaraan.id_kendaraan', '=', 'kendaraan.id_kendaraan')
             ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
             ->whereIn('unit_kendaraan.id_unit', $unitIds)
-            ->select('unit_kendaraan.*', 'kendaraan.*', 'mitra.nama_mitra', 'mitra.foto_mitra')
+            ->select(
+                'unit_kendaraan.id_unit',
+                'unit_kendaraan.plat_nomor',
+                'kendaraan.nama_kendaraan',
+                'kendaraan.harga_sewa_perhari',
+                'kendaraan.transmisi',
+                'kendaraan.jumlah_kursi',
+                'kendaraan.tahun_produksi',
+                'kendaraan.fotos',
+                'mitra.id_mitra',
+                'mitra.nama_mitra',
+                'mitra.foto_mitra'
+            )
             ->get();
 
         if ($units->isEmpty()) {
@@ -101,11 +126,12 @@ class PemesananController extends Controller
             ])->with(['type' => 'error', 'message' => 'Tidak ada kendaraan yang dipilih.']);
         }
 
+        // Tambahkan data waktu dan hitung durasi untuk setiap unit
         foreach ($units as $unit) {
             if (isset($selectedUnits[$unit->id_unit])) {
                 $unit->start_date = $selectedUnits[$unit->id_unit]['start_date'];
                 $unit->end_date = $selectedUnits[$unit->id_unit]['end_date'];
-                $unit->tipe_rental = $selectedUnits[$unit->id_unit]['tipe_rental']; // Tambahkan tipe_rental ke unit
+                $unit->tipe_rental = $selectedUnits[$unit->id_unit]['tipe_rental'];
                 try {
                     $unit->startDateTime = Carbon::createFromFormat('d M Y, H:i', $unit->start_date);
                     $unit->endDateTime = Carbon::createFromFormat('d M Y, H:i', $unit->end_date);
@@ -119,11 +145,32 @@ class PemesananController extends Controller
                 $unit->endDateTime = $endDateTime;
                 $unit->tipe_rental = $tipe_rental;
             }
+
+            // Hitung durasi sewa
+            $totalHours = $unit->startDateTime->diffInHours($unit->endDateTime);
+            $unit->rentalDays = 0;
+            $unit->extraHours = 0;
+
+            if ($unit->tipe_rental === 'tanpa_sopir') {
+                $unit->rentalDays = floor($totalHours / 24);
+                $unit->extraHours = $totalHours % 24;
+                if ($unit->extraHours >= 12) {
+                    $unit->rentalDays += 1;
+                    $unit->extraHours = 0;
+                }
+                $unit->rentalDays = max(1, $unit->rentalDays);
+            } else {
+                $unit->rentalDays = floor($totalHours / 12);
+                $unit->extraHours = $totalHours % 12;
+                $unit->rentalDays = max(1, $unit->rentalDays);
+            }
         }
 
+        // Simpan ID mitra ke sesi
         $selectedMitraId = $units->first()->id_mitra;
-        $request->session()->put('selected_mitra_id', $selectedMitraId);
+        Session::put('selected_mitra_id', $selectedMitraId);
 
+        // Ambil alamat mitra
         $alamatMitra = AlamatMitra::where('id_mitra', $selectedMitraId)
             ->where(function ($query) use ($lokasi) {
                 $query->where('kota', 'LIKE', "%$lokasi%")
@@ -133,11 +180,37 @@ class PemesananController extends Controller
             })
             ->get();
 
+        // Ambil data pengguna dan entitas penyewa
         $user = Auth::user();
         $entitasPenyewa = EntitasPenyewa::where('id_user', $user->id_user)->first();
 
+        if (!$entitasPenyewa) {
+            \Log::error('Entitas penyewa tidak ditemukan untuk user', ['user_id' => $user->id_user]);
+            return redirect()->route('search')->with(['type' => 'error', 'message' => 'Entitas penyewa tidak ditemukan.']);
+        }
+
+        // Kembalikan view dengan data
         return view('detail', compact('units', 'lokasi', 'alamatMitra', 'entitasPenyewa', 'user'));
     }
+
+    public function removeUnit(Request $request, $id_unit)
+    {
+        // Hapus unit dari sesi
+        $selectedUnits = Session::get('selected_units', []);
+        if (isset($selectedUnits[$id_unit])) {
+            unset($selectedUnits[$id_unit]);
+            Session::put('selected_units', $selectedUnits);
+        }
+
+        // Jika masih ada unit, kembali ke halaman detail
+        if (!empty($selectedUnits)) {
+            return redirect()->route('pemesanan.detail', $request->query());
+        }
+
+        // Jika tidak ada unit lagi, kembali ke halaman pencarian
+        return redirect()->route('search', $request->query())->with(['type' => 'success', 'message' => 'Kendaraan telah dihapus.']);
+    }
+
 
     private function hitungJarak($lat1, $lon1, $lat2, $lon2)
     {
@@ -158,8 +231,8 @@ class PemesananController extends Controller
     public function processDetail(Request $request)
     {
         \Log::info('Input processDetail:', $request->all());
-
-        // Ambil data dari form
+    
+        // Ambil data dari form (tetap sama)
         $id_units = $request->input('id_units', []);
         $tanggal_mulai = $request->input('tanggal_mulai', []);
         $tanggal_kembali = $request->input('tanggal_kembali', []);
@@ -171,19 +244,19 @@ class PemesananController extends Controller
         $lokasi_pengembalian = $request->input('lokasi_pengembalian', []);
         $alamat_kantor_pengembalian = $request->input('alamat_kantor_pengembalian', []);
         $lokasi_pengembalian_lain = $request->input('lokasi_pengembalian_lain', []);
-        $lat_pengembalian = $request->input('lat_pengembalian', []);
-        $long_pengembalian = $request->input('long_pengembalian', []);
+        $lat_pengembalian = $request->input('lat_pengambilan', []);
+        $long_pengembalian = $request->input('long_pengambilan', []);
         $driver_nama = $request->input('driver_nama', []);
         $driver_telepon = $request->input('driver_telepon', []);
         $tipe_rental = $request->input('tipe_rental', []);
         $perwakilan_penyewa = $request->input('perwakilan_penyewa');
         $kontak_perwakilan = $request->input('kontak_perwakilan');
-
-        // Ambil data entitas penyewa
+    
+        // Ambil data entitas penyewa (tetap sama)
         $user = Auth::user();
         $entitasPenyewa = EntitasPenyewa::where('id_user', $user->id_user)->first();
-
-        // Validasi input
+    
+        // Validasi input (tetap sama)
         $validationRules = [
             'id_units' => 'required|array',
             'id_units.*' => 'exists:unit_kendaraan,id_unit',
@@ -201,7 +274,7 @@ class PemesananController extends Controller
             'long_pengembalian.*' => 'required_if:lokasi_pengembalian.*,lokasi_lain|numeric|nullable',
             'tipe_rental.*' => 'required|in:dengan_sopir,tanpa_sopir',
         ];
-
+    
         foreach ($id_units as $id_unit) {
             if (isset($tipe_rental[$id_unit]) && $tipe_rental[$id_unit] === 'tanpa_sopir') {
                 $validationRules["driver_nama.$id_unit"] = 'required|string';
@@ -211,55 +284,60 @@ class PemesananController extends Controller
                 $validationRules["driver_telepon.$id_unit"] = 'nullable|regex:/^[0-9]{9,12}$/';
             }
         }
-
+    
         if ($entitasPenyewa && $entitasPenyewa->tipe_entitas === 'perusahaan') {
             $validationRules['perwakilan_penyewa'] = 'required|string|max:255';
             $validationRules['kontak_perwakilan'] = 'required|regex:/^[0-9]{9,12}$/';
         }
-
+    
         try {
             $request->validate($validationRules);
         } catch (\Illuminate\Validation\ValidationException $e) {
             \Log::error('Validation failed:', $e->errors());
             return redirect()->back()->withErrors($e->errors())->withInput();
         }
-
-        // Ambil detail kendaraan
+    
+        // Ambil detail kendaraan (tetap sama)
         $units = DB::table('unit_kendaraan')
             ->join('kendaraan', 'unit_kendaraan.id_kendaraan', '=', 'kendaraan.id_kendaraan')
             ->join('mitra', 'kendaraan.id_mitra', '=', 'mitra.id_mitra')
             ->whereIn('unit_kendaraan.id_unit', $id_units)
             ->select('unit_kendaraan.*', 'kendaraan.*', 'mitra.nama_mitra', 'mitra.foto_mitra', 'mitra.id_mitra')
             ->get();
-
+    
         if ($units->isEmpty()) {
             \Log::error('No units found for id_units:', $id_units);
             return redirect()->route('search')->with(['error', 'Kendaraan tidak ditemukan.']);
         }
-
+    
         // Ambil tarif dari fee_setting
         $tarifPerKm = DB::table('fee_setting')
             ->where('nama_fee', 'biaya_pengantaran')
             ->where('is_active', 1)
             ->value('nilai_fee') ?? 5000.00;
-
+    
         $biayaPengembalianPerKm = DB::table('fee_setting')
             ->where('nama_fee', 'biaya_pengembalian')
             ->where('is_active', 1)
             ->value('nilai_fee') ?? 5000.00;
-
+    
         $biayaSopirPerHari = DB::table('fee_setting')
             ->where('nama_fee', 'biaya_sopir')
             ->where('is_active', 1)
             ->value('nilai_fee') ?? 120000.00;
-
+    
+        $extraHourFee = DB::table('fee_setting')
+            ->where('nama_fee', 'biaya_jam_ekstra')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0;
+    
         // Hitung total harga dan siapkan data untuk pemesanan
         $totalHarga = 0;
         $rentalDetails = [];
         DB::beginTransaction();
-
+    
         try {
-            // Buat pemesanan
+            // Buat pemesanan (tetap sama)
             $pemesanan = new Pemesanan();
             $pemesanan->id_pemesanan = Str::uuid()->toString();
             $pemesanan->id_entitas_penyewa = $entitasPenyewa->id_entitas_penyewa;
@@ -270,36 +348,67 @@ class PemesananController extends Controller
             $pemesanan->total_harga = 0;
             $pemesanan->status_pemesanan = 'pending';
             $pemesanan->save();
-
+    
             foreach ($units as $unit) {
                 $startDateTime = Carbon::parse($tanggal_mulai[$unit->id_unit]);
                 $endDateTime = Carbon::parse($tanggal_kembali[$unit->id_unit]);
-                $duration = $startDateTime->diffInDays($endDateTime) + 1;
                 $unitTipeRental = $tipe_rental[$unit->id_unit];
-
-                // Hitung biaya sopir
-                $driverFee = $unitTipeRental === 'dengan_sopir' ? $biayaSopirPerHari * $duration : 0;
-
+    
+                // Inisialisasi variabel durasi
+                $rentalDays = 0;
+                $extraHours = 0;
+    
+                // Hitung durasi berdasarkan tipe rental
+                if ($unitTipeRental === 'tanpa_sopir') {
+                    // Hitung total jam sewa
+                    $totalHours = $startDateTime->diffInHours($endDateTime);
+                    // Hitung jumlah hari penuh
+                    $rentalDays = floor($totalHours / 24);
+                    // Hitung sisa jam sebagai extra hours
+                    $extraHours = $totalHours % 24;
+    
+                    // Jika extra hours >= 12 jam, tambahkan 1 hari
+                    if ($extraHours > 0) {
+                        if ($extraHours >= 12) {
+                            $rentalDays += 1;
+                            $extraHours = 0;
+                        }
+                    }
+                    // Pastikan minimal 1 hari
+                    $rentalDays = max(1, $rentalDays);
+                } else {
+                    // Untuk dengan sopir, hitung berdasarkan hari (12 jam per hari)
+                    $totalHours = $startDateTime->diffInHours($endDateTime);
+                    $rentalDays = floor($totalHours / 12);
+                    $extraHours = $totalHours % 12;
+                    // Pastikan minimal 1 hari
+                    $rentalDays = max(1, $rentalDays);
+                }
+    
                 // Hitung biaya sewa kendaraan
-                $unitCost = $unit->harga_sewa_perhari * $duration;
-
-                // Ambil koordinat mitra untuk perhitungan jarak
+                if ($unitTipeRental === 'tanpa_sopir') {
+                    $unitCost = ($rentalDays * $unit->harga_sewa_perhari) + ($extraHours * $extraHourFee);
+                    $driverFee = 0;
+                } else {
+                    $unitCost = $rentalDays * $unit->harga_sewa_perhari;
+                    $driverFee = $rentalDays * $biayaSopirPerHari;
+                }
+    
+                // Ambil koordinat mitra untuk perhitungan jarak (tetap sama)
                 $alamatMitra = AlamatMitra::where('id_mitra', $unit->id_mitra)->first();
                 $latMitra = $alamatMitra->latitude ?? 0;
                 $longMitra = $alamatMitra->longitude ?? 0;
-
-                // Tentukan jarak pengantaran dan pengembalian
+    
+                // Tentukan jarak pengantaran dan pengembalian (tetap sama)
                 $jarakPengantaran = 0;
                 $jarakPengembalian = 0;
                 $biayaPengantaran = 0;
                 $biayaPengembalian = 0;
-
-                // Lokasi pengambilan
+    
                 if ($lokasi_pengambilan[$unit->id_unit] === 'kantor_rental') {
                     $jarakPengantaran = 0;
                     $biayaPengantaran = 0;
                 } else {
-                    // Hitung jarak dari lokasi mitra ke lokasi pengambilan
                     $jarakPengantaran = $this->hitungJarak(
                         $latMitra,
                         $longMitra,
@@ -308,13 +417,11 @@ class PemesananController extends Controller
                     );
                     $biayaPengantaran = $jarakPengantaran * $tarifPerKm;
                 }
-
-                // Lokasi pengembalian
+    
                 if ($lokasi_pengembalian[$unit->id_unit] === 'kantor_rental') {
                     $jarakPengembalian = 0;
                     $biayaPengembalian = 0;
                 } else {
-                    // Hitung jarak dari lokasi pengembalian ke lokasi mitra
                     $jarakPengembalian = $this->hitungJarak(
                         $latMitra,
                         $longMitra,
@@ -323,11 +430,11 @@ class PemesananController extends Controller
                     );
                     $biayaPengembalian = $jarakPengembalian * $biayaPengembalianPerKm;
                 }
-
+    
                 // Hitung subtotal
                 $subtotal = $unitCost + $driverFee + $biayaPengantaran + $biayaPengembalian;
                 $totalHarga += $subtotal;
-
+    
                 // Simpan detail pemesanan
                 $detailPemesanan = new DetailPemesanan();
                 $detailPemesanan->id_detail = Str::uuid()->toString();
@@ -339,8 +446,8 @@ class PemesananController extends Controller
                 $detailPemesanan->tipe_penggunaan_sopir = $unitTipeRental;
                 $detailPemesanan->tanggal_mulai = $startDateTime;
                 $detailPemesanan->tanggal_kembali = $endDateTime;
-
-                // Lokasi pengambilan
+    
+                // Lokasi pengambilan dan pengembalian (tetap sama)
                 if ($lokasi_pengambilan[$unit->id_unit] === 'kantor_rental') {
                     $alamatMitraPengambilan = AlamatMitra::find($alamat_kantor_pengambilan[$unit->id_unit]);
                     $detailPemesanan->lokasi_pengambilan = $alamatMitraPengambilan->alamat;
@@ -351,8 +458,7 @@ class PemesananController extends Controller
                     $detailPemesanan->lat_pengambilan = $lat_pengambilan[$unit->id_unit] ?? 0;
                     $detailPemesanan->long_pengambilan = $long_pengambilan[$unit->id_unit] ?? 0;
                 }
-
-                // Lokasi pengembalian
+    
                 if ($lokasi_pengembalian[$unit->id_unit] === 'kantor_rental') {
                     $alamatMitraPengembalian = AlamatMitra::find($alamat_kantor_pengembalian[$unit->id_unit]);
                     $detailPemesanan->lokasi_pengembalian = $alamatMitraPengembalian->alamat;
@@ -363,7 +469,7 @@ class PemesananController extends Controller
                     $detailPemesanan->lat_pengembalian = $lat_pengembalian[$unit->id_unit] ?? 0;
                     $detailPemesanan->long_pengembalian = $long_pengembalian[$unit->id_unit] ?? 0;
                 }
-
+    
                 // Simpan biaya dan jarak
                 $detailPemesanan->biaya_pengantaran = $biayaPengantaran;
                 $detailPemesanan->biaya_pengembalian = $biayaPengembalian;
@@ -374,9 +480,11 @@ class PemesananController extends Controller
                 $detailPemesanan->biaya_layanan = 0;
                 $detailPemesanan->pajak = 0;
                 $detailPemesanan->biaya_sopir = $driverFee;
+                $detailPemesanan->rental_days = $rentalDays; // Kolom baru
+                $detailPemesanan->extra_hours = $extraHours; // Kolom baru
                 $detailPemesanan->save();
-
-                // Simpan data pengemudi ke pengemudi_pemesanan jika tipe_rental adalah tanpa_sopir
+    
+                // Simpan data pengemudi (tetap sama)
                 if ($unitTipeRental === 'tanpa_sopir' && !empty($driver_nama[$unit->id_unit]) && !empty($driver_telepon[$unit->id_unit])) {
                     $pengemudiPemesanan = new PengemudiPemesanan();
                     $pengemudiPemesanan->id_pengemudi = Str::uuid()->toString();
@@ -385,13 +493,14 @@ class PemesananController extends Controller
                     $pengemudiPemesanan->no_telepon = $driver_telepon[$unit->id_unit];
                     $pengemudiPemesanan->save();
                 }
-
+    
                 // Update rentalDetails untuk review
                 $rentalDetails[$unit->id_unit] = [
                     'unit' => $unit,
                     'startDateTime' => $startDateTime,
                     'endDateTime' => $endDateTime,
-                    'duration' => $duration,
+                    'rentalDays' => $rentalDays,
+                    'extraHours' => $extraHours,
                     'unitCost' => $unitCost,
                     'driverFee' => $driverFee,
                     'deliveryFee' => $biayaPengantaran,
@@ -410,14 +519,14 @@ class PemesananController extends Controller
                     'kontak_perwakilan' => $entitasPenyewa->tipe_entitas === 'perusahaan' ? ($kontak_perwakilan ?? null) : null,
                 ];
             }
-
+    
             // Update total harga di pemesanan
             $pemesanan->total_harga = $totalHarga;
             $pemesanan->save();
-
+    
             DB::commit();
             $request->session()->forget('selected_units');
-
+    
             return redirect()->route('review', ['id_pemesanan' => $pemesanan->id_pemesanan]);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -560,44 +669,44 @@ class PemesananController extends Controller
 
      public function pembayaran(Request $request, $id_pemesanan)
      {
-         \Log::info('Payment method called with id_pemesanan: ' . $id_pemesanan);
+         Log::info('Payment method called with id_pemesanan: ' . $id_pemesanan);
          try {
-             // Fetch the booking details
+             // Ambil detail pemesanan
              $pemesanan = Pemesanan::with([
                  'detailPemesanan.unitKendaraan.kendaraan.mitra',
                  'detailPemesanan.pengemudiPemesanan',
                  'entitasPenyewa.user'
              ])->where('id_pemesanan', $id_pemesanan)->first();
-     
+ 
              if (!$pemesanan) {
-                 \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                 Log::error('Pemesanan not found for id: ' . $id_pemesanan);
                  return redirect()->route('detail')->with('error', 'Pemesanan tidak ditemukan.');
              }
-     
-             \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
-     
+ 
+             Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
+ 
              $user = Auth::user();
              $entitasPenyewa = $pemesanan->entitasPenyewa;
-     
-             // Fetch active metode pembayaran
+ 
+             // Ambil metode pembayaran aktif
              $paymentMethods = MetodePembayaranPlatform::where('is_active', 1)->get();
-     
-             // menyiapkan detail rental untuk ditampilkan di halaman pembayaran
-     
+ 
+             // Siapkan detail rental
              $rentalDetails = collect([]);
              foreach ($pemesanan->detailPemesanan as $detail) {
                  $unit = $detail->unitKendaraan;
                  $kendaraan = $unit->kendaraan;
                  $mitra = $kendaraan->mitra;
-     
-                 // Fetch partner address
+ 
+                 // Ambil alamat mitra
                  $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
-     
+ 
+                 // Parse tanggal
                  try {
                      $startDateTime = Carbon::parse($detail->tanggal_mulai);
                      $endDateTime = Carbon::parse($detail->tanggal_kembali);
                  } catch (\Exception $e) {
-                     \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                     Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
                          'id_detail' => $detail->id_detail,
                          'tanggal_mulai' => $detail->tanggal_mulai,
                          'tanggal_kembali' => $detail->tanggal_kembali
@@ -605,20 +714,37 @@ class PemesananController extends Controller
                      $startDateTime = Carbon::now();
                      $endDateTime = Carbon::now()->addDay();
                  }
-     
-                 $duration = $startDateTime->diffInDays($endDateTime) + 1;
-     
-                 // Fetch driver data
+ 
+                 // Hitung durasi sewa
+                 $totalHours = $startDateTime->diffInHours($endDateTime);
+                 $rentalDays = 0;
+                 $extraHours = 0;
+ 
+                 if ($detail->tipe_penggunaan_sopir === 'tanpa_sopir') {
+                     $rentalDays = floor($totalHours / 24);
+                     $extraHours = $totalHours % 24;
+                     if ($extraHours >= 12) {
+                         $rentalDays += 1;
+                         $extraHours = 0;
+                     }
+                     $rentalDays = max(1, $rentalDays);
+                 } else {
+                     $rentalDays = floor($totalHours / 12);
+                     $extraHours = $totalHours % 12;
+                     $rentalDays = max(1, $rentalDays);
+                 }
+ 
+                 // Ambil data pengemudi
                  $pengemudi = $detail->pengemudiPemesanan->first();
                  $driverNama = $pengemudi ? $pengemudi->nama_pengemudi : null;
                  $driverTelepon = $pengemudi ? $pengemudi->no_telepon : null;
-     
-                 // Format pickup location
+ 
+                 // Format lokasi pengambilan
                  $formattedLokasiPengambilan = $detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra
                      ? "{$alamatMitra->alamat}, {$alamatMitra->kota}, {$alamatMitra->kecamatan}, {$alamatMitra->provinsi}"
                      : $detail->lokasi_pengambilan;
-     
-                 // Format return location
+ 
+                 // Format lokasi pengembalian
                  $formattedLokasiPengembalian = $detail->lokasi_pengembalian;
                  if ($detail->metode_pengantaran === 'ambil_di_tempat' && $alamatMitra) {
                      $alamatMitraPengembalian = AlamatMitra::where('alamat', $detail->lokasi_pengembalian)->first();
@@ -626,7 +752,7 @@ class PemesananController extends Controller
                          $formattedLokasiPengembalian = "{$alamatMitraPengembalian->alamat}, {$alamatMitraPengembalian->kota}, {$alamatMitraPengembalian->kecamatan}, {$alamatMitraPengembalian->provinsi}";
                      }
                  }
-     
+ 
                  $rentalDetails->put($unit->id_unit, [
                      'unit' => (object) [
                          'id_unit' => $unit->id_unit,
@@ -648,7 +774,8 @@ class PemesananController extends Controller
                      ],
                      'startDateTime' => $startDateTime,
                      'endDateTime' => $endDateTime,
-                     'duration' => $duration,
+                     'rentalDays' => $rentalDays,
+                     'extraHours' => $extraHours,
                      'unitCost' => $detail->subtotal_harga,
                      'driverFee' => $detail->biaya_sopir,
                      'deliveryFee' => $detail->biaya_pengantaran,
@@ -662,13 +789,14 @@ class PemesananController extends Controller
                      'tipe_penggunaan_sopir' => $detail->tipe_penggunaan_sopir,
                  ]);
              }
-     
-             \Log::info('RentalDetails created: ', $rentalDetails->toArray());
-     
+ 
+             Log::info('RentalDetails created: ', $rentalDetails->toArray());
+ 
              return view('pembayaran', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan', 'paymentMethods'));
          } catch (\Exception $e) {
-             \Log::error('Error in payment: ' . $e->getMessage());
-             return redirect()->route('review', ['id_pemesanan' => $id_pemesanan])->with('error', 'Gagal memuat halaman pembayaran: ' . $e->getMessage());
+             Log::error('Error in payment: ' . $e->getMessage());
+             return redirect()->route('review', ['id_pemesanan' => $id_pemesanan])
+                 ->with('error', 'Gagal memuat halaman pembayaran: ' . $e->getMessage());
          }
      }
      
