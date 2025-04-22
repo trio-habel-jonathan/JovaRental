@@ -3,10 +3,11 @@
     'action' => '',
     'method' => 'GET',
     'searchParams' => 'searchParams',
-    'class' =>
-        'bg-white rounded-md w-full shadow-lg border-2 p-6 flex flex-col lg:flex-row items-center justify-center gap-8',
+    'class' => 'flex flex-col lg:flex-row items-center justify-center gap-8',
 ])
-
+@if (request()->is('search'))
+    <h1 class="montserrat-font text-xl font-bold">Hasil Pencarian</h1>
+@endif
 <form
     {{ $attributes->merge(['action' => $action, 'method' => $method, 'data-aos' => 'zoom-in', 'data-aos-delay' => '150']) }}
     class="{{ $class }}">
@@ -79,7 +80,8 @@
             </div>
             @if ($searchParams['tipe_rental'] == 'dengan_sopir')
                 <div class="flex flex-col">
-                    <label for="tanggal_selesai_rental" class="text-sm font-bold text-primary">Tanggal Selesai</label>
+                    <label for="tanggal_selesai_rental" class="text-sm font-bold text-primary">Tanggal
+                        Selesai</label>
                     <input type="text"
                         value="{{ date('Y-m-d', strtotime($searchParams['tanggal_mulai'] . '+1 day')) }}"
                         class="p-2 w-full border-b border-gray-400 focus:outline-none" id="tanggal_selesai_rental"
@@ -87,7 +89,8 @@
                 </div>
             @else
                 <div class="flex flex-col">
-                    <label for="tanggal_selesai_rental" class="text-sm font-bold text-primary">Tanggal Selesai</label>
+                    <label for="tanggal_selesai_rental" class="text-sm font-bold text-primary">Tanggal
+                        Selesai</label>
                     <input type="text" value="{{ $searchParams['tanggal_selesai'] }}"
                         class="p-2 w-full border-b border-gray-400 focus:outline-none" id="tanggal_selesai_rental"
                         name="tanggal_selesai">
