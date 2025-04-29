@@ -15,7 +15,15 @@ class WithdrawalMitraController extends Controller
 {
     public function index()
     {
-        return view('mitra.withdrawal.index');
+        $withdrawals = WithdrawalMitra::where('id_mitra', Auth::user()->mitra->id_mitra)
+            ->orderBy('tanggal_withdrawal', 'desc')
+            ->paginate(15);
+        return view('mitra.withdrawal.index', compact('withdrawals'));
+    }
+ 
+    public function create()
+    {
+        return view('mitra.withdrawal.create');
     }
 
     public function store(Request $request)
@@ -24,24 +32,27 @@ class WithdrawalMitraController extends Controller
             $user = Auth::user();
             $mitra = $user->mitra;
 
+
             $validatedData = $request->validate([
                 'id_rekening_mitra' => 'required|exists:rekening_mitra,id_rekening_mitra',
                 'jumlah' => 'required|numeric|min:1',
                 'keterangan' => 'nullable|string',
             ]);
 
-            if ($validatedData['jumlah'] > $mitra->saldo) {
+            if ($validatedData['jumlah'] > ($mitra->saldo - $mitra->withdrawals->where('status_withdrawal', 'pending')->sum('jumlah'))) {
                 return redirect()->route('mitra.withdraw.index')->with([
                     'type' => 'error',
                     'message' => 'Saldo anda tidak mencukupi!',
                 ]);
             }
 
+
+
             DB::beginTransaction();
             // dd($validatedData);
 
             try {
-                $mitra->decrement('saldo', $validatedData['jumlah']);
+                // $mitra->decrement('saldo', $validatedData['jumlah']);
                 WithdrawalMitra::create([
                     'id_mitra' => $mitra->id_mitra,
                     'id_rekening_mitra' => $validatedData['id_rekening_mitra'],
