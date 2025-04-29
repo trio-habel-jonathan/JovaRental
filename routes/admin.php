@@ -28,8 +28,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('{id_user}/delete', [UserController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix("/withdraw")->name('withdraw.')->group(function() {
-        Route::get('/', [WithdrawalMitraController::class, 'index'])->name('index');
+    Route::prefix("/pengajuan-withdraw")->name('withdraw.')->group(function() {
+        Route::get('/', [AdminPageController::class, 'withdrawalMitra'])->name('index');
         Route::get('/create', [WithdrawalMitraController::class, 'create'])->name('create');
         Route::post('/', [WithdrawalMitraController::class, 'store'])->name('store');
         Route::get('/{id}/edit', [WithdrawalMitraController::class, 'edit'])->name('edit');
