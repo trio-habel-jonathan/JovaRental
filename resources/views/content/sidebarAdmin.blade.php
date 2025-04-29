@@ -64,9 +64,9 @@
                             <span>Mitra</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{route('admin.metodePembayaran.index')}}"
-                            class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md">
+                    <li class="relative">
+                        <button type="button" onclick="toggleDropdown()"
+                            class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md w-full">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -75,8 +75,40 @@
                                     stroke-linejoin="round" />
                             </svg>
                             <span>Payments</span>
-                        </a>
+                        </button>
+
+                        <ul id="dropdownMenu" class="hidden absolute z-10 bg-white shadow-lg rounded-md mt-2 w-56 p-2">
+                            <li>
+                                <a href="{{ route('admin.metodePembayaran.index') }}"
+                                    class="block px-4 py-2 rounded-sm text-xs text-gray-700 hover:bg-primary/20 hover:text-primary">Metode
+                                    Pembayaran Platform</a>
+                            </li>
+                            <li>
+                                <a href="{{ route('admin.metodePembayaranMitra.index') }}"
+                                    class="block px-4 py-2 rounded-sm text-xs text-gray-700 hover:bg-primary/20 hover:text-primary">Metode
+                                    Pembayaran Mitra</a>
+                            </li>
+                        </ul>
                     </li>
+
+                    <script>
+                        function toggleDropdown() {
+                            const menu = document.getElementById('dropdownMenu');
+                            menu.classList.toggle('hidden');
+                        }
+
+                        // Optional: close dropdown if clicking outside
+                        document.addEventListener('click', function(e) {
+                            const button = document.querySelector('button[onclick="toggleDropdown()"]');
+                            const dropdown = document.getElementById('dropdownMenu');
+
+                            if (!button.contains(e.target) && !dropdown.contains(e.target)) {
+                                dropdown.classList.add('hidden');
+                            }
+                        });
+                    </script>
+
+
                     <li>
                         <a href=""
                             class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md">
@@ -91,16 +123,32 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('admin.pengajuan.kemitraan')}}"
+                        <a href="{{ route('admin.pengajuan.kemitraan') }}"
                             class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md">
                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M16 7C16 5.93913 15.5786 4.92172 14.8284 4.17157C14.0783 3.42143 13.0609 3 12 3C10.9391 3 9.92172 3.42143 9.17157 4.17157C8.42143 4.92172 8 5.93913 8 7"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                <rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <rect x="4" y="7" width="16" height="13" rx="2" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
                             <span>Pengajuan</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ route('admin.withdraw.index') }}"
+                            class="flex font-semibold items-center gap-2 hover:text-primary hover:bg-primary/20 p-2 rounded-md">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 8V16M8 12H16M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                            <span>Withdrawal</span>
                         </a>
                     </li>
                 </ul>

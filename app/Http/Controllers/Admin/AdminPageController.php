@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Models\{User};
+use App\Models\{User, WithdrawalMitra};
 use App\Models\Mitra;
 use App\Models\KategoriKendaraan;
 use App\Models\JenisKendaraan;
@@ -78,5 +78,10 @@ class AdminPageController extends Controller
     public function editJenisView()
     {
         return view('admin.clasifications.editJenis');
+    }
+
+    public function withdrawalMitra(){
+        $withdrawal = WithdrawalMitra::orderByRaw("status_withdrawal = 'pending' DESC")->paginate(30);
+        return view('admin.withdrawal.index', compact('withdrawal'));
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Mitra\MitraPageController;
 use App\Http\Controllers\Mitra\PesananController;
 use App\Http\Controllers\Mitra\SupirPageController;
 use App\Http\Controllers\Mitra\MitraController;
+use App\Http\Controllers\Mitra\RekeningMitraController;
 use App\Http\Controllers\Mitra\WithdrawalMitraController;
 use App\Http\Controllers\Mitra\UnitKendaraanController;
 use App\Http\Controllers\PemesananController;
@@ -16,14 +17,14 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])->group(function () {
     Route::get('/pengembalian/create/{id_unit}', [KendaraanController::class, 'PengembalianKendaraanView'])->name('pengembalian.create');
     Route::post('/pengembalian/store/{id_unit}', [KendaraanController::class, 'storePengembalian'])->name('pengembalian.store');
-    
-    Route::get('/pengembalian-kendaraan', [KendaraanController::class,'pengembalianKendaraan'])->name('pengembalian-kendaraan');
+
+    Route::get('/pengembalian-kendaraan', [KendaraanController::class, 'pengembalianKendaraan'])->name('pengembalian-kendaraan');
     Route::get('/', [MitraPageController::class, 'indexMitraView'])->name('indexView'); // Pastikan rute memiliki nama ini
     Route::get('/edit', [MitraPageController::class, 'indexMitraEdit'])->name('indexEdit'); // Pastikan rute memiliki nama ini
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
     Route::get('/settingss', [MitraController::class, 'profile'])->name('settings'); // Pastikan rute memiliki nama ini
 
-    Route::prefix("/withdraw")->name('withdraw.')->group(function() {
+    Route::prefix("/withdraw")->name('withdraw.')->group(function () {
         Route::get('/', [WithdrawalMitraController::class, 'index'])->name('index');
         Route::get('/create', [WithdrawalMitraController::class, 'create'])->name('create');
         Route::post('/', [WithdrawalMitraController::class, 'store'])->name('store');
@@ -83,13 +84,13 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::delete('/{uuid}/destroy/', [AlamatMitraController::class, 'destroy'])->name('MitraDestroy');
     });
 
-    Route::prefix("metode-pembayaran")->name('metodePembayaran.')->group(function(){
-        Route::get("/", [MetodePembayaranMitraController::class, "index"])->name('index');
-        Route::get("/create", [MetodePembayaranMitraController::class, "create"])->name('create');
-        Route::post("/create", [MetodePembayaranMitraController::class, "store"])->name('store');
-        Route::get("/{uuid}/edit", [MetodePembayaranMitraController::class, "edit"])->name('edit');
-        Route::put("/{uuid}/update", [MetodePembayaranMitraController::class, "update"])->name('update');
-        Route::delete("/{uuid}/destroy", [MetodePembayaranMitraController::class, "destroy"])->name('destroy');
+    Route::prefix('/rekening-mitra')->name('rekeningMitra.')->group(function () {
+        Route::get('/', [RekeningMitraController::class, 'index'])->name('RekeningView');
+        Route::get('/create', [RekeningMitraController::class, 'create'])->name('RekeningCreate');
+        Route::get('/{uuid}/edit', [RekeningMitraController::class, 'edit'])->name('RekeningEdit');
+        Route::post('/create', [RekeningMitraController::class, 'store'])->name('RekeningStore');
+        Route::put('/{uuid}/update', [RekeningMitraController::class, 'update'])->name('RekeningUpdate');
+        Route::delete('/destroy', [RekeningMitraController::class, 'destroy'])->name('RekeningDestroy');
     });
 
     Route::prefix('pengembalian_kendaraan')->name('pengembalian_kendaraan.')->group(function () {
