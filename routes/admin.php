@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
-use App\Http\Controllers\Admin\{JenisKendaraanController, MetodePembayaranMitraController as AdminMetodePembayaranMitraController, MetodePembayaranPlatformController as AdminMetodePembayaranPlatformController, PengajuanKemitraanController};
+use App\Http\Controllers\Admin\{JenisKendaraanController, MetodePembayaranMitraController as AdminMetodePembayaranMitraController, MetodePembayaranPlatformController as AdminMetodePembayaranPlatformController, PengajuanKemitraanController, PengajuanWithdrawController};
 use App\Http\Controllers\Admin\KategoriKendaraanController;
 use App\Http\Controllers\MetodePembayaranPlatformController;
 use App\Http\Controllers\mitra\WithdrawalMitraController;
@@ -30,13 +30,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::prefix("/pengajuan-withdraw")->name('withdraw.')->group(function() {
         Route::get('/', [AdminPageController::class, 'withdrawalMitra'])->name('index');
-
-        Route::get('/', [WithdrawalMitraController::class, 'index'])->name('index');
-        Route::get('/create', [WithdrawalMitraController::class, 'create'])->name('create');
-        Route::post('/', [WithdrawalMitraController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [WithdrawalMitraController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [WithdrawalMitraController::class, 'update'])->name('update');
-        Route::delete('/{id}', [WithdrawalMitraController::class, 'destroy'])->name('destroy');
+        Route::put("/{uuid}/accept", [PengajuanWithdrawController::class, "accept"])->name('accept');
+        Route::put("/{uuid}/reject", [PengajuanWithdrawController::class, "reject"])->name('reject');
     });
 
 

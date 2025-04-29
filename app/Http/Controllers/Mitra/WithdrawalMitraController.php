@@ -15,7 +15,9 @@ class WithdrawalMitraController extends Controller
 {
     public function index()
     {
-        $withdrawals = WithdrawalMitra::where('id_mitra', Auth::user()->mitra->id_mitra)->paginate(15);
+        $withdrawals = WithdrawalMitra::where('id_mitra', Auth::user()->mitra->id_mitra)
+            ->orderBy('tanggal_withdrawal', 'desc')
+            ->paginate(15);
         return view('mitra.withdrawal.index', compact('withdrawals'));
     }
  
