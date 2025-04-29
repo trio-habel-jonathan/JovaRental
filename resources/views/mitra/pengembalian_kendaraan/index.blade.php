@@ -43,33 +43,33 @@
                         </swiper-container>
                     </div>
                     <div class="w-full space-y-4">
-                        <h1 class="montserrat-font font-bold text-lg">{{ $item->unitKendaraan->kendaraan->nama_kendaraan }}</h1>
+                        <h1 class="montserrat-font font-bold text-lg">
+                            {{ $item->unitKendaraan->kendaraan->nama_kendaraan }}</h1>
                         <div class="bg-primary/20 text-primary w-fit h-fit px-6 py-1 rounded-lg">
                             <h1 class="montserrat-font text-xs">{{ $item->unitKendaraan->plat_nomor }}</h1>
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div class="montserrat-font">
                                 <p class="font-bold text-sm">Tanggal Kembali</p>
-                                <h1 class="text-xs">{{date('D, d M Y - h:i', strtotime($item->tanggal_kembali))}}</h1>
+                                <h1 class="text-xs">{{ date('D, d M Y - h:i', strtotime($item->tanggal_kembali)) }}</h1>
                             </div>
                             <div class="montserrat-font">
                                 <p class="font-bold text-sm">Lokasi Pengembalian</p>
-                                <h1 class="text-xs">{{$item->lokasi_pengembalian}}</h1>
+                                <h1 class="text-xs">{{ $item->lokasi_pengembalian }}</h1>
                             </div>
                             <div class="montserrat-font">
                                 <p class="font-bold text-sm">Nama Penyewa</p>
-                                <h1 class="text-xs">{{$data->entitasPenyewa->nama_entitas}}</h1>
+                                <h1 class="text-xs">{{ $data->entitasPenyewa->nama_entitas }}</h1>
                             </div>
                             <div class="montserrat-font">
                                 <p class="font-bold text-sm">Nama Penyewa</p>
-                                <h1 class="text-xs">{{$data->entitasPenyewa->user->no_telepon}}</h1>
+                                <h1 class="text-xs">{{ $data->entitasPenyewa->user->no_telepon }}</h1>
                             </div>
                         </div>
                     </div>
                 </div>
             @endforeach
         @empty
-
         @endforelse
     </div>
 </x-mitra-layout>

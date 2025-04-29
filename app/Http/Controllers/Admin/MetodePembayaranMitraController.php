@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\mitra;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -11,12 +11,12 @@ class MetodePembayaranMitraController extends Controller
     public function index()
     {
         $metodePembayaran = MetodePembayaranMitra::all();
-        return view('mitra.metode_pembayaran.index', compact('metodePembayaran'));
+        return view('admin.metode_pembayaran_mitra.index', compact('metodePembayaran'));
     }
 
     public function create()
     {
-        return view('mitra.metode_pembayaran.create');
+        return view('admin.metode_pembayaran_mitra.create');
     }
 
     public function store(Request $request)
@@ -33,7 +33,7 @@ class MetodePembayaranMitraController extends Controller
             'is_active' => $request->is_active,
         ]);
 
-        return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'success', 'message' => 'Metode pembayaran created successfully']);
+        return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'success', 'message' => 'Metode pembayaran created successfully']);
     }
 
     public function show($id)
@@ -41,10 +41,10 @@ class MetodePembayaranMitraController extends Controller
         $metodePembayaran = MetodePembayaranMitra::find($id);
 
         if (!$metodePembayaran) {
-            return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'error', 'message' => 'Metode pembayaran not found']);
+            return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'error', 'message' => 'Metode pembayaran not found']);
         }
 
-        return view('mitra.metode_pembayaran.show', compact('metodePembayaran'));
+        return view('admin.metode_pembayaran_mitra.show', compact('metodePembayaran'));
     }
 
     public function edit($id)
@@ -52,10 +52,10 @@ class MetodePembayaranMitraController extends Controller
         $metodePembayaran = MetodePembayaranMitra::find($id);
 
         if (!$metodePembayaran) {
-            return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'error', 'message' => 'Metode pembayaran not found']);
+            return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'error', 'message' => 'Metode pembayaran not found']);
         }
 
-        return view('mitra.metode_pembayaran.edit', compact('metodePembayaran'));
+        return view('admin.metode_pembayaran_mitra.edit', compact('metodePembayaran'));
     }
 
     public function update(Request $request, $id)
@@ -69,7 +69,7 @@ class MetodePembayaranMitraController extends Controller
         $metodePembayaran = MetodePembayaranMitra::find($id);
 
         if (!$metodePembayaran) {
-            return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'error', 'message' => 'Metode pembayaran not found']);
+            return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'error', 'message' => 'Metode pembayaran not found']);
         }
 
         $metodePembayaran->update([
@@ -78,7 +78,7 @@ class MetodePembayaranMitraController extends Controller
             'is_active' => $request->is_active,
         ]);
 
-        return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'success', 'message' => 'Metode pembayaran updated successfully']);
+        return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'success', 'message' => 'Metode pembayaran updated successfully']);
     }
 
     public function destroy($id)
@@ -86,11 +86,11 @@ class MetodePembayaranMitraController extends Controller
         $metodePembayaran = MetodePembayaranMitra::find($id);
 
         if (!$metodePembayaran) {
-            return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'error', 'message' => 'Metode pembayaran not found']);
+            return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'error', 'message' => 'Metode pembayaran not found']);
         }
 
         $metodePembayaran->delete();
 
-        return redirect()->route('mitra.metodePembayaran.index')->with(['type'=> 'success', 'message' => 'Metode pembayaran deleted successfully']);
+        return redirect()->route('admin.metodePembayaranMitra.index')->with(['type' => 'success', 'message' => 'Metode pembayaran deleted successfully']);
     }
 }

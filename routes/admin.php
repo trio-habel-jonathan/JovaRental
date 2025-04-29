@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\{AdminPageController, UserController};
 use App\Http\Controllers\Auth\{PageController, GoogleController};
-use App\Http\Controllers\Admin\{JenisKendaraanController,PengajuanKemitraanController};
+use App\Http\Controllers\Admin\{JenisKendaraanController, MetodePembayaranMitraController as AdminMetodePembayaranMitraController, MetodePembayaranPlatformController as AdminMetodePembayaranPlatformController, PengajuanKemitraanController};
 use App\Http\Controllers\Admin\KategoriKendaraanController;
 use App\Http\Controllers\MetodePembayaranPlatformController;
 use App\Http\Controllers\mitra\WithdrawalMitraController;
@@ -14,7 +14,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::patch('/mitra/{id}/verifikasi', [PengajuanKemitraanController::class, 'verifikasi'])->name('mitra.verifikasi');
     Route::patch('/mitra/{id}/tolak', [PengajuanKemitraanController::class, 'tolak'])->name('mitra.tolak');
-    Route::get('/pengajuan/mitra',[PengajuanKemitraanController::class, 'index'])->name('pengajuan.kemitraan');
+    Route::get('/pengajuan/mitra', [PengajuanKemitraanController::class, 'index'])->name('pengajuan.kemitraan');
 
     Route::get('/settings', [AdminPageController::class, 'settingsView'])->name('settingsView');
 
@@ -22,13 +22,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('/', [AdminPageController::class, 'userView'])->name('userView');
         Route::get('/add', [AdminPageController::class, 'adduserView'])->name('adduserView');
         Route::get('/edit/{id_user}', [AdminPageController::class, 'edituserView'])->name('edituserView');
-  
+
         Route::post('store', [UserController::class, 'store'])->name('store');
         Route::put('update/{id_user}', [UserController::class, 'update'])->name('update');
         Route::delete('{id_user}/delete', [UserController::class, 'destroy'])->name('destroy');
     });
 
-    Route::prefix("/withdraw")->name('withdraw.')->group(function() {
+    Route::prefix("/withdraw")->name('withdraw.')->group(function () {
         Route::get('/', [WithdrawalMitraController::class, 'index'])->name('index');
         Route::get('/create', [WithdrawalMitraController::class, 'create'])->name('create');
         Route::post('/', [WithdrawalMitraController::class, 'store'])->name('store');
@@ -59,12 +59,21 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/jenis-hapus', [JenisKendaraanController::class, 'destroy'])->name('jenis.destroy');
     });
 
-    Route::prefix("metode-pembayaran")->name('metodePembayaran.')->group(function(){
-        Route::get("/", [MetodePembayaranPlatformController::class, "index"])->name('index');
-        Route::get("/create", [MetodePembayaranPlatformController::class, "create"])->name('create');
-        Route::post("/", [MetodePembayaranPlatformController::class, "store"])->name('store');
-        Route::get("/{id}/edit", [MetodePembayaranPlatformController::class, "edit"])->name('edit');
-        Route::put("/{id}", [MetodePembayaranPlatformController::class, "update"])->name('update');
-        Route::delete("/{id}", [MetodePembayaranPlatformController::class, "destroy"])->name('destroy');
+    Route::prefix("metode-pembayaran-platform")->name('metodePembayaran.')->group(function () {
+        Route::get("/", [AdminMetodePembayaranPlatformController::class, "index"])->name('index');
+        Route::get("/create", [AdminMetodePembayaranPlatformController::class, "create"])->name('create');
+        Route::post("/", [AdminMetodePembayaranPlatformController::class, "store"])->name('store');
+        Route::get("/{id}/edit", [AdminMetodePembayaranPlatformController::class, "edit"])->name('edit');
+        Route::put("/{id}", [AdminMetodePembayaranPlatformController::class, "update"])->name('update');
+        Route::delete("/{id}", [AdminMetodePembayaranPlatformController::class, "destroy"])->name('destroy');
+    });
+
+    Route::prefix("metode-pembayaran-mitra")->name('metodePembayaranMitra.')->group(function () {
+        Route::get("/", [AdminMetodePembayaranMitraController::class, "index"])->name('index');
+        Route::get("/create", [AdminMetodePembayaranMitraController::class, "create"])->name('create');
+        Route::post("/create", [AdminMetodePembayaranMitraController::class, "store"])->name('store');
+        Route::get("/{uuid}/edit", [AdminMetodePembayaranMitraController::class, "edit"])->name('edit');
+        Route::put("/{uuid}/update", [AdminMetodePembayaranMitraController::class, "update"])->name('update');
+        Route::delete("/{uuid}/destroy", [AdminMetodePembayaranMitraController::class, "destroy"])->name('destroy');
     });
 });

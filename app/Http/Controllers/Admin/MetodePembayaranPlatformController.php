@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\MetodePembayaranPlatform;
 use Illuminate\Http\Request;
 
@@ -10,12 +11,12 @@ class MetodePembayaranPlatformController extends Controller
     public function index()
     {
         $metodePembayaran = MetodePembayaranPlatform::all();
-        return view('admin.metode_pembayaran.index', compact('metodePembayaran'));
+        return view('admin.metode_pembayaran_platform.index', compact('metodePembayaran'));
     }
 
     public function create()
     {
-        return view('admin.metode_pembayaran.create');
+        return view('admin.metode_pembayaran_platform.create');
     }
 
     public function store(Request $request)
@@ -37,7 +38,7 @@ class MetodePembayaranPlatformController extends Controller
     public function edit($id)
     {
         $metode = MetodePembayaranPlatform::findOrFail($id);
-        return view('admin.metode_pembayaran.edit', compact('metode'));
+        return view('admin.metode_pembayaran_platform.edit', compact('metode'));
     }
 
     public function update(Request $request, $id)
