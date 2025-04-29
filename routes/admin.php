@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\{PageController, GoogleController};
 use App\Http\Controllers\Admin\{JenisKendaraanController,PengajuanKemitraanController};
 use App\Http\Controllers\Admin\KategoriKendaraanController;
 use App\Http\Controllers\MetodePembayaranPlatformController;
+use App\Http\Controllers\mitra\WithdrawalMitraController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -27,7 +28,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('{id_user}/delete', [UserController::class, 'destroy'])->name('destroy');
     });
 
-
+    Route::prefix("/withdraw")->name('withdraw.')->group(function() {
+        Route::get('/', [WithdrawalMitraController::class, 'index'])->name('index');
+        Route::get('/create', [WithdrawalMitraController::class, 'create'])->name('create');
+        Route::post('/', [WithdrawalMitraController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [WithdrawalMitraController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [WithdrawalMitraController::class, 'update'])->name('update');
+        Route::delete('/{id}', [WithdrawalMitraController::class, 'destroy'])->name('destroy');
+    });
 
 
     Route::prefix('mitra')->name('mitra.')->group(function () {

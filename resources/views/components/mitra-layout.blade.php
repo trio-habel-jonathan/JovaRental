@@ -62,7 +62,7 @@
                     <div
                         class="absolute right-0 mt-2 w-48 bg-white shadow-lg rounded-md invisible group-hover:visible transition-all duration-200 z-20">
                         <div class="py-1">
-                            <a href="{{route('mitra.withdrawPage')}}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                            <a href="{{route('mitra.withdraw.index')}}" class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" class="mr-2">

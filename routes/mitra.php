@@ -23,7 +23,14 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
     Route::get('/notifications', [MitraPageController::class, 'notificationMitraView'])->name('notifications'); // Pastikan rute memiliki nama ini
     Route::get('/settingss', [MitraController::class, 'profile'])->name('settings'); // Pastikan rute memiliki nama ini
 
-    Route::get('/withdraw', [WithdrawalMitraController::class, 'withdrawPage'])->name('withdrawPage');
+    Route::prefix("/withdraw")->name('withdraw.')->group(function() {
+        Route::get('/', [WithdrawalMitraController::class, 'index'])->name('index');
+        Route::get('/create', [WithdrawalMitraController::class, 'create'])->name('create');
+        Route::post('/', [WithdrawalMitraController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [WithdrawalMitraController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [WithdrawalMitraController::class, 'update'])->name('update');
+        Route::delete('/{id}', [WithdrawalMitraController::class, 'destroy'])->name('destroy');
+    });
 
     Route::put("/settings/{mitra}", [MitraController::class, "update"])->name('settingUpdate');
 
