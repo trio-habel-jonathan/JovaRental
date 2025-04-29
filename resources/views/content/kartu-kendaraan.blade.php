@@ -33,7 +33,7 @@
                     <h3 class="text-2xl font-bold text-gray-800">
                         {{ $kendaraan->nama_kendaraan }}</h3>
                     <span
-                        class="text-sm font-medium text-blue-600 bg-blue-100 px-3 py-1 rounded-full">{{ $kendaraan->kategoriKendaraan->jenisKendaraan->nama_jenis }}</span>
+                        class="text-sm font-medium text-primary bg-primary/20 px-3 py-1 rounded-full">{{ $kendaraan->kategoriKendaraan->jenisKendaraan->nama_jenis }}</span>
                 </div>
 
                 <!-- Color -->
@@ -52,7 +52,7 @@
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                            stroke-linejoin="round" class="text-primary">
                             <rect x="3" y="4" width="18" height="18" rx="2" ry="2">
                             </rect>
                             <line x1="16" y1="2" x2="16" y2="6">
@@ -71,7 +71,7 @@
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                            stroke-linejoin="round" class="text-primary">
                             <path d="M5 9l2 -2v10l-2 -2z"></path>
                             <path d="M15 5l0 14"></path>
                             <path d="M19 5l0 14"></path>
@@ -86,7 +86,7 @@
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                            stroke-linejoin="round" class="text-primary">
                             <path
                                 d="M14 6a2 2 0 1 0 -4 0c0 .932 .14 1.807 .4 2.602l-.89 .9l.808 .8l.89 -.9a7.499 7.499 0 0 0 2.392 .498v2.1h1v-2.1a7.5 7.5 0 0 0 2.392 -.498l.89 .9l.808 -.8l-.89 -.9c.26 -.795 .4 -1.67 .4 -2.602a2 2 0 1 0 -4 0">
                             </path>
@@ -102,7 +102,7 @@
                     <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                            stroke-linejoin="round" class="text-blue-500">
+                            stroke-linejoin="round" class="text-primary">
                             <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
                             <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
                             <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855">
@@ -118,14 +118,15 @@
                 <div class="mt-6 flex items-center justify-between border-t border-gray-100 pt-4">
                     <div class="flex items-center space-x-2">
                         <span class="text-sm font-medium text-gray-700">ID Kendaraan:</span>
-                        <span class="text-sm font-medium bg-blue-50 text-blue-700 px-3 py-1 rounded">TYT-CLY-001</span>
+                        <span
+                            class="text-sm font-medium bg-primary/20 text-darkprimary px-3 py-1 rounded">TYT-CLY-001</span>
                     </div>
                 </div>
                 @if (auth()->check() and auth()->user()->role == 'mitra')
                     <div class="mt-6 flex justify-end border-t border-gray-100 pt-4">
                         <div class="flex space-x-2">
                             <a href="{{ route('mitra.kendaraan.editkendaraanView', $kendaraan->id_kendaraan) }}"
-                                class="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
+                                class="px-4 py-2 text-primary hover:bg-primary/20 rounded-lg transition-colors font-medium flex items-center hover:scale-105">
                                 ✎ Edit
                             </a>
                             <label for="modal-delete-toggle-{{ $loop->iteration }}"
