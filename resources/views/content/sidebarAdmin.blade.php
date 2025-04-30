@@ -148,7 +148,7 @@
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                     stroke-linejoin="round" />
                             </svg>
-                            <span>Withdrawal</span>
+                            <span>Pengajuan Penarikan Dana</span>
                         </a>
                     </li>
                 </ul>

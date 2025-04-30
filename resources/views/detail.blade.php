@@ -583,61 +583,54 @@
                     <div>
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Harga</h3>
                         <div class="p-4 bg-purple-50 rounded-lg shadow-sm">
+                            <!-- Subtotal Kendaraan -->
                             <div class="flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     <div>
-                                        <p class="text-sm font-medium text-gray-700">Subtotal Kendaraan
-                                            ({{ count($unitGroup) }} Kendaraan)</p>
-                                        <p class="text-sm text-gray-600">Rp
-                                            {{ number_format($totalCost, 0, ',', '.') }}</p>
+                                        <p class="text-sm font-medium text-gray-700">Subtotal Kendaraan ({{ count($unitGroup) }} Kendaraan)</p>
+                                        <p class="text-sm text-gray-600">Rp {{ number_format($totalCost, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
                             </div>
+                    
+                            <!-- Biaya Sopir (jika dengan sopir) -->
                             @if ($tipeRental === 'dengan_sopir')
                                 <div class="flex items-center justify-between mt-3">
                                     <div class="flex items-center gap-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                         </svg>
                                         <div>
-                                            <p class="text-sm font-medium text-gray-700">Biaya Sopir
-                                                ({{ $rentalDays }} hari)</p>
-                                            <p class="text-sm text-gray-600">Rp
-                                                {{ number_format($driverFee, 0, ',', '.') }}</p>
+                                            <p class="text-sm font-medium text-gray-700">Biaya Sopir ({{ $rentalDays }} hari)</p>
+                                            <p class="text-sm text-gray-600">Rp {{ number_format($driverFee, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
                             @endif
+                    
+                            <!-- Biaya Jam Ekstra (jika ada dan tanpa sopir) -->
                             @if ($extraHours > 0 && $tipeRental === 'tanpa_sopir')
                                 <div class="flex items-center justify-between mt-3">
                                     <div class="flex items-center gap-3">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
                                         <div>
-                                            <p class="text-sm font-medium text-gray-700">Biaya Jam Ekstra
-                                                ({{ $extraHours }} jam)</p>
-                                            <p class="text-sm text-gray-600">Rp
-                                                {{ number_format($extraHours * $extraHourFee, 0, ',', '.') }}</p>
+                                            <p class="text-sm font-medium text-gray-700">Biaya Jam Ekstra ({{ $extraHours }} jam)</p>
+                                            <p class="text-sm text-gray-600">Rp {{ number_format($extraHours * $extraHourFee, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
                             @endif
+                    
+                            <!-- Biaya Pengantaran -->
                             <div class="flex items-center justify-between mt-3">
                                 <div class="flex items-center gap-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     <div>
                                         <p class="text-sm font-medium text-gray-700">Biaya Pengantaran</p>
@@ -645,12 +638,12 @@
                                     </div>
                                 </div>
                             </div>
+                    
+                            <!-- Biaya Pengembalian -->
                             <div class="flex items-center justify-between mt-3">
                                 <div class="flex items-center gap-3">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     <div>
                                         <p class="text-sm font-medium text-gray-700">Biaya Pengembalian</p>
@@ -658,9 +651,29 @@
                                     </div>
                                 </div>
                             </div>
+                    
+                            <!-- Total Harga Termasuk Biaya Layanan dan Pajak -->
+                            @php
+                                $biayaLayananPersen = 4; // Persentase biaya layanan
+                                $pajakPersen = 5; // Persentase pajak
+                                $subtotalSebelum = $totalCost + ($tipeRental === 'dengan_sopir' ? $driverFee : 0) + ($extraHours > 0 && $tipeRental === 'tanpa_sopir' ? $extraHours * $extraHourFee : 0);
+                                $biayaLayanan = ($biayaLayananPersen / 100) * $subtotalSebelum;
+                                $pajak = ($pajakPersen / 100) * $subtotalSebelum;
+                                $totalHarga = $subtotalSebelum + $biayaLayanan + $pajak;
+                            @endphp
+                            <div class="flex items-center justify-between mt-3">
+                                <div class="flex items-center gap-3">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Total Harga (termasuk biaya layanan dan pajak)</p>
+                                        <p class="text-sm text-gray-600">Rp {{ number_format($totalHarga, 0, ',', '.') }}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
             @endforeach
         </div>
     </div>

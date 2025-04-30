@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\{JenisKendaraanController, MetodePembayaranMitraC
 use App\Http\Controllers\Admin\KategoriKendaraanController;
 use App\Http\Controllers\MetodePembayaranPlatformController;
 use App\Http\Controllers\mitra\WithdrawalMitraController;
+use App\Http\Controllers\Admin\PembayaranController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -73,4 +74,13 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::put("/{uuid}/update", [AdminMetodePembayaranMitraController::class, "update"])->name('update');
         Route::delete("/{uuid}/destroy", [AdminMetodePembayaranMitraController::class, "destroy"])->name('destroy');
     });
+
+    Route::prefix('pembayaran')->name('pembayaran.')->group(function () {
+        // Route untuk menampilkan daftar pemesanan dan pembayaran
+        Route::get('/', [PembayaranController::class, 'index'])->name('index');
+    
+        // Route untuk memperbarui status pembayaran
+        Route::put('/{id_pembayaran}/update', [PembayaranController::class, 'update'])->name('update');
+    });
+   
 });

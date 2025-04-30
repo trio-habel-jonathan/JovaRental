@@ -331,6 +331,17 @@ class PemesananController extends Controller
             ->where('is_active', 1)
             ->value('nilai_fee') ?? 0;
     
+        // Tambahan: Ambil persentase biaya layanan dan pajak dari fee_setting
+        $biayaLayananPersen = DB::table('fee_setting')
+            ->where('nama_fee', 'biaya_layanan')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0; // Misal: 4%
+    
+        $pajakPersen = DB::table('fee_setting')
+            ->where('nama_fee', 'pajak')
+            ->where('is_active', 1)
+            ->value('nilai_fee') ?? 0; // Misal: 5%
+    
         // Hitung total harga dan siapkan data untuk pemesanan
         $totalHarga = 0;
         $rentalDetails = [];
@@ -431,8 +442,17 @@ class PemesananController extends Controller
                     $biayaPengembalian = $jarakPengembalian * $biayaPengembalianPerKm;
                 }
     
-                // Hitung subtotal
+                // Hitung subtotal sebelum biaya layanan dan pajak
                 $subtotal = $unitCost + $driverFee + $biayaPengantaran + $biayaPengembalian;
+    
+                // Tambahan: Hitung biaya layanan dan pajak
+                $biayaLayanan = ($biayaLayananPersen / 100) * $subtotal;
+                $pajak = ($pajakPersen / 100) * $subtotal;
+    
+                // Tambahkan biaya layanan dan pajak ke subtotal
+                $subtotal += $biayaLayanan + $pajak;
+    
+                // Tambahkan subtotal ke total harga
                 $totalHarga += $subtotal;
     
                 // Simpan detail pemesanan
@@ -465,8 +485,8 @@ class PemesananController extends Controller
                     $detailPemesanan->long_pengembalian = $alamatMitraPengembalian->longitude ?? 0;
                 } else {
                     $detailPemesanan->lokasi_pengembalian = $lokasi_pengembalian_lain[$unit->id_unit];
-                    $detailPemesanan->lat_pengembalian = $lat_pengembalian[$unit->id_unit] ?? 0;
-                    $detailPemesanan->long_pengembalian = $long_pengembalian[$unit->id_unit] ?? 0;
+                    $detailPemesanan->lat_pengembalian = $lat_pengambilan[$unit->id_unit] ?? 0;
+                    $detailPemesanan->long_pengembalian = $long_pengambilan[$unit->id_unit] ?? 0;
                 }
     
                 // Simpan biaya dan jarak
@@ -476,8 +496,8 @@ class PemesananController extends Controller
                 $detailPemesanan->jarak_pengembalian = $jarakPengembalian;
                 $detailPemesanan->tarif_per_km = $tarifPerKm;
                 $detailPemesanan->subtotal_harga = $unitCost;
-                $detailPemesanan->biaya_layanan = 0;
-                $detailPemesanan->pajak = 0;
+                $detailPemesanan->biaya_layanan = $biayaLayanan; // Simpan biaya layanan
+                $detailPemesanan->pajak = $pajak; // Simpan pajak
                 $detailPemesanan->biaya_sopir = $driverFee;
                 $detailPemesanan->rental_days = $rentalDays; // Kolom baru
                 $detailPemesanan->extra_hours = $extraHours; // Kolom baru
@@ -516,6 +536,9 @@ class PemesananController extends Controller
                     'driver_telepon' => $unitTipeRental === 'tanpa_sopir' ? ($driver_telepon[$unit->id_unit] ?? null) : null,
                     'perwakilan_penyewa' => $entitasPenyewa->tipe_entitas === 'perusahaan' ? ($perwakilan_penyewa ?? null) : null,
                     'kontak_perwakilan' => $entitasPenyewa->tipe_entitas === 'perusahaan' ? ($kontak_perwakilan ?? null) : null,
+                    'subtotal' => $subtotal, // Subtotal sudah termasuk biaya layanan dan pajak
+                    'biaya_layanan' => $biayaLayanan, // Tambahan untuk review
+                    'pajak' => $pajak, // Tambahan untuk review
                 ];
             }
     
@@ -537,27 +560,46 @@ class PemesananController extends Controller
 
     public function review(Request $request, $id_pemesanan)
     {
-        \Log::info('Review method called with id_pemesanan: ' . $id_pemesanan);
+        Log::info('Review method called with id_pemesanan: ' . $id_pemesanan);
         try {
+            // Ambil data pemesanan dengan relasi
             $pemesanan = Pemesanan::with([
                 'detailPemesanan.unitKendaraan.kendaraan.mitra',
-                'detailPemesanan.pengemudiPemesanan', // Hanya load buat "tanpa sopir"
-                'detailPemesanan.sopir', // Load sopir buat "dengan sopir"
+                'detailPemesanan.pengemudiPemesanan',
+                'detailPemesanan.sopir',
                 'entitasPenyewa.user'
             ])->where('id_pemesanan', $id_pemesanan)->first();
     
             if (!$pemesanan) {
-                \Log::error('Pemesanan not found for id: ' . $id_pemesanan);
+                Log::error('Pemesanan not found for id: ' . $id_pemesanan);
                 return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Pemesanan tidak ditemukan.']);
             }
     
-            \Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
+            Log::info('Pemesanan found: ' . $pemesanan->id_pemesanan);
     
             $user = Auth::user();
             $entitasPenyewa = $pemesanan->entitasPenyewa;
     
+            // Ambil tarif dari fee_setting
+            $extraHourFee = DB::table('fee_setting')
+                ->where('nama_fee', 'biaya_jam_ekstra')
+                ->where('is_active', 1)
+                ->value('nilai_fee') ?? 35000; // Default Rp 35.000/jam
+    
+            $biayaLayananPersen = DB::table('fee_setting')
+                ->where('nama_fee', 'biaya_layanan')
+                ->where('is_active', 1)
+                ->value('nilai_fee') ?? 4; // Default 4%
+    
+            $pajakPersen = DB::table('fee_setting')
+                ->where('nama_fee', 'pajak')
+                ->where('is_active', 1)
+                ->value('nilai_fee') ?? 5; // Default 5%
+    
             // Siapkan data untuk view sebagai Collection
             $rentalDetails = collect([]);
+            $totalAll = 0; // Inisialisasi total keseluruhan
+    
             foreach ($pemesanan->detailPemesanan as $detail) {
                 $unit = $detail->unitKendaraan;
                 $kendaraan = $unit->kendaraan;
@@ -566,11 +608,12 @@ class PemesananController extends Controller
                 // Ambil alamat mitra
                 $alamatMitra = AlamatMitra::where('id_mitra', $mitra->id_mitra)->first();
     
+                // Parse tanggal
                 try {
                     $startDateTime = Carbon::parse($detail->tanggal_mulai);
                     $endDateTime = Carbon::parse($detail->tanggal_kembali);
                 } catch (\Exception $e) {
-                    \Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
+                    Log::error('Failed to parse dates for detail: ' . $e->getMessage(), [
                         'id_detail' => $detail->id_detail,
                         'tanggal_mulai' => $detail->tanggal_mulai,
                         'tanggal_kembali' => $detail->tanggal_kembali
@@ -579,7 +622,29 @@ class PemesananController extends Controller
                     $endDateTime = Carbon::now()->addDay();
                 }
     
-                $duration = $startDateTime->diffInDays($endDateTime) + 1;
+                // Ambil data dari tabel
+                $rentalDays = $detail->rental_days;
+                $extraHours = $detail->extra_hours;
+    
+                // Hitung biaya
+                $extraHourCost = $extraHours * $extraHourFee;
+                $unitCost = $detail->subtotal_harga;
+                $driverFee = $detail->biaya_sopir;
+                $deliveryFee = $detail->biaya_pengantaran;
+                $returnFee = $detail->biaya_pengembalian;
+    
+                // Subtotal sebelum biaya layanan dan pajak
+                $subtotalSebelum = $unitCost + $extraHourCost + $driverFee + $deliveryFee + $returnFee;
+    
+                // Hitung biaya layanan dan pajak
+                $biayaLayanan = ($biayaLayananPersen / 100) * $subtotalSebelum;
+                $pajak = ($pajakPersen / 100) * $subtotalSebelum;
+    
+                // Total untuk unit ini
+                $subtotal = $subtotalSebelum + $biayaLayanan + $pajak;
+    
+                // Tambahkan ke total keseluruhan
+                $totalAll += $subtotal;
     
                 // Inisialisasi variabel pengemudi
                 $driverNama = null;
@@ -587,30 +652,27 @@ class PemesananController extends Controller
     
                 // Cek tipe rental
                 if ($detail->tipe_penggunaan_sopir === 'dengan_sopir') {
-                    // Untuk "dengan sopir", cek apakah id_sopir sudah ada
                     if ($detail->id_sopir && $detail->sopir) {
-                        $driverNama = $detail->sopir->nama_sopir; // Asumsi kolom di tabel sopir
+                        $driverNama = $detail->sopir->nama_sopir;
                         $driverTelepon = $detail->sopir->no_telepon;
-                        \Log::info('Sopir found for detail: ', [
+                        Log::info('Sopir found for detail: ', [
                             'id_detail' => $detail->id_detail,
                             'sopir' => $detail->sopir->toArray()
                         ]);
                     } else {
-                        // Sopir belum dipilih
-                        \Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
+                        Log::info('No sopir assigned for detail: ', ['id_detail' => $detail->id_detail]);
                     }
                 } else {
-                    // Untuk "tanpa sopir", cek relasi pengemudiPemesanan
                     $pengemudi = $detail->pengemudiPemesanan ? $detail->pengemudiPemesanan->first() : null;
                     if ($pengemudi) {
                         $driverNama = $pengemudi->nama_pengemudi;
                         $driverTelepon = $pengemudi->no_telepon;
-                        \Log::info('Pengemudi found for detail: ', [
+                        Log::info('Pengemudi found for detail: ', [
                             'id_detail' => $detail->id_detail,
                             'pengemudi' => $pengemudi->toArray()
                         ]);
                     } else {
-                        \Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
+                        Log::info('No pengemudiPemesanan found for detail: ', ['id_detail' => $detail->id_detail]);
                     }
                 }
     
@@ -627,6 +689,7 @@ class PemesananController extends Controller
                     }
                 }
     
+                // Isi rentalDetails
                 $rentalDetails->put($unit->id_unit, [
                     'unit' => (object) [
                         'id_unit' => $unit->id_unit,
@@ -648,11 +711,16 @@ class PemesananController extends Controller
                     ],
                     'startDateTime' => $startDateTime,
                     'endDateTime' => $endDateTime,
-                    'duration' => $duration,
-                    'unitCost' => $detail->subtotal_harga,
-                    'driverFee' => $detail->biaya_sopir,
-                    'deliveryFee' => $detail->biaya_pengantaran,
-                    'returnFee' => $detail->biaya_pengembalian,
+                    'rentalDays' => $rentalDays,
+                    'extraHours' => $extraHours,
+                    'unitCost' => $unitCost,
+                    'extraHourCost' => $extraHourCost,
+                    'driverFee' => $driverFee,
+                    'deliveryFee' => $deliveryFee,
+                    'returnFee' => $returnFee,
+                    'biaya_layanan' => $biayaLayanan,
+                    'pajak' => $pajak,
+                    'subtotal' => $subtotal,
                     'lokasi_pengambilan' => $formattedLokasiPengambilan,
                     'lokasi_pengembalian' => $formattedLokasiPengembalian,
                     'driver_nama' => $driverNama,
@@ -663,14 +731,16 @@ class PemesananController extends Controller
                 ]);
             }
     
-            \Log::info('RentalDetails created: ', $rentalDetails->toArray());
+            Log::info('RentalDetails created: ', $rentalDetails->toArray());
+            Log::info('Total All: ' . $totalAll);
     
-            return view('review', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan'));
+            return view('review', compact('rentalDetails', 'entitasPenyewa', 'user', 'pemesanan', 'totalAll'));
         } catch (\Exception $e) {
-            \Log::error('Error in review: ' . $e->getMessage());
+            Log::error('Error in review: ' . $e->getMessage());
             return redirect()->route('detail')->with(['type' => 'error', 'message' => 'Gagal memuat review: ' . $e->getMessage()]);
         }
     }
+
 
     public function pilihSopir(Request $request)
     {
