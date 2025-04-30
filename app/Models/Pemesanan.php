@@ -22,6 +22,7 @@ class Pemesanan extends Model
         'id_mitra',
         'perwakilan_penyewa',
         'kontak_perwakilan',
+        'tanggal_pemesanan',
         'total_harga',
         'status_pemesanan',
         'catatan',
@@ -77,6 +78,8 @@ class Pemesanan extends Model
 
 
     // Relasi ke EntitasPenyewa (Setiap pemesanan dimiliki oleh 1 entitas penyewa)
+
+    
     public function entitasPenyewa()
     {
         return $this->belongsTo(EntitasPenyewa::class, 'id_entitas_penyewa', 'id_entitas_penyewa');
@@ -110,5 +113,10 @@ class Pemesanan extends Model
     public function pendapatanMitras()
     {
         return $this->hasMany(PendapatanMitra::class, 'id_pemesanan', 'id_pemesanan');
+ 
     }
+    public function pembayaran()
+{
+    return $this->hasOne(Pembayaran::class, 'id_pemesanan', 'id_pemesanan');
+}
 }

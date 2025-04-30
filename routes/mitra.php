@@ -92,4 +92,13 @@ Route::prefix('mitra')->name('mitra.')->middleware(['auth', 'CheckRole:mitra'])-
         Route::put('/{uuid}/update', [RekeningMitraController::class, 'update'])->name('RekeningUpdate');
         Route::delete('/destroy', [RekeningMitraController::class, 'destroy'])->name('RekeningDestroy');
     });
+
+    Route::prefix('pengembalian_kendaraan')->name('pengembalian_kendaraan.')->group(function () {
+        Route::get('/', [KendaraanController::class, 'pengembalianKendaraan'])->name('index');
+        Route::get('/create', [KendaraanController::class, 'create'])->name('create');
+        Route::post('/store', [KendaraanController::class, 'store'])->name('store');
+        Route::get('/{uuid}/edit', [KendaraanController::class, 'edit'])->name('edit');
+        Route::put('/{uuid}/update', [KendaraanController::class, 'update'])->name('update');
+        Route::delete('/{uuid}/destroy', [KendaraanController::class, 'destroy'])->name('destroy');
+    });
 });

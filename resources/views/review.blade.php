@@ -51,8 +51,7 @@
                     </span>
                     Pesanan Sewa
                 </h1>
-                <div
-                    class="pr-2 flex flex-col gap-4 py-4 bg-white transition-all h-96 overflow-auto custom-scrollbar mb-6">
+                <div class="pr-2 flex flex-col gap-4 py-4 bg-white transition-all h-96 overflow-auto custom-scrollbar mb-6">
                     @foreach ($rentalDetails as $id_unit => $detail)
                         @php
                             $unit = $detail['unit'];
@@ -61,12 +60,15 @@
                             $startDateTime = $detail['startDateTime'];
                             $endDateTime = $detail['endDateTime'];
                             $unitCost = $detail['unitCost'];
+                            $extraHourCost = $detail['extraHourCost'] ?? 0; // Biaya jam ekstra
                             $driverFee = $detail['driverFee'] ?? 0;
                             $deliveryFee = $detail['deliveryFee'] ?? 0;
                             $returnFee = $detail['returnFee'] ?? 0;
-
+                            $biaya_layanan = $detail['biaya_layanan'] ?? 0; // Biaya layanan
+                            $pajak = $detail['pajak'] ?? 0; // Pajak
                             $tipe_rental = $detail['tipe_penggunaan_sopir'] ?? 'tanpa_sopir';
-                            $total = $unitCost + $deliveryFee + ($tipe_rental === 'dengan_sopir' ? $driverFee : 0);
+                            // Total per unit mencakup semua biaya
+                            $total = $unitCost + $extraHourCost + $driverFee + $deliveryFee + $returnFee + $biaya_layanan + $pajak;
                         @endphp
                         <div class="border space-y-4 relative w-full shadow-lg p-4 rounded-md">
                             <div class="flex gap-4">
@@ -98,7 +100,9 @@
                                             </div>
                                             <div class="text-xs flex gap-2">
                                                 <p class="font-medium text-gray-500">Metode Pengantaran</p>
-                                                {{-- <p class="font-bold montserrat-font">{{ $lokasi_pengambilan instanceof \App\Models\AlamatMitra ? 'Diambil di Tempat' : 'Diantar' }}</p> --}}
+                                                <p class="font-bold montserrat-font">
+                                                    {{ $deliveryFee > 0 ? 'Diantar' : 'Ambil di Tempat' }}
+                                                </p>
                                             </div>
                                             @if ($tipe_rental === 'dengan_sopir')
                                                 <div class="text-xs flex gap-2">
@@ -115,7 +119,6 @@
                                             <div class="text-xs flex gap-2">
                                                 <p class="font-medium text-gray-500">Lokasi Pengambilan</p>
                                                 <p class="font-bold montserrat-font">{{ $lokasi_pengambilan }}</p>
-
                                             </div>
                                             <div class="text-xs flex gap-2">
                                                 <p class="font-medium text-gray-500">Lokasi Pengembalian</p>
@@ -123,34 +126,34 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div
-                                        class="bg-gray-100 border border-gray-200 p-2 flex justify-between items-center rounded-md mt-4">
+                                    <div class="bg-gray-100 border border-gray-200 p-2 flex justify-between items-center rounded-md mt-4">
                                         <div>
                                             <p class="text-xs text-gray-700 font-medium">Harga Kendaraan</p>
-                                            <p class="montserrat-font font-bold">Rp
-                                                {{ number_format($unitCost, 0, ',', '.') }}</p>
+                                            <p class="montserrat-font font-bold">Rp {{ number_format($unitCost, 0, ',', '.') }}</p>
                                         </div>
+                                        @if ($extraHourCost > 0)
+                                            <div>
+                                                <p class="text-xs text-gray-700 font-medium">Biaya Jam Ekstra ({{ $detail['extraHours'] }} jam)</p>
+                                                <p class="montserrat-font font-bold">Rp {{ number_format($extraHourCost, 0, ',', '.') }}</p>
+                                            </div>
+                                        @endif
                                         <div>
                                             <p class="text-xs text-gray-700 font-medium">Biaya Pengantaran</p>
-                                            <p class="montserrat-font font-bold">Rp
-                                                {{ number_format($deliveryFee, 0, ',', '.') }}</p>
+                                            <p class="montserrat-font font-bold">Rp {{ number_format($deliveryFee, 0, ',', '.') }}</p>
                                         </div>
                                         <div>
                                             <p class="text-xs text-gray-700 font-medium">Biaya Pengembalian</p>
-                                            <p class="montserrat-font font-bold">Rp
-                                                {{ number_format($returnFee, 0, ',', '.') }}</p>
+                                            <p class="montserrat-font font-bold">Rp {{ number_format($returnFee, 0, ',', '.') }}</p>
                                         </div>
                                         @if ($tipe_rental === 'dengan_sopir')
                                             <div>
                                                 <p class="text-xs text-gray-700 font-medium">Biaya Sopir</p>
-                                                <p class="montserrat-font font-bold">Rp
-                                                    {{ number_format($driverFee, 0, ',', '.') }}</p>
+                                                <p class="montserrat-font font-bold">Rp {{ number_format($driverFee, 0, ',', '.') }}</p>
                                             </div>
                                         @endif
                                         <div>
                                             <p class="text-xs text-gray-700 font-medium">Total</p>
-                                            <p class="montserrat-font font-bold">Rp
-                                                {{ number_format($total, 0, ',', '.') }}</p>
+                                            <p class="montserrat-font font-bold">Rp {{ number_format($total, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -215,11 +218,13 @@
                     @endif
                 </div>
 
-                            <!-- Data Pengemudi -->
+                <!-- Data Pengemudi -->
                 <h1 class="text-2xl font-bold mb-6 text-gray-800 flex items-center">
                     <span class="bg-purple-100 text-purple-600 p-2 rounded-lg mr-3">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </span>
                     Data Pengemudi
@@ -279,6 +284,7 @@
                     @endforeach
                 </div>
 
+                <!-- Detail Sewa -->
                 <div class="flex justify-between items-center mb-6">
                     <h1 class="text-2xl font-bold text-gray-800">Detail Sewa</h1>
                 </div>
@@ -290,7 +296,6 @@
                             '|' .
                             $detail['endDateTime']->format('Y-m-d H:i');
                     });
-                    $totalAll = 0;
                 @endphp
 
                 @foreach ($groupedUnits as $periode => $unitGroup)
@@ -298,81 +303,40 @@
                         [$startDate, $endDate] = explode('|', $periode);
                         $startDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $startDate);
                         $endDateTime = Carbon\Carbon::createFromFormat('Y-m-d H:i', $endDate);
-                        $duration = $startDateTime->diffInDays($endDateTime) + 1;
-                        $totalCost = 0;
                     @endphp
 
                     <div class="mb-8 border-b pb-6">
-                        <!-- Daftar Kendaraan -->
+                        <!-- Informasi Mitra -->
                         @foreach ($unitGroup as $detail)
                             @php
                                 $unit = $detail['unit'];
-                                $unitCost = $detail['unitCost'];
-                                $driverFee = $detail['driverFee'] ?? 0;
-                                $deliveryFee = $detail['deliveryFee'] ?? 0;
-                                $returnFee = $detail['returnFee'] ?? 0;
-                                $tipe_rental = $detail['tipe_penggunaan_sopir'];
-                                $subtotal =
-                                    $unitCost + $deliveryFee + ($tipe_rental === 'dengan_sopir' ? $driverFee : 0);
-                                $totalCost += $subtotal;
-                                $totalAll += $subtotal;
                             @endphp
                             <div class="mb-6">
-
-
-                                <!-- Informasi Mitra -->
-                                <div class="mb-6">
-                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">Informasi Mitra</h3>
-                                    <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg shadow-sm">
-                                        <div class="bg-purple-100 p-2 rounded-lg">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                    d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                                            </svg>
-                                        </div>
-                                        <div>
-                                            <h4 class="font-semibold text-gray-800">{{ $unit->nama_mitra }}</h4>
-                                            <p class="text-sm text-gray-600">
-                                                @if ($unit->alamat_mitra)
-                                                    {{ $unit->alamat_mitra->alamat }},
-                                                    {{ $unit->alamat_mitra->kota }},
-                                                    {{ $unit->alamat_mitra->kecamatan }},
-                                                    {{ $unit->alamat_mitra->provinsi }}
-                                                @else
-                                                    Lokasi Tidak Tersedia
-                                                @endif
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        @endforeach
-
-                        <!-- Total Harga untuk Periode Ini -->
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800 mb-2">Total Harga</h3>
-                            <div class="p-4 bg-purple-50 rounded-lg shadow-sm">
-                                <div class="flex items-center justify-between">
-                                    <div class="flex items-center gap-2">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
+                                <h3 class="text-lg font-semibold text-gray-800 mb-2">Informasi Mitra</h3>
+                                <div class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg shadow-sm">
+                                    <div class="bg-purple-100 p-2 rounded-lg">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-500"
                                             fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2m0 0c-1.657 0-3 .895-3 2s1.343 2 3 2m-6 0V5m12 14v-4" />
+                                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                                         </svg>
-                                        <p class="text-lg font-semibold text-gray-800">Rp
-                                            {{ number_format($totalCost, 0, ',', '.') }}</p>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-800">{{ $unit->nama_mitra }}</h4>
+                                        <p class="text-sm text-gray-600">
+                                            @if ($unit->alamat_mitra)
+                                                {{ $unit->alamat_mitra->alamat }},
+                                                {{ $unit->alamat_mitra->kota }},
+                                                {{ $unit->alamat_mitra->kecamatan }},
+                                                {{ $unit->alamat_mitra->provinsi }}
+                                            @else
+                                                Lokasi Tidak Tersedia
+                                            @endif
+                                        </p>
                                     </div>
                                 </div>
-                                @foreach ($unitGroup as $detail)
-                                    @if ($detail['tipe_penggunaan_sopir'] === 'dengan_sopir')
-                                        <p class="text-sm text-gray-600 mt-2">Termasuk biaya sopir Rp
-                                            {{ number_format($detail['driverFee'], 0, ',', '.') }}/kendaraan</p>
-                                    @endif
-                                @endforeach
                             </div>
-                        </div>
+                        @endforeach
                     </div>
                 @endforeach
 
@@ -382,21 +346,23 @@
                     <div class="p-4 bg-purple-100 rounded-lg shadow-sm">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-purple-600" fill="none"
+                                    viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.657 0 3 .895 3 2s-1.343 2-3 2m0 0c-1.657 0-3 .895-3 2s1.343 2 3 2m-6 0V5m12 14v-4" />
                                 </svg>
-                                <p class="text-xl font-bold text-gray-800">Rp
-                                    {{ number_format($totalAll, 0, ',', '.') }}
-                                </p>
+                                <div>
+                                    <p class="text-xl font-bold text-gray-800">Rp {{ number_format($totalAll, 0, ',', '.') }}</p>
+                                    <p class="text-sm text-gray-600">Termasuk biaya layanan dan pajak</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <!-- Tombol -->
                 <div class="flex justify-between mt-6">
-                    <a href="{{ route('pembayaran', ['id_pemesanan' =>$pemesanan->id_pemesanan]) }}"
+                    <a href="{{ route('pembayaran', ['id_pemesanan' => $pemesanan->id_pemesanan]) }}"
                         class="bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center gap-2">
                         Lanjutkan
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
@@ -408,8 +374,6 @@
                     </a>
                 </div>
             </div>
-
         </div>
     </div>
-
 </x-user-layout>
